@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-
+import axios from "axios";
 
 
 
@@ -29,6 +29,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 
 function Clients() {
+  const baseUrl = import.meta.env.BASE_URL
   // Data for the table
   const clients = [
     { name: "PhonePay", activeJobs: 25, passiveJobs: 10, totalCandidates: 15 },
@@ -95,8 +96,34 @@ function Clients() {
     setAddPocDate(e.target.value)
   }
 
+
+  const [formData, setFormData] = useState({companyName:"", website:"", email:"", password:"", confirmpassword:"", gstin:"", interviewamount:"", signed:"", address:"", logo:"", pocname:"", phonenumber:"", mailid:""})
+
+  const handleChange =(e) =>{
+      setFormData({...formData, [e.target.name]: e.target.value})
+  }
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    try {
+      console.log(formData);
+      
+      const response = await axios.post(`${baseUrl}/api/v1/internal/add-client`, formData);
+      console.log(response);
+      
+      console.log("Client added");
+      
+    } catch (error) {
+      console.log(error,"something error in submit");
+      
+    }
+  }
+
+
+
+
   return (
-    <div className="px-6">
+    <div className="px-6 ">
 
       <div>
 
@@ -105,7 +132,7 @@ function Clients() {
             {/* Search and Add Client Section */}
             <div className="flex flex-col justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
               {/* Search Input */}
-              <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 w-full sm:w-80">
+              <div className="flex items-center bg-white rounded-full px-4 py-2 w-full sm:w-80">
                 <input
                   type="text"
                   placeholder="Search Client by name"
@@ -116,7 +143,8 @@ function Clients() {
 
               {/* Add Client Button */}
               <button
-                className="flex items-center justify-center space-x-2 bg-[#007AFF] text-white px-4 py-2 rounded-full text-sm font-medium w-full sm:w-auto"
+                className="flex items-center justify-center space-x-2 bg-[#000000] border-[3px]
+ border-[#f0ad4e] text-[#f0ad4e] px-4 py-2 rounded-full text-sm font-medium w-full sm:w-auto"
                 onClick={() => navigate(`${location.pathname}/addclient`)}
               >
                 <svg
@@ -224,7 +252,7 @@ function Clients() {
                 </thead>
                 <tbody>
                   {clients.map((client, index) => (
-                    <tr key={index} className="border-b">
+                    <tr key={index} className="border-b border-[#f0ad4e] ">
                       <td className="px-6 py-4 text-blue-600 font-bold ">
                         {client.name}
                       </td>
@@ -252,77 +280,141 @@ function Clients() {
 
 
       {/* Add Client Section */}
-
+        <form action="">
       <div>
+        
         {location.pathname === "/internal/clients/addclient" && (
           <div>
 
             <div>
-              <div class="">
-                <ul className="flex flex-col gap-y-2">
+              <div class=" flex flex-row ">
+                <ul className="flex w-[55%]  flex-col gap-y-2">
                   <li className="flex items-centers">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">Client Registered Name</label>
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Client Registered Name</label>
                     <input
+                      name="name"
                       type="text"
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="Enter Client Name"
+                      required
                       className="block w-[360px] h-[32px] border text-left border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
                   <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">Website</label>
+                    <label class="text-sm font-medium text-right w-[30%] text-gray-700 px-4">Client Website</label>
                     <input
                       type="text"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
                       placeholder="Enter Web Address"
+                      required
                       className="block  w-[360px] h-[32px] border text-left border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
                   <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">Domain</label>
+                    <label class="text-sm font-medium text-right  text-gray-700 w-[30%] px-4">Email</label>
                     <input
-                      type="text"
-                      placeholder="Enter Domain Name"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter Client Email"
                       className="block  w-[360px] h-[32px] text-left border border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
                   <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">GSTIN</label>
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Password</label>
                     <input
-                      type="text"
-                      placeholder="Enter GSTIN "
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Enter Password"
+                      required
                       className="block w-[360px] h-[32px] text-left border border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
                   <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">PAN</label>
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Confirm Password</label>
                     <input
-                      type="text"
-                      placeholder="Enter PAN"
+                      type="password"
+                      name="confirmpassword"
+                      value={formData.confirmpassword}
+                      onChange={handleChange}
+                      placeholder="Confirm Password"
+                      required
                       className="block w-[360px] h-[32px] text-left border border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
                   <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">Signed/Not Signed</label>
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">GSTIN</label>
                     <input
                       type="text"
-                      placeholder="Signed"
+                      name="gstin"
+                      // value={formData.gstin}
+                      // onChange={handleChange}
+                      // placeholder="Enter GSTIN "
+                      className="block w-[360px] h-[32px] text-left border border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </li>
+                  
+                  
+                  <li className="flex items-center">
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Interview Amount</label>
+                    <input
+                      type="number"
+                      name="interviewamount"
+                      value={formData.interviewamount}
+                      onChange={handleChange}
+                      placeholder="Enter Amount"
+                      required
+                      className="block  w-[360px] h-[32px] border text-left border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </li>
+                 
+                </ul>
+                <ul className=" flex flex-col gap-y-2 " >
+                <li className="flex items-center">
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Signed/Not Signed</label>
+                    <input
+                      type="text"
+                      name="signed"
+                      // value={formData.signed}
+                      // onChange={handleChange}
+                      // placeholder="Signed"
                       className="block  w-[360px] h-[32px] border text-left border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
                   <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">Assigned To</label>
-                    <input
-                      type="text"
-                      placeholder="Select user"
-                      className="block  w-[360px] h-[32px] border text-left border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    />
-                  </li>
-                  <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-1/6 px-4">Address</label>
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Address</label>
                     <textarea
                       type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
                       placeholder="Add Address"
                       className="block  w-[360px] h-[114px] border border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
+                  </li>
+                  <li className="flex items-center" >
+                  <label htmlFor=" " className="text-sm font-medium text-right text-gray-700 w-[30%] px-4" > Company Logo </label>
+
+                    <div class="w-[360px] h-[104px] flex flex-col items-center justify-center border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-white hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all">
+                      <label for="fileInput" class="w-full h-full flex flex-col items-center justify-center cursor-pointer">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M16.4398 8.8999C20.0398 9.2099 21.5098 11.0599 21.5098 15.1099L21.5098 15.2399C21.5098 19.7099 19.7198 21.4999 15.2498 21.4999L8.72976 21.4999C4.25976 21.4999 2.46976 19.7099 2.46976 15.2399L2.46976 15.1099C2.46976 11.0899 3.91976 9.2399 7.45976 8.9099" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M12 15.0001L12 3.62012" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M15.3496 5.85L11.9996 2.5L8.64961 5.85" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <span class="text-sm">Upload Company Logo</span>
+                      </label>
+                      <input id="fileInput" type="file" name="logo" value={formData.logo}
+                      onChange={handleChange} class="hidden" />
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -345,7 +437,7 @@ function Clients() {
                 <React.Fragment>
                   <div>
                     <button
-                      className="border p-2 px-4 rounded-full bg-purple-200 font-medium"
+                      className=" border-[3px] p-2 px-4 rounded-full text-[#f0ad4e] bg-[#000000] border-[#f0ad4e] font-medium"
                       onClick={handleAddPocOpen}
                     >
                       + Add
@@ -382,6 +474,8 @@ function Clients() {
                           <label className="w-full text-sm font-medium text-[#6B6F7B]">POC Name</label>
                           <input
                             type="text"
+                            name="pocname"
+                            
                             placeholder="Enter POC Name"
                             className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                           />
@@ -390,6 +484,7 @@ function Clients() {
                           <label className="w-full text-sm font-medium text-[#6B6F7B]">Phone Number</label>
                           <input
                             type="number"
+                            name="phonenumber"
                             placeholder="Enter Phone Number"
                             className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                           />
@@ -398,6 +493,7 @@ function Clients() {
                           <label className="w-full text-sm font-medium text-[#6B6F7B]">Mail ID</label>
                           <input
                             type="mail"
+                            name="mailid"
                             placeholder="Enter Mail ID"
                             className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                           />
@@ -456,7 +552,7 @@ function Clients() {
                 {rows.map((row, index) => (
                   <div key={index} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-4">
                     <div className="p-2 flex items-center justify-center gap-3">
-                      <label className="text-base font-medium text-gray-600">Name:</label>
+                      <label className="text-base font-medium text-gray-600">Name : </label>
                       <input
                         type="text"
                         value="Robert"
@@ -530,7 +626,9 @@ function Clients() {
                                   <label className="w-full text-sm font-medium text-[#6B6F7B]">POC Name</label>
                                   <input
                                     type="text"
-                                    value="Robert"
+                                    value={formData.pocname}
+                                    onChange={handleChange}
+                                    name="pocname"
                                     className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                                   />
                                 </div>
@@ -538,7 +636,9 @@ function Clients() {
                                   <label className="w-full text-sm font-medium text-[#6B6F7B]">Phone Number</label>
                                   <input
                                     type="number"
-                                    value="9876543210"
+                                    name="phonenumber"
+                                    value={formData.phonenumber}
+                                    onChange={handleChange}
                                     className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                                   />
                                 </div>
@@ -546,7 +646,9 @@ function Clients() {
                                   <label className="w-full text-sm font-medium text-[#6B6F7B]">Mail ID</label>
                                   <input
                                     type="mail"
-                                    value="rober@xyz.com"
+                                    name="mailid"
+                                    value={formData.mailid}
+                                    onChange={handleChange}
                                     className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                                   />
                                 </div>
@@ -582,8 +684,8 @@ function Clients() {
               </div>
 
               <div className="mt-6 flex justify-end">
-                <button className="px-6 py-2 bg-blue-500 text-white font-medium rounded-full hover:bg-blue-600">
-                  Save
+                <button type="submit" onClick={handleSubmit} className="px-6 py-2 border-[3px] p-2  rounded-full text-[#f0ad4e] bg-[#000000] border-[#f0ad4e] font-medium">
+                  Submit
                 </button>
               </div>
             </div>
@@ -591,7 +693,7 @@ function Clients() {
           </div>
         )}
       </div>
-
+      </form>
     </div>
   );
 }

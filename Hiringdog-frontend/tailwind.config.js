@@ -15,6 +15,9 @@ export default {
         lg: '1024px',
         custom_lg: '1400px', // added a custom_lg for responsivness (implemented in agreement page add new popup)
       },
+      boxShadow: {
+        'custom-color': '2px 4px 6px -1px #f0ad4e', // Red shadow
+      },
       
     },
   },

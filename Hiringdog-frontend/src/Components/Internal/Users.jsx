@@ -116,7 +116,7 @@ function Users() {
     <div>
       {/* Search Input Section */}
       <div className="flex flex-col justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
-        <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 w-full sm:w-80">
+        <div className="flex items-center bg-white rounded-full px-4 py-2 w-full sm:w-80">
           <input
             type="text"
             placeholder="Search users by name"
@@ -137,7 +137,7 @@ function Users() {
             <React.Fragment>
               <div>
                 <button
-                  className="border p-1 px-4 rounded-full bg-[#056DDC] font-medium text-white"
+                  className=" p-1 px-4 rounded-full border-[3px] border-[#f0ad4e] bg-[#000000] text-[#f0ad4e] font-medium "
                   onClick={handleAddClientUserOpen}
                 >
                   + Add
@@ -262,14 +262,14 @@ function Users() {
             {data.slice(0, showAll ? data.length : 3).map((item, index) => (
               <div
                 key={index}
-                className={`${editClientUser === index ? "bg-none border border-black" : "bg-[#EBEBEB]"} grid grid-cols-[1fr_1fr_2fr_1fr_1fr_1fr_0.5fr]  mt-1 rounded-full items-center justify-center max-h-max`}
+                className={`${editClientUser === index ? "bg-white hover:bg-[#FBEEDB] border border-black" : "bg-white hover:bg-[#FBEEDB]"} grid grid-cols-[1fr_1fr_2fr_1fr_1fr_1fr_0.5fr]  mt-1 rounded-full items-center justify-center max-h-max`}
               >
                 <div className="px-5 py-1 w-auto">
                   <input
                     type="text"
                     disabled={editClientUser !== index}
                     value={item.client}
-                    className={`block w-full text-left  sm:text-sm px-[5px] py-2 font-normal ${editClientUser === index
+                    className={`block w-full text-left text-blue-500 sm:text-sm px-[5px] py-2 font-normal ${editClientUser === index
                       ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
                       : 'border border-none'
                       }`}
@@ -334,7 +334,7 @@ function Users() {
                       className='flex items-center justify-center gap-x-2'
                     >
                       <button
-                        className='py-1 px-2 rounded-lg font-bold bg-[#056DDC] text-white'
+                        className='py-1 px-2  rounded-lg font-bold bg-[#000000] text-[#f0ad4e]  '
                         onClick={() => { toggleSaveClientUser(index) }}
                       >Save</button>
                       <button
@@ -381,7 +381,7 @@ function Users() {
             <React.Fragment>
               <div>
                 <button
-                  className="border p-1 px-4 rounded-full bg-[#056DDC] font-medium text-white"
+                  className="border-[3px] p-1 px-4 rounded-full bg-[#000000] text-[#f0ad4e] border-[#f0ad4e] font-medium"
                   onClick={handleAddHdipUserOpen}
                 >
                   + Add
@@ -496,7 +496,7 @@ function Users() {
             {data2.slice(0, hdipShowAll ? data2.length : 3).map((item, index) => (
               <div
                 key={item.mail}
-                className={`${editHdipUser === item.mail ? "bg-none border border-black" : "bg-[#EBEBEB]"} grid grid-cols-[1fr_1fr_2fr_1fr_1fr_0.5fr] mt-1 rounded-full items-center justify-center max-h-max`}
+                className={`${editHdipUser === item.mail ? "bg-none border bg-white hover:bg-[#FBEEDB] border-black" : "bg-white hover:bg-[#FBEEDB]"} grid grid-cols-[1fr_1fr_2fr_1fr_1fr_0.5fr] mt-1 rounded-full items-center justify-center max-h-max`}
               >
                 <div className="px-3 py-1 w-auto">
                   <input
@@ -504,8 +504,8 @@ function Users() {
                     disabled={editHdipUser !== item.mail}
                     value={item.name}
                     className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editHdipUser === item.mail
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : ' border border-none'
+                      ? ' focus:outline-none text-blue-500 border  border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
+                      : ' border border-none text-blue-500  ' 
                       }`}
                   />
                 </div>

@@ -110,9 +110,9 @@ function Interviewer() {
       <div className='' >
         <div className=' w-full h-full flex flex-col items-center  ' >
           <div className='w-full flex  pb-[12px] pr-3 justify-end space-x-4  ' >
-            <div className='w-[466px] h-[40px] flex justify-around items-center border-2 border-[#F4F4F4] bg-[#F4F4F4] rounded-[28px] pr-1 pl-1 ' >
+            <div className='w-[466px] h-[40px] flex justify-around items-center border-2 border-[#F4F4F4] bg-white rounded-[28px] pr-1 pl-1 ' >
               <input
-                className='  w-[358px] h-[37px] ml-1  text-[#979DA3] bg-[#F4F4F4] border-none focus:outline-none' type="text"
+                className='  w-[358px] h-[37px] ml-1  text-[#979DA3] border-none focus:outline-none' type="text"
                 placeholder='Search job by Name, Email & Mobile Number'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -121,29 +121,30 @@ function Interviewer() {
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
               </button>
             </div>
-            <div className=' w-[171px] h-[40px] text-[14px]  flex justify-center items-center bg-[#007AFF] border-0 rounded-[100px] text-[#FFFFFF] font-medium ' >
+            <div className=' w-[171px] h-[40px] text-[14px]  flex justify-center items-center  rounded-[100px] bg-[#000000] border-[3px]
+ border-[#f0ad4e] text-[#f0ad4e] font-medium ' >
               <Link to="/internal/addinterviewer" >
                 + Add Interviewers</Link>
             </div>
           </div>
           <div className='w-full h-[104px] grid grid-cols-[1fr_1fr_1fr_1fr_1fr]  2xl:gap-x-7 gap-x-4 justify-between items-center p-2 ' >
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#E5ECF6] rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
               <span className='font-normal  ' >Total Interviewers</span>
               <span className='font-semibold text-[24px] ' >758</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#E5ECF6] rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
               <span className='font-normal  ' >0-4 Years</span>
               <span className='font-semibold text-[24px] ' >26</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#E5ECF6] rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
               <span className='font-normal  ' >4-8 Years</span>
               <span className='font-semibold text-[24px] ' >56</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#E5ECF6] rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
               <span className='font-normal  ' >8-10 Years</span>
               <span className='font-semibold text-[24px] ' >26</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#E5ECF6] rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
               <span className='font-normal  ' >10+ Years</span>
               <span className='font-semibold text-[24px] ' >210</span>
             </div>
@@ -220,7 +221,9 @@ function Interviewer() {
               </div>
             </div>
               </div>
-              <div className='flex gap-2 justify-center items-center font-bold ' >
+              <button>
+              <div className='flex  gap-2 justify-center items-center font-bold ' >
+                
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7.49996 18.3332H12.5C16.6666 18.3332 18.3333 16.6665 18.3333 12.4998V7.49984C18.3333 3.33317 16.6666 1.6665 12.5 1.6665H7.49996C3.33329 1.6665 1.66663 3.33317 1.66663 7.49984V12.4998C1.66663 16.6665 3.33329 18.3332 7.49996 18.3332Z" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   <path d="M7.5 9.59131L10 12.0913L12.5 9.59131" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -229,7 +232,9 @@ function Interviewer() {
                 </svg>
 
                 Download Report
+                
               </div>
+              </button>
             </div>
             
           </div>
@@ -275,7 +280,7 @@ function Interviewer() {
       <div className="w-full mt-5">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b-2 border-black text-sm font-semibold text-[#2B313E]">
+            <tr className="border-b-2 border-[#f0ad4e]  text-sm font-semibold text-[#2B313E]">
               <th className="py-2 px-4">USERS</th>
               <th className="py-2 px-4">EMAIL ID</th>
               <th className="py-2 px-4">PHONE NO</th>
@@ -289,10 +294,10 @@ function Interviewer() {
             {data.map((user, index) => (
               <tr
                 key={index}
-                className={`${index % 2 === 0 ? '' : 'bg-[#FFF8E0]'
-                  } h-[80px] border-b-2`}
+                className={`${index % 2 === 0 ? 'bg-white hover:bg-[#FBEEDB] '  : 'bg-white hover:bg-[#FBEEDB] '
+                  } h-[80px] border-b-2  `}
               >
-                <td className="py-3 px-4 font-semibold text-sm">{user.name}</td>
+                <td className="py-3 px-4 font-semibold text-blue-600 text-sm">{user.name}</td>
                 <td className="py-3 px-4">{user.email}</td>
                 <td className="py-3 px-4">{user.phone}</td>
                 <td className="py-3 px-4">{user.strength}</td>
@@ -303,24 +308,24 @@ function Interviewer() {
 
 
                     <button
-                      className="hover:scale-110 hover:duration-150"
+                      className="hover:scale-110 hover:duration-150 p-1 border-[3px] rounded-full border-[#f0ad4e] bg-[#000000] "
                       onClick={() => { handleEditUserOpen(user.name, user.email, user.phone, user.experience ) }}
                     >
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M13.3666 2.51688L6.7999 9.08354C6.5499 9.33354 6.2999 9.82521 6.2499 10.1835L5.89157 12.6919C5.75823 13.6002 6.3999 14.2335 7.30823 14.1085L9.81657 13.7502C10.1666 13.7002 10.6582 13.4502 10.9166 13.2002L17.4832 6.63354C18.6166 5.50021 19.1499 4.18354 17.4832 2.51688C15.8166 0.850211 14.4999 1.38354 13.3666 2.51688Z" stroke="#171717" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M12.4248 3.4585C12.9831 5.45016 14.5415 7.0085 16.5415 7.57516" stroke="#171717" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332" stroke="#f0ad4e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M13.3666 2.51688L6.7999 9.08354C6.5499 9.33354 6.2999 9.82521 6.2499 10.1835L5.89157 12.6919C5.75823 13.6002 6.3999 14.2335 7.30823 14.1085L9.81657 13.7502C10.1666 13.7002 10.6582 13.4502 10.9166 13.2002L17.4832 6.63354C18.6166 5.50021 19.1499 4.18354 17.4832 2.51688C15.8166 0.850211 14.4999 1.38354 13.3666 2.51688Z" stroke="#f0ad4e" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12.4248 3.4585C12.9831 5.45016 14.5415 7.0085 16.5415 7.57516" stroke="#f0ad4e" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
 
                     </button>
 
-                    <button className='hover:scale-110 hover:duration-150'>
+                    <button className='hover:scale-110 hover:duration-150 p-1 '>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.5 4.98356C14.725 4.70856 11.9333 4.56689 9.15 4.56689C7.5 4.56689 5.85 4.65023 4.2 4.81689L2.5 4.98356" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7.0835 4.1415L7.26683 3.04984C7.40016 2.25817 7.50016 1.6665 8.9085 1.6665H11.0918C12.5002 1.6665 12.6085 2.2915 12.7335 3.05817L12.9168 4.1415" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M15.7082 7.6167L15.1665 16.0084C15.0748 17.3167 14.9998 18.3334 12.6748 18.3334H7.32484C4.99984 18.3334 4.92484 17.3167 4.83317 16.0084L4.2915 7.6167" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M8.6084 13.75H11.3834" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7.9165 10.4165H12.0832" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M17.5 4.98356C14.725 4.70856 11.9333 4.56689 9.15 4.56689C7.5 4.56689 5.85 4.65023 4.2 4.81689L2.5 4.98356" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7.0835 4.1415L7.26683 3.04984C7.40016 2.25817 7.50016 1.6665 8.9085 1.6665H11.0918C12.5002 1.6665 12.6085 2.2915 12.7335 3.05817L12.9168 4.1415" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M15.7082 7.6167L15.1665 16.0084C15.0748 17.3167 14.9998 18.3334 12.6748 18.3334H7.32484C4.99984 18.3334 4.92484 17.3167 4.83317 16.0084L4.2915 7.6167" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M8.6084 13.75H11.3834" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7.9165 10.4165H12.0832" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
 
                     </button>

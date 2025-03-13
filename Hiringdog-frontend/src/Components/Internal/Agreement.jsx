@@ -166,7 +166,7 @@ function Agreement() {
     <div className='text-[12px]  ' >
       <div className='w-full h-full flex justify-between items-center px-5 mb-12 ' > 
           <div className='font-semibold text-[16px] ' >Years of Experience & Agreed Rates</div>
-          <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 w-full sm:w-80">
+          <div className="flex items-center bg-white rounded-full px-4 py-2 w-full sm:w-80">
                 <input
                   type="text"
                   placeholder="Search Client by name"
@@ -186,7 +186,7 @@ function Agreement() {
               <div className='font-semibold  ' >
               <div
                 key={index}
-                className={`${editClientUser === index ? "bg-none border border-black" : "bg-[#EBEBEB]"} grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_0.5fr] mx-5 mt-2 rounded-[16px] items-center bg-[#EBEBEB80] justify-center max-h-max`}
+                className={`${editClientUser === index ? "bg-none border border-black hover:bg-[#FBEEDB] " : "bg-white hover:bg-[#FBEEDB] "} grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_0.5fr] mx-5 mt-2 rounded-[16px] items-center bg-[#EBEBEB80] justify-center max-h-max`}
               >
                 <div className="px-5 py-1 w-auto ">
                   <input
@@ -263,7 +263,7 @@ function Agreement() {
                       className='flex items-center justify-center gap-x-2'
                     >
                       <button
-                        className='py-1 px-2 rounded-lg font-bold bg-[#056DDC] text-white'
+                        className='py-1 px-2 rounded-lg font-bold  bg-[#000000]  text-[#f0ad4e]'
                         onClick={() => { toggleSaveClientUser(index) }}
                       >Save</button>
                       <button
@@ -295,7 +295,7 @@ function Agreement() {
           <React.Fragment>
               <div className='' >
                 <button
-                  className="border p-1 px-4 rounded-full text-[16px] font-bold text-[#056DDC]"
+                  className="border-[3px] border-[#f0ad4e]  p-1 px-4 rounded-full text-[16px] font-bold bg-[#000000] text-[#f0ad4e]"
                   onClick={handleAddClientUserOpen}
                 >
                   + Add New
