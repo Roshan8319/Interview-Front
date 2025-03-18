@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 
 
 
@@ -12,6 +12,9 @@ import axios from 'axios';
 
 
 const LoginUsingEmail = () =>{
+
+    const baseUrl = import.meta.env.VITE_BASE_URL
+
     const [isPasswordVisisble, setIsPasswordVisible] = useState(false);
     const togglePassVisibility = () => {
         setIsPasswordVisible(!isPasswordVisisble);
@@ -34,6 +37,7 @@ const LoginUsingEmail = () =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [loading,setLoading]=useState(false)
+    const [signinas, setSigninas]= useState('');
 
 // Backend works
         //Check for email and password
@@ -55,12 +59,17 @@ const LoginUsingEmail = () =>{
         
         try {
             setErrorMessage("")
-            const response = await axios.post('http://127.0.0.1:8000/api/login/',{ email,password});
-            localStorage.setItem('token', response.data.data.access );
+            const response = await axios.post(`${baseUrl}/api/v1/internal/signIn`,{ email,password});
+            console.log(response);
+            
+            const accessToken = response.data.data.accessToken;
+            const refreshToken = response.data.data.refreshToken;
+            Cookies.set('accessToken', accessToken);
+            Cookies.set('refreshToken', refreshToken);
             if (response.status === 200 ) {
                 setLoading(false)
                 setErrorMessage( "you are logged in")
-                navigate('/client/settings')
+                navigate('/internal/dashboard')
             }
             console.log(response)
         } catch (error) {
@@ -108,9 +117,22 @@ const LoginUsingEmail = () =>{
                             <svg width="28px" height="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9944 15.5C13.9274 15.5 15.4944 13.933 15.4944 12C15.4944 10.067 13.9274 8.5 11.9944 8.5C10.0614 8.5 8.49439 10.067 8.49439 12C8.49439 13.933 10.0614 15.5 11.9944 15.5ZM11.9944 13.4944C11.1691 13.4944 10.5 12.8253 10.5 12C10.5 11.1747 11.1691 10.5056 11.9944 10.5056C12.8197 10.5056 13.4888 11.1747 13.4888 12C13.4888 12.8253 12.8197 13.4944 11.9944 13.4944Z" fill="#0F0F0F"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 5C7.18879 5 3.9167 7.60905 2.1893 9.47978C0.857392 10.9222 0.857393 13.0778 2.1893 14.5202C3.9167 16.391 7.18879 19 12 19C16.8112 19 20.0833 16.391 21.8107 14.5202C23.1426 13.0778 23.1426 10.9222 21.8107 9.47978C20.0833 7.60905 16.8112 5 12 5ZM3.65868 10.8366C5.18832 9.18002 7.9669 7 12 7C16.0331 7 18.8117 9.18002 20.3413 10.8366C20.9657 11.5128 20.9657 12.4872 20.3413 13.1634C18.8117 14.82 16.0331 17 12 17C7.9669 17 5.18832 14.82 3.65868 13.1634C3.03426 12.4872 3.03426 11.5128 3.65868 10.8366Z" fill="#0F0F0F"></path> </g></svg> }
                     </button>
                 </div>    
+                <div className='flex flex-col w-full h-full  text-[#222222] text-[12px] ' >
+                        <label className='m-1' >SignIn as</label>
+                        <select
+                            value={signinas}
+                            onChange={(e)=>setSigninas(e.target.value)}
+                            className={`w-[100%] h-[46px] text-center text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 border-[#CAC4D0]  `}
+                        >
+                            
+                            <option value="INTERNAL">INTERNAL</option>
+                            <option value="CLIENT">CLIENT</option>
+                            
+                        </select>
+                    </div>
             </div>
             <div className=' flex items-center justify-between ' >
-                <div className=' flex items-center p-1 ' >
+                <div className=' flex items-center p-1' >
                     <input type="checkbox" className='w-[15px] h-[15px] font-[1px] text-[#D9CFFB] rounded-[2px] mr-1 ' />
                    <span className='font-[Outfit] font-medium ' >Remeber Me</span>
                 </div>

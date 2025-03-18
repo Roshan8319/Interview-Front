@@ -8,6 +8,7 @@ const SignUp = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
     const [confirm_password, setConfirm_Password] = useState("");
     const [phone, setPhone] = useState("");
     const [errorMessage, setErrorMessage] = useState([])
@@ -75,6 +76,8 @@ const SignUp = () => {
                             required
                             className='border-2 rounded-[5px] m-1 w-[100%] h-[39px] text-[16px] ' />
                     </div>
+                    
+                    
                     <div className='flex flex-col w-full h-full  text-[#222222] text-[12px] font-semibold ' >
                         <label className='m-1' >Password</label>
                         <input id='password' type="password"

@@ -301,7 +301,7 @@ function NavigationLayout() {
                             <div className=' logo-brandName '>
                                 <h1 className='text-[#000000] text-[24px]'> <span className='font-bold'>SAKCHATKAAR</span> -INTERVIEW PLATFORM</h1>
                             </div>
-                            <div className='horizontal-navigation px-5 gap-x-2 flex items-center justify-center'>
+                            <div className='horizontal-navigation px-5 gap-x-2 flex items-center justify-center  '>
                                 <Link
                                     to="/internal/message"
                                     className="message p-2 bg-[#000] rounded-full"
@@ -334,15 +334,15 @@ function NavigationLayout() {
             <Drawer 
             variant="permanent" 
             open={open}
-            // sx={{
-            //     width: drawerWidth,
-            //     flexShrink: 0,
-            //     '& .MuiDrawer-paper': {
-            //       width: drawerWidth,
-            //       boxSizing: 'border-box',
-            //       border: 'none', // Highlight: Removed border from Drawer
-            //     },
-            //   }}
+            sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                  width: drawerWidth,
+                  boxSizing: 'border-box',
+                  border: 'none', // Highlight: Removed border from Drawer
+                },
+              }}
             >
                 
                 <DrawerHeader>

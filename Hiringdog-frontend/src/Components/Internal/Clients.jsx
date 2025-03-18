@@ -29,17 +29,17 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 
 function Clients() {
-  const baseUrl = import.meta.env.BASE_URL
-  // Data for the table
-  const clients = [
-    { name: "PhonePay", activeJobs: 25, passiveJobs: 10, totalCandidates: 15 },
-    { name: "Wayfair", activeJobs: 26, passiveJobs: 12, totalCandidates: 14 },
-    { name: "Quince", activeJobs: 11, passiveJobs: 8, totalCandidates: 3 },
-    { name: "Flipkart", activeJobs: 12, passiveJobs: 9, totalCandidates: 3 },
-    { name: "Coinbase", activeJobs: 8, passiveJobs: 6, totalCandidates: 2 },
-    { name: "Vahan", activeJobs: 6, passiveJobs: 5, totalCandidates: 1 },
-    { name: "Zepto", activeJobs: 14, passiveJobs: 12, totalCandidates: 2 },
-  ];
+  const baseUrl = import.meta.env.VITE_BASE_URL
+  
+
+  const [logofile,setLogoFile] = useState(null);
+  const handleFileChange = (event) =>{
+    setLogoFile(event.target.files[0]);
+    console.log('Selected File:', event.target.files[0]);
+  }
+  
+
+ 
   const [editUser, setEditUser] = useState({
     name: "",
     email: "",
@@ -67,7 +67,7 @@ function Clients() {
   };
 
   const handleEditOpen = (name, email, phone) => {
-    setEditUser({ name, email, phone })
+    setEditUser({ pocName, emailid, pocContactNumber })
     setEditOpen(true);
   };
 
@@ -97,29 +97,58 @@ function Clients() {
   }
 
 
-  const [formData, setFormData] = useState({companyName:"", website:"", email:"", password:"", confirmpassword:"", gstin:"", interviewamount:"", signed:"", address:"", logo:"", pocname:"", phonenumber:"", mailid:""})
+  const [formData, setFormData] = useState({companyName:"", companywebsite:"", email:"", password:"", confirmPassword:"", gstin:"", industry:"", interviewAmount:"", address:"", companyLogo:"", pocName:"", pocContactNumber:"", pocEmail:""})
 
   const handleChange =(e) =>{
       setFormData({...formData, [e.target.name]: e.target.value})
   }
 
-  const handleSubmit = async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
-      
-      const response = await axios.post(`${baseUrl}/api/v1/internal/add-client`, formData);
-      console.log(response);
-      
-      console.log("Client added");
-      
+      console.log("Form submission initiated");
+  
+      const clientData = new FormData();
+      if (logofile) {
+        clientData.append('companyLogo', logofile);
+      }
+      Object.keys(formData).forEach((key) => {
+        clientData.append(key, formData[key]);
+      });
+  
+      const response = await axios.post(`${baseUrl}/api/v1/internal/add-client`, clientData, {
+        withCredentials: true, // Ensures cookies are sent
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set the appropriate Content-Type
+        },
+      });
+  
+      console.log('Response:', response);
+      console.log('Client added successfully');
     } catch (error) {
-      console.log(error,"something error in submit");
-      
+      console.error('Error:', error.response?.data || error.message);
     }
-  }
+  };
 
+  const [data,setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(()=>{
+    
+    const response = axios.get(`${baseUrl}/api/v1/internal/getAllClients`,{
+      withCredentials: true, 
+    })
+    .then(res => {
+      console.log(res);
+      
+      setData(res.data.data);
+      setLoading(false);
+    })
+    .catch(error =>{
+      console.error('Error fetching data',error);
+      setLoading(false)
+    })
+  },[])
 
 
   return (
@@ -242,25 +271,37 @@ function Clients() {
                     <th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
                       Active Jobs
                     </th>
-                    <th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
+                    {/* <th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
                       Passive Jobs
-                    </th>
+                    </th> */}
                     <th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
                       Total Candidates
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {clients.map((client, index) => (
-                    <tr key={index} className="border-b border-[#f0ad4e] ">
-                      <td className="px-6 py-4 text-blue-600 font-bold ">
-                        {client.name}
+               
+                  
+                  {Array.isArray(data) ? (
+                    data.map((client, index) => (
+                      <tr key={client.id} className="border-b border-[#f0ad4e]">
+                        <td className="px-6 py-4 text-blue-600 font-bold">
+                          {client.companyName}
+                        </td>
+                        <td className="px-6 py-4 text-center">{client.totalJobs}</td>
+                        {/* Uncomment below if needed */}
+                        {/* <td className="px-6 py-4 text-center">{client.passiveJobs}</td> */}
+                        <td className="px-6 py-4 text-center">{client.totalCandidates}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" className="px-6 py-4 text-center">
+                        No data available
                       </td>
-                      <td className="px-6 py-4 text-center">{client.activeJobs}</td>
-                      <td className="px-6 py-4 text-center">{client.passiveJobs}</td>
-                      <td className="px-6 py-4 text-center">{client.totalCandidates}</td>
                     </tr>
-                  ))}
+                  )}
+
                 </tbody>
               </table>
             </div>
@@ -289,12 +330,12 @@ function Clients() {
             <div>
               <div class=" flex flex-row ">
                 <ul className="flex w-[55%]  flex-col gap-y-2">
-                  <li className="flex items-centers">
+                  <li className="flex items-center">
                     <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Client Registered Name</label>
                     <input
-                      name="name"
+                      name="companyName"
                       type="text"
-                      value={formData.name}
+                      value={formData.companyName}
                       onChange={handleChange}
                       placeholder="Enter Client Name"
                       required
@@ -305,8 +346,8 @@ function Clients() {
                     <label class="text-sm font-medium text-right w-[30%] text-gray-700 px-4">Client Website</label>
                     <input
                       type="text"
-                      name="website"
-                      value={formData.website}
+                      name="companywebsite"
+                      value={formData.companywebsite}
                       onChange={handleChange}
                       placeholder="Enter Web Address"
                       required
@@ -341,8 +382,8 @@ function Clients() {
                     <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Confirm Password</label>
                     <input
                       type="password"
-                      name="confirmpassword"
-                      value={formData.confirmpassword}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
                       onChange={handleChange}
                       placeholder="Confirm Password"
                       required
@@ -354,9 +395,9 @@ function Clients() {
                     <input
                       type="text"
                       name="gstin"
-                      // value={formData.gstin}
-                      // onChange={handleChange}
-                      // placeholder="Enter GSTIN "
+                      value={formData.gstin}
+                      onChange={handleChange}
+                      placeholder="Enter GSTIN "
                       className="block w-[360px] h-[32px] text-left border border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
@@ -366,8 +407,8 @@ function Clients() {
                     <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Interview Amount</label>
                     <input
                       type="number"
-                      name="interviewamount"
-                      value={formData.interviewamount}
+                      name="interviewAmount"
+                      value={formData.interviewAmount}
                       onChange={handleChange}
                       placeholder="Enter Amount"
                       required
@@ -377,14 +418,15 @@ function Clients() {
                  
                 </ul>
                 <ul className=" flex flex-col gap-y-2 " >
-                <li className="flex items-center">
-                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Signed/Not Signed</label>
+                  <li className="flex items-center">
+                    <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">Industry</label>
                     <input
                       type="text"
-                      name="signed"
-                      // value={formData.signed}
-                      // onChange={handleChange}
-                      // placeholder="Signed"
+                      name="industry"
+                      value={formData.industry}
+                      onChange={handleChange}
+                      placeholder="Enter Industry"
+                      required
                       className="block  w-[360px] h-[32px] border text-left border-gray-300 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </li>
@@ -412,8 +454,8 @@ function Clients() {
 
                         <span class="text-sm">Upload Company Logo</span>
                       </label>
-                      <input id="fileInput" type="file" name="logo" value={formData.logo}
-                      onChange={handleChange} class="hidden" />
+                      <input id="fileInput" type="file" name="companyLogo" value={formData.companyLogo}
+                      onChange={handleFileChange} class="hidden" />
                     </div>
                   </li>
                 </ul>
@@ -424,7 +466,7 @@ function Clients() {
               <div className="flex items-center gap-x-5 mb-4">
                 <div class="relative group inline-block">
                   {/* Always visible text */}
-                  <h2 class="text-lg font-semibold text-gray-700">POC</h2>
+                  <h2 class="text-lg font-semibold text-black">POINT OF CONTACT</h2>
 
                   {/* Tooltip */}
                   <div
@@ -434,84 +476,7 @@ function Clients() {
                   </div>
                 </div>
 
-                <React.Fragment>
-                  <div>
-                    <button
-                      className=" border-[3px] p-2 px-4 rounded-full text-[#f0ad4e] bg-[#000000] border-[#f0ad4e] font-medium"
-                      onClick={handleAddPocOpen}
-                    >
-                      + Add
-                    </button>
-                  </div>
-                  <BootstrapDialog
-                    onClose={handleAddPocClose}
-                    aria-labelledby="add-poc-dialog-title"
-                    open={addPocOpen}
-                    BackdropProps={{
-                      sx: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.8)'
-                      },
-                    }}
-                  >
-                    <DialogTitle sx={{ m: 0, p: 2 }} id="add-poc-dialog-title">
-                      <h1 className='font-bold text-[#056DDC] text-lg text-center'>ADD POC</h1>
-                    </DialogTitle>
-                    <IconButton
-                      aria-label="close"
-                      onClick={handleAddPocClose}
-                      sx={(theme) => ({
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: theme.palette.grey[500],
-                      })}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                    <DialogContent dividers>
-                      <div>
-                        <div className="p-1 flex flex-col items-start justify-center gap-2">
-                          <label className="w-full text-sm font-medium text-[#6B6F7B]">POC Name</label>
-                          <input
-                            type="text"
-                            name="pocname"
-                            
-                            placeholder="Enter POC Name"
-                            className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                          />
-                        </div>
-                        <div className="p-1 flex flex-col items-start justify-center gap-2">
-                          <label className="w-full text-sm font-medium text-[#6B6F7B]">Phone Number</label>
-                          <input
-                            type="number"
-                            name="phonenumber"
-                            placeholder="Enter Phone Number"
-                            className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                          />
-                        </div>
-                        <div className="p-1 flex flex-col items-center justify-center gap-2">
-                          <label className="w-full text-sm font-medium text-[#6B6F7B]">Mail ID</label>
-                          <input
-                            type="mail"
-                            name="mailid"
-                            placeholder="Enter Mail ID"
-                            className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                          />
-                        </div>
-                      </div>
-
-                    </DialogContent>
-                    <DialogActions>
-                      <div className="px-5 py-2">
-                        <button
-                          onClick={handleAddPocClose}
-                          className="text-white border py-2  px-5 rounded-full bg-[#056DDC] ">
-                          SAVE
-                        </button>
-                      </div>
-                    </DialogActions>
-                  </BootstrapDialog>
-                </React.Fragment>
+               
 
 
 
@@ -552,11 +517,13 @@ function Clients() {
                 {rows.map((row, index) => (
                   <div key={index} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-4">
                     <div className="p-2 flex items-center justify-center gap-3">
-                      <label className="text-base font-medium text-gray-600">Name : </label>
+                      <label className="text-base font-medium text-gray-600">Name: </label>
                       <input
                         type="text"
-                        value="Robert"
-                        disabled
+                        name="pocName"
+                        value={formData.pocName}
+                        onChange={handleChange}
+                        placeholder="Enter POC Name"
                         className="w-full p-2 border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
@@ -564,8 +531,10 @@ function Clients() {
                       <label className="text-base font-medium text-gray-600">Email:</label>
                       <input
                         type="email"
-                        value="robert@xyz.com"
-                        disabled
+                        name="pocEmail"
+                        value={formData.pocEmail}
+                        onChange={handleChange}
+                        placeholder="Enter Email"
                         className="w-full p-2 border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
@@ -573,111 +542,17 @@ function Clients() {
                       <label className="text-base font-medium text-gray-600">Mobile:</label>
                       <input
                         type="number"
-                        value="919876543210"
-                        disabled
+                        name="pocContactNumber"
+                        value={formData.pocContactNumber}
+                        onChange={handleChange}
+                        placeholder="Enter Number"
                         className="w-full p-2 border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
                     <div className="col-span-1 flex items-center space-x-2">
 
-                      <div>
-                        <React.Fragment>
-                          <div>
-                            <button
-                              className="flex items-center justify-center hover:bg-blue-100 hover:duration-300 p-3 rounded-xl"
-                              onClick={handleEditOpen}
-                            >
-                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M13.3666 2.51688L6.7999 9.08354C6.5499 9.33354 6.2999 9.82521 6.2499 10.1835L5.89157 12.6919C5.75823 13.6002 6.3999 14.2335 7.30823 14.1085L9.81657 13.7502C10.1666 13.7002 10.6582 13.4502 10.9166 13.2002L17.4832 6.63354C18.6166 5.50021 19.1499 4.18354 17.4832 2.51688C15.8166 0.850211 14.4999 1.38354 13.3666 2.51688Z" stroke="#171717" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12.4248 3.4585C12.9831 5.45016 14.5415 7.0085 16.5415 7.57516" stroke="#171717" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-
-                            </button>
-                          </div>
-                          <BootstrapDialog
-                            onClose={handleEditClose}
-                            aria-labelledby="edit-dialog-title"
-                            open={editOpen}
-                            BackdropProps={{
-                              sx: {
-                                backgroundColor: 'rgba(255, 255, 255, 0.8)'
-                              },
-                            }}
-                          >
-                            <DialogTitle sx={{ m: 0, p: 2 }} id="edit-dialog-title">
-                              <h1 className='font-bold text-[#056DDC] text-center text-lg'>EDIT POC</h1>
-                            </DialogTitle>
-                            <IconButton
-                              aria-label="close"
-                              onClick={handleEditClose}
-                              sx={(theme) => ({
-                                position: 'absolute',
-                                right: 8,
-                                top: 8,
-                                color: theme.palette.grey[500],
-                              })}
-                            >
-                              <CloseIcon />
-                            </IconButton>
-                            <DialogContent dividers>
-                              <div>
-                                <div className="p-1 flex flex-col items-center justify-center gap-2">
-                                  <label className="w-full text-sm font-medium text-[#6B6F7B]">POC Name</label>
-                                  <input
-                                    type="text"
-                                    value={formData.pocname}
-                                    onChange={handleChange}
-                                    name="pocname"
-                                    className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                  />
-                                </div>
-                                <div className="p-1 flex flex-col items-center justify-center gap-2">
-                                  <label className="w-full text-sm font-medium text-[#6B6F7B]">Phone Number</label>
-                                  <input
-                                    type="number"
-                                    name="phonenumber"
-                                    value={formData.phonenumber}
-                                    onChange={handleChange}
-                                    className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                  />
-                                </div>
-                                <div className="p-1 flex flex-col items-center justify-center gap-2">
-                                  <label className="w-full text-sm font-medium text-[#6B6F7B]">Mail ID</label>
-                                  <input
-                                    type="mail"
-                                    name="mailid"
-                                    value={formData.mailid}
-                                    onChange={handleChange}
-                                    className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                  />
-                                </div>
-                              </div>
-                            </DialogContent>
-                            <DialogActions>
-                              <div
-                                className='px-5 py-2'
-                              >
-                                <button
-                                  onClick={handleEditClose}
-                                  className="text-white border py-2 px-5 rounded-full bg-[#056DDC] ">
-                                  SAVE
-                                </button>
-                              </div>
-                            </DialogActions>
-                          </BootstrapDialog>
-                        </React.Fragment>
-                      </div>
-                      <button className="p-2 text-gray-500 hover:text-red-500">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M17.5 4.98356C14.725 4.70856 11.9333 4.56689 9.15 4.56689C7.5 4.56689 5.85 4.65023 4.2 4.81689L2.5 4.98356" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M7.0835 4.1415L7.26683 3.04984C7.40016 2.25817 7.50016 1.6665 8.9085 1.6665H11.0918C12.5002 1.6665 12.6085 2.2915 12.7335 3.05817L12.9168 4.1415" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M15.7082 7.6167L15.1665 16.0084C15.0748 17.3167 14.9998 18.3334 12.6748 18.3334H7.32484C4.99984 18.3334 4.92484 17.3167 4.83317 16.0084L4.2915 7.6167" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M8.6084 13.75H11.3834" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M7.9165 10.4165H12.0832" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-
-                      </button>
+                    
+                     
                     </div>
                   </div>
                 ))}

@@ -15,6 +15,19 @@ function SignIn() {
                 <input id='number' type="number" 
                     className='border-2 rounded-[5px] m-1 w-[100%] h-[46px] ' />
             </div>
+            <div className='flex flex-col w-full h-full  text-[#222222] text-[12px] font-semibold ' >
+                        <label className='m-1' >SignIn as</label>
+                        <select
+                            
+                            
+                            className={`w-[100%] h-[39px] text-center text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 border-[#CAC4D0]  `}
+                        >
+                            
+                            <option value="Backend">INTERNAL</option>
+                            <option value="Frontend">CLIENT</option>
+                            
+                        </select>
+                    </div>
             <div className='w-full h-[46px] flex items-center justify-center mt-2 border-0 bg-[#056DDC] rounded-[100px] ' >
                 <button className='font-[Outfit] font-bold text-[16px] text-[#FFFFFF] tracking-[1%] leading-[auto] ' >
                     Submit

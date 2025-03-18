@@ -34,7 +34,7 @@ function SignUpSignInLayout() {
 
             <div className=' w-[55%] xl:h-[80%] sm:h-[90%] rounded-[35px] midcustom_lgp-4 bg-[#FFFFFF] flex flex-col items-center '>
               <div>
-                <div className='p-2 text-[#056DDC] w-[100%] flex items-center justify-center ' >
+                <div className=' text-[#056DDC] w-[100%] flex items-center justify-center ' >
                   <nav className='RegisterNav flex items-center justify-center font-bold leading-[19.92px] w-full h-[80px] text-[17px] text-center tracking-wide gap-5 '>
                   <div className='flex items-center text-center justify-center'>  
                     <NavLink to="signin/loginmail"
@@ -48,7 +48,7 @@ function SignUpSignInLayout() {
                       className={({ isActive }) => 
                       `${isActive ? "underline underline-offset-8 text-[#056DDC] " : " border-0 shadow-md rounded-[22px] "} p-2  w-full rounded-lg `} >
                       Sign Up </NavLink>
-                  </div>   */}
+                  </div>    */}
                   </nav>
                 </div>
               </div>
