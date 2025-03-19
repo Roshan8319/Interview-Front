@@ -334,15 +334,15 @@ function NavigationLayout() {
             <Drawer 
             variant="permanent" 
             open={open}
-            sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                  width: drawerWidth,
-                  boxSizing: 'border-box',
-                  border: 'none', // Highlight: Removed border from Drawer
-                },
-              }}
+            // sx={{
+            //     width: drawerWidth,
+            //     flexShrink: 0,
+            //     '& .MuiDrawer-paper': {
+            //       width: drawerWidth,
+            //       boxSizing: 'border-box',
+            //       border: 'none', // Highlight: Removed border from Drawer
+            //     },
+            //   }}
             >
                 
                 <DrawerHeader>
