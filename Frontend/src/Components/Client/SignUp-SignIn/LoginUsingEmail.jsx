@@ -37,7 +37,7 @@ const LoginUsingEmail = () =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [loading,setLoading]=useState(false)
-    const [signinas, setSigninas]= useState('');
+    const [signinas, setSigninas]= useState('INTERNAL');
 
 // Backend works
         //Check for email and password
@@ -55,34 +55,34 @@ const LoginUsingEmail = () =>{
         e.preventDefault();
         console.log("Helllo");
         console.log(email,password);
+        console.log(signinas);
         setLoading(true)
         
         try {
-            setErrorMessage("")
-            const response = await axios.post(`${baseUrl}/api/v1/internal/signIn`,{ email,password});
-            console.log(response);
             
+            const targetUrl = signinas === "CLIENT"
+                ? `${baseUrl}/api/v1/client/signIn`
+                : `${baseUrl}/api/v1/internal/signIn`;
+
+            const response = await axios.post(targetUrl, { email, password });
+
+           
             const accessToken = response.data.data.accessToken;
             const refreshToken = response.data.data.refreshToken;
             Cookies.set('accessToken', accessToken);
             Cookies.set('refreshToken', refreshToken);
-            if (response.status === 200 ) {
-                setLoading(false)
-                setErrorMessage( "you are logged in")
-                navigate('/internal/dashboard')
+
+            if (response.status === 200) {
+                const dashboardPath = signinas === "CLIENT"
+                    ? "/client/dashboard"
+                    : "/internal/dashboard";
+                navigate(dashboardPath);
             }
-            console.log(response)
         } catch (error) {
-            console.log(error);
-            if(error){
-                const err=error?.response?.data?.error[0]?.error
-                setErrorMessage(err)
-                setLoading(false)
-                console.log(err);
-                
-            }
-            
-            
+            const err = error?.response?.data?.error?.[0]?.error || "An error occurred";
+            setErrorMessage(err);
+        } finally {
+            setLoading(false);
         }
     }
    
