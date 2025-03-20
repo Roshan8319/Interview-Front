@@ -1,25 +1,158 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function AddCandidate() {
 
-    const navigate = useNavigate();
-    const [selectedFilters, setSelectedFilters] = useState({
-        role: "All",
-        fun: "All",
-        source: "All"
-    });
+   const baseUrl = import.meta.env.VITE_BASE_URL
 
-    const role = ["SDE II", "SDE III", "SDET I", "EM", "SDE I - Frontend", "SDE II - Frontend"];
-    const fun = ["All", "Frontend", "Backend"];
-    const source = ["All", "Agency", "Client"]
+   const [firstname,setFirstName] = useState('');
+   const [lastname,setLastName] = useState('');
+   const [email,setEmail] = useState('');
+   const [phone,setPhone] = useState('');
+   const [resume,setResume] = useState(null);
+   const [photo,setPhoto] = useState(null);
 
-    const handleSelect = (category, value) => {
-        setSelectedFilters((prev) => ({
-            ...prev,
-            [category]: value,
-        }));
-    };
+   const handleSubmit = async (e)=>{
+    e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('firstname',firstname);
+        formData.append('lastname',lastname);
+        formData.append('email',email);
+        formData.append('phoneNumber',phone);
+        formData.append('resume',resume);
+        formData.append('photo',photo);
+
+    try {
+        const response = await axios.post(`${baseUrl}/api/v1/client/add-candidate`,formData,{
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data', // Important for file uploads
+              },
+        });
+        console.log(response.data);
+        alert("Candidate Added Successfully");
+        
+    } catch (error) {
+        console.error("error while submitting the form", error);
+        alert("error while subitting the form")
+    }
+   }
+    
+
+  
+
+    const styles = {
+        container: {
+          width: '100%',
+          maxWidth: '600px',
+          margin: '20px 0px',
+          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          color: '#212529',
+        },
+        formRow: {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '10px',
+        },
+        label: {
+          fontSize: '14px',
+          fontWeight: 600,
+          width: '35%',
+          height:'100%',
+          marginRight: '20px',
+          textAlign: 'right',
+          alignItems:'center',
+          justifyContent:'center',
+        },
+        input: {
+          fontSize: '14px',
+          padding: '8px',
+          borderRadius: '6px',
+          border: '1px solid #ccc',
+          width: '60%',
+          
+        },
+        select: {
+          fontSize: '14px',
+          padding: '10px',
+          borderRadius: '6px',
+          border: '1px solid #ccc',
+          width: '60%',
+        },
+        uploadBox: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '2px dashed #ccc',
+          borderRadius: '6px',
+          padding: '10px',
+          marginBottom: '10px',
+          cursor: 'pointer',
+          
+        },
+        uploadIcon: {
+          marginRight: '5px',
+          fontSize: '18px',
+        },
+        textarea: {
+          fontSize: '14px',
+          padding: '10px',
+          borderRadius: '6px',
+          border: '1px solid #ccc',
+          width: '100%',
+          resize: 'none',
+        },
+        essentialsList: {
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '10px',
+          marginTop: '10px',
+        },
+        essentialTag: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'white',
+          fontSize: '12px',
+          fontWeight: 600,
+          padding: '6px 12px',
+          borderRadius: '10px',
+          border: '1px solid #ccc',
+        },
+        removeButton: {
+          marginLeft: '8px',
+          background: 'none',
+          border: 'none',
+          color: 'black',
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: 'bold',
+        },
+        saveButton: {
+          display: 'block',
+          width: '15%',
+          marginLeft: '500px',
+          padding: '10px',
+          backgroundColor: '#007aff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '20px',
+          fontSize: '16px',
+          cursor: 'pointer',
+          textAlign: 'center',
+        },
+        uploadIconImage: {
+            width: '24px', // Adjust as per design
+            height: '24px',
+            marginRight: '8px',
+          },
+          
+      };
 
     const [data, setData] = useState([
         {
@@ -94,26 +227,7 @@ function AddCandidate() {
         },
     ]);
 
-    const [uploadMode, setUploadMode] = useState("none");
-    const [selectAll, setSelectAll] = useState(false);
-
-    const handleSelectAll = () => {
-        const newSelectAll = !selectAll;
-        setSelectAll(newSelectAll);
-        setData((prevData) =>
-            prevData.map((item) => ({ ...item, isSelected: newSelectAll }))
-        );
-    };
-
-    const handleIndividualSelect = (index) => {
-        const newData = [...data];
-        newData[index].isSelected = !newData[index].isSelected;
-        setData(newData);
-
-        // Update "Select All" checkbox state
-        const allSelected = newData.every((item) => item.isSelected);
-        setSelectAll(allSelected);
-    };
+   
 
 
 
@@ -121,128 +235,35 @@ function AddCandidate() {
         <div>
 
 
-            <div className="pl-3 space-y-2">
-                {/* Domain Filter */}
-                <div className="flex items-center space-x-1">
-                    <span className="text-sm font-bold mr-[45px] flex">Role</span>
-                    {role.map((role) => (
-                        <button
-                            key={role}
-                            onClick={() => handleSelect("role", role)}
-                            className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs w-auto ${selectedFilters.role === role
-                                ? "bg-purple-100 text-purple-700 border-purple-300"
-                                : "bg-white text-gray-700 border-gray-300"
-                                }`}
-                        >
-                            {/* Tick container */}
-                            {selectedFilters.role === role && (
-                                <span className="w-4 h-4 flex justify-center items-center">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="w-3 h-3 text-purple-700"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M5 13l4 4L19 7"
-                                        />
-                                    </svg>
-                                </span>
-                            )}
-                            {role}
-                        </button>
-                    ))}
-                </div>
+<div style={styles.container}   >
+      <form action="">
+      <div style={styles.formRow}>
+        <label style={styles.label}>First Name</label>
+        <input type="text" name='firstName' placeholder="Enter First Name"  style={styles.input} className='text-black' />
+      </div>
+      <div style={styles.formRow} className='' >
+        <label style={styles.label} className='' >Last Name</label>
+        <input className='' name='lastName' type="text"  placeholder='Enter Last Name' style={styles.input}  />
+      </div>
 
-                {/* Status Filter */}
-                <div className="flex items-center space-x-10">
-                    <div className='flex items-center space-x-1'>
-                        <span className="text-sm font-bold mr-4">Function </span>
-                        {fun.map((fun) => (
-                            <button
-                                key={fun}
-                                onClick={() => handleSelect("fun", fun)}
-                                className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs w-auto ${selectedFilters.fun === fun
-                                    ? "bg-purple-100 text-purple-700 border-purple-300"
-                                    : "bg-white text-gray-700 border-gray-300"
-                                    }`}
-                            >
-                                {/* Tick container */}
-                                {selectedFilters.fun === fun && (
-                                    <span className="w-4 h-4 flex justify-center items-center">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="w-3 h-3 text-purple-700"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
-                                    </span>
-                                )}
-                                {fun}
-                            </button>
-                        ))}
-                    </div>
-                    <div className='flex items-center space-x-1'>
-                        <span className="text-sm font-bold mr-4">Source</span>
-                        {source.map((source) => (
-                            <button
-                                key={source}
-                                onClick={() => handleSelect("source", source)}
-                                className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs w-auto ${selectedFilters.source === source
-                                    ? "bg-purple-100 text-purple-700 border-purple-300"
-                                    : "bg-white text-gray-700 border-gray-300"
-                                    }`}
-                            >
-                                {/* Tick container */}
-                                {selectedFilters.source === source && (
-                                    <span className="w-4 h-4 flex justify-center items-center">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="w-3 h-3 text-purple-700"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
-                                    </span>
-                                )}
-                                {source}
-                            </button>
-                        ))}
-                    </div>
+      <div style={styles.formRow}>
+        <label style={styles.label}>Email</label>
+        <input className='' name='email' type="email"  placeholder='Enter Email'  style={styles.input}  />
+      </div>
 
-                </div>
-            </div>
+      <div style={styles.formRow}>
+        <label style={styles.label}>Phone Number</label>
+        <input type="number" name='phoneNumber'  placeholder='Enter Phone No.' style={styles.input} />
+      </div>
 
+      <div style={styles.formRow}>
+        
+      </div>
 
-
-
-
-
-
-
-
-            <div className='w-full flex mt-6'>
-                <div className='w-1/2 flex items-center justify-center'>
-                    <div class="w-[468px] h-[184px] flex flex-col items-center justify-center border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-white hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all">
+      <div style={styles.formRow}  >
+  <label style={styles.label}>Upload Resume</label>
+  <div style={{ width: '60%' }}>
+  <div class="w-[100%]  flex flex-col items-center justify-center border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-white hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all">
                         <label for="fileInput" class="w-full h-full flex flex-col items-center justify-center cursor-pointer">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.4398 8.8999C20.0398 9.2099 21.5098 11.0599 21.5098 15.1099L21.5098 15.2399C21.5098 19.7099 19.7198 21.4999 15.2498 21.4999L8.72976 21.4999C4.25976 21.4999 2.46976 19.7099 2.46976 15.2399L2.46976 15.1099C2.46976 11.0899 3.91976 9.2399 7.45976 8.9099" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -250,13 +271,16 @@ function AddCandidate() {
                                 <path d="M15.3496 5.85L11.9996 2.5L8.64961 5.85" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
 
-                            <span class="text-sm">Upload CV</span>
+                            <span class="text-sm">Upload Resume</span>
                         </label>
                         <input id="fileInput" type="file" class="hidden" />
                     </div>
-                </div>
-                <div className='w-1/2 flex items-center justify-center'>
-                    <div class="w-[468px] h-[184px] flex flex-col items-center justify-center border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-white hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all">
+  </div>
+</div>
+<div style={styles.formRow}  >
+  <label style={styles.label}>Upload Photo</label>
+  <div style={{ width: '60%' }}>
+  <div class="w-[100%]  flex flex-col items-center justify-center border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-white hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all">
                         <label for="fileInput" class="w-full h-full flex flex-col items-center justify-center cursor-pointer">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.4398 8.8999C20.0398 9.2099 21.5098 11.0599 21.5098 15.1099L21.5098 15.2399C21.5098 19.7099 19.7198 21.4999 15.2498 21.4999L8.72976 21.4999C4.25976 21.4999 2.46976 19.7099 2.46976 15.2399L2.46976 15.1099C2.46976 11.0899 3.91976 9.2399 7.45976 8.9099" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -264,136 +288,24 @@ function AddCandidate() {
                                 <path d="M15.3496 5.85L11.9996 2.5L8.64961 5.85" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
 
-                            <span class="text-sm">Bulk Upload CV</span>
+                            <span class="text-sm">Upload Photo</span>
                         </label>
                         <input id="fileInput" type="file" class="hidden" />
                     </div>
-                </div>
+  </div>
+</div>
+<button   className="block w-[15%] ml-[500px] p-2  text-white border-none rounded-[20px] text-[16px] cursor-pointer text-center  border-[3px] py-1 px-3   transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] "  >Save</button>
+</form>
+</div>
 
 
-            </div>
 
-            <div className="w-full mt-6">
-                {uploadMode === "none" ? (
-                    // Initial state with the two buttons
-                    <div className="mt-9 w-full flex flex-col items-center justify-evenly border border-red-500 py-5">
-                        <h1 className="text-lg text-red-500 font-bold">
-                            Added temporarily until the API is ready.
-                        </h1>
-                        <div className="w-full flex items-center justify-around">
-                            <button
-                                className="bg-gray-300 px-4 py-2 text-lg rounded-full"
-                                onClick={() => setUploadMode("single")} // Display only one item
-                            >
-                                CV Upload
-                            </button>
-                            <button
-                                className="bg-gray-300 px-4 py-2 text-lg rounded-full"
-                                onClick={() => setUploadMode("bulk")} // Display all items
-                            >
-                                Bulk CV Upload
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <div>
-                        {/* Heading Row */}
-                        <div className="flex items-center justify-between px-4 py-3 text-[#6B6F7B] font-bold">
-                            <input
-                                type="checkbox"
-                                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                                checked={selectAll}
-                                onChange={handleSelectAll}
-                            />
-                            <div className="flex-1 grid grid-cols-[1fr_1fr_1fr_1.5fr_1.2fr_1fr] gap-2 text-sm text-gray-700 ml-4">
-                                <div>Name</div>
-                                <div>Experience</div>
-                                <div>Mobile Number</div>
-                                <div className="truncate">Email ID</div>
-                                <div>Company</div>
-                                <div></div>
-                            </div>
-                        </div>
 
-                        {/* Data Rows */}
-                        <div className=''>
-                            {(uploadMode === "single" ? [data[0]] : data).map((item, index) => (
-                                <div key={index} className="group">
-                                    <hr className="w-full bg-[#F4F4F4] h-[1px]" />
-                                    <div className="flex items-center justify-between px-4 py-3">
-                                        <input
-                                            type="checkbox"
-                                            className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                                            checked={item.isSelected}
-                                            onChange={() => handleIndividualSelect(index)}
-                                        />
-                                        <div className="flex-1 grid grid-cols-[1fr_1fr_1fr_1.5fr_1.2fr_1fr] gap-2 text-sm text-gray-700 ml-4">
-                                            <button className="flex items-center justify-between group-hover:text-[#056DDC] group-hover:font-semibold group-hover:duration-200"
 
-                                            >
-                                                {item.name}
-                                            </button>
-                                            <div className="flex items-center justify-between">
-                                                {item.experience}
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                {item.mobile}
-                                            </div>
-                                            <div className="flex items-center justify-between truncate">
-                                                {item.email}
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <div>{item.company}</div>
-                                            </div>
-                                            <div className='flex items-center justify-around'>
-                                                <button className="text-gray-500 hover:text-indigo-600 rounded-lg hover:scale-110 hover:duration-150">
-                                                    <svg
-                                                        width="28"
-                                                        height="28"
-                                                        viewBox="0 0 28 28"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        style={{ filter: "drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.2))" }}
-                                                    >
-                                                        <path
-                                                            d="M7 21H8.425L18.2 11.225L16.775 9.8L7 19.575V21ZM5 23V18.75L18.2 5.575C18.4 5.39167 18.6208 5.25 18.8625 5.15C19.1042 5.05 19.3583 5 19.625 5C19.8917 5 20.15 5.05 20.4 5.15C20.65 5.25 20.8667 5.4 21.05 5.6L22.425 7C22.625 7.18333 22.7708 7.4 22.8625 7.65C22.9542 7.9 23 8.15 23 8.4C23 8.66667 22.9542 8.92083 22.8625 9.1625C22.7708 9.40417 22.625 9.625 22.425 9.825L9.25 23H5ZM17.475 10.525L16.775 9.8L18.2 11.225L17.475 10.525Z"
-                                                            fill="#65558F"
-                                                        />
-                                                    </svg>
-                                                </button>
 
-                                                <button
-                                                    className="text-gray-500 hover:text-indigo-600 rounded-lg hover:scale-110 hover:duration-150"
-                                                    onClick={() => {
-                                                        const url = `/client/candidates/schedule-interview`;
-                                                        const stateData = encodeURIComponent(JSON.stringify({ item }));
-                                                        window.open(`${url}?state=${stateData}`, '_blank');
-                                                    }}
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#75FB4C">
-                                                        <path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-                                                    </svg>
-                                                </button>
 
-                                                <button className="text-gray-500 hover:text-indigo-600 rounded-lg hover:scale-110 hover:duration-150">
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M17.5 4.98356C14.725 4.70856 11.9333 4.56689 9.15 4.56689C7.5 4.56689 5.85 4.65023 4.2 4.81689L2.5 4.98356" stroke="red" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M7.0835 4.1415L7.26683 3.04984C7.40016 2.25817 7.50016 1.6665 8.9085 1.6665H11.0918C12.5002 1.6665 12.6085 2.2915 12.7335 3.05817L12.9168 4.1415" stroke="red" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M15.7082 7.6167L15.1665 16.0084C15.0748 17.3167 14.9998 18.3334 12.6748 18.3334H7.32484C4.99984 18.3334 4.92484 17.3167 4.83317 16.0084L4.2915 7.6167" stroke="red" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M8.6084 13.75H11.3834" stroke="red" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M7.9165 10.4165H12.0832" stroke="red" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
+           
+            
 
 
 

@@ -1,7 +1,47 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const AddJob = () => {
-  const [selectedEssentials, setSelectedEssentials] = useState(['Java', 'React.js']);
+
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
+
+  const [employment,setEmployment] = useState('FT');
+  const [formData, setFormData] = useState({jobTitle:"", jobRole:"",jobDescription:"", employmentType:"FT", hiringManagerEmail:"", totalPositions:"", essentials:[]})
+  const handleChange =(e) =>{
+    setFormData({...formData, [e.target.name]: e.target.value})
+  }
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    try {
+      
+      console.log(baseUrl);
+      const dataToSend = {
+        ...formData,
+        essentials: selectedEssentials.join(','), 
+        totalPositions: Number(formData.totalPositions), 
+        employmentType: employment,
+      }
+      console.log(dataToSend);
+      const response = await axios.post(`${baseUrl}/api/v1/client/add-job`, dataToSend, {
+        withCredentials: true, // Ensures cookies are sent
+        
+      });
+      console.log(response);
+      
+      console.log("job added");
+      
+    } catch (error) {
+      console.log(error,"something error in submit");
+      
+    }
+
+   
+
+  }
+
+
+  const [selectedEssentials, setSelectedEssentials] = useState([]);
   const essentialOptions = ['Java', 'OOPS', 'Springboot', 'React.js', 'AWS', 'Kafka'];
 
   const handleAddEssential = (event) => {
@@ -126,73 +166,48 @@ const AddJob = () => {
       
   };
 
-  const recruiters = ['John Doe', 'Jane Smith', 'Emily Davis'];
-  const hiringManagers = ['Michael Scott', 'Dwight Schrute', 'Jim Halpert'];
+  
 
   return (
     <div className='flex gap-x-14' >
     <div style={styles.container}   >
+      <form action="">
+      <div style={styles.formRow}>
+        <label style={styles.label}>Job Title</label>
+        <input type="text" name='jobTitle' placeholder="Enter Job Title" value={formData.jobTitle} onChange={handleChange} style={styles.input} className='text-black' />
+      </div>
       <div style={styles.formRow} className='' >
         <label style={styles.label} className='' >Job Role</label>
-        <input className='' type="text" value="SDE III" readOnly style={styles.input}  />
+        <input className='' name='jobRole' type="text" value={formData.jobRole} onChange={handleChange} placeholder='Enter Job Role' style={styles.input}  />
       </div>
 
       <div style={styles.formRow}>
-        <label style={styles.label}>Job ID</label>
-        <input type="text" placeholder="Optional" style={styles.input} className='text-black' />
-      </div>
-
-      <div style={styles.formRow}>
-        <label style={styles.label}>Assigned Recruiter</label>
-        <select style={styles.select}>
-          <option value="">Select Recruiter</option>
-          {recruiters.map((recruiter) => (
-            <option key={recruiter} value={recruiter}>
-              {recruiter}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div style={styles.formRow}>
-        <label style={styles.label}>Hiring Manager</label>
-        <select style={styles.select}>
-          <option value="">Select Hiring Manager</option>
-          {hiringManagers.map((manager) => (
-            <option key={manager} value={manager}>
-              {manager}
-            </option>
-          ))}
-        </select>
+        <label style={styles.label}>Hiring Manager Email</label>
+        <input className='' name='hiringManagerEmail' type="email" value={formData.hiringManagerEmail} onChange={handleChange} placeholder='Enter Email'  style={styles.input}  />
       </div>
 
       <div style={styles.formRow}>
         <label style={styles.label}>Total Positions</label>
-        <input type="text" value="-" readOnly style={styles.input} />
+        <input type="number" name='totalPositions' value={formData.totalPositions} onChange={handleChange} placeholder='Enter No. of Positions' style={styles.input} />
       </div>
 
       <div style={styles.formRow}>
-        <label style={styles.label}>IC/Manager</label>
-        <select style={styles.select}>
-          <option value="IC">IC</option>
-          <option value="Manager">Manager</option>
+        <label style={styles.label}>Employment Type</label>
+        <select style={styles.select} name='employmentType' value={formData.employment} onChange={(e)=>setEmployment(e.target.value)} >
+          <option value="FT">Full Time</option>
+          <option value="INT">Internship</option>
         </select>
       </div>
 
       <div style={styles.formRow}  >
   <label style={styles.label}>Job Description</label>
   <div style={{ width: '60%' }}>
-    <div style={styles.uploadBox} className='hover:bg-gray-100' >
-      <img
-        src="https://img.icons8.com/?size=100&id=6b7l1lBTegrx&format=png&color=000000"
-        alt="Upload Icon"
-        style={styles.uploadIconImage}
-      />
-      Upload Here
-    </div>
     <textarea
       placeholder="Paste Job Description Here"
       rows="4"
+      name='jobDescription'
+      value={formData.jobDescription}
+      onChange={handleChange}
       style={styles.textarea}
     ></textarea>
   </div>
@@ -201,7 +216,7 @@ const AddJob = () => {
       <div style={styles.formRow}>
         <label style={styles.label}>Essentials</label>
         <div style={{ width: '60%' }}>
-          <select style={styles.select} onChange={handleAddEssential}>
+          <select style={styles.select} name='essentials' onChange={handleAddEssential}>
             <option value="">Select an Essential</option>
             {essentialOptions.map((essential) => (
               <option key={essential} value={essential}>
@@ -225,28 +240,13 @@ const AddJob = () => {
         </div>
       </div>
 
-      <button  className="block w-[15%] ml-[500px] p-2  text-white border-none rounded-[20px] text-[16px] cursor-pointer text-center  border-[3px] py-1 px-3   transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] "  >Save</button>
+      <button onClick={handleSubmit}  className="block w-[15%] ml-[500px] p-2  text-white border-none rounded-[20px] text-[16px] cursor-pointer text-center  border-[3px] py-1 px-3   transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] "  >Save</button>
+    
+      </form>
     </div>
-    <div style={styles.container}   >
-
-        <div style={styles.formRow}>
-          <label style={styles.label}  >Add Questions:</label>
-          <div style={{ width: '60%' }}>
-            <div style={styles.uploadBox} className='hover:bg-gray-100 '>
-              <img
-                src="https://img.icons8.com/?size=100&id=6b7l1lBTegrx&format=png&color=000000"
-                alt="Upload Icon"
-                style={styles.uploadIconImage}
-              />
-              Upload Questions
-            </div>
-            <textarea
-              placeholder="Add Questions"
-              rows="4"
-              style={styles.textarea}
-            ></textarea>
-          </div>
-        </div>
+    <div className=' ' style={styles.container}   >
+              
+        
 
     </div>
     </div>
