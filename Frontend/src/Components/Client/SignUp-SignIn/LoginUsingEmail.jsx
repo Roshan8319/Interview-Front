@@ -60,13 +60,17 @@ const LoginUsingEmail = () =>{
         
         try {
             
+            
+                
             const targetUrl = signinas === "CLIENT"
                 ? `${baseUrl}/api/v1/client/signIn`
-                : `${baseUrl}/api/v1/internal/signIn`;
+                : signinas === "INTERNAL"
+                    ? `${baseUrl}/api/v1/internal/signIn`
+                    : `${baseUrl}/api/v1/interviewer/signIn`;
 
             const response = await axios.post(targetUrl, { email, password });
 
-           
+            console.log(response);
             const accessToken = response.data.data.accessToken;
             const refreshToken = response.data.data.refreshToken;
             Cookies.set('accessToken', accessToken);
@@ -75,7 +79,12 @@ const LoginUsingEmail = () =>{
             if (response.status === 200) {
                 const dashboardPath = signinas === "CLIENT"
                     ? "/client/dashboard"
-                    : "/internal/dashboard";
+                    : signinas === "INTERNAL"
+                    ? "/internal/dashboard"
+                    : "/interviewer/dashboard"
+                    
+                    
+                     
                 navigate(dashboardPath);
             }
         } catch (error) {
@@ -127,6 +136,7 @@ const LoginUsingEmail = () =>{
                             
                             <option value="INTERNAL">INTERNAL</option>
                             <option value="CLIENT">CLIENT</option>
+                            <option value="INTERVIEWER">INTERVIEWER</option>
                             
                         </select>
                     </div>

@@ -48,10 +48,14 @@ import { InternalMessages } from "./Internal/Messages";
 
 // Interviewer Imports
 import Layout from "./Interviewer/Layout";
+import InterviewerDashboard from "./Interviewer/Dashboard";
+import MeetingScreen from "./Interviewer/MeetingScreen"
+import Profile from "./Interviewer/Profile";
 import Calendar from "./Interviewer/Calendar";
-import InterviewRecord from "./Interviewer/InterviewRecord";
-import Payments from "./Interviewer/Payments";
-import  {Feedback}  from "./Interviewer/Feedback";
+import Receivables from "./Interviewer/Receivables";
+import InterviewHistory from "./Interviewer/InterviewHistory";
+
+
 
 
 //SignIn-SignUp Exports
@@ -69,7 +73,7 @@ export { AgencyNavigationLayout,AgencyDashboard, AgencyCandidates,AgencyAddCandi
 export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages}
 
 //Interviewer Exports
-export {Layout,Calendar,InterviewRecord,Payments,Feedback}
+export {Layout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables}
 
 
 

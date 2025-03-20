@@ -16,10 +16,10 @@ import { AgencyNavigationLayout,AgencyDashboard,AgencyCandidates,AgencyAddCandid
 //Internal Imports
 import {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages} from "./Components"
 //Interviewer Imports
-import { Layout, Calendar, InterviewRecord, Payments } from './Components'
+import { Layout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables } from './Components'
 import { Hello } from './Components'
 import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
-import { Feedback } from './Components/Interviewer/Feedback'
+
 
 const router = createBrowserRouter( 
   createRoutesFromElements(
@@ -103,11 +103,13 @@ const router = createBrowserRouter(
 
 
       //Interviewer Routes
-      <Route path='interviewer' element={<Layout />}>
-        <Route path='dashboard' element={<InterviewRecord />} />
-        <Route path='calendar' element={<Calendar />} />
-        <Route path='payments' element={<Payments />} />
-        <Route path='feedback' element={<Feedback/>} />
+      <Route path='interviewer' element={<Layout/>}>
+        <Route path='dashboard' element={<InterviewerDashboard />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='calendar' element={<Calendar/>} />
+        <Route path='receivables' element={<Receivables />} />
+        <Route path='interview-history' element={<InterviewHistory />} />       
+        
       </Route>
 
 
@@ -144,10 +146,7 @@ const router = createBrowserRouter(
 
       </Route>
 
-      <Route>
-
-
-      </Route>
+      <Route path='interview/:meetingLink' element={<MeetingScreen />} />
 
 
 
@@ -162,7 +161,6 @@ const router = createBrowserRouter(
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  
 )

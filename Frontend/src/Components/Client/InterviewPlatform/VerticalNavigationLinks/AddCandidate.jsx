@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+
 
 function AddCandidate() {
 
@@ -13,6 +13,13 @@ function AddCandidate() {
    const [phone,setPhone] = useState('');
    const [resume,setResume] = useState(null);
    const [photo,setPhoto] = useState(null);
+
+   const handleFileChange = (event) => {
+    setResume(event.target.files[0]);
+  };
+  const handleProfilePhotoChange = (event) => {
+    setPhoto(event.target.files[0]);
+  };
 
    const handleSubmit = async (e)=>{
     e.preventDefault();
@@ -26,7 +33,7 @@ function AddCandidate() {
         formData.append('photo',photo);
 
     try {
-        const response = await axios.post(`${baseUrl}/api/v1/client/add-candidate`,formData,{
+        const response = await axios.post(`${baseUrl}/api/v1/client/add-candidate`, formData,{
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data', // Important for file uploads
@@ -236,24 +243,24 @@ function AddCandidate() {
 
 
 <div style={styles.container}   >
-      <form action="">
+      <form onSubmit={handleSubmit}>
       <div style={styles.formRow}>
         <label style={styles.label}>First Name</label>
-        <input type="text" name='firstName' placeholder="Enter First Name"  style={styles.input} className='text-black' />
+        <input type="text" name='firstName' placeholder="Enter First Name" value={firstname} onChange={(e)=>setFirstName(e.target.value)} style={styles.input} className='text-black' />
       </div>
       <div style={styles.formRow} className='' >
         <label style={styles.label} className='' >Last Name</label>
-        <input className='' name='lastName' type="text"  placeholder='Enter Last Name' style={styles.input}  />
+        <input className='' name='lastName' value={lastname} type="text" onChange={(e)=>setLastName(e.target.value)} placeholder='Enter Last Name' style={styles.input}  />
       </div>
 
       <div style={styles.formRow}>
         <label style={styles.label}>Email</label>
-        <input className='' name='email' type="email"  placeholder='Enter Email'  style={styles.input}  />
+        <input className='' name='email' type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder='Enter Email'  style={styles.input}  />
       </div>
 
       <div style={styles.formRow}>
         <label style={styles.label}>Phone Number</label>
-        <input type="number" name='phoneNumber'  placeholder='Enter Phone No.' style={styles.input} />
+        <input type="number" name='phoneNumber' onChange={(e) => setPhone(e.target.value)} value={phone} placeholder='Enter Phone No.' style={styles.input} />
       </div>
 
       <div style={styles.formRow}>
@@ -273,7 +280,7 @@ function AddCandidate() {
 
                             <span class="text-sm">Upload Resume</span>
                         </label>
-                        <input id="fileInput" type="file" class="hidden" />
+                        <input id="fileInput" type="file" name='resume' onChange={handleFileChange} class="hidden" />
                     </div>
   </div>
 </div>
@@ -290,11 +297,11 @@ function AddCandidate() {
 
                             <span class="text-sm">Upload Photo</span>
                         </label>
-                        <input id="fileInput" type="file" class="hidden" />
+                        <input id="fileInput" type="file" onChange={handleProfilePhotoChange} class="hidden" />
                     </div>
   </div>
 </div>
-<button   className="block w-[15%] ml-[500px] p-2  text-white border-none rounded-[20px] text-[16px] cursor-pointer text-center  border-[3px] py-1 px-3   transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] "  >Save</button>
+<button type='submit' className="block w-[15%] ml-[500px] p-2  text-white border-none rounded-[20px] text-[16px] cursor-pointer text-center  border-[3px] py-1 px-3   transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] "  >Save</button>
 </form>
 </div>
 

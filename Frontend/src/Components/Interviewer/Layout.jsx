@@ -1,62 +1,340 @@
-import React from 'react'
-import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Outlet } from 'react-router-dom'
+import React, { useState } from "react";
+import { NavLink,useLocation,Outlet } from "react-router-dom";
 
 function Layout() {
-    const location = useLocation();
-    const isMessageRouteActive = location.pathname === "/hiring-dog/message";
-    return (
-        <>
-            <div>
-                <header className='p-2 h-[60px] bg-[#056DDC] flex items-center justify-between'>
-                    <div className='px-5 logo-brandName '>
-                        <h1 className='text-white text-[24px]'> <span className='font-bold'>SAKCHATKAAR</span> -INTERVIEW PLATFORM</h1>
-                    </div>
-                    <div className='horizontal-navigation px-5 gap-x-2 flex items-center justify-center'>
-                        <NavLink
-                            to="settings"
-                            className="horizontal-setting p-2 bg-[#F5F7FA] rounded-full"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="718EBF"><path d="m382-80-18.67-126.67q-17-6.33-34.83-16.66-17.83-10.34-32.17-21.67L178-192.33 79.33-365l106.34-78.67q-1.67-8.33-2-18.16-.34-9.84-.34-18.17 0-8.33.34-18.17.33-9.83 2-18.16L79.33-595 178-767.67 296.33-715q14.34-11.33 32.34-21.67 18-10.33 34.66-16L382-880h196l18.67 126.67q17 6.33 35.16 16.33 18.17 10 31.84 22L782-767.67 880.67-595l-106.34 77.33q1.67 9 2 18.84.34 9.83.34 18.83 0 9-.34 18.5Q776-452 774-443l106.33 78-98.66 172.67-118-52.67q-14.34 11.33-32 22-17.67 10.67-35 16.33L578-80H382Zm55.33-66.67h85l14-110q32.34-8 60.84-24.5T649-321l103.67 44.33 39.66-70.66L701-415q4.33-16 6.67-32.17Q710-463.33 710-480q0-16.67-2-32.83-2-16.17-7-32.17l91.33-67.67-39.66-70.66L649-638.67q-22.67-25-50.83-41.83-28.17-16.83-61.84-22.83l-13.66-110h-85l-14 110q-33 7.33-61.5 23.83T311-639l-103.67-44.33-39.66 70.66L259-545.33Q254.67-529 252.33-513 250-497 250-480q0 16.67 2.33 32.67 2.34 16 6.67 32.33l-91.33 67.67 39.66 70.66L311-321.33q23.33 23.66 51.83 40.16 28.5 16.5 60.84 24.5l13.66 110Zm43.34-200q55.33 0 94.33-39T614-480q0-55.33-39-94.33t-94.33-39q-55.67 0-94.5 39-38.84 39-38.84 94.33t38.84 94.33q38.83 39 94.5 39ZM480-480Z" /></svg>
-                        </NavLink>
-                        {/* <Link
-                            to="/hiring-dog/message"
-                            className="message p-2 bg-[#F5F7FA] rounded-full"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#F00000"><path d="M146.67-160q-27 0-46.84-19.83Q80-199.67 80-226.67v-506.66q0-27 19.83-46.84Q119.67-800 146.67-800h424q-3.34 16.67-4 33.33-.67 16.67 2 33.34H150l330 212L629.33-617q11.34 10.33 24.17 18.62 12.83 8.28 26.83 14.38L480-454.67 146.67-670v443.33h666.66v-348q18.87-4.85 35.27-13.59Q865-597 880-608.67v382q0 27-19.83 46.84Q840.33-160 813.33-160H146.67Zm0-573.33v506.66-506.66Zm613.25 86.66q-47.25 0-80.25-33.08-33-33.07-33-80.33 0-47.25 33.08-80.25 33.07-33 80.33-33 47.25 0 80.25 33.08 33 33.07 33 80.33 0 47.25-33.08 80.25-33.07 33-80.33 33Z" /></svg>
-                        </Link> */}
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState("Home");
 
-                        <Link
-                            to="/hiring-dog/message"
-                            className="message p-2 bg-[#F5F7FA] rounded-full"
-                        >
-                            {isMessageRouteActive ? (
-                                // SVG icon to display when the route is active
-                                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#EA3323"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
-                            ) : (
-                                // Default SVG icon
-                                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#F00000"><path d="M146.67-160q-27 0-46.84-19.83Q80-199.67 80-226.67v-506.66q0-27 19.83-46.84Q119.67-800 146.67-800h424q-3.34 16.67-4 33.33-.67 16.67 2 33.34H150l330 212L629.33-617q11.34 10.33 24.17 18.62 12.83 8.28 26.83 14.38L480-454.67 146.67-670v443.33h666.66v-348q18.87-4.85 35.27-13.59Q865-597 880-608.67v382q0 27-19.83 46.84Q840.33-160 813.33-160H146.67Zm0-573.33v506.66-506.66Zm613.25 86.66q-47.25 0-80.25-33.08-33-33.07-33-80.33 0-47.25 33.08-80.25 33.07-33 80.33-33 47.25 0 80.25 33.08 33 33.07 33 80.33 0 47.25-33.08 80.25-33.07 33-80.33 33Z" /></svg>
-                            )}
-                        </Link>
-                        <Link
-                            to="#"
-                            className="loggedInUser"
-                        >
+  const navItems = [
+    { name: "Home", path: "/interviewer/dashboard" },
+    { name: "Profile", path: "profile" },
+    { name: "Calendar", path: "calendar" },
+    { name: "Receivables", path: "receivables" },
+    { name: "Interview History", path: "interview-history" },
+  ];
 
-                            <img
-                                className='p-2 h-16 rounded-full overflow-hidden'
-                                src="https://t4.ftcdn.net/jpg/05/86/94/95/360_F_586949566_ZRFuSSy8GSY6npXqnrJWhEdjqmlGURf2.jpg" alt="LoggedIn User" />
+  const icons = {
+    home: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    ),
+    layout: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="3" y1="9" x2="21" y2="9"></line>
+        <line x1="9" y1="21" x2="9" y2="9"></line>
+      </svg>
+    ),
+    layers: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </svg>
+    ),
+    "file-text": (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    ),
+    bell: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+    ),
+    copy: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    ),
+    calendar: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+    ),
+    clock: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+    ),
+    briefcase: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+      </svg>
+    ),
+    file: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+        <polyline points="13 2 13 9 20 9"></polyline>
+      </svg>
+    ),
+    video: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polygon points="23 7 16 12 23 17 23 7"></polygon>
+        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+      </svg>
+    ),
+    check: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    ),
+    user: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    ),
+    users: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+    ),
+    star: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+    ),
+    message: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    ),
+  };
 
-                        </Link>
 
-                    </div>
-                </header>
-               <div>
-                <Outlet/>
-               </div>
+
+
+  return (
+    <div>
+      <header className="bg-white shadow-sm">
+        <div className="max-w-full mx-auto px-4 lg:px-6">
+          <div className="flex justify-between items-center h-14">
+            <div className="flex items-center ">
+              <div className="flex-shrink-0 flex items-center">
+                <div className="bg-blue-500 text-white p-1 rounded mr-2">
+                  {icons.layout}
+                </div>
+                <span className="font-medium text-gray-700">Recruemeta</span>
+              </div>
             </div>
-        </>
-    )
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                {icons.bell}
+                <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center text-xs">
+                  JP
+                </div>
+                <div className="text-sm hidden lg:block">
+                  <div className="font-medium text-gray-700">Dell Kumar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation */}
+      <div className="max-w-full mx-auto px-4 lg:px-6 ">
+        <div className="flex space-x-4 mt-1 overflow-x-auto pb-2 scrollbar-hide">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.name}
+            to={item.path}
+            className={`flex items-center px-1 py-2 text-sm font-medium whitespace-nowrap ${
+              activeTab === item.name
+                ? "text-blue-500 border-b-2 border-blue-500"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+            onClick={() => setActiveTab(item.name)}
+          >
+            {item.name}
+          </NavLink>
+        ))}
+        </div>
+      </div>
+      <Outlet />
+    </div>
+  );
 }
 
-export default Layout
+export default Layout;
