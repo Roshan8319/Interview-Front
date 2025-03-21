@@ -20,6 +20,8 @@ import { Layout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Pro
 import { Hello } from './Components'
 import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
 
+import Background from './Components/Background'
+
 
 const router = createBrowserRouter( 
   createRoutesFromElements(
@@ -147,6 +149,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='interview/:meetingLink' element={<MeetingScreen />} />
+      <Route path='bg' element={<Background />} />
       
 
 
