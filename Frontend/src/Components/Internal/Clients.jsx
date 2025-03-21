@@ -103,6 +103,16 @@ function Clients() {
       setFormData({...formData, [e.target.name]: e.target.value})
   }
 
+
+
+  
+
+
+
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -117,9 +127,9 @@ function Clients() {
       });
   
       const response = await axios.post(`${baseUrl}/api/v1/internal/add-client`, clientData, {
-        withCredentials: true, // Ensures cookies are sent
+        withCredentials: true, 
         headers: {
-          'Content-Type': 'multipart/form-data', // Set the appropriate Content-Type
+          'Content-Type': 'multipart/form-data', 
         },
       });
   
