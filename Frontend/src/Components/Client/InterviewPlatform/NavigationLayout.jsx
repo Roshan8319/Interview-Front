@@ -523,7 +523,8 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}
+    >
       <CssBaseline />
 
       {/* AppBar - Top Navigation Bar */}
@@ -791,9 +792,18 @@ export default function MiniDrawer() {
       </Box>
 
       {/* Main Content */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, background: " #EBDFD7" }}>
-        <DrawerHeader />
-        <Outlet />
+      <Box component="main" sx={{ 
+        // flexGrow: 1, p: 3, 
+        // backgroundColor:"green"
+       }}
+       className="w-full h-full"
+       >
+        <DrawerHeader
+
+        />
+        <Outlet 
+        
+        />
       </Box>
     </Box>
   );

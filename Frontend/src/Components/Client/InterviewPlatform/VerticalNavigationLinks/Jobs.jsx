@@ -37,7 +37,7 @@ const Jobs = () => {
   };
 
   return (
-    <div className='w-[100%] h-[100%] bg-[#EBDFD7] ' >
+    <div className='w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4 flex flex-col' >
     <div className='flex flex-col gap-y-4'>
       <div className='' >
         <div className="flex flex-col w-full justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
