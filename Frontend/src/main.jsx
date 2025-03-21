@@ -48,7 +48,7 @@ const router = createBrowserRouter(
       <Route path='client' element={<NavigationLayout />}>
         <Route path='message' element={<Message />} />
         <Route path='dashboard' element={<Dashboard />} />
-        <Route path='settings' element={<Settings />} />
+        {/* <Route path='settings' element={<Settings />} /> */}
         <Route path='jobs' element={<Jobs />} />
         <Route path='candidates' element={<Candidates />} />
         {/* <Route path='analytics' element={<Analytics />} /> */}
@@ -57,9 +57,9 @@ const router = createBrowserRouter(
         <Route path='filter' element={<AnalyticsDateFilter />} />
         </Route>
 
-        <Route path='integration' element={<Integration />} />
+        {/* <Route path='integration' element={<Integration />} /> */}
         <Route path='finance' element={<Finance />} />
-        <Route path='engagement' element={<Engagement />} />
+        {/* <Route path='engagement' element={<Engagement />} /> */}
         <Route path='candidates/addcandidate' element={<ClientAddCandidate/>}/>
         <Route path='candidates/schedule-interview' element={<ClientScheduleInterview/>}/>
         <Route path='jobs/addjob' element={<AddJob/>}/>

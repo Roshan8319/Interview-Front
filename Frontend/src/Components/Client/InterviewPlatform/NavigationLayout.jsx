@@ -419,13 +419,13 @@ function NavigationLayout() {
 
     const navItems = [
         { text: 'Dashboard', icon: <DashboardIcon />,icon2:<ActiveDashboardIcon/>, link: '/client/dashboard' },
-        { text: 'Settings', icon: <SettingIcon />,icon2:<ActiveSettingIcon/>, link: '/client/settings' },
+        // { text: 'Settings', icon: <SettingIcon />,icon2:<ActiveSettingIcon/>, link: '/client/settings' },
         { text: 'Jobs', icon: <JobIcon />,icon2:<ActiveJobIcon/>, link: '/client/jobs' },
         { text: 'Candidates', icon: <CandidatesIcon />,icon2:<ActiveCandidatesIcon/>, link: '/client/candidates' },
         { text: 'Analytics', icon: <AnalyticsIcon />,icon2:<ActiveAnalyticsIcon/>, link: '/client/analytics' },
-        { text: 'Integration', icon: <IntegrationIcon />,icon2:<ActiveIntegrationIcon/>, link: '/client/integration' },
+        // { text: 'Integration', icon: <IntegrationIcon />,icon2:<ActiveIntegrationIcon/>, link: '/client/integration' },
         { text: 'Finance', icon: <FinanceIcon />,icon2:<ActiveFinanceIcon/>, link: '/client/finance' },
-        { text: 'Engagement', icon: <EngagementIcon />,icon2:<ActiveEngagementIcon/>, link: '/client/engagement' },
+        // { text: 'Engagement', icon: <EngagementIcon />,icon2:<ActiveEngagementIcon/>, link: '/client/engagement' },
     ];
 
 
