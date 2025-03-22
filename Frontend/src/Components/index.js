@@ -1,18 +1,10 @@
 import Hello from "./Hello";
 
-//SignIn-SignUp Imports
-import SignUpSignInLayout from "./Client/SignUp-SignIn/SignUpSignInLayout";
-import ForgetPass from "./Client/SignUp-SignIn/ForgetPass"
-import LoginUsingEmail from "./Client/SignUp-SignIn/LoginUsingEmail"
-import LoginUsingNumber from "./Client/SignUp-SignIn/LoginUsingNumber"
-import page from "./Client/SignUp-SignIn/page"
-import PasswordReset from "./Client/SignUp-SignIn/PasswordReset"
-import SignIn from "./Client/SignUp-SignIn/SignIn"
-import SignUp from "./Client/SignUp-SignIn/SignUp";
 
 
 //New SignIn Import 
 import SignInPage from "../Components/Authentication/SignInPage"
+import ResetPassword from "./Authentication/ResetPassword";
 
 //Client Imports
 
@@ -63,12 +55,10 @@ import InterviewHistory from "./Interviewer/InterviewHistory";
 
 
 
-//SignIn-SignUp Exports
-export {SignIn,SignUp,ForgetPass,PasswordReset,SignUpSignInLayout,page,LoginUsingEmail,LoginUsingNumber}
 
 //New Sigin page 
 
-export {SignInPage}
+export {SignInPage,ResetPassword}
 
 //Client Exports
 export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, AnalyticsDateFilter,Integration,Finance,Engagement,Message}

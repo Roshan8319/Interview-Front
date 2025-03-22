@@ -2,8 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-//SignIn-SignUp Imports
-import { SignIn, SignUp, ForgetPass, PasswordReset, SignUpSignInLayout, page, LoginUsingEmail, LoginUsingNumber } from './Components'
 import { ClientAddCandidate } from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddCandidate'
 import { ClientScheduleInterview } from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ScheduleInterview'
 import AddJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddJob'
@@ -12,7 +10,7 @@ import ViewJob from './Components/Client/InterviewPlatform/VerticalNavigationLin
 
 
 //New SignIn Page
-import {SignInPage} from './Components'
+import {SignInPage,ResetPassword} from './Components'
 
 
 // Client Imports
@@ -33,24 +31,12 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path='' element={<Hello />} />
-      <Route path='auth'>
-        
-        <Route path='forgetpassword' element={<ForgetPass />} />
-
-
-        <Route path='' element={<SignUpSignInLayout />} >
-          <Route path='signup' element={<SignUp />} />
-          <Route path='signin-mail' element={<LoginUsingEmail />} />
-          <Route path='signin-number' element={<LoginUsingNumber />} />
-          <Route path='resetpassword' element={<PasswordReset />} />
-        </Route>
-
-      </Route>
+     
 
 
 
 
-      <Route path='/auth/forgetpass' element={<ForgetPass />} />
+      
 
       //Client   Routes
       <Route path='client' element={<NavigationLayout />}>
@@ -145,19 +131,16 @@ const router = createBrowserRouter(
 
 
 
-      <Route path='/auth' element={<SignUpSignInLayout />} >
+      <Route path='auth'>
 
-        <Route path='signup' element={<SignUp />} />
-        {/* <Route path='signin' element={<SignIn/>} /> */}
-        <Route path='signin/loginmail' element={<LoginUsingEmail />} />
-        <Route path='signin/loginnumber' element={<LoginUsingNumber />} />
-        <Route path='signin/passwordreset' element={<PasswordReset />} />
+      <Route path='signin' element={<SignInPage/>} />
+      <Route path='reset-password' element={<ResetPassword/>}/>
 
 
       </Route>
 
       <Route path='interview/:meetingLink' element={<MeetingScreen />} />
-      <Route path='/sign' element={<SignInPage/>} />
+      
       
 
 

@@ -6,7 +6,7 @@ function Hello() {
   const navigate = useNavigate();
 // Hello
     const naviToAuth = () =>{
-      navigate('/auth/signup')
+      navigate('/auth/signin')
     }
     const naviToClient =() =>{
       
