@@ -64,7 +64,7 @@ const Jobs = () => {
           {/* Add Client Button */}
           <button
             className="flex items-center justify-center space-x-2 bg-[#007AFF] text-white px-4 py-2 rounded-full text-sm font-medium w-full sm:w-auto shadow-[2px_4px_15px_rgba(5,109,220,0.5)]"
-            onClick={() => navigate(`${location.pathname}/addjob`, console.log("kshfgkjh")
+            onClick={() => navigate(`${location.pathname}/addjob`, console.log()
              )}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -91,9 +91,9 @@ const Jobs = () => {
 
 
 
-      <div className=' w-[100%] bg-[rgba(255,255,255,0.34)] p-2 mt-8 border rounded-lg ' > 
+      <div className=' w-[100%] bg-[rgba(255,255,255,0.34)] p-5 mt-8 border rounded-lg ' > 
         <div>
-          <div className='font-bold text-[18px] ' >Details</div>
+          <div className='font-bold text-[18px] ml-2 ' >Details</div>
           <div>
             <table className='w-[100%] h-[100%] ' >
             <thead>
