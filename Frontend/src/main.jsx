@@ -8,6 +8,7 @@ import { ClientAddCandidate } from './Components/Client/InterviewPlatform/Vertic
 import { ClientScheduleInterview } from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ScheduleInterview'
 import AddJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddJob'
 import JobDetails from "./Components/Client/InterviewPlatform/VerticalNavigationLinks/JobDetails"
+import ViewJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ViewJob'
 // Client Imports
 import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics,AnalyticsDateFilter, Integration, Finance, Engagement, Message } from './Components'
 
@@ -63,6 +64,8 @@ const router = createBrowserRouter(
         <Route path='candidates/addcandidate' element={<ClientAddCandidate/>}/>
         <Route path='candidates/schedule-interview' element={<ClientScheduleInterview/>}/>
         <Route path='jobs/addjob' element={<AddJob/>}/>
+        <Route path='jobs/viewjob' element={<ViewJob/>}/>
+
         <Route path='jobs/jobdetails' element={<JobDetails/>}/>
        
       </Route>

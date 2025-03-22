@@ -1,41 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-
-
-
-const Jobs = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const navigate = useNavigate(); // Initialize useNavigate
-  const location = useLocation(); // Initialize useLocation
-  const rows = [
-    'SDE-II',
-    'SDE-III',
-    'SDET-II',
-    'SDET-I',
-    'EM',
-    'PE',
-    'DEVOPS-II',
-    'SDE-I',
-    'QA-I',
-    'QA-II',
-  ];
-  const jobData = [
-  { title: "Software Development Engineer (SDE-I)", candidates: 40 },
-  { title: "Software Development Engineer (SDE-III)", candidates: 40 },
-  { title: "Engineering Manager", candidates: 40 },
-  { title: "Product Manager", candidates: 40 },
-  { title: "Development Operations (DevOps-I)", candidates: 40 },
-  { title: "Software Development Engineer in Testing (SDET-I)", candidates: 40 },
-];
-
-  const handleArchiveClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+function ViewJob() {
+     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+      const navigate = useNavigate(); // Initialize useNavigate
+      const location = useLocation(); // Initialize useLocation
+      const rows = [
+        'SDE-II',
+        'SDE-III',
+        'SDET-II',
+        'SDET-I',
+        'EM',
+        'PE',
+        'DEVOPS-II',
+        'SDE-I',
+        'QA-I',
+        'QA-II',
+      ];
+      const jobData = [
+      { title: "Intro", candidates: "5 Min", guidelines: "a). xyzzzzzzzzzzzzzzzzzzzzz ", guidelines1: "b). suvvvvvvvvvvvvvvvvvvvvvvvv"   },
+      { title: "Java Concept", candidates: "25 Min", guidelines: "a). xyz ", guidelines1: "b). suv"  },
+      { title: "Database", candidates: "15 Min", guidelines: "a). xyz ", guidelines1: "b). suv"  },
+      { title: "Test Cases", candidates: "10 Min", guidelines: "a). xyz ", guidelines1: "b). suv"  },
+      { title: "FeedBack", candidates: "5 Min", guidelines: "a). xyz ", guidelines1: "b). suv"  },
+     
+    ];
+    
+      const handleArchiveClick = () => {
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
   return (
     <div className='w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4 flex flex-col' >
     <div className='flex flex-col gap-y-4 p-2 '>
@@ -93,30 +90,51 @@ const Jobs = () => {
 
       <div className=' w-[100%] bg-[rgba(255,255,255,0.34)] p-2 mt-8 border rounded-lg ' > 
         <div>
-          <div className='font-bold text-[18px] ' >Details</div>
+            <div className='flex justify-between p-1' >
+                <div className='font-bold text-[20px] ' >Details</div>
+                <div className=' flex gap-x-3' >
+                    <button  >
+                      <div className='bg-white px-2 py-1 border rounded-full text-[15px] text-gray-500 ' >
+                      Job Description
+                      </div>
+                    </button>
+                    <button  >
+                      <div className='bg-white px-2 py-1 border rounded-full text-[15px] text-gray-500 ' >
+                      60 min
+                      </div>
+                    </button>
+                    <button  >
+                      <div className='bg-white px-2 py-1 border rounded-full text-[15px] text-gray-500 ' >
+                      sde-iii
+                      </div>
+                    </button>
+                </div>
+            </div>
           <div>
             <table className='w-[100%] h-[100%] ' >
             <thead>
-              <tr className="border-b ">
-                <th className="py-2 px-4 max-w-max text-start font-medium text-black ">Jobs</th>
-                <th className="py-2 px-4 max-w-max font-medium text-black whitespace-nowrap ">Active Candidates</th>
+              <tr className="border-b w-[100%]  ">
+                <th className="py-2 px-4 w-[10%] text-start font-medium text-black text-[18px] ">Users</th>
+                <th className="py-2 px-4 w-[30%] font-medium text-black whitespace-nowrap text-[18px]  ">Time</th>
+                <th className="py-2 px-4 w-[30%]  font-medium text-start text-black whitespace-nowrap pl-8 text-[18px] ">Guidelines</th>
+                <th className='py-2 px-4 w-[30%]  font-medium text-start text-black whitespace-nowrap pl-8' ></th>
+                <th className='py-2 px-4 w-[30%]  font-medium text-start text-black whitespace-nowrap pl-8' ></th>
+                
                 
               </tr>
             </thead>
             <tbody>
               {jobData.map((job, index) => (
-                <tr key={index} className="border-b">
-                  <td className=" py-2 px-4 max-w-max text-start ">{job.title}</td>
-                  <td className=" py-2 px-4 max-w-max text-center ">{job.candidates}</td>
-                  <td className=" py-2 px-4 max-w-max flex gap-32 ml-40 ">
-                    <button  >
-                      <div className='bg-white px-2 py-1 border rounded-full text-[15px] text-gray-500 ' >
-                      View↗
-                      </div>
-                    </button>
-                    <button > <div className='bg-white px-2 py-1 border rounded-full text-[15px] text-gray-500 whitespace-nowrap ' > + Add Candidates </div></button>
+                <tr key={index} className="border-b w-[100%] p-2 ">
+                  <td className=" py-2 px-4 w-[10%] text-start ">{job.title}</td>
+                  <td className=" py-2 px-4 w-[30%] text-center  ">{job.candidates}</td>
+                  <td className=" py-2 px-4 w-[25%] text-start  ">
+                    <div>{job.guidelines}</div>
                   </td>
-                  <td className='py-2 px-4 max-w-max text-center ml-[50%] ' >
+                  <td className='py-2 px-4 w-[25%] text-start   ' >
+                    <div>{job.guidelines1}</div>
+                  </td>
+                  <td className='py-2 px-4 w-[1%] text-start   ' >
                     <svg fill="#000000" width="20px" height="20px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Glyph" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M13,16c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,14.346,13,16z" id="XMLID_294_"></path><path d="M13,26c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,24.346,13,26z" id="XMLID_295_"></path><path d="M13,6c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,4.346,13,6z" id="XMLID_297_"></path></g></svg>
                   </td>
                 </tr>
@@ -142,5 +160,4 @@ const Jobs = () => {
   )
 }
 
-
-export default Jobs;
+export default ViewJob

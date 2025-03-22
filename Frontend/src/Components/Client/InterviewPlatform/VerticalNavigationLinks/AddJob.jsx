@@ -56,167 +56,72 @@ const AddJob = () => {
     setSelectedEssentials(selectedEssentials.filter((item) => item !== essential));
   };
 
-  const styles = {
-    container: {
-      width: '100%',
-      maxWidth: '600px',
-      margin: '20px 0px',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      color: '#212529',
-    },
-    formRow: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: '10px',
-    },
-    label: {
-      fontSize: '14px',
-      fontWeight: 600,
-      width: '35%',
-      height:'100%',
-      marginRight: '20px',
-      textAlign: 'right',
-      alignItems:'center',
-      justifyContent:'center',
-    },
-    input: {
-      fontSize: '14px',
-      padding: '8px',
-      borderRadius: '6px',
-      border: '1px solid #ccc',
-      width: '60%',
-      
-    },
-    select: {
-      fontSize: '14px',
-      padding: '10px',
-      borderRadius: '6px',
-      border: '1px solid #ccc',
-      width: '60%',
-    },
-    uploadBox: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: '2px dashed #ccc',
-      borderRadius: '6px',
-      padding: '10px',
-      marginBottom: '10px',
-      cursor: 'pointer',
-      
-    },
-    uploadIcon: {
-      marginRight: '5px',
-      fontSize: '18px',
-    },
-    textarea: {
-      fontSize: '14px',
-      padding: '10px',
-      borderRadius: '6px',
-      border: '1px solid #ccc',
-      width: '100%',
-      resize: 'none',
-    },
-    essentialsList: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: '10px',
-      marginTop: '10px',
-    },
-    essentialTag: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      background: 'white',
-      fontSize: '12px',
-      fontWeight: 600,
-      padding: '6px 12px',
-      borderRadius: '10px',
-      border: '1px solid #ccc',
-    },
-    removeButton: {
-      marginLeft: '8px',
-      background: 'none',
-      border: 'none',
-      color: 'black',
-      cursor: 'pointer',
-      fontSize: '14px',
-      fontWeight: 'bold',
-    },
-    saveButton: {
-      display: 'block',
-      width: '15%',
-      marginLeft: '500px',
-      padding: '10px',
-      backgroundColor: '#007aff',
-      color: 'white',
-      border: 'none',
-      borderRadius: '20px',
-      fontSize: '16px',
-      cursor: 'pointer',
-      textAlign: 'center',
-    },
-    uploadIconImage: {
-        width: '24px', // Adjust as per design
-        height: '24px',
-        marginRight: '8px',
-      },
-      
-  };
+  
 
   
 
   return (
-    <div className='flex gap-x-14' >
-    <div style={styles.container}   >
-      <form action="">
-      <div style={styles.formRow}>
-        <label style={styles.label}>Job Title</label>
-        <input type="text" name='jobTitle' placeholder="Enter Job Title" value={formData.jobTitle} onChange={handleChange} style={styles.input} className='text-black' />
-      </div>
-      <div style={styles.formRow} className='' >
-        <label style={styles.label} className='' >Job Role</label>
-        <input className='' name='jobRole' type="text" value={formData.jobRole} onChange={handleChange} placeholder='Enter Job Role' style={styles.input}  />
-      </div>
-
-      <div style={styles.formRow}>
-        <label style={styles.label}>Hiring Manager Email</label>
-        <input className='' name='hiringManagerEmail' type="email" value={formData.hiringManagerEmail} onChange={handleChange} placeholder='Enter Email'  style={styles.input}  />
-      </div>
-
-      <div style={styles.formRow}>
-        <label style={styles.label}>Total Positions</label>
-        <input type="number" name='totalPositions' value={formData.totalPositions} onChange={handleChange} placeholder='Enter No. of Positions' style={styles.input} />
-      </div>
-
-      <div style={styles.formRow}>
-        <label style={styles.label}>Employment Type</label>
-        <select style={styles.select} name='employmentType' value={formData.employment} onChange={(e)=>setEmployment(e.target.value)} >
+    <div className=' min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7]  items-center  ' >
+        
+    
+      <form className='w-[80%] flex items-center  mt-10 ' action="">
+      <div className=" w-[100%] bg-[rgba(255,255,255,0.34)]  grid grid-cols-2  p-2 rounded-2xl ">
+{/* hjgefhhkjshkldsf */}
+        <div className=' w-[100%]' >
+            <div className='flex flex-col justify-between w-[90%] '  >
+            <label  className='whitespace-nowrap text-[15px] ' >Job Title</label>
+            <input type="text" name='jobTitle' placeholder="Enter Job Title" value={formData.jobTitle} onChange={handleChange}  className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4 ' />
+          </div>
+          <div className='flex flex-col w-[90%]' >
+          <label  className='whitespace-nowrap text-[15px] ' >Hiring Manager Email</label>
+          <input className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)]  mb-4' name='hiringManagerEmail' type="email" value={formData.hiringManagerEmail} onChange={handleChange} placeholder='Enter Email'    />
+          </div>
+          <div className='flex flex-col w-[90%] h-fit '>
+        <label className='whitespace-nowrap text-[15px]' >Employment Type</label>
+        <select  name='employmentType' value={formData.employment} className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] ' onChange={(e)=>setEmployment(e.target.value)} >
           <option value="FT">Full Time</option>
           <option value="INT">Internship</option>
         </select>
       </div>
+          
 
-      <div style={styles.formRow}  >
-  <label style={styles.label}>Job Description</label>
-  <div style={{ width: '60%' }}>
+        </div>
+
+
+
+{/* //kjhsfjhjshkfhkjsh */}
+        <div className=' w-[100%] ' >
+        <div className='flex flex-col w-[90%]  '  >
+        <label  className='whitespace-nowrap text-[15px]' >Job Role</label>
+        <input className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' name='jobRole' type="text" value={formData.jobRole} onChange={handleChange} placeholder='Enter Job Role'   />
+      </div>
+      <div className='flex flex-col w-[90%]'>
+        <label className='whitespace-nowrap text-[15px]' >Total Positions</label>
+        <input type="number" className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' name='totalPositions' value={formData.totalPositions} onChange={handleChange} placeholder='Enter No. of Positions'  />
+      </div>
+      
+      <div className='flex flex-col w-[90%]' >
+  <label className='whitespace-nowrap text-[15px]' >Job Description</label>
+  <div className='w-[100%]  ' >
     <textarea
       placeholder="Paste Job Description Here"
       rows="4"
       name='jobDescription'
       value={formData.jobDescription}
       onChange={handleChange}
-      style={styles.textarea}
+      className='text-black w-[100%] px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4'
     ></textarea>
   </div>
 </div>
+          
 
-      <div style={styles.formRow}>
-        <label style={styles.label}>Essentials</label>
+        </div>
+      
+     <div className= '' >
+     <div className='flex flex-col w-[90%]'>
+        <label className='whitespace-nowrap text-[15px]' >Essentials</label>
         <div style={{ width: '60%' }}>
-          <select style={styles.select} name='essentials' onChange={handleAddEssential}>
+          <select  name='essentials' className='text-black w-[100%] px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' onChange={handleAddEssential}>
             <option value="">Select an Essential</option>
             {essentialOptions.map((essential) => (
               <option key={essential} value={essential}>
@@ -224,12 +129,12 @@ const AddJob = () => {
               </option>
             ))}
           </select>
-          <div style={styles.essentialsList}>
+          <div>
             {selectedEssentials.map((essential) => (
-              <div key={essential} style={styles.essentialTag}>
+              <div key={essential} >
                 {essential}
                 <button
-                  style={styles.removeButton}
+                  
                   onClick={() => handleRemoveEssential(essential)}
                 >
                   ✕
@@ -239,12 +144,56 @@ const AddJob = () => {
           </div>
         </div>
       </div>
+      </div>
+      <div>
+      <div className='flex flex-col w-[90%]'>
+        <label className='whitespace-nowrap text-[15px]' >Essentials</label>
+        <div style={{ width: '60%' }}>
+          <select  name='essentials' className='text-black w-[100%] px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' onChange={handleAddEssential}>
+            <option value="">Select an Essential</option>
+            {essentialOptions.map((essential) => (
+              <option key={essential} value={essential}>
+                {essential}
+              </option>
+            ))}
+          </select>
+          <div>
+            {selectedEssentials.map((essential) => (
+              <div key={essential} >
+                {essential}
+                <button
+                  
+                  onClick={() => handleRemoveEssential(essential)}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+     </div>
+     <div></div>
+     <div className="flex justify-end mt-3">
+          <button className="flex items-center gap-2 text-[#ff7043] bg-white px-6 py-3 rounded-full text-sm font-medium shadow-md">
+            Next →
+          </button>
+        </div>
 
-      <button onClick={handleSubmit}  className="block w-[15%] ml-[500px] p-2  text-white border-none rounded-[20px] text-[16px] cursor-pointer text-center  border-[3px] py-1 px-3   transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] "  >Save</button>
-    
+      
+      
+
+      
+      
+   
+
+      
+      
+            
+            </div>
       </form>
-    </div>
-    <div className=' ' style={styles.container}   >
+   
+    <div className=' '   >
               
         
 
