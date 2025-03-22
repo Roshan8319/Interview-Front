@@ -10,6 +10,10 @@ import PasswordReset from "./Client/SignUp-SignIn/PasswordReset"
 import SignIn from "./Client/SignUp-SignIn/SignIn"
 import SignUp from "./Client/SignUp-SignIn/SignUp";
 
+
+//New SignIn Import 
+import SignInPage from "../Components/Authentication/SignInPage"
+
 //Client Imports
 
 import NavigationLayout from "./Client/InterviewPlatform/NavigationLayout";
@@ -61,6 +65,10 @@ import InterviewHistory from "./Interviewer/InterviewHistory";
 
 //SignIn-SignUp Exports
 export {SignIn,SignUp,ForgetPass,PasswordReset,SignUpSignInLayout,page,LoginUsingEmail,LoginUsingNumber}
+
+//New Sigin page 
+
+export {SignInPage}
 
 //Client Exports
 export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, AnalyticsDateFilter,Integration,Finance,Engagement,Message}

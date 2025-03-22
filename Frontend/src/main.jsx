@@ -9,9 +9,14 @@ import { ClientScheduleInterview } from './Components/Client/InterviewPlatform/V
 import AddJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddJob'
 import JobDetails from "./Components/Client/InterviewPlatform/VerticalNavigationLinks/JobDetails"
 import ViewJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ViewJob'
+
+
+//New SignIn Page
+import {SignInPage} from './Components'
+
+
 // Client Imports
 import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics,AnalyticsDateFilter, Integration, Finance, Engagement, Message } from './Components'
-
 //Agency Imports
 import { AgencyNavigationLayout,AgencyDashboard,AgencyCandidates,AgencyAddCandidate,AgencyScheduleInterview } from './Components'
 //Internal Imports
@@ -20,6 +25,8 @@ import {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInter
 import { Layout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables } from './Components'
 import { Hello } from './Components'
 import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
+
+import Background from './Components/Background'
 
 
 const router = createBrowserRouter( 
@@ -150,6 +157,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='interview/:meetingLink' element={<MeetingScreen />} />
+      <Route path='/sign' element={<SignInPage/>} />
       
 
 
