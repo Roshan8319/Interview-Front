@@ -8,9 +8,12 @@ import { ClientAddCandidate } from './Components/Client/InterviewPlatform/Vertic
 import { ClientScheduleInterview } from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ScheduleInterview'
 import AddJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddJob'
 import JobDetails from "./Components/Client/InterviewPlatform/VerticalNavigationLinks/JobDetails"
+
+//New SignIn Page
+import {SignInPage} from './Components'
+
 // Client Imports
 import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics,AnalyticsDateFilter, Integration, Finance, Engagement, Message } from './Components'
-
 //Agency Imports
 import { AgencyNavigationLayout,AgencyDashboard,AgencyCandidates,AgencyAddCandidate,AgencyScheduleInterview } from './Components'
 //Internal Imports
@@ -149,7 +152,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='interview/:meetingLink' element={<MeetingScreen />} />
-      <Route path='bg' element={<Background />} />
+      <Route path='/sign' element={<SignInPage/>} />
       
 
 
