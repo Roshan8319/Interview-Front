@@ -1,9 +1,62 @@
 import React from "react";
+import { useState } from "react";
 import Bg from "../../assets/bg.jpg";
 import Recrumeta from "../../assets/Recrumeta.png";
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignInPage() {
+
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
+  const navigate = useNavigate();
+
+  const [signinas, setSigninas]= useState('');
+  const [errorMessage,setErrorMessage]=useState("");
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const [loading,setLoading]=useState(false)
+
+  const handleLoginViaEmail = async (e) =>{
+    e.preventDefault();
+    console.log(email,password);
+    console.log(signinas);
+    setLoading(true)
+    
+    try { 
+        const targetUrl = signinas === "CLIENT"
+            ? `${baseUrl}/api/v1/client/signIn`
+            : signinas === "INTERNAL"
+                ? `${baseUrl}/api/v1/internal/signIn`
+                : `${baseUrl}/api/v1/interviewer/signIn`;
+
+        const response = await axios.post(targetUrl, { email, password });
+
+        console.log(response);
+        const accessToken = response.data.data.accessToken;
+        const refreshToken = response.data.data.refreshToken;
+        Cookies.set('accessToken', accessToken);
+        Cookies.set('refreshToken', refreshToken);
+
+        if (response.status === 200) {
+            const dashboardPath = signinas === "CLIENT"
+                ? "/client/dashboard"
+                : signinas === "INTERNAL"
+                ? "/internal/dashboard"
+                : "/interviewer/dashboard"
+                
+            navigate(dashboardPath);
+        }
+    } catch (error) {
+        const errorMessage = error?.response?.data?.error?.[0]?.error || "An error occurred";
+        setErrorMessage(errorMessage);
+    } finally {
+        setLoading(false);
+    }
+}
+
   return (
     <div
       className="w-screen h-screen bg-cover bg-center "
@@ -32,6 +85,8 @@ function SignInPage() {
                     <input
                       id="email"
                       type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-[90%] py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                       placeholder="Enter Your Email"
                     />
@@ -41,6 +96,8 @@ function SignInPage() {
                     <input
                       id="password"
                       type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-[90%] py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                       placeholder="Enter Your Password"
                     />
@@ -114,6 +171,8 @@ function SignInPage() {
                       <div class="relative w-[90%]">
                         <select
                           id="role"
+                          value={signinas}
+                          onChange={(e)=>setSigninas(e.target.value)}
                           className="w-full py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 appearance-none cursor-pointer"
                         >
                           <option
@@ -124,15 +183,10 @@ function SignInPage() {
                           >
                             Select Your Role
                           </option>
-                          <option value="client" className="option-style">
-                            Client
-                          </option>
-                          <option value="interviewer" className="option-style">
-                            Interviewer
-                          </option>
-                          <option value="internal" className="option-style">
-                            Internal
-                          </option>
+                          <option value="CLIENT">Client</option>
+                          <option value="INTERVIEWER">Interviewer</option>
+                          <option value="INTERNAL">Internal</option>
+
                         </select>
 
                         <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
@@ -156,7 +210,8 @@ function SignInPage() {
                       </div>
                     </div>
                     <div>
-                      <button class="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group">
+                      <button onClick={handleLoginViaEmail}
+                              class="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group">
                         Sign in
                         <svg
                           width="25"
