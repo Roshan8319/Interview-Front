@@ -24,6 +24,7 @@ import { useTheme, styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Cookies from 'js-cookie';
 
 const drawerWidth = 240;
 
@@ -521,6 +522,22 @@ export default function MiniDrawer() {
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
+  const [username, setUsername] = useState("");
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("displayName");
+    
+    if (storedUsername) {
+        setUsername(storedUsername);
+    }
+}, []);
+const handleLogOut = async ()=>{
+  
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+      localStorage.removeItem("displayName");
+      
+      navigate("/auth/signin");
+  }
 
   return (
     <Box sx={{ display: "flex" }}
@@ -546,8 +563,8 @@ export default function MiniDrawer() {
                 />
               </div>
               <div className="">
-                <p className="text-black text-xl">Sumit Kumar</p>
-                <p className="text-[#292D32] text-sm">Product Manager</p>
+                <p className="text-black text-xl">{username ? `${username}` : "Sumit"}</p>
+                {/* <p className="text-[#292D32] text-sm">Product Manager</p> */}
               </div>
               <button onClick={toggleDropdown} className="focus:outline-none">
                 <svg
@@ -585,6 +602,7 @@ export default function MiniDrawer() {
                     </a>
                     <a
                       href="#"
+                      onClick={handleLogOut}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >

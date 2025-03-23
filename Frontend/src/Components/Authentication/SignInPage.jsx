@@ -1,11 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Bg from "../../assets/bg.jpg";
 import Recrumeta from "../../assets/Recrumeta.png";
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Load from "../../assets/Load";
 
 function SignInPage() {
 
@@ -17,7 +18,14 @@ function SignInPage() {
   const [errorMessage,setErrorMessage]=useState("");
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 
+    500);
+  },[]);
 
   const handleLoginViaEmail = async (e) =>{
     e.preventDefault();
@@ -37,9 +45,20 @@ function SignInPage() {
         console.log(response);
         const accessToken = response.data.data.accessToken;
         const refreshToken = response.data.data.refreshToken;
+        let displayName = "";
+
+        if (signinas === "CLIENT") {
+            displayName = response.data.data.client.companyName; // Store company name
+        } else if (signinas === "INTERVIEWER") {
+            displayName = response.data.data.interviewer.firstName; // Store interviewer's name
+        } 
+        
+        
         Cookies.set('accessToken', accessToken);
         Cookies.set('refreshToken', refreshToken);
-
+        localStorage.setItem('displayName', displayName);
+        
+        
         if (response.status === 200) {
             const dashboardPath = signinas === "CLIENT"
                 ? "/client/dashboard"
@@ -57,7 +76,13 @@ function SignInPage() {
     }
 }
 
+
+  
+
   return (
+    <div className="w-[100%] h-[100%] " >
+        {loading?<Load/>: <> 
+      
     <div
       className="w-screen h-screen bg-cover bg-center "
       style={{ backgroundImage: `url(${Bg})` }}
@@ -262,6 +287,9 @@ function SignInPage() {
           </div>
         </div>
       </div>
+    </div>
+    </>
+}
     </div>
   );
 }
