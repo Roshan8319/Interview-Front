@@ -158,7 +158,7 @@ function Candidates() {
   const currentData = people.slice(startIndex, endIndex);
 
   return (
-    <div className="flex flex-col gap-y-4 px-6 pt-2  bg-[#EBDFD7]">
+    <div className="flex flex-col gap-y-4 px-6 pt-2 bg-[#EBDFD7]">
       <div>
         <div className="flex flex-col w-full justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
           {/* Search Input */}
@@ -180,17 +180,21 @@ function Candidates() {
           </div>
 
           {/* Add Client Button */}
-          <button
+          {/* <button
             type="button"
-            class="relative w-[150px] h-10 flex items-center rounded-xl overflow-hidden border border-[#E65F2B] bg-[#E65F2B] cursor-pointer transition-all duration-300 hover:bg-[#cd4b18] active:border-[#72290d] group"
+            onClick={() => navigate(`${location.pathname}/addcandidate`)}
+            class="relative w-[170px] h-10 flex items-center rounded-xl overflow-hidden border border-[#E65F2B] bg-[#E65F2B] cursor-pointer transition-all duration-300 hover:bg-[#cd4b18] active:border-[#72290d] group"
           >
-            <span class="transform translate-x-[30px] text-white font-semibold transition-all duration-300 group-hover:text-transparent">
+
+            <span class=" pl-2 absolute left-1 text-white font-semibold transition-all duration-300 group-hover:text-transparent">
               Add Candidate
             </span>
-            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-[148px] group-hover:transform group-hover:translate-x-0 active:bg-green-700">
+
+
+            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="30"
+                width="24"
                 height="24"
                 viewBox="0 0 24 24"
                 stroke-width="2"
@@ -204,37 +208,39 @@ function Candidates() {
                 <line y2="12" y1="12" x2="19" x1="5"></line>
               </svg>
             </span>
-          </button>
+          </button> */}
+
+
         </div>
       </div>
 
       <div className="w-full flex items-center justify-evenly">
-        <div className="w-[98%] grid grid-cols-5 gap-x-5 justify-evenly">
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
+        <div className="w-[98%] grid grid-cols-5 gap-x-5 justify-evenly ">
+          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
             <span className="text-sm text-black font-extralight">
               Total Candidates
             </span>
             <span className="text-[24px] font-semibold">750</span>
           </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
+          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
             <span className="text-sm text-black font-extralight">
               To be Scheduled
             </span>
             <span className="text-[24px] font-semibold">26</span>
           </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
+          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
             <span className="text-sm text-black font-extralight">
               In Progress
             </span>
             <span className="text-[24px] font-semibold">56</span>
           </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
+          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
             <span className="text-sm text-black font-extralight">
               Recommended
             </span>
             <span className="text-[24px] font-semibold">26</span>
           </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
+          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
             <span className="text-sm text-black font-extralight">Rejected</span>
             <span className="text-[24px] font-semibold">200</span>
           </div>
@@ -322,9 +328,9 @@ function Candidates() {
           </div>
         </div>
       </div>
-
-      {currentData.map((person, index) => (
-        <div key={index} className="flex flex-col w-full">
+      <div className="bg-[rgba(255,255,255,0.34)] p-2 border rounded-2xl shadow mb-4 " >
+        {currentData.map((person, index) => (
+          <div key={index} className="flex flex-col w-full">
           <div className="w-full flex items-center justify-evenly">
             <div
               className="w-[98%] h-[80px] grid gap-x-5"
@@ -391,10 +397,12 @@ function Candidates() {
               }}
             />
           </div>
-        </div>
-      ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
 export default Candidates;
+
