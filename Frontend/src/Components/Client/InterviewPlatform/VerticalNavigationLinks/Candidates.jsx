@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Candidates() {
   const location = useLocation();
@@ -10,8 +10,21 @@ function Candidates() {
     status: "All",
   });
 
-  const role = ["SDE II", "SDE III", "SDET I", "EM", "SDE I - Frontend", "SDE II - Frontend"];
-  const status = ["All", "Recommended", "Not Recommended", "Scheduled", "Not Scheduled"];
+  const role = [
+    "SDE II",
+    "SDE III",
+    "SDET I",
+    "EM",
+    "SDE I - Frontend",
+    "SDE II - Frontend",
+  ];
+  const status = [
+    "All",
+    "Recommended",
+    "Not Recommended",
+    "Scheduled",
+    "Not Scheduled",
+  ];
   // All
   const handleSelect = (category, value) => {
     setSelectedFilters((prev) => ({
@@ -25,7 +38,7 @@ function Candidates() {
       name: "Ananya Sharma",
       status: "Recommended",
       role: "SDE II",
-      type: "Agency",
+      email: "sumit.kumar.mahto341@gmail.com",
       date: "MON, 4 DEC",
       score: 450,
     },
@@ -33,7 +46,7 @@ function Candidates() {
       name: "Rohan Verma",
       status: "Not Recommended",
       role: "SDET I",
-      type: "Internal",
+      email: "sumit@gmail.com",
       date: "TUE, 5 DEC",
       score: 320,
     },
@@ -41,7 +54,7 @@ function Candidates() {
       name: "Vikram Singh",
       status: "Not Scheduled",
       role: "EM",
-      type: "Agency",
+      email: "sumit@gmail.com",
       date: "WED, 6 DEC",
       score: 400,
     },
@@ -49,7 +62,7 @@ function Candidates() {
       name: "Priya Desai",
       status: "Scheduled",
       role: "SDE II - Frontend",
-      type: "Agency",
+      email: "sumit@gmail.com",
       date: "THU, 7 DEC",
       score: 360,
     },
@@ -57,7 +70,7 @@ function Candidates() {
       name: "Karthik Iyer",
       status: "Recommended",
       role: "SDE III",
-      type: "Internal",
+      email: "sumit@gmail.com",
       date: "FRI, 8 DEC",
       score: 490,
     },
@@ -65,7 +78,7 @@ function Candidates() {
       name: "Aarav Kapoor",
       status: "Not Recommended",
       role: "SDE I",
-      type: "Internal",
+      email: "sumit@gmail.com",
       date: "TUE, 16 AUG 24",
       score: 320,
     },
@@ -73,7 +86,7 @@ function Candidates() {
       name: "Meera Nair",
       status: "Recommended",
       role: "SDE II",
-      type: "Client",
+      email: "sumit@gmail.com",
       date: "WED, 17 AUG 24",
       score: 470,
     },
@@ -81,7 +94,7 @@ function Candidates() {
       name: "Shreya Banerjee",
       status: "Not Scheduled",
       role: "EM",
-      type: "Internal",
+      email: "sumit@gmail.com",
       date: "THU, 18 AUG 24",
       score: 390,
     },
@@ -89,7 +102,7 @@ function Candidates() {
       name: "Rahul Gupta",
       status: "Scheduled",
       role: "SDET III",
-      type: "Internal",
+      email: "sumit@gmail.com",
       date: "FRI, 19 AUG 24",
       score: 480,
     },
@@ -97,7 +110,7 @@ function Candidates() {
       name: "Tanvi Reddy",
       status: "Recommended",
       role: "Data Scientist",
-      type: "Client",
+      email: "sumit@gmail.com",
       date: "MON, 20 AUG 24",
       score: 450,
     },
@@ -105,7 +118,7 @@ function Candidates() {
       name: "Arjun Khanna",
       status: "Not Recommended",
       role: "SDE II - Backend",
-      type: "Agency",
+      email: "sumit@gmail.com",
       date: "TUE, 21 AUG 24",
       score: 310,
     },
@@ -113,7 +126,7 @@ function Candidates() {
       name: "Ishita Malhotra",
       status: "Scheduled",
       role: "UI/UX Designer",
-      type: "Client",
+      email: "sumit@gmail.com",
       date: "WED, 22 AUG 24",
       score: 370,
     },
@@ -121,7 +134,7 @@ function Candidates() {
       name: "Aditya Roy",
       status: "Not Scheduled",
       role: "Product Manager",
-      type: "Internal",
+      email: "sumit@gmail.com",
       date: "THU, 23 AUG 24",
       score: 420,
     },
@@ -129,12 +142,11 @@ function Candidates() {
       name: "Sanya Bhatia",
       status: "Recommended",
       role: "QA Lead",
-      type: "Agency",
+      email: "sumit@gmail.com",
       date: "FRI, 24 AUG 24",
       score: 490,
     },
   ]);
-
 
   const itemsPerPage = 6; // Number of items per page
   const [currentPage, setCurrentPage] = useState(1);
@@ -146,14 +158,14 @@ function Candidates() {
   const currentData = people.slice(startIndex, endIndex);
 
   return (
-    <div className='flex flex-col gap-y-4'>
+    <div className="flex flex-col gap-y-4 px-6 pt-2  bg-[#EBDFD7]">
       <div>
         <div className="flex flex-col w-full justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
           {/* Search Input */}
-          <div className="flex items-center rounded-full px-4 py-2 w-[446px] border-gray-300 border focus-within:border-blue-700">
+          <div className="flex items-center rounded-full px-4 py-2 w-[446px] bg-[#F6F1EE] border-gray-300 border focus-within:border-[#F6F1EE]">
             <input
               type="text"
-              placeholder="Search job by Name, Email & Mobile Number"
+              placeholder="Search candidate by name"
               className="flex-1 bg-transparent text-gray-600 outline-none text-sm"
             />
             <svg
@@ -167,58 +179,59 @@ function Candidates() {
             </svg>
           </div>
 
-
-
           {/* Add Client Button */}
           <button
-            className="flex items-center justify-center space-x-2 bg-[#007AFF] text-white px-4 py-2 rounded-full text-sm font-medium w-full sm:w-auto shadow-[2px_4px_15px_rgba(5,109,220,0.5)]"
-            onClick={() => navigate(`${location.pathname}/addcandidate`)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-            <span> Add Candidate</span>
+            type="button"
+            class="relative w-[150px] h-10 flex items-center rounded-xl overflow-hidden border border-[#E65F2B] bg-[#E65F2B] cursor-pointer transition-all duration-300 hover:bg-[#cd4b18] active:border-[#72290d] group"
+          >
+            <span class="transform translate-x-[30px] text-white font-semibold transition-all duration-300 group-hover:text-transparent">
+              Add Candidate
+            </span>
+            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-[148px] group-hover:transform group-hover:translate-x-0 active:bg-green-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke="currentColor"
+                fill="none"
+                class="stroke-white"
+              >
+                <line y2="19" y1="5" x2="12" x1="12"></line>
+                <line y2="12" y1="12" x2="19" x1="5"></line>
+              </svg>
+            </span>
           </button>
         </div>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
       <div className="w-full flex items-center justify-evenly">
         <div className="w-[98%] grid grid-cols-5 gap-x-5 justify-evenly">
           <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">Total Candidates</span>
+            <span className="text-sm text-black font-extralight">
+              Total Candidates
+            </span>
             <span className="text-[24px] font-semibold">750</span>
           </div>
           <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">To be Scheduled</span>
+            <span className="text-sm text-black font-extralight">
+              To be Scheduled
+            </span>
             <span className="text-[24px] font-semibold">26</span>
           </div>
           <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">In Progress</span>
+            <span className="text-sm text-black font-extralight">
+              In Progress
+            </span>
             <span className="text-[24px] font-semibold">56</span>
           </div>
           <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">Recommended</span>
+            <span className="text-sm text-black font-extralight">
+              Recommended
+            </span>
             <span className="text-[24px] font-semibold">26</span>
           </div>
           <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[#E5ECF6] shadow-md rounded-lg">
@@ -228,45 +241,32 @@ function Candidates() {
         </div>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div className="py-4 sticky top-[60px] bg-white">
+      <div className="py-4 sticky top-[60px]">
         <div className="pl-3 space-y-2">
           {/* Domain Filter */}
           <div className="flex items-center space-x-1">
-            <span className="text-sm font-bold mr-7 flex">Role</span>
+            <span className="text-sm font-bold mr-7 flex text-[#E65F2B]">
+              Role
+            </span>
             {role.map((role) => (
               <button
                 key={role}
                 onClick={() => handleSelect("role", role)}
-                className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs w-auto ${selectedFilters.role === role
-                  ? "bg-purple-100 text-purple-700 border-purple-300"
-                  : "bg-white text-gray-700 border-gray-300"
-                  }`}
+                className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
+                  selectedFilters.role === role
+                    ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                    : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                }`}
               >
                 {/* Tick container */}
                 {selectedFilters.role === role && (
                   <span className="w-4 h-4 flex justify-center items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-3 h-3 text-purple-700"
+                      className="w-3 h-3"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      stroke="#FFFFFF"
                     >
                       <path
                         strokeLinecap="round"
@@ -284,25 +284,28 @@ function Candidates() {
 
           {/* Status Filter */}
           <div className="flex items-center space-x-1">
-            <span className="text-sm font-bold mr-4">Status</span>
+            <span className="text-sm font-bold mr-4  text-[#E65F2B]">
+              Status
+            </span>
             {status.map((status) => (
               <button
                 key={status}
                 onClick={() => handleSelect("status", status)}
-                className={`flex items-center justify-center px-2 py-1 border rounded-md text-xs w-auto ${selectedFilters.status === status
-                  ? "bg-purple-100 text-purple-700 border-purple-300"
-                  : "bg-white text-gray-700 border-gray-300"
-                  }`}
+                className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
+                  selectedFilters.status === status
+                    ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                    : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                }`}
               >
                 {/* Tick container */}
                 {selectedFilters.status === status && (
                   <span className="w-4 h-4 flex justify-center items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-3 h-3 text-purple-700"
+                      className="w-3 h-3"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      stroke="#FFFFFF"
                     >
                       <path
                         strokeLinecap="round"
@@ -320,146 +323,78 @@ function Candidates() {
         </div>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div>
-        {currentData.map((person, index) => (
-          <div key={index}>
-            <hr className="bg-[F4F4F4] w-[98%] h-[1px] rounded-full" />
-            <div className="w-full flex items-center justify-evenly">
-              <div
-                className="w-[98%] h-[80px] grid gap-x-5"
-                style={{ gridTemplateColumns: "1.2fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 1.2fr" }}
-              >
-                {/* Name and Status */}
-                <div className="flex flex-col items-start justify-evenly">
-                  <div className="text-sm font-semibold text-[#056DDC]">
-                    {person.name}
-                  </div>
+      {currentData.map((person, index) => (
+        <div key={index} className="flex flex-col w-full">
+          <div className="w-full flex items-center justify-evenly">
+            <div
+              className="w-[98%] h-[80px] grid gap-x-5"
+              style={{
+                gridTemplateColumns: "1fr 0.8fr 1.3fr 0.8fr 0.8fr 0.8fr",
+              }}
+            >
+              {/* Name and Status */}
+              <div className="flex flex-col items-start justify-evenly">
+                <div className="text-sm font-semibold text-[#E65F2B]">
+                  {person.name}
+                </div>
+              </div>
+              {/* Role */}
+              <div className="flex items-center justify-center">
+                <div className="text-sm text-black text-center">
+                  {person.role}
+                </div>
+              </div>
+              {/* Email */}
+              <div className="flex items-center justify-center">
+                <div className="text-sm text-black text-center">
+                  {person.email}
+                </div>
+              </div>
+              {/* Score */}
+              <div className="flex items-center justify-center">
+                {person.score}/500
+              </div>
+              {/* Date */}
+              <div className="flex items-center justify-center">
+                <div className="text-sm text-black text-center">
+                  {person.date}
+                </div>
+              </div>
+              {/* Status */}
+              <div className="flex items-center justify-center">
+                <div className="text-sm text-black text-center">
                   <div
-                    className={`text-sm text-black px-2 py-[2px] rounded-lg text-center ${person.status === "Recommended"
-                        ? "bg-[#2ECC71]"
+                    className={`text-sm px-4 py-[4px] rounded-full text-center bg-[#F6F1EE] ${
+                      person.status === "Recommended"
+                        ? "border-[1px] border-[#89E093] text-[#2EAC34] font-semibold"
                         : person.status === "Not Recommended"
-                          ? "bg-[#B10E0E] text-white"
-                          : person.status === "Scheduled"
-                            ? "bg-[#DF8C0F] text-white"
-                            : "bg-[#C4C4C4]"
-                      }`}
+                        ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold"
+                        : person.status === "Scheduled"
+                        ? "border-[1px] border-[#f1a028] text-[#d7870e] font-semibold"
+                        : "border-[1px] border-[#a6a6a6] text-[#737373] font-semibold"
+                    }`}
                   >
                     {person.status}
-                  </div>
-                </div>
-                {/* Role */}
-                <div className="flex items-center justify-center">
-                  <div className="text-sm text-black text-center">{person.role}</div>
-                </div>
-                {/* Type */}
-                <div className="flex items-center justify-center">
-                  <div className="text-sm text-black text-center">{person.type}</div>
-                </div>
-                {/* Date */}
-                <div className="flex items-center justify-center">
-                  <div className="text-sm text-black text-center">{person.date}</div>
-                </div>
-                {/* Score */}
-                <div className="flex items-center justify-center">
-                  {!(person.status === "Scheduled" || person.status === "Not Scheduled") && (
-                    <div className="text-sm text-black text-center">
-                      Score: {person.score}/500
-                    </div>
-                  )}
-                  {person.status === "Scheduled" && (
-                    <button className="ml-3 px-3 py-1 text-sm rounded-xl bg-[#E8DEF8]">
-                      Reschedule
-                    </button>
-                  )}
-                </div>
-                {/* New Column 1 */}
-                <div className="flex items-center justify-center">
-                  <div className="text-sm text-black text-center">
-                    {person.status === "Recommended" && (
-                      <button className="ml-3 px-3 py-1 text-sm border border-gray-400 rounded-lg flex">
-                        Archived
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M9.99992 12.4997L5.83325 8.33301H14.1666L9.99992 12.4997Z" fill="#1D1B20" />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                </div>
-                {/* New Column 2 */}
-                <div className="flex items-center justify-center">
-                  <div className="text-sm text-black text-center">
-                    {person.status === "Recommended" && (
-                      <button className="ml-3 px-3 py-1 text-sm rounded-[10px] bg-[#E8DEF8]">
-                        Push to Engagement
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        ))}
-
-        {/* Pagination Controls */}
-        {people.length > itemsPerPage && (
-          <div className="flex justify-center items-center mt-4 space-x-2">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className={`px-3 py-1 text-sm rounded-md ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-[#056DDC] text-white"
-                }`}
-            >
-              Previous
-            </button>
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`px-3 py-1 text-sm rounded-md ${currentPage === i + 1 ? "bg-[#056DDC] text-white" : "bg-gray-100"
-                  }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className={`px-3 py-1 text-sm rounded-md ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-[#056DDC] text-white"
-                }`}
-            >
-              Next
-            </button>
+          <div className="flex justify-center w-full mt-0 mb-0">
+            <hr
+              style={{
+                backgroundColor: "#f2a98d",
+                width: "98%",
+                height: "1px",
+                borderRadius: "9999px",
+                border: "none",
+              }}
+            />
           </div>
-        )}
-      </div>
-
-
-
-
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
-
-
-export default Candidates
+export default Candidates;
