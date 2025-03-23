@@ -73,7 +73,7 @@ function Analytics() {
 
 
   return (
-    <div>
+    <div className='min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-5 ' >
 
 
       {/* 1st div  dd*/}

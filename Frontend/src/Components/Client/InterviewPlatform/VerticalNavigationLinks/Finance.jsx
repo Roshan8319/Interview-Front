@@ -133,8 +133,8 @@ function Finance() {
 
 
   return (
-    <div className='w-full h-screen text-[14px]  '>
-      <div className='w-full h-screen'>
+    <div className='w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4 pl-10 pr-5 text-[14px]  '>
+      <div className='w-full '>
         <div className='w-full flex font-semibold text-[20px] p-4'>
           <div className='w-[50%]'>{isDataRangeEntered? "Past Payments": "Current Dues"}</div>
           <div className='w-[50%]'>Total: INR 5,00,000.00</div>
@@ -143,7 +143,7 @@ function Finance() {
           <div className='w-[75%]'>
             <table className="w-full text-left ">
               <thead className='text-black'>
-                <tr className='border-b-[3px] border-[#4F4F4F] ' >
+                <tr className='border-b-[3px] border-[#FFFFFF57] ' >
                   <th className='py-2 px-4 max-w-max  text-[15px] font-bold'>Candidate</th>
                   <th className='py-2 px-4 max-w-max  text-[15px] font-normal'>ROLE</th>
                   <th className='py-2 px-4 max-w-max  text-[15px] font-normal'>EXPERIENCE</th>
@@ -154,7 +154,7 @@ function Finance() {
               <tbody className=''  >
                 
                 {filteredData.map((data, index) => (  
-                  <tr key={index} className={`${index % 2 === 0 ? "bg-[#EBEBEB80]" : (isDataRangeEntered ? "bg-[#EBEBEB80] ": "bg-[#EBEBEB80]" ) } h-[91px]  border-b border-gray-300  `}>
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-[#FFFFFF57]" : (isDataRangeEntered ? "bg-[#FFFFFF57] ": "bg-[#FFFFFF57]" ) } h-[91px]  border-b border-gray-300  `}>
                     <td className='py-3 px-4 max-w-max font-bold text-[15px] mb-2 '>{data.Candidate}</td>
                     <td className='py-3 px-4 max-w-max'>{data.Role}</td>
                     <td className='py-3 px-4 max-w-max'>{data.Experience}</td>
@@ -171,13 +171,13 @@ function Finance() {
           
           
           
-          <div className='w-[25%] bg-[#E7E4E8CC] border rounded-[16px]'>
+          <div className='w-[25%] bg-[#FFFFFF57] border rounded-[16px]'>
             <div className='flex items-center justify-center p-2 text-[#1C1C1C] text-[20px] font-semibold'>{isDataRangeEntered ? 'Duration': "Past Payments"}</div>
             <div className='space-y-4 mt-10'>
               <div className=' w-full flex justify-center items-center  ' >
                 
                 <div className=" w-[70%] flex flex-col items-center justify-center  gap-2 "> 
-                  <div className='grid grid-cols-[1fr_2fr]  items-center gap-x-2 ' >
+                  <div className='grid grid-cols-[1fr_2fr]  items-center gap-x-5 ' >
                     <span className='flex justify-end items-center font-bold ' >Year </span>
                     <select
 
@@ -188,7 +188,7 @@ function Finance() {
                       ))}
                     </select>
                   </div>
-                  <div className='grid grid-cols-[1fr_2fr]  items-center gap-x-2 ' >
+                  <div className='grid grid-cols-[1fr_2fr]  items-center gap-x-5 ' >
                     <span className='flex justify-end items-center font-bold' >Month</span>
                   <select
                     className={`w-[100px] h-[35px] text-center border border-gray-300 rounded-md p-2 hover:border-2 hover:border-[#007AFF] focus:outline-none`}                       value={selectedMonth} onChange={(e) => setSelectedMonth(parseInt(e.target.value))} >

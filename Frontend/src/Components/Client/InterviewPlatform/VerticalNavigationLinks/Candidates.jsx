@@ -374,7 +374,7 @@ function Candidates() {
                       person.status === "Recommended"
                         ? "border-[1px] border-[#89E093] text-[#2EAC34] font-semibold"
                         : person.status === "Not Recommended"
-                        ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold"
+                        ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold whitespace-nowrap"
                         : person.status === "Scheduled"
                         ? "border-[1px] border-[#f1a028] text-[#d7870e] font-semibold"
                         : "border-[1px] border-[#a6a6a6] text-[#737373] font-semibold"
