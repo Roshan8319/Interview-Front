@@ -46,9 +46,11 @@ function SignInPage() {
         const accessToken = response.data.data.accessToken;
         const refreshToken = response.data.data.refreshToken;
         let displayName = "";
+        let clientId = "";
 
         if (signinas === "CLIENT") {
-            displayName = response.data.data.client.companyName; // Store company name
+            displayName = response.data.data.client.companyName;
+            clientId = response.data.data.client.clientId // Store company name
         } else if (signinas === "INTERVIEWER") {
             displayName = response.data.data.interviewer.firstName; // Store interviewer's name
         } 
@@ -56,7 +58,8 @@ function SignInPage() {
         
         Cookies.set('accessToken', accessToken);
         Cookies.set('refreshToken', refreshToken);
-        localStorage.setItem('displayName', displayName);
+        sessionStorage.setItem('displayName', displayName);
+        sessionStorage.setItem('clientId', clientId);
         
         
         if (response.status === 200) {

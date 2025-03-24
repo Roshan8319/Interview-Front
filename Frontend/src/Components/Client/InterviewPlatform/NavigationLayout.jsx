@@ -524,7 +524,7 @@ export default function MiniDrawer() {
   };
   const [username, setUsername] = useState("");
   useEffect(() => {
-    const storedUsername = localStorage.getItem("displayName");
+    const storedUsername = sessionStorage.getItem("displayName");
     
     if (storedUsername) {
         setUsername(storedUsername);
@@ -534,7 +534,7 @@ const handleLogOut = async ()=>{
   
       Cookies.remove("accessToken");
       Cookies.remove("refreshToken");
-      localStorage.removeItem("displayName");
+      sessionStorage.removeItem("displayName");
       
       navigate("/auth/signin");
   }

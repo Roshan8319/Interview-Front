@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import axios from 'axios';
 function Candidates() {
+
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -157,6 +160,31 @@ function Candidates() {
   const endIndex = startIndex + itemsPerPage;
   const currentData = people.slice(startIndex, endIndex);
 
+  const [data,setData] = useState([]);
+  const [stat,setStat] = useState([]);
+   const [loading, setLoading] = useState(true);
+   useEffect(() => {
+    const fetchCandidates = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/api/v1/client/getAllCandidatesForClient`, {
+          withCredentials: true,
+        });
+        setData(response.data.data.candidates);
+        setStat(response.data.data.statistics);
+        console.log(response);
+        
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchCandidates();
+  }, []);
+
+
   return (
     <div className="flex flex-col gap-y-4 px-6 pt-2 bg-[#EBDFD7]">
       <div>
@@ -215,36 +243,32 @@ function Candidates() {
       </div>
 
       <div className="w-full flex items-center justify-evenly">
-        <div className="w-[98%] grid grid-cols-5 gap-x-5 justify-evenly ">
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">
-              Total Candidates
-            </span>
-            <span className="text-[24px] font-semibold">750</span>
-          </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">
-              To be Scheduled
-            </span>
-            <span className="text-[24px] font-semibold">26</span>
-          </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">
-              In Progress
-            </span>
-            <span className="text-[24px] font-semibold">56</span>
-          </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">
-              Recommended
-            </span>
-            <span className="text-[24px] font-semibold">26</span>
-          </div>
-          <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
-            <span className="text-sm text-black font-extralight">Rejected</span>
-            <span className="text-[24px] font-semibold">200</span>
-          </div>
-        </div>
+      {stat ? (  // Check if stat exists
+    <div className="w-[98%] grid grid-cols-5 gap-x-5 justify-evenly ">
+      <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
+        <span className="text-sm text-black font-extralight">Total Candidates</span>
+        <span className="text-[24px] font-semibold">{stat.totalCandidates}</span>
+      </div>
+      <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
+        <span className="text-sm text-black font-extralight">To be Scheduled</span>
+        <span className="text-[24px] font-semibold">{stat.toBeScheduled}</span>
+      </div>
+      <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
+        <span className="text-sm text-black font-extralight">In Progress</span>
+        <span className="text-[24px] font-semibold">{stat.scheduled}</span>
+      </div>
+      <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
+        <span className="text-sm text-black font-extralight">Recommended</span>
+        <span className="text-[24px] font-semibold">{stat.recommended}</span>
+      </div>
+      <div className="p-4 w-[200px] h-[96px] flex flex-col items-start justify-center bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg">
+        <span className="text-sm text-black font-extralight">Rejected</span>
+        <span className="text-[24px] font-semibold">{stat.rejected}</span>
+      </div>
+    </div>
+  ) : (
+    <div>No statistics available</div>
+  )}
       </div>
 
       <div className="py-4 sticky top-[60px]">
@@ -329,7 +353,8 @@ function Candidates() {
         </div>
       </div>
       <div className="bg-[rgba(255,255,255,0.34)] p-2 border rounded-2xl shadow mb-4 " >
-        {currentData.map((person, index) => (
+      {Array.isArray(data) ? (
+        data.map((person, index) => (
           <div key={index} className="flex flex-col w-full">
           <div className="w-full flex items-center justify-evenly">
             <div
@@ -341,13 +366,13 @@ function Candidates() {
               {/* Name and Status */}
               <div className="flex flex-col items-start justify-evenly">
                 <div className="text-sm font-semibold text-[#E65F2B]">
-                  {person.name}
+                  {person.firstName}
                 </div>
               </div>
               {/* Role */}
               <div className="flex items-center justify-center">
                 <div className="text-sm text-black text-center">
-                  {person.role}
+                  {person.jobRole}
                 </div>
               </div>
               {/* Email */}
@@ -363,7 +388,7 @@ function Candidates() {
               {/* Date */}
               <div className="flex items-center justify-center">
                 <div className="text-sm text-black text-center">
-                  {person.date}
+                  {person.createdAt}
                 </div>
               </div>
               {/* Status */}
@@ -371,16 +396,16 @@ function Candidates() {
                 <div className="text-sm text-black text-center">
                   <div
                     className={`text-sm px-4 py-[4px] rounded-full text-center bg-[#F6F1EE] ${
-                      person.status === "Recommended"
+                      person.interviewStatus === "Recommended"
                         ? "border-[1px] border-[#89E093] text-[#2EAC34] font-semibold"
-                        : person.status === "Not Recommended"
+                        : person.interviewStatus === "Not Recommended"
                         ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold whitespace-nowrap"
-                        : person.status === "Scheduled"
+                        : person.interviewStatus === "Scheduled"
                         ? "border-[1px] border-[#f1a028] text-[#d7870e] font-semibold"
                         : "border-[1px] border-[#a6a6a6] text-[#737373] font-semibold"
                     }`}
                   >
-                    {person.status}
+                    {person.interviewStatus}
                   </div>
                 </div>
               </div>
@@ -398,7 +423,13 @@ function Candidates() {
             />
           </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <div>
+          No service 
+        </div>
+      )
+      }
       </div>
     </div>
   );
