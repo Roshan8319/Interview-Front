@@ -191,7 +191,7 @@ function ResumeUploadForm({ formData, setFormData, prevStep, submitForm }) {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-y-2 ">
-                <img src={UploadResume} alt="Resume Upload" />
+                <img src={UploadResume} alt="Resume Upload" style={{width:"147px", height:"121px"}}/>
                 <p className="text-gray-600">
                   Drag and drop your file here, or
                 </p>
