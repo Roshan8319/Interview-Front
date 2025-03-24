@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Load from "../../assets/Load";
 
+
+
 function SignInPage() {
 
   const baseUrl = import.meta.env.VITE_BASE_URL
@@ -24,7 +26,7 @@ function SignInPage() {
       setTimeout(() => {
         setLoading(false);
       }, 
-    500);
+    2000);
   },[]);
 
   const handleLoginViaEmail = async (e) =>{

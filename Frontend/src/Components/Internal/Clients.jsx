@@ -162,7 +162,7 @@ function Clients() {
 
 
   return (
-    <div className="px-6 ">
+    <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6 ">
 
       <div>
 
@@ -182,25 +182,29 @@ function Clients() {
 
               {/* Add Client Button */}
               <button
-                className="flex items-center justify-center space-x-2 bg-[#000000] border-[3px]
- border-[#f0ad4e] text-[#f0ad4e] px-4 py-2 rounded-full text-sm font-medium w-full sm:w-auto"
+                className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
                 onClick={() => navigate(`${location.pathname}/addclient`)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-                <span> Add Client</span>
+                <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke="currentColor"
+                fill="none"
+                class="stroke-white"
+              >
+                <line y2="19" y1="5" x2="12" x1="12"></line>
+                <line y2="12" y1="12" x2="19" x1="5"></line>
+              </svg>
+            </span>
+                <span class=" pl-2 absolute left-4 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+              Add Client
+            </span>
               </button>
             </div>
             {/* Domain and Status Filters */}

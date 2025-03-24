@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   NavLink,
   Link,
@@ -8,6 +9,8 @@ import {
 } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import AppBar from "@mui/material/AppBar";
+import Drawer from "@mui/material/Drawer";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -24,39 +27,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-const CustomChevronLeftIcon = styled(ChevronLeftIcon)(({ theme }) => ({
-  color: "#000", // Change to your desired color
-}));
-
-const CustomChevronRightIcon = styled(ChevronRightIcon)(({ theme }) => ({
-  color: "#000", // Change to your desired color
-}));
-
 const drawerWidth = 240;
-
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-  backgroundColor: "#FBEEDB",
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  backgroundColor: "#FBEEDB",
-
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -65,56 +36,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(["width", "margin"], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-    },
-  ],
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-      },
-    },
-    {
-      props: ({ open }) => !open,
-      style: {
-        ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
-      },
-    },
-  ],
 }));
 
 const DashboardIcon = () => (
@@ -127,21 +48,21 @@ const DashboardIcon = () => (
   >
     <path
       d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M15.5 18.5C16.6 18.5 17.5 17.6 17.5 16.5V7.5C17.5 6.4 16.6 5.5 15.5 5.5C14.4 5.5 13.5 6.4 13.5 7.5V16.5C13.5 17.6 14.39 18.5 15.5 18.5Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M8.5 18.5C9.6 18.5 10.5 17.6 10.5 16.5V13C10.5 11.9 9.6 11 8.5 11C7.4 11 6.5 11.9 6.5 13V16.5C6.5 17.6 7.39 18.5 8.5 18.5Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -158,7 +79,7 @@ const ActiveDashboardIcon = () => (
   >
     <path
       d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM9.91 16.19C9.91 16.83 9.39 17.35 8.74 17.35C8.1 17.35 7.58 16.83 7.58 16.19V12.93C7.58 12.29 8.1 11.77 8.74 11.77C9.39 11.77 9.91 12.29 9.91 12.93V16.19ZM16.42 16.19C16.42 16.83 15.9 17.35 15.26 17.35C14.61 17.35 14.09 16.83 14.09 16.19V7.81C14.09 7.17 14.61 6.65 15.26 6.65C15.9 6.65 16.42 7.17 16.42 7.81V16.19Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
@@ -173,21 +94,21 @@ const ClientIcon = () => (
   >
     <path
       d="M21.0802 8.58003V15.42C21.0802 16.54 20.4802 17.58 19.5102 18.15L13.5702 21.58C12.6002 22.14 11.4002 22.14 10.4202 21.58L4.48016 18.15C3.51016 17.59 2.91016 16.55 2.91016 15.42V8.58003C2.91016 7.46003 3.51016 6.41999 4.48016 5.84999L10.4202 2.42C11.3902 1.86 12.5902 1.86 13.5702 2.42L19.5102 5.84999C20.4802 6.41999 21.0802 7.45003 21.0802 8.58003Z"
-      stroke=" #000"
+      stroke=" white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M11.9999 10.9998C13.2867 10.9998 14.3299 9.95662 14.3299 8.6698C14.3299 7.38298 13.2867 6.33984 11.9999 6.33984C10.7131 6.33984 9.66992 7.38298 9.66992 8.6698C9.66992 9.95662 10.7131 10.9998 11.9999 10.9998Z"
-      stroke=" #000"
+      stroke=" white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M16 16.6599C16 14.8599 14.21 13.3999 12 13.3999C9.79 13.3999 8 14.8599 8 16.6599"
-      stroke=" #000"
+      stroke=" white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -204,7 +125,7 @@ const ActiveClientIcon = () => (
   >
     <path
       d="M19.5099 5.85L13.5699 2.42C12.5999 1.86 11.3999 1.86 10.4199 2.42L4.48992 5.85C3.51992 6.41 2.91992 7.45 2.91992 8.58V15.42C2.91992 16.54 3.51992 17.58 4.48992 18.15L10.4299 21.58C11.3999 22.14 12.5999 22.14 13.5799 21.58L19.5199 18.15C20.4899 17.59 21.0899 16.55 21.0899 15.42V8.58C21.0799 7.45 20.4799 6.42 19.5099 5.85ZM11.9999 7.34C13.2899 7.34 14.3299 8.38 14.3299 9.67C14.3299 10.96 13.2899 12 11.9999 12C10.7099 12 9.66992 10.96 9.66992 9.67C9.66992 8.39 10.7099 7.34 11.9999 7.34ZM14.6799 16.66H9.31992C8.50992 16.66 8.03992 15.76 8.48992 15.09C9.16992 14.08 10.4899 13.4 11.9999 13.4C13.5099 13.4 14.8299 14.08 15.5099 15.09C15.9599 15.75 15.4799 16.66 14.6799 16.66Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
@@ -218,21 +139,21 @@ const InterviewerIcon = () => (
   >
     <path
       d="M18.1404 21.6198C17.2604 21.8798 16.2204 21.9998 15.0004 21.9998H9.00035C7.78035 21.9998 6.74035 21.8798 5.86035 21.6198C6.08035 19.0198 8.75035 16.9697 12.0004 16.9697C15.2504 16.9697 17.9204 19.0198 18.1404 21.6198Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M15 2H9C4 2 2 4 2 9V15C2 18.78 3.14 20.85 5.86 21.62C6.08 19.02 8.75 16.97 12 16.97C15.25 16.97 17.92 19.02 18.14 21.62C20.86 20.85 22 18.78 22 15V9C22 4 20 2 15 2ZM12 14.17C10.02 14.17 8.42 12.56 8.42 10.58C8.42 8.60002 10.02 7 12 7C13.98 7 15.58 8.60002 15.58 10.58C15.58 12.56 13.98 14.17 12 14.17Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M15.5799 10.58C15.5799 12.56 13.9799 14.17 11.9999 14.17C10.0199 14.17 8.41992 12.56 8.41992 10.58C8.41992 8.60002 10.0199 7 11.9999 7C13.9799 7 15.5799 8.60002 15.5799 10.58Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -249,11 +170,11 @@ const ActiveInterviewerIcon = () => (
   >
     <path
       d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.19C2 19 3.29 20.93 5.56 21.66C6.22 21.89 6.98 22 7.81 22H16.19C17.02 22 17.78 21.89 18.44 21.66C20.71 20.93 22 19 22 16.19V7.81C22 4.17 19.83 2 16.19 2ZM20.5 16.19C20.5 18.33 19.66 19.68 17.97 20.24C17 18.33 14.7 16.97 12 16.97C9.3 16.97 7.01 18.32 6.03 20.24H6.02C4.35 19.7 3.5 18.34 3.5 16.2V7.81C3.5 4.99 4.99 3.5 7.81 3.5H16.19C19.01 3.5 20.5 4.99 20.5 7.81V16.19Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M11.9999 8C10.0199 8 8.41992 9.6 8.41992 11.58C8.41992 13.56 10.0199 15.17 11.9999 15.17C13.9799 15.17 15.5799 13.56 15.5799 11.58C15.5799 9.6 13.9799 8 11.9999 8Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
@@ -267,42 +188,42 @@ const UsersIcon = () => (
   >
     <path
       d="M18.0001 7.16C17.9401 7.15 17.8701 7.15 17.8101 7.16C16.4301 7.11 15.3301 5.98 15.3301 4.58C15.3301 3.15 16.4801 2 17.9101 2C19.3401 2 20.4901 3.16 20.4901 4.58C20.4801 5.98 19.3801 7.11 18.0001 7.16Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M16.9704 14.4402C18.3404 14.6702 19.8504 14.4302 20.9104 13.7202C22.3204 12.7802 22.3204 11.2402 20.9104 10.3002C19.8404 9.59016 18.3104 9.35016 16.9404 9.59016"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M5.97047 7.16C6.03047 7.15 6.10047 7.15 6.16047 7.16C7.54047 7.11 8.64047 5.98 8.64047 4.58C8.64047 3.15 7.49047 2 6.06047 2C4.63047 2 3.48047 3.16 3.48047 4.58C3.49047 5.98 4.59047 7.11 5.97047 7.16Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M7.00043 14.4402C5.63043 14.6702 4.12043 14.4302 3.06043 13.7202C1.65043 12.7802 1.65043 11.2402 3.06043 10.3002C4.13043 9.59016 5.66043 9.35016 7.03043 9.59016"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M12.0001 14.6302C11.9401 14.6202 11.8701 14.6202 11.8101 14.6302C10.4301 14.5802 9.33008 13.4502 9.33008 12.0502C9.33008 10.6202 10.4801 9.47021 11.9101 9.47021C13.3401 9.47021 14.4901 10.6302 14.4901 12.0502C14.4801 13.4502 13.3801 14.5902 12.0001 14.6302Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M9.08973 17.7804C7.67973 18.7204 7.67973 20.2603 9.08973 21.2003C10.6897 22.2703 13.3097 22.2703 14.9097 21.2003C16.3197 20.2603 16.3197 18.7204 14.9097 17.7804C13.3197 16.7204 10.6897 16.7204 9.08973 17.7804Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -319,27 +240,27 @@ const ActiveUserIcon = () => (
   >
     <path
       d="M17.53 7.77C17.46 7.76 17.39 7.76 17.32 7.77C15.77 7.72 14.54 6.45 14.54 4.89C14.54 3.3 15.83 2 17.43 2C19.02 2 20.32 3.29 20.32 4.89C20.31 6.45 19.08 7.72 17.53 7.77Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M20.79 14.6999C19.67 15.4499 18.1 15.7299 16.65 15.5399C17.03 14.7199 17.23 13.8099 17.24 12.8499C17.24 11.8499 17.02 10.8999 16.6 10.0699C18.08 9.86991 19.65 10.1499 20.78 10.8999C22.36 11.9399 22.36 13.6499 20.79 14.6999Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M6.43997 7.77C6.50997 7.76 6.57997 7.76 6.64997 7.77C8.19997 7.72 9.42997 6.45 9.42997 4.89C9.42997 3.29 8.13997 2 6.53997 2C4.94997 2 3.65997 3.29 3.65997 4.89C3.65997 6.45 4.88997 7.72 6.43997 7.77Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M6.55 12.8501C6.55 13.8201 6.75999 14.7401 7.14 15.5701C5.73 15.7201 4.26 15.4201 3.18 14.7101C1.6 13.6601 1.6 11.9501 3.18 10.9001C4.25 10.1801 5.75999 9.8901 7.18 10.0501C6.77 10.8901 6.55 11.8401 6.55 12.8501Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M12.12 15.87C12.04 15.86 11.95 15.86 11.86 15.87C10.02 15.81 8.54999 14.3 8.54999 12.44C8.55999 10.54 10.09 9 12 9C13.9 9 15.44 10.54 15.44 12.44C15.43 14.3 13.97 15.81 12.12 15.87Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M8.86999 17.9401C7.35999 18.9501 7.35999 20.6101 8.86999 21.6101C10.59 22.7601 13.41 22.7601 15.13 21.6101C16.64 20.6001 16.64 18.9401 15.13 17.9401C13.42 16.7901 10.6 16.7901 8.86999 17.9401Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
@@ -353,28 +274,28 @@ const AgreementsIcon = () => (
   >
     <path
       d="M20.5303 11.3V7.04001C20.5303 3.01001 19.5903 2 15.8103 2H8.25027C4.47027 2 3.53027 3.01001 3.53027 7.04001V18.3C3.53027 20.96 4.99028 21.59 6.76028 19.69L6.77026 19.68C7.59026 18.81 8.84026 18.88 9.55026 19.83L10.5603 21.18"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M8.03027 7H16.0303"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M9.03027 11H15.0303"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M18.2413 14.7703L14.7013 18.3103C14.5613 18.4503 14.4313 18.7103 14.4013 18.9003L14.2113 20.2503C14.1413 20.7403 14.4813 21.0803 14.9713 21.0103L16.3213 20.8203C16.5113 20.7903 16.7813 20.6603 16.9113 20.5203L20.4513 16.9803C21.0613 16.3703 21.3513 15.6603 20.4513 14.7603C19.5613 13.8703 18.8513 14.1603 18.2413 14.7703Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="round"
@@ -382,7 +303,7 @@ const AgreementsIcon = () => (
     />
     <path
       d="M17.7295 15.2803C18.0295 16.3603 18.8695 17.2003 19.9495 17.5003"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="round"
@@ -400,7 +321,7 @@ const ActiveAgreementsIcon = () => (
   >
     <path
       d="M15.78 2H8.22C4.44 2 3.5 3.01 3.5 7.04V18.3C3.5 20.96 4.96 21.59 6.73 19.69L6.74 19.68C7.56 18.81 8.81 18.88 9.52 19.83L10.53 21.18C11.34 22.25 12.65 22.25 13.46 21.18L14.47 19.83C15.19 18.87 16.44 18.8 17.26 19.68C19.04 21.58 20.49 20.95 20.49 18.29V7.04C20.5 3.01 19.56 2 15.78 2ZM14.84 9.99L14.34 10.5H14.33L11.3 13.53C11.17 13.66 10.9 13.8 10.71 13.82L9.36 14.02C8.87 14.09 8.53 13.74 8.6 13.26L8.79 11.9C8.82 11.71 8.95 11.45 9.08 11.31L12.12 8.28L12.62 7.77C12.95 7.44 13.32 7.2 13.72 7.2C14.06 7.2 14.43 7.36 14.84 7.77C15.74 8.67 15.45 9.38 14.84 9.99Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
@@ -414,7 +335,7 @@ const FinanceIcon = () => (
   >
     <path
       d="M2.04883 12.6099H19.0488"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="round"
@@ -422,21 +343,21 @@ const FinanceIcon = () => (
     />
     <path
       d="M19.0488 10.2798V17.4298C19.0188 20.2798 18.2388 20.9998 15.2688 20.9998H5.82886C2.80886 20.9998 2.04883 20.2498 2.04883 17.2698V10.2798C2.04883 7.5798 2.67883 6.70981 5.04883 6.56981C5.28883 6.55981 5.54886 6.5498 5.82886 6.5498H15.2688C18.2888 6.5498 19.0488 7.2998 19.0488 10.2798Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M22.0488 6.73V13.72C22.0488 16.42 21.4188 17.29 19.0488 17.43V10.28C19.0488 7.3 18.2888 6.55 15.2688 6.55H5.82886C5.54886 6.55 5.28883 6.56 5.04883 6.57C5.07883 3.72 5.85886 3 8.82886 3H18.2688C21.2888 3 22.0488 3.75 22.0488 6.73Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M5.29883 17.8101H7.0188"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="round"
@@ -444,7 +365,7 @@ const FinanceIcon = () => (
     />
     <path
       d="M9.15918 17.8101H12.5992"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="round"
@@ -462,15 +383,15 @@ const ActiveFinanceIcon = () => (
   >
     <path
       d="M15.22 6.5498H5.78C5.5 6.5498 5.24 6.5598 5 6.5698C2.63 6.7098 2 7.5798 2 10.2798V10.8598C2 11.4098 2.45 11.8598 3 11.8598H18C18.55 11.8598 19 11.4098 19 10.8598V10.2798C19 7.2998 18.24 6.5498 15.22 6.5498Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M3 13.3599C2.45 13.3599 2 13.8099 2 14.3599V17.2699C2 20.2499 2.76 20.9999 5.78 20.9999H15.22C18.19 20.9999 18.97 20.2799 19 17.4299V14.3599C19 13.8099 18.55 13.3599 18 13.3599H3ZM6.96 18.5599H5.25C4.84 18.5599 4.5 18.2199 4.5 17.8099C4.5 17.3999 4.84 17.0599 5.25 17.0599H6.97C7.38 17.0599 7.72 17.3999 7.72 17.8099C7.72 18.2199 7.38 18.5599 6.96 18.5599ZM12.55 18.5599H9.11C8.7 18.5599 8.36 18.2199 8.36 17.8099C8.36 17.3999 8.7 17.0599 9.11 17.0599H12.55C12.96 17.0599 13.3 17.3999 13.3 17.8099C13.3 18.2199 12.97 18.5599 12.55 18.5599Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M22.0001 13.3301V8.0901C22.0001 4.9601 20.2101 3.6001 17.5101 3.6001H8.58011C7.82011 3.6001 7.14011 3.7101 6.54011 3.9401C6.07011 4.1101 5.65011 4.3601 5.31011 4.6901C5.13011 4.8601 5.27011 5.1401 5.53011 5.1401H16.4001C18.6501 5.1401 20.4701 6.9601 20.4701 9.2101V16.3801C20.4701 16.6301 20.7401 16.7701 20.9201 16.5901C21.6101 15.8601 22.0001 14.7901 22.0001 13.3301Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
@@ -484,42 +405,42 @@ const EngagementIcon = () => (
   >
     <path
       d="M16.96 6.16992C18.96 7.55992 20.34 9.76992 20.62 12.3199"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M3.49023 12.3702C3.75023 9.83021 5.11023 7.62021 7.09023 6.22021"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M8.19043 20.9399C9.35043 21.5299 10.6704 21.8599 12.0604 21.8599C13.4004 21.8599 14.6604 21.5599 15.7904 21.0099"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M12.0603 7.70014C13.5956 7.70014 14.8403 6.45549 14.8403 4.92014C14.8403 3.38479 13.5956 2.14014 12.0603 2.14014C10.5249 2.14014 9.28027 3.38479 9.28027 4.92014C9.28027 6.45549 10.5249 7.70014 12.0603 7.70014Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M4.8298 19.9199C6.36516 19.9199 7.60981 18.6752 7.60981 17.1399C7.60981 15.6045 6.36516 14.3599 4.8298 14.3599C3.29445 14.3599 2.0498 15.6045 2.0498 17.1399C2.0498 18.6752 3.29445 19.9199 4.8298 19.9199Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
     <path
       d="M19.1696 19.9199C20.705 19.9199 21.9496 18.6752 21.9496 17.1399C21.9496 15.6045 20.705 14.3599 19.1696 14.3599C17.6343 14.3599 16.3896 15.6045 16.3896 17.1399C16.3896 18.6752 17.6343 19.9199 19.1696 19.9199Z"
-      stroke="#000"
+      stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -536,30 +457,78 @@ const ActiveEngagementIcon = () => (
   >
     <path
       d="M20.3601 12.7301C19.9901 12.7301 19.6801 12.4501 19.6401 12.0801C19.4001 9.88007 18.2201 7.90007 16.4001 6.64007C16.0701 6.41007 15.9901 5.96007 16.2201 5.63007C16.4501 5.30007 16.9001 5.22007 17.2301 5.45007C19.4001 6.96007 20.8001 9.32007 21.0901 11.9301C21.1301 12.3301 20.8401 12.6901 20.4401 12.7301C20.4101 12.7301 20.3901 12.7301 20.3601 12.7301Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M3.74004 12.7802C3.72004 12.7802 3.69004 12.7802 3.67004 12.7802C3.27004 12.7402 2.98004 12.3802 3.02004 11.9802C3.29004 9.3702 4.67004 7.0102 6.82004 5.4902C7.14004 5.2602 7.60004 5.3402 7.83004 5.6602C8.06004 5.9902 7.98004 6.4402 7.66004 6.6702C5.86004 7.9502 4.69004 9.9302 4.47004 12.1202C4.43004 12.5002 4.11004 12.7802 3.74004 12.7802Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M15.9901 21.0998C14.7601 21.6898 13.4401 21.9898 12.0601 21.9898C10.6201 21.9898 9.2501 21.6698 7.9701 21.0198C7.6101 20.8498 7.4701 20.4098 7.6501 20.0498C7.8201 19.6898 8.2601 19.5498 8.6201 19.7198C9.2501 20.0398 9.9201 20.2598 10.6001 20.3898C11.5201 20.5698 12.4601 20.5798 13.3801 20.4198C14.0601 20.2998 14.7301 20.0898 15.3501 19.7898C15.7201 19.6198 16.1601 19.7598 16.3201 20.1298C16.5001 20.4898 16.3601 20.9298 15.9901 21.0998Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M12.05 2.00977C10.5 2.00977 9.22998 3.26977 9.22998 4.82977C9.22998 6.38977 10.49 7.64977 12.05 7.64977C13.61 7.64977 14.87 6.38977 14.87 4.82977C14.87 3.26977 13.61 2.00977 12.05 2.00977Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M5.04998 13.8701C3.49998 13.8701 2.22998 15.1301 2.22998 16.6901C2.22998 18.2501 3.48998 19.5101 5.04998 19.5101C6.60998 19.5101 7.86998 18.2501 7.86998 16.6901C7.86998 15.1301 6.59998 13.8701 5.04998 13.8701Z"
-      fill="#000"
+      fill="#E65F2B"
     />
     <path
       d="M18.9499 13.8701C17.3999 13.8701 16.1299 15.1301 16.1299 16.6901C16.1299 18.2501 17.3899 19.5101 18.9499 19.5101C20.5099 19.5101 21.7699 18.2501 21.7699 16.6901C21.7699 15.1301 20.5099 13.8701 18.9499 13.8701Z"
-      fill="#000"
+      fill="#E65F2B"
     />
   </svg>
 );
+
+const navItems = [
+  {
+    text: "Dashboard",
+    icon: <DashboardIcon />,
+    icon2: <ActiveDashboardIcon />,
+    link: "/internal/dashboard",
+  },
+  {
+    text: "Clients",
+    icon: <ClientIcon />,
+    icon2: <ActiveClientIcon />,
+    link: "/internal/clients",
+  },
+  {
+    text: "Interviewer",
+    icon: <InterviewerIcon />,
+    icon2: <ActiveInterviewerIcon />,
+    link: "/internal/interviewer",
+  },
+  {
+    text: "User",
+    icon: <UsersIcon />,
+    icon2: <ActiveUserIcon />,
+    link: "/internal/users",
+  },
+  {
+    text: "Agreements",
+    icon: <AgreementsIcon />,
+    icon2: <ActiveAgreementsIcon />,
+    link: "/internal/agreements",
+  },
+  {
+    text: "Finance",
+    icon: <FinanceIcon />,
+    icon2: <ActiveFinanceIcon />,
+    link: "/internal/finance",
+  },
+  {
+    text: "Engagement",
+    icon: <EngagementIcon />,
+    icon2: <ActiveEngagementIcon />,
+    link: "/internal/engagement",
+  },
+];
+
+
+
 
 function NavigationLayout() {
   const theme = useTheme();
@@ -573,166 +542,312 @@ function NavigationLayout() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const openedMixinStyle = {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: "hidden",
+  };
+
+  const closedMixinStyle = {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+  };
+
+  const drawerHeaderStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: open ? "space-between" : "center",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+  };
+
+  const appBarStyle = {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: open
+      ? `calc(100% - ${drawerWidth}px)`
+      : `calc(100% - ${theme.spacing(8)})`,
+    marginLeft: open ? drawerWidth : 0,
+  };
+
+  const drawerStyle = {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    backgroundColor: "#000000",
+    ...(open ? openedMixinStyle : closedMixinStyle),
+    "& .MuiDrawer-paper": {
+      ...(open ? openedMixinStyle : closedMixinStyle),
+      backgroundColor: "#000000",
+    },
+  };
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+   useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsDropdownOpen(false);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
+  
+    const closeDropdown = () => {
+      setIsDropdownOpen(false);
+    };
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
   const location = useLocation();
   const isMessageRouteActive =
     location.pathname === "/hiring-dog/client/message";
 
-  const navItems = [
-    {
-      text: "Dashboard",
-      icon: <DashboardIcon />,
-      icon2: <ActiveDashboardIcon />,
-      link: "/internal/dashboard",
-    },
-    {
-      text: "Clients",
-      icon: <ClientIcon />,
-      icon2: <ActiveClientIcon />,
-      link: "/internal/clients",
-    },
-    {
-      text: "Interviewer",
-      icon: <InterviewerIcon />,
-      icon2: <ActiveInterviewerIcon />,
-      link: "/internal/interviewer",
-    },
-    {
-      text: "User",
-      icon: <UsersIcon />,
-      icon2: <ActiveUserIcon />,
-      link: "/internal/users",
-    },
-    {
-      text: "Agreements",
-      icon: <AgreementsIcon />,
-      icon2: <ActiveAgreementsIcon />,
-      link: "/internal/agreements",
-    },
-    {
-      text: "Finance",
-      icon: <FinanceIcon />,
-      icon2: <ActiveFinanceIcon />,
-      link: "/internal/finance",
-    },
-    {
-      text: "Engagement",
-      icon: <EngagementIcon />,
-      icon2: <ActiveEngagementIcon />,
-      link: "/internal/engagement",
-    },
-  ];
+ 
 
   return (
-    <Box sx={{ display: "flex", background: "#F2F0EF" }}>
+    <Box sx={{ display: "flex"}}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar className=" bg-[#f0ad4e] ">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" className="w-full">
-            <div className="p-2 h-[60px]  flex items-center justify-between">
-              <div className=" logo-brandName ">
-                <h1 className="text-[#000000] text-[24px]">
-                  {" "}
-                  <span className="font-bold">SAKCHATKAAR</span> -INTERVIEW
-                  PLATFORM
-                </h1>
+      <AppBar position="fixed" sx ={{...appBarStyle, backgroundColor:"#EBDFD7", height:"60px"}} >
+      <div className="flex items-center justify-end h-full mt-[6px]">
+          <div className="flex h-full">
+            <div
+              className="ml-6 bg-white w-[240px] h-[48px]  flex items-center justify-start px-[2px] rounded-full relative"
+              ref={dropdownRef}
+            >
+              <div className="w-[48px] h-[48px] rounded-full bg-white overflow-hidden m-2">
+                <img
+                  src="https://i.pinimg.com/736x/aa/e7/b9/aae7b9e5b76d009af2e73c1b15d237a8.jpg"
+                  alt="User Logo"
+                  className=" w-full h-full object-cover"
+                />
               </div>
-              <div className="horizontal-navigation px-5 gap-x-2 flex items-center justify-center  ">
-                <Link
-                  to="/internal/message"
-                  className="message p-2 bg-[#000] rounded-full"
+              <div className="">
+                <p className="text-black text-xl">Roshan</p>
+                {/* <p className="text-[#292D32] text-sm">Product Manager</p> */}
+              </div>
+              <button onClick={toggleDropdown} className="focus:outline-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000000"
+                  className={`transition-transform duration-200 ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
                 >
-                  {isMessageRouteActive ? (
-                    // SVG icon to display when the route is active
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="30px"
-                      viewBox="0 -960 960 960"
-                      width="30px"
-                      fill="#f0ad4e"
+                  <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isDropdownOpen && (
+                <div
+                  className="absolute top-full right-8 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                  onMouseLeave={closeDropdown}
+                >
+                  <div
+                    className="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu"
+                  >
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem"
                     >
-                      <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
-                    </svg>
-                  ) : (
-                    // Default SVG ico
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="30px"
-                      viewBox="0 -960 960 960"
-                      width="30px"
-                      fill="#f0ad4e"
+                      Menu
+                    </a>
+                    <a
+                      href="#"
+                      // onClick={handleLogOut}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem"
                     >
-                      <path d="M146.67-160q-27 0-46.84-19.83Q80-199.67 80-226.67v-506.66q0-27 19.83-46.84Q119.67-800 146.67-800h424q-3.34 16.67-4 33.33-.67 16.67 2 33.34H150l330 212L629.33-617q11.34 10.33 24.17 18.62 12.83 8.28 26.83 14.38L480-454.67 146.67-670v443.33h666.66v-348q18.87-4.85 35.27-13.59Q865-597 880-608.67v382q0 27-19.83 46.84Q840.33-160 813.33-160H146.67Zm0-573.33v506.66-506.66Zm613.25 86.66q-47.25 0-80.25-33.08-33-33.07-33-80.33 0-47.25 33.08-80.25 33.07-33 80.33-33 47.25 0 80.25 33.08 33 33.07 33 80.33 0 47.25-33.08 80.25-33.07 33-80.33 33Z" />
-                    </svg>
-                  )}
-                </Link>
-                <Link to="#" className="loggedInUser">
-                  <img
-                    className="p-2 h-16 rounded-full overflow-hidden"
-                    src="https://t4.ftcdn.net/jpg/05/86/94/95/360_F_586949566_ZRFuSSy8GSY6npXqnrJWhEdjqmlGURf2.jpg"
-                    alt="LoggedIn User"
-                  />
-                </Link>
-              </div>
+                      Logout
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
-          </Typography>
-        </Toolbar>
+          </div>
+        </div>
       </AppBar>
       <Drawer
         variant="permanent"
         open={open}
-        // sx={{
-        //     width: drawerWidth,
-        //     flexShrink: 0,
-        //     '& .MuiDrawer-paper': {
-        //       width: drawerWidth,
-        //       boxSizing: 'border-box',
-        //       border: 'none', // Highlight: Removed border from Drawer
-        //     },
-        //   }}
+        sx={drawerStyle}
       >
-        <DrawerHeader>
+        <Box sx={drawerHeaderStyle} >
+              {open ? (
+                          <Typography
+                            variant="subtitle1"
+                            sx={{
+                              fontWeight: "bold",
+                              ml: 1,
+                            }}
+                          >
+                            <svg
+                              width="220"
+                              height="52"
+                              viewBox="0 0 1600 400"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M60 185.674V328H90V256.837H90.0024C90.0024 251.386 91.0887 245.988 93.1993 240.952C95.3099 235.916 98.4034 231.34 102.303 227.486C106.203 223.631 110.833 220.574 115.928 218.488C121.024 216.402 126.485 215.328 132 215.328V215.325H139V185.674H132C122.545 185.674 113.182 187.515 104.447 191.091C99.3265 193.187 94.4805 195.856 90 199.036V185.674H60Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M220.912 194.482C218.732 196.637 216.419 198.646 213.989 200.5C216.419 202.354 218.732 204.363 220.912 206.518C227.598 213.126 232.901 220.971 236.519 229.604C240.138 238.238 242 247.492 242 256.837V328H212V256.837H211.998C211.998 251.386 210.911 245.988 208.801 240.952C206.69 235.916 203.597 231.34 199.697 227.486C195.797 223.631 191.167 220.574 186.072 218.488C180.976 216.402 175.515 215.328 170 215.328V215.326H163V185.674H170V185.672C175.515 185.672 180.976 184.598 186.072 182.512C191.167 180.426 195.797 177.369 199.697 173.514C203.597 169.66 206.69 165.084 208.801 160.048C210.911 155.012 211.998 149.614 211.998 144.163C211.998 138.712 210.911 133.314 208.801 128.278C206.69 123.242 203.597 118.666 199.697 114.811C195.797 110.957 191.167 107.899 186.072 105.813C180.976 103.727 175.515 102.654 170 102.654V73C179.455 73 188.818 74.8407 197.553 78.4169C206.289 81.9932 214.226 87.235 220.912 93.8431C227.598 100.451 232.901 108.296 236.519 116.93C240.138 125.564 242 134.818 242 144.163C242 153.508 240.138 162.762 236.519 171.396C232.901 180.029 227.598 187.874 220.912 194.482Z"
+                                fill="#E65F2B"
+                              />
+                              <path
+                                d="M60 161.953H90V144.163H90.0024C90.0024 138.712 91.0887 133.314 93.1993 128.278C95.3099 123.242 98.4034 118.666 102.303 114.811C106.203 110.957 110.833 107.899 115.928 105.813C121.024 103.727 126.485 102.654 132 102.654V102.651H170V73H60V161.953Z"
+                                fill="#E65F2B"
+                              />
+                              <path
+                                d="M343.683 327.82C328.257 327.82 314.737 324.787 303.123 318.72C291.683 312.48 282.757 303.987 276.343 293.24C270.103 282.493 266.983 270.273 266.983 256.58C266.983 242.713 270.017 230.493 276.083 219.92C282.323 209.173 290.817 200.767 301.563 194.7C312.483 188.633 324.877 185.6 338.743 185.6C352.263 185.6 364.31 188.547 374.883 194.44C385.457 200.333 393.777 208.653 399.843 219.4C405.91 230.147 408.943 242.8 408.943 257.36C408.943 258.747 408.857 260.307 408.683 262.04C408.683 263.773 408.597 265.42 408.423 266.98H292.723V245.4H391.263L378.523 252.16C378.697 244.187 377.05 237.167 373.583 231.1C370.117 225.033 365.35 220.267 359.283 216.8C353.39 213.333 346.543 211.6 338.743 211.6C330.77 211.6 323.75 213.333 317.683 216.8C311.79 220.267 307.11 225.12 303.643 231.36C300.35 237.427 298.703 244.62 298.703 252.94V258.14C298.703 266.46 300.61 273.827 304.423 280.24C308.237 286.653 313.61 291.593 320.543 295.06C327.477 298.527 335.45 300.26 344.463 300.26C352.263 300.26 359.283 299.047 365.523 296.62C371.763 294.193 377.31 290.38 382.163 285.18L399.583 305.2C393.343 312.48 385.457 318.113 375.923 322.1C366.563 325.913 355.817 327.82 343.683 327.82Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M503.862 327.82C489.302 327.82 476.302 324.787 464.862 318.72C453.595 312.48 444.755 303.987 438.342 293.24C431.928 282.493 428.722 270.273 428.722 256.58C428.722 242.713 431.928 230.493 438.342 219.92C444.755 209.173 453.595 200.767 464.862 194.7C476.302 188.633 489.302 185.6 503.862 185.6C517.382 185.6 529.255 188.373 539.482 193.92C549.882 199.293 557.768 207.267 563.142 217.84L538.182 232.4C534.022 225.813 528.908 220.96 522.842 217.84C516.948 214.72 510.535 213.16 503.602 213.16C495.628 213.16 488.435 214.893 482.022 218.36C475.608 221.827 470.582 226.853 466.942 233.44C463.302 239.853 461.482 247.567 461.482 256.58C461.482 265.593 463.302 273.393 466.942 279.98C470.582 286.393 475.608 291.333 482.022 294.8C488.435 298.267 495.628 300 503.602 300C510.535 300 516.948 298.44 522.842 295.32C528.908 292.2 534.022 287.347 538.182 280.76L563.142 295.32C557.768 305.72 549.882 313.78 539.482 319.5C529.255 325.047 517.382 327.82 503.862 327.82Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M591.236 326V187.16H622.176V225.38L618.536 214.2C622.696 204.84 629.196 197.733 638.036 192.88C647.049 188.027 658.229 185.6 671.576 185.6V216.54C670.189 216.193 668.889 216.02 667.676 216.02C666.463 215.847 665.249 215.76 664.036 215.76C651.729 215.76 641.936 219.4 634.656 226.68C627.376 233.787 623.736 244.447 623.736 258.66V326H591.236Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M759.176 327.82C747.389 327.82 736.989 325.653 727.976 321.32C718.962 316.813 711.942 310.053 706.916 301.04C701.889 291.853 699.376 280.327 699.376 266.46V187.16H731.876V262.04C731.876 274.52 734.649 283.88 740.196 290.12C745.916 296.187 753.976 299.22 764.376 299.22C772.002 299.22 778.589 297.66 784.136 294.54C789.856 291.42 794.276 286.74 797.396 280.5C800.689 274.26 802.336 266.547 802.336 257.36V187.16H834.836V326H803.896V288.56L809.356 300C804.676 309.013 797.829 315.947 788.816 320.8C779.802 325.48 769.922 327.82 759.176 327.82Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M1052.63 185.6C1063.72 185.6 1073.51 187.767 1082.01 192.1C1090.67 196.433 1097.43 203.107 1102.29 212.12C1107.14 220.96 1109.57 232.4 1109.57 246.44V326H1077.07V250.6C1077.07 238.293 1074.38 229.107 1069.01 223.04C1063.63 216.973 1055.92 213.94 1045.87 213.94C1038.76 213.94 1032.43 215.5 1026.89 218.62C1021.51 221.74 1017.27 226.333 1014.15 232.4C1011.2 238.467 1009.73 246.18 1009.73 255.54V326H977.228V250.6C977.228 238.293 974.542 229.107 969.168 223.04C963.795 216.973 956.082 213.94 946.028 213.94C938.922 213.94 932.595 215.5 927.048 218.62C921.675 221.74 917.428 226.333 914.308 232.4C911.362 238.467 909.888 246.18 909.888 255.54V326H877.388V187.16H908.328V224.08L902.868 213.16C907.548 204.147 914.308 197.3 923.148 192.62C932.162 187.94 942.388 185.6 953.828 185.6C966.828 185.6 978.095 188.807 987.628 195.22C997.335 201.633 1003.75 211.34 1006.87 224.34L994.128 219.92C998.635 209.52 1006.09 201.2 1016.49 194.96C1026.89 188.72 1038.93 185.6 1052.63 185.6Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M1216.61 327.82C1201.19 327.82 1187.67 324.787 1176.05 318.72C1164.61 312.48 1155.69 303.987 1149.27 293.24C1143.03 282.493 1139.91 270.273 1139.91 256.58C1139.91 242.713 1142.95 230.493 1149.01 219.92C1155.25 209.173 1163.75 200.767 1174.49 194.7C1185.41 188.633 1197.81 185.6 1211.67 185.6C1225.19 185.6 1237.24 188.547 1247.81 194.44C1258.39 200.333 1266.71 208.653 1272.77 219.4C1278.84 230.147 1281.87 242.8 1281.87 257.36C1281.87 258.747 1281.79 260.307 1281.61 262.04C1281.61 263.773 1281.53 265.42 1281.35 266.98H1165.65V245.4H1264.19L1251.45 252.16C1251.63 244.187 1249.98 237.167 1246.51 231.1C1243.05 225.033 1238.28 220.267 1232.21 216.8C1226.32 213.333 1219.47 211.6 1211.67 211.6C1203.7 211.6 1196.68 213.333 1190.61 216.8C1184.72 220.267 1180.04 225.12 1176.57 231.36C1173.28 237.427 1171.63 244.62 1171.63 252.94V258.14C1171.63 266.46 1173.54 273.827 1177.35 280.24C1181.17 286.653 1186.54 291.593 1193.47 295.06C1200.41 298.527 1208.38 300.26 1217.39 300.26C1225.19 300.26 1232.21 299.047 1238.45 296.62C1244.69 294.193 1250.24 290.38 1255.09 285.18L1272.51 305.2C1266.27 312.48 1258.39 318.113 1248.85 322.1C1239.49 325.913 1228.75 327.82 1216.61 327.82Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M1365.35 327.82C1350.1 327.82 1338.31 323.92 1329.99 316.12C1321.67 308.147 1317.51 296.447 1317.51 281.02V156.48H1350.01V280.24C1350.01 286.827 1351.66 291.94 1354.95 295.58C1358.42 299.22 1363.18 301.04 1369.25 301.04C1376.53 301.04 1382.6 299.133 1387.45 295.32L1396.55 318.46C1392.74 321.58 1388.06 323.92 1382.51 325.48C1376.96 327.04 1371.24 327.82 1365.35 327.82ZM1294.63 214.2V188.2H1387.19V214.2H1294.63Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M1508.83 326V297.92L1507.01 291.94V242.8C1507.01 233.267 1504.15 225.9 1498.43 220.7C1492.71 215.327 1484.04 212.64 1472.43 212.64C1464.63 212.64 1456.91 213.853 1449.29 216.28C1441.83 218.707 1435.51 222.087 1430.31 226.42L1417.57 202.76C1425.02 197.04 1433.86 192.793 1444.09 190.02C1454.49 187.073 1465.23 185.6 1476.33 185.6C1496.43 185.6 1511.95 190.453 1522.87 200.16C1533.96 209.693 1539.51 224.513 1539.51 244.62V326H1508.83ZM1465.15 327.82C1454.75 327.82 1445.65 326.087 1437.85 322.62C1430.05 318.98 1423.98 314.04 1419.65 307.8C1415.49 301.387 1413.41 294.193 1413.41 286.22C1413.41 278.42 1415.23 271.4 1418.87 265.16C1422.68 258.92 1428.83 253.98 1437.33 250.34C1445.82 246.7 1457.09 244.88 1471.13 244.88H1511.43V266.46H1473.47C1462.37 266.46 1454.92 268.28 1451.11 271.92C1447.29 275.387 1445.39 279.72 1445.39 284.92C1445.39 290.813 1447.73 295.493 1452.41 298.96C1457.09 302.427 1463.59 304.16 1471.91 304.16C1479.88 304.16 1486.99 302.34 1493.23 298.7C1499.64 295.06 1504.23 289.687 1507.01 282.58L1512.47 302.08C1509.35 310.227 1503.71 316.553 1495.57 321.06C1487.59 325.567 1477.45 327.82 1465.15 327.82Z"
+                                fill="white"
+                              />
+                            </svg>
+                          </Typography>
+                        ) : (
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              fontWeight: "bold",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            <svg
+                              width="30"
+                              height="34"
+                              viewBox="0 0 182 258"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M0 114V186V258H30V186H30.0024C30.0024 180.485 31.0887 175.024 33.1993 169.928C35.3099 164.833 38.4034 160.203 42.3032 156.303C46.203 152.403 50.8328 149.31 55.9282 147.199C61.0236 145.089 66.4848 144.002 72 144.002V144H79V114H72C62.5448 114 53.1822 115.862 44.4468 119.481C39.3265 121.602 34.4805 124.301 30 127.519V114H0Z"
+                                fill="white"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M110 114L110 113.998C115.515 113.998 120.976 112.911 126.072 110.801C131.167 108.69 135.797 105.597 139.697 101.697C143.597 97.797 146.69 93.1672 148.801 88.0718C150.911 82.9764 151.998 77.5152 151.998 72C151.998 66.4848 150.911 61.0236 148.801 55.9282C146.69 50.8328 143.597 46.203 139.697 42.3032C135.797 38.4034 131.167 35.3099 126.072 33.1993C120.976 31.0887 115.515 30.0024 110 30.0024L110 0C119.455 0 128.818 1.86233 137.553 5.48067C146.289 9.09901 154.226 14.4025 160.912 21.0883C167.598 27.7741 172.901 35.7113 176.519 44.4468C180.138 53.1822 182 62.5448 182 72C182 81.4552 180.138 90.8178 176.519 99.5532C172.901 108.289 167.598 116.226 160.912 122.912C158.732 125.092 156.419 127.125 153.989 129C156.419 130.875 158.732 132.908 160.912 135.088C167.598 141.774 172.901 149.711 176.519 158.447C180.138 167.182 182 176.545 182 186V258H152V186H151.998C151.998 180.485 150.911 175.024 148.801 169.928C146.69 164.833 143.597 160.203 139.697 156.303C135.797 152.403 131.167 149.31 126.072 147.199C120.976 145.089 115.515 144.002 110 144.002L110 144H103V114H110Z"
+                                fill="#E65F2B"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M0 30V72V90H30V72H30.0024C30.0024 66.4848 31.0887 61.0236 33.1993 55.9282C35.3099 50.8328 38.4034 46.203 42.3032 42.3032C46.203 38.4034 50.8328 35.3099 55.9282 33.1993C61.0236 31.0887 66.4848 30.0024 72 30.0024V30H110V0H72H30H0V30Z"
+                                fill="#E65F2B"
+                              />
+                            </svg>
+                          </Typography>
+                        )}
+        </Box>
+        
+        {/* <DrawerHeader>
           <div className="flex items-center justify-around h-full w-full">
             <div>
-              <h1 className="text-2xl text-[#000]">Hi, Ashok</h1>
+              <h1 className="text-2xl text-[white]">Hi, Ashok</h1>
             </div>
             <div>
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
                   <CustomChevronRightIcon />
                 ) : (
-                  <CustomChevronLeftIcon color="#000000" text="#000000" />
+                  <CustomChevronLeftIcon color="white000" text="white000" />
                 )}
               </IconButton>
             </div>
           </div>
-        </DrawerHeader>
+        </DrawerHeader> */}
         <Divider />
 
-        <List sx={{ border: "none", backgroundColor: "#FBEEDB" }}>
+        <List sx={{ border: "none"}}>
           {navItems.map((items) => (
             <ListItem
               key={items.text}
               disablePadding
-              sx={{ display: "block" }}
+              sx={{ 
+                display: "block",
+                borderRadius: "25px",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+               }}
               className={`${
                 location.pathname.startsWith(items.link)
-                  ? "bg-[#f0ad4e] "
-                  : "text-[#000]"
-              }`}
+                  ? "bg-[#FFFFFF]" : ""
+              } flex items-center justify-center `}
             >
               <ListItemButton
                 sx={[
@@ -758,8 +873,8 @@ function NavigationLayout() {
                   primary={items.text}
                   className={`${
                     location.pathname.startsWith(items.link)
-                      ? "text-[#000] font-semibold "
-                      : ""
+                      ? "text-[#E65F2B] font-semibold "
+                      : "text-white"
                   } ${open ? "opacity-100" : "opacity-0"}`}
                   sx={{
                     "& .MuiTypography-root": {
@@ -774,12 +889,44 @@ function NavigationLayout() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, background: " #F2F0EF" }}>
+
+
+      <Box 
+         sx={{ 
+          position: "fixed",
+          left: open ? drawerWidth - 12 : theme.spacing(7),
+          top: "120px", // Adjust as needed to position vertically
+          zIndex: theme.zIndex.drawer + 2, // Ensure it's above the drawer
+          transition: theme.transitions.create(["left"], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+         }}>
+          <IconButton
+          onClick={open ? handleDrawerClose : handleDrawerOpen}
+          sx={{
+            backgroundColor: "white",
+            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
+            padding: "4px",
+            "&:hover": {
+              backgroundColor: "#f5f5f5",
+            },
+          }}
+        >
+          {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+        </Box>
+        <Box component="main" sx={{ 
+        // flexGrow: 1, p: 3, 
+        // backgroundColor:"green"
+       }}
+       className="w-full h-full"
+       >
         <DrawerHeader />
         <Outlet />
       </Box>
     </Box>
-  );
+  )
 }
 
 export { NavigationLayout as InternalNavigationLayout };

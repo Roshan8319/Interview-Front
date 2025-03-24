@@ -816,9 +816,7 @@ const handleLogOut = async ()=>{
        }}
        className="w-full h-full"
        >
-        <DrawerHeader
-
-        />
+        <DrawerHeader/>
         <Outlet 
         
         />

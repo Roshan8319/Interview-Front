@@ -1,12 +1,20 @@
-import React from 'react'
-import loadingAnim from "../assets/loading.webp"
+import React from "react";
+
+import Lottie from "lottie-react"; 
+import loaderAnimation from "../assets/Recrumeta-2Loader.json"; 
 
 function Load() {
+  
   return (
-    <div className='w-[100%] h-[100%] flex justify-center items-center ' >
-            <img className='flex items-center justify-center  ' src={loadingAnim} alt='Loading Animation' />
+    <div className="w-full h-full flex justify-center items-center">
+      <Lottie
+        animationData={loaderAnimation} 
+        loop={true}
+        
+        style={{width:"1080", height:"1080" }}
+      />
     </div>
-  )
+  );
 }
 
 export default Load;

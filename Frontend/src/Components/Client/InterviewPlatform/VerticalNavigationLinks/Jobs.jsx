@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 
 const Jobs = () => {
+
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const navigate = useNavigate(); // Initialize useNavigate
   const location = useLocation(); // Initialize useLocation
@@ -35,6 +39,40 @@ const Jobs = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+
+  const [data,setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const clientId = sessionStorage.getItem("clientId");
+   useEffect(() => {
+    const fetchJobs = async () => {
+      if(!clientId){
+        console.error("No clientId in sessionStorage!")
+        setLoading(false);
+        return;
+      }
+      try {
+        console.log("hi", clientId);    
+        
+        const response = await axios.get(`${baseUrl}/api/v1/client/getAllJobsForClient`, {
+          params:{clientId},
+          withCredentials: true,
+        });
+        setData(response.data.data);
+        setStat(response.data.data );
+        console.log(response);
+        
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchJobs();
+  }, [clientId]);
+
 
   return (
     <div className='w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4 flex flex-col' >
@@ -113,7 +151,8 @@ const Jobs = () => {
               </tr>
             </thead>
             <tbody>
-              {jobData.map((job, index) => (
+            {Array.isArray(jobData) ? (
+              data.map((job, index) => (
                 <tr key={index} className="border-b">
                   <td className=" py-2 px-4 max-w-max text-start ">{job.title}</td>
                   <td className=" py-2 px-4 max-w-max text-center ">{job.candidates}</td>
@@ -151,7 +190,13 @@ const Jobs = () => {
                     <svg fill="#000000" width="20px" height="20px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Glyph" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M13,16c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,14.346,13,16z" id="XMLID_294_"></path><path d="M13,26c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,24.346,13,26z" id="XMLID_295_"></path><path d="M13,6c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,4.346,13,6z" id="XMLID_297_"></path></g></svg>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <div>
+                No service 
+              </div>
+            )
+            }
             </tbody>
             </table>
           </div>
