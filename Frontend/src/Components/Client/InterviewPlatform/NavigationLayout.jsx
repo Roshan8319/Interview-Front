@@ -547,7 +547,7 @@ const handleLogOut = async ()=>{
       {/* AppBar - Top Navigation Bar */}
       <AppBar
         position="fixed"
-        sx={{ ...appBarStyle, backgroundColor: "#EBDFD7",height: "60px" }}
+        sx={{ ...appBarStyle, backgroundColor: "#EBDFD7",height: "64px" }}
       >
         <div className="flex items-center justify-end h-full mt-[6px]">
           <div className="flex h-full">
@@ -721,7 +721,7 @@ const handleLogOut = async ()=>{
         <Divider />
 
         {/* First section of the menu items */}
-        <List sx={{ border: "none" }}>
+        <List sx={{ border: "none", top: "40px" }}>
           {navItems.map((items) => (
             <ListItem
               key={items.text}
@@ -740,7 +740,7 @@ const handleLogOut = async ()=>{
             >
               <ListItemButton
                 sx={[
-                  { minHeight: 48, px: 2.5 },
+                  { minHeight: 48, px: 3 },
                   open
                     ? { justifyContent: "initial" }
                     : { justifyContent: "center" },
