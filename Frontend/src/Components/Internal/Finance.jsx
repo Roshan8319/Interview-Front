@@ -5,6 +5,7 @@ const Finance = () => {
   const styles = {
     container: {
       width: '90%',
+      height:  '100%',
       margin: '0 auto',
       fontFamily: 'Arial, sans-serif',
     },
@@ -120,7 +121,8 @@ const Finance = () => {
     },
   };
   return (
-    <div style={styles.container}>
+    <div className=' bg-[#EBDFD7] ' >
+    <div style={styles.container}  >
       <header style={styles.header}>
         <div  style={{display:"flex",flexDirection:"row"}}>
           <p style={{fontWeight:"600",padding: '5px'}}>Year</p>
@@ -325,6 +327,7 @@ const Finance = () => {
   </div>
 </div>
       </section>
+    </div>
     </div>
   );
 };

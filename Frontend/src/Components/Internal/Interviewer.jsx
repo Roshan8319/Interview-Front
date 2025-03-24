@@ -125,8 +125,8 @@ function Interviewer() {
   
 
   return (
-    <div className='p-6 pt-0  pl-0  text-[14px] ' >
-      <div className='' >
+    <div className='p-6 pt-4  pl-0  text-[14px] min-h-[calc(100vh-64px)] bg-[#EBDFD7]  ' >
+      <div className='pl-6' >
         <div className=' w-full h-full flex flex-col items-center  ' >
           <div className='w-full flex  pb-[12px] pr-3 justify-end space-x-4  ' >
             <div className='w-[466px] h-[40px] flex justify-around items-center border-2 border-[#F4F4F4] bg-white rounded-[28px] pr-1 pl-1 ' >
@@ -147,23 +147,23 @@ function Interviewer() {
             </div>
           </div>
           <div className='w-full h-[104px] grid grid-cols-[1fr_1fr_1fr_1fr_1fr]  2xl:gap-x-7 gap-x-4 justify-between items-center p-2 ' >
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#ffffff57] shadow rounded-[16px] ' >
               <span className='font-normal  ' >Total Interviewers</span>
               <span className='font-semibold text-[24px] ' >758</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#ffffff57] shadow rounded-[16px] ' >
               <span className='font-normal  ' >0-4 Years</span>
               <span className='font-semibold text-[24px] ' >26</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#ffffff57] shadow rounded-[16px] ' >
               <span className='font-normal  ' >4-8 Years</span>
               <span className='font-semibold text-[24px] ' >56</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#ffffff57] shadow rounded-[16px] ' >
               <span className='font-normal  ' >8-10 Years</span>
               <span className='font-semibold text-[24px] ' >26</span>
             </div>
-            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] shadow-custom-color rounded-[16px] ' >
+            <div className=' flex flex-col  justify-center items-start p-4 pl-[15%] bg-[#ffffff57] shadow rounded-[16px] ' >
               <span className='font-normal  ' >10+ Years</span>
               <span className='font-semibold text-[24px] ' >210</span>
             </div>
