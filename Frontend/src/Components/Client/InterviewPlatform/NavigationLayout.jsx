@@ -547,15 +547,15 @@ const handleLogOut = async ()=>{
       {/* AppBar - Top Navigation Bar */}
       <AppBar
         position="fixed"
-        sx={{ ...appBarStyle, backgroundColor: "#EBDFD7",height: "60px" }}
+        sx={{ ...appBarStyle, backgroundColor: "#EBDFD7",height: "64px" }}
       >
         <div className="flex items-center justify-end h-full mt-[6px]">
           <div className="flex h-full">
             <div
-              className="ml-6 bg-white w-[240px] h-[48px]  flex items-center justify-start px-[2px] rounded-full relative"
+              className="right-4 ml-6 bg-white w-[150px] h-[48px]  flex items-center justify-start px-[2px] rounded-full relative"
               ref={dropdownRef}
             >
-              <div className="w-[48px] h-[48px] rounded-full bg-white overflow-hidden m-2">
+              <div className="w-[38px] h-[38px] rounded-full bg-white overflow-hidden m-2">
                 <img
                   src="https://i.pinimg.com/736x/aa/e7/b9/aae7b9e5b76d009af2e73c1b15d237a8.jpg"
                   alt="User Logo"
@@ -566,7 +566,7 @@ const handleLogOut = async ()=>{
                 <p className="text-black text-xl">{username ? `${username}` : "Sumit"}</p>
                 {/* <p className="text-[#292D32] text-sm">Product Manager</p> */}
               </div>
-              <button onClick={toggleDropdown} className="focus:outline-none">
+              <button onClick={toggleDropdown} className="px-2 focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -584,7 +584,7 @@ const handleLogOut = async ()=>{
               {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <div
-                  className="absolute top-full right-8 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                  className="absolute top-full right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
                   onMouseLeave={closeDropdown}
                 >
                   <div
@@ -721,7 +721,7 @@ const handleLogOut = async ()=>{
         <Divider />
 
         {/* First section of the menu items */}
-        <List sx={{ border: "none" }}>
+        <List sx={{ border: "none", top: "40px" }}>
           {navItems.map((items) => (
             <ListItem
               key={items.text}
@@ -740,7 +740,7 @@ const handleLogOut = async ()=>{
             >
               <ListItemButton
                 sx={[
-                  { minHeight: 48, px: 2.5 },
+                  { minHeight: 48, px: 3 },
                   open
                     ? { justifyContent: "initial" }
                     : { justifyContent: "center" },
@@ -785,8 +785,8 @@ const handleLogOut = async ()=>{
       <Box
         sx={{
           position: "fixed",
-          left: open ? drawerWidth - 12 : theme.spacing(7),
-          top: "120px", // Adjust as needed to position vertically
+          left: open ? drawerWidth - 12 : theme.spacing(6),
+          top: "55px", // Adjust as needed to position vertically
           zIndex: theme.zIndex.drawer + 2, // Ensure it's above the drawer
           transition: theme.transitions.create(["left"], {
             easing: theme.transitions.easing.sharp,
@@ -799,7 +799,7 @@ const handleLogOut = async ()=>{
           sx={{
             backgroundColor: "white",
             boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
-            padding: "4px",
+            padding: "3px",
             "&:hover": {
               backgroundColor: "#f5f5f5",
             },

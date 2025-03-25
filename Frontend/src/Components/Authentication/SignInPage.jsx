@@ -93,7 +93,7 @@ function SignInPage() {
       style={{ backgroundImage: `url(${Bg})` }}
     >
       <div className="px-4 py-2 h-[60px] w-full bg-transparent">
-        <img src={Recrumeta} alt="Logo" />
+        <img src={Recrumeta} alt="Logo" style={{width:"200px", height:"50px"}}/>
       </div>
       <div className="pt-5 pr-[100px] w-full min-h-[calc(100vh-64px)] flex items-start justify-end">
         <div className="p-4 px-7 w-[500px] h-[550px] bg-white bg-opacity-45 rounded-2xl">
@@ -274,19 +274,19 @@ function SignInPage() {
             <div className="px-2 mt-10">
             <Link
                 to="/auth/reset-password"
-                className="text-[#E65F2B] underline"
+                className="text-[#E65F2B] hover:underline"
               >
-                Reset Password ? 
+                Forget Password?
               </Link>
               <p className="text-[#AD988F] mt-1">
-                Don't have a account ?{" "}
-                <span className="text-[#E65F2B] underline">Contact Sales</span>
+                Don't have an account?{" "}
+                <span className="text-[#E65F2B] hover:underline">Contact Support</span>
               </p>
               <p className="text-[#AD988F] mt-1">
                 By signing up, you agree to{" "}
-                <span className="text-[#E65F2B] underline">Terms of use</span>{" "}
+                <span className="text-[#E65F2B] hover:underline">Terms of use</span>{" "}
                 and{" "}
-                <span className="text-[#E65F2B] underline">Privacy Policy</span>
+                <span className="text-[#E65F2B] hover:underline">Privacy Policy</span>
               </p>
             </div>
           </div>

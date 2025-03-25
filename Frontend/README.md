@@ -1,4 +1,4 @@
-# HiringDog Frontend Project
+# Recrumeta Frontend Project
 ## Installation Steps
 
 Follow these steps to clone and run the project locally:
@@ -11,7 +11,7 @@ Open your terminal and run:
 
 2. **Navigate to project  directory**  
    ```bash
-   cd HiringDog
+   cd Frontend
 
 3. ** Install Dependencies**  
    ```bash
