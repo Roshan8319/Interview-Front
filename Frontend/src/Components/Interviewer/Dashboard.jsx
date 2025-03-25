@@ -249,56 +249,44 @@ const InterviewDashboard = () => {
   };
 
   return (
-    <div className="bg-gray-50">
+    <div className="p-4 min-h-[calc(100vh-64px)] bg-[#EBDFD7]">
       {/* Main content */}
-      <main className="max-w-full mx-auto px-4 lg:px-6">
+      <main className="max-w-full mx-auto flex flex-col gap-y-4 px-4 lg:px-6">
         {/* Stats cards */}
-        <div className="w-full px-6 py-2">
-          <div className="flex flex-wrap justify-around gap-4">
+        <div className="w-full px-1  py-2  ">
+          <div className="flex flex-wrap justify-between  gap-4">
             {/* Card 1 - Total Interviews with gradient background */}
-            <div className="bg-white w-full sm:w-60 h-32 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600">
-                <div className="text-xs font-medium text-white">
+            <div className="bg-[#ffffff57] w-full sm:w-60 h-[200px] overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
+              <div className=" flex flex-col gap-y-2 px-4 py-8 ">
+                <div>
+                  <svg width="44" height="44" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="0.5" width="46" height="46" rx="23" fill="#D398E7" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M23 15.0205C20.8484 15.0205 19.1042 16.7647 19.1042 18.9163C19.1042 21.068 20.8484 22.8122 23 22.8122C25.1516 22.8122 26.8959 21.068 26.8959 18.9163C26.8959 16.7647 25.1516 15.0205 23 15.0205ZM17.7292 18.9163C17.7292 16.0053 20.089 13.6455 23 13.6455C25.911 13.6455 28.2709 16.0053 28.2709 18.9163C28.2709 21.8273 25.911 24.1872 23 24.1872C20.089 24.1872 17.7292 21.8273 17.7292 18.9163Z" fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4384 32.6667C14.4384 28.6142 18.414 25.5625 23 25.5625C27.586 25.5625 31.5617 28.6142 31.5617 32.6667C31.5617 33.0464 31.2539 33.3542 30.8742 33.3542C30.4945 33.3542 30.1867 33.0464 30.1867 32.6667C30.1867 29.6241 27.104 26.9375 23 26.9375C18.896 26.9375 15.8134 29.6241 15.8134 32.6667C15.8134 33.0464 15.5056 33.3542 15.1259 33.3542C14.7462 33.3542 14.4384 33.0464 14.4384 32.6667Z" fill="white" />
+                  </svg>
+
+                </div>
+                <div className="text-xs font-medium text-gray-500">
                   Total Interviews
                 </div>
-                <div className="flex items-baseline">
-                  <p className="text-2xl font-bold text-white">43</p>
-                  <p className="ml-2 text-xs font-medium text-blue-100">
-                    +12% this week
+                <div className="flex flex-col gap-y-2 items-baseline">
+                  <p className="text-2xl font-bold text-black">43</p>
+                  <p className=" text-xs font-medium text-gray-500">
+                  <span className="text-[18px] text-green-500 " >↗</span> 12% this week
                   </p>
                 </div>
-                <div className="mt-2 flex items-center justify-between">
-                  <div className="w-3/4 bg-blue-200 bg-opacity-30 rounded-full h-1.5">
-                    <div className="bg-white h-1.5 rounded-full w-3/4"></div>
-                  </div>
-                  <span className="text-xs text-white font-medium">75%</span>
-                </div>
+                
               </div>
             </div>
 
             {/* Card 2 - Avg-Interview/Month */}
-            <div className="bg-white w-full sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="px-4 py-3">
+            <div className="bg-[#ffffff57] w-full h-[200px] sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
+              <div className=" flex flex-col gap-y-2 px-4 py-8 ">
                 <div className="flex justify-between items-center">
                   <div className="text-xs font-medium text-gray-500">
                     Avg-Interview/Month
                   </div>
-                  <div className="p-1 bg-blue-100 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-blue-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </div>
+                  
                 </div>
                 <div className="flex items-baseline">
                   <p className="text-2xl font-bold text-gray-900">43</p>
@@ -321,10 +309,10 @@ const InterviewDashboard = () => {
                   </div>
                 </div>
                 <div className="mt-2 flex space-x-1">
-                  {[0.3, 0.5, 0.7, 0.4, 0.6, 0.8, 0.9].map((height, i) => (
+                  {[0.3, 0.5, 0.7, 0.4, 0.9, 1.2, 1.5].map((height, i) => (
                     <div key={i} className="w-full">
                       <div
-                        className="bg-blue-500 rounded-t"
+                        className="bg-[#64BE73] rounded-t"
                         style={{ height: `${height * 24}px` }}
                       ></div>
                       <div className="bg-gray-100 h-1"></div>
@@ -335,32 +323,24 @@ const InterviewDashboard = () => {
             </div>
 
             {/* Card 3 - Today's Income */}
-            <div className="bg-white w-full sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="px-4 py-3">
+            <div className="bg-[#ffffff57] w-full h-[200px] sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
+              <div className="flex flex-col gap-y-2 px-4 py-8 ">
                 <div className="flex justify-between items-center">
                   <div className="text-xs font-medium text-gray-500">
                     Today's Income
                   </div>
-                  <div className="p-1 bg-green-100 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-green-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
+                 
                 </div>
-                <div className="flex items-baseline mt-1">
-                  <p className="text-2xl font-bold text-gray-900">17</p>
-                  <p className="ml-2 text-xs text-gray-500">clients</p>
+                <div className="flex" >
+                  <div className="p-1  rounded-full">
+                    <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44px" height="44px" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">    </style> <g> <path class="st0" d="M418.336,193.866C397.758,111.819,318.07,80.96,311.102,73.444l19.594-71.328c0,0-24.469-7.906-58.797,6.828 c-43.641,18.734-67.953-5.156-67.953-5.156l21.547,70.781c-6.766,7.688-91.516,42.141-106.875,123.219 c-7.797,41.094,3.422,92.531,39.25,127.516c12.953-4.984,29.078-8.219,49.969-8.219h85.594c19.844,0,35.984,16.141,35.984,35.984 c0,0.906-0.125,1.797-0.188,2.688C407.258,328.663,432.555,250.429,418.336,193.866z M312.883,263.132 c-1.969,4.25-4.984,7.984-8.953,11.141c-4.063,3.172-9.25,5.734-15.438,7.578c-3.031,0.875-6.359,1.563-9.938,2.016v11.828h-17.563 v-11.188c-6.422-0.328-12.625-1.172-18.469-2.625c-6.734-1.656-12.063-3.703-16.297-6.25c-1.016-0.625-1.109-0.844-1.109-3.016 v-15.125c0-1.172,0.266-1.172,0.625-1.172c0.313,0,0.672,0.094,0.938,0.234c1.453,0.766,2.984,1.531,4.547,2.297 c3.75,1.781,7.625,3.328,11.531,4.625c3.891,1.313,7.797,2.375,11.594,3.156c3.875,0.797,7.531,1.219,10.813,1.219 c8.266,0,14.234-1.609,18.266-4.922c4.125-3.391,6.203-7.609,6.203-12.547c0-2.469-0.422-4.75-1.25-6.766 c-0.875-2.141-2.469-4.109-4.766-5.875c-2.078-1.625-4.984-3.219-8.609-4.734c-3.5-1.469-8-3.047-13.375-4.703 c-7.109-2.281-13.125-4.719-17.875-7.234c-4.641-2.453-8.375-5.172-11.125-8.063c-2.672-2.813-4.594-5.891-5.75-9.156 c-1.172-3.328-1.766-7.031-1.766-10.984c0-5,1.25-9.609,3.703-13.703c2.5-4.203,6-7.859,10.359-10.906 c4.406-3.078,9.703-5.516,15.688-7.219c1.984-0.547,4.063-0.984,6.125-1.359v-11.625h17.563v10.594 c4.891,0.188,9.766,0.609,14.469,1.469c5.094,0.906,10.109,2.406,14.906,4.406c0.906,0.375,1.125,0.594,1.125,1.453v15.656 c-0.016,0.234-0.219,0.313-0.625,0.313c-0.359,0-0.656-0.063-0.828-0.125c-4.25-1.453-8.688-2.75-13.188-3.797 c-6.516-1.516-13.031-2.297-19.328-2.297c-7.75,0-13.75,1.516-17.859,4.5c-4.375,3.203-6.594,7.344-6.594,12.328 c0,2.156,0.484,4.219,1.406,6.109c0.938,1.906,2.5,3.734,4.688,5.406c2.031,1.563,4.703,3.109,8.203,4.688 c3.313,1.531,7.594,3.109,12.656,4.656c6.797,2.094,12.719,4.344,17.625,6.688c4.797,2.281,8.797,4.844,11.875,7.625 c3,2.672,5.203,5.766,6.594,9.188c1.438,3.5,2.156,7.609,2.156,12.25C315.836,254.179,314.836,258.866,312.883,263.132z"></path> <path class="st0" d="M234.57,374.46c14.281,0,58.859,0,58.859,0c11.828,0,21.406-9.578,21.406-21.391 c0-11.828-9.578-21.406-21.406-21.406c-10.703,0-32.094,0-85.594,0c-53.516,0-70.453,22.297-89.188,41.016l-33.984,29.688 c-2.203,1.922-3.469,4.688-3.469,7.625v98.641c0,1.313,0.766,2.516,1.969,3.063s2.609,0.359,3.609-0.516l65.672-56.297 c2.313-1.969,5.406-2.797,8.391-2.266l102.344,18.609c7.141,1.297,14.484-0.344,20.422-4.531c0,0,130.625-90.828,140.266-98.859 l0,0c9.188-8.438,9.094-20.672,0.641-29.875c-8.438-9.203-24.172-7.25-34.688,0.531c-9.625,8.016-75.359,51.219-75.359,51.219 H234.57l-0.25,0.125c-4.203-0.141-7.5-3.672-7.375-7.875c0.156-4.203,3.688-7.5,7.875-7.359L234.57,374.46z"></path> </g> </g></svg>
+                  </div>
+                  <div className="flex flex-col items-baseline mt-1">
+                    <p className="text-2xl font-bold text-gray-900">$17 </p>
+                    <p className="ml-2 text-xs text-gray-500 whitespace-nowrap">
+                    <span className="text-[18px] text-green-500 " >↗</span> 12% from last day
+                    </p>
+                  </div>
                 </div>
                 <div className="mt-3 flex justify-between items-center">
                   <div className="flex items-center">
@@ -381,123 +361,53 @@ const InterviewDashboard = () => {
             </div>
 
             {/* Card 4 - Total Income */}
-            <div className="bg-white w-full sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="px-4 py-3">
+            <div className="bg-[#ffffff57] w-full h-[200px] sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
+              <div className="flex flex-col gap-y-2 px-4 py-8 ">
                 <div className="flex justify-between items-center">
                   <div className="text-xs font-medium text-gray-500">
                     Total Income
                   </div>
-                  <div className="p-1 bg-purple-100 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-purple-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                      />
-                    </svg>
+                 
+                </div>
+                <div className="flex" >
+                  <div className="p-1  rounded-full">
+                    <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44px" height="44px" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">    </style> <g> <path class="st0" d="M418.336,193.866C397.758,111.819,318.07,80.96,311.102,73.444l19.594-71.328c0,0-24.469-7.906-58.797,6.828 c-43.641,18.734-67.953-5.156-67.953-5.156l21.547,70.781c-6.766,7.688-91.516,42.141-106.875,123.219 c-7.797,41.094,3.422,92.531,39.25,127.516c12.953-4.984,29.078-8.219,49.969-8.219h85.594c19.844,0,35.984,16.141,35.984,35.984 c0,0.906-0.125,1.797-0.188,2.688C407.258,328.663,432.555,250.429,418.336,193.866z M312.883,263.132 c-1.969,4.25-4.984,7.984-8.953,11.141c-4.063,3.172-9.25,5.734-15.438,7.578c-3.031,0.875-6.359,1.563-9.938,2.016v11.828h-17.563 v-11.188c-6.422-0.328-12.625-1.172-18.469-2.625c-6.734-1.656-12.063-3.703-16.297-6.25c-1.016-0.625-1.109-0.844-1.109-3.016 v-15.125c0-1.172,0.266-1.172,0.625-1.172c0.313,0,0.672,0.094,0.938,0.234c1.453,0.766,2.984,1.531,4.547,2.297 c3.75,1.781,7.625,3.328,11.531,4.625c3.891,1.313,7.797,2.375,11.594,3.156c3.875,0.797,7.531,1.219,10.813,1.219 c8.266,0,14.234-1.609,18.266-4.922c4.125-3.391,6.203-7.609,6.203-12.547c0-2.469-0.422-4.75-1.25-6.766 c-0.875-2.141-2.469-4.109-4.766-5.875c-2.078-1.625-4.984-3.219-8.609-4.734c-3.5-1.469-8-3.047-13.375-4.703 c-7.109-2.281-13.125-4.719-17.875-7.234c-4.641-2.453-8.375-5.172-11.125-8.063c-2.672-2.813-4.594-5.891-5.75-9.156 c-1.172-3.328-1.766-7.031-1.766-10.984c0-5,1.25-9.609,3.703-13.703c2.5-4.203,6-7.859,10.359-10.906 c4.406-3.078,9.703-5.516,15.688-7.219c1.984-0.547,4.063-0.984,6.125-1.359v-11.625h17.563v10.594 c4.891,0.188,9.766,0.609,14.469,1.469c5.094,0.906,10.109,2.406,14.906,4.406c0.906,0.375,1.125,0.594,1.125,1.453v15.656 c-0.016,0.234-0.219,0.313-0.625,0.313c-0.359,0-0.656-0.063-0.828-0.125c-4.25-1.453-8.688-2.75-13.188-3.797 c-6.516-1.516-13.031-2.297-19.328-2.297c-7.75,0-13.75,1.516-17.859,4.5c-4.375,3.203-6.594,7.344-6.594,12.328 c0,2.156,0.484,4.219,1.406,6.109c0.938,1.906,2.5,3.734,4.688,5.406c2.031,1.563,4.703,3.109,8.203,4.688 c3.313,1.531,7.594,3.109,12.656,4.656c6.797,2.094,12.719,4.344,17.625,6.688c4.797,2.281,8.797,4.844,11.875,7.625 c3,2.672,5.203,5.766,6.594,9.188c1.438,3.5,2.156,7.609,2.156,12.25C315.836,254.179,314.836,258.866,312.883,263.132z"></path> <path class="st0" d="M234.57,374.46c14.281,0,58.859,0,58.859,0c11.828,0,21.406-9.578,21.406-21.391 c0-11.828-9.578-21.406-21.406-21.406c-10.703,0-32.094,0-85.594,0c-53.516,0-70.453,22.297-89.188,41.016l-33.984,29.688 c-2.203,1.922-3.469,4.688-3.469,7.625v98.641c0,1.313,0.766,2.516,1.969,3.063s2.609,0.359,3.609-0.516l65.672-56.297 c2.313-1.969,5.406-2.797,8.391-2.266l102.344,18.609c7.141,1.297,14.484-0.344,20.422-4.531c0,0,130.625-90.828,140.266-98.859 l0,0c9.188-8.438,9.094-20.672,0.641-29.875c-8.438-9.203-24.172-7.25-34.688,0.531c-9.625,8.016-75.359,51.219-75.359,51.219 H234.57l-0.25,0.125c-4.203-0.141-7.5-3.672-7.375-7.875c0.156-4.203,3.688-7.5,7.875-7.359L234.57,374.46z"></path> </g> </g></svg>
+                  </div>
+                  <div className="flex flex-col items-baseline mt-1">
+                    <p className="text-2xl font-bold text-gray-900">$25K</p>
+                    <p className="ml-2 text-xs text-gray-500 whitespace-nowrap">
+                    <span className="text-[18px] text-green-500 " >↗</span> 12% from last day
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-baseline">
-                  <p className="text-2xl font-bold text-gray-900">$95</p>
-                  <div className="ml-2 flex items-center text-xs font-medium text-green-600">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 15l7-7 7 7"
-                      />
-                    </svg>
-                    <span>4.5%</span>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center text-xs text-gray-500">
-                  <div className="flex space-x-1 mr-2">
-                    <div className="w-2 h-2 rounded-full bg-purple-500"></div>
-                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  </div>
-                  <span>Last updated 2h ago</span>
+                <div className="mt-3 flex justify-between items-center">
+                  <svg width="200" height="60" viewBox="0 0 212 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M210.999 11.0753V89H0.999954V25.8666C5.55615 20.9361 15.7869 10.4265 20.2602 7.83131C25.8519 4.58735 27.7158 12.9524 37.0353 25.8666C44.4909 36.1979 52.982 30.1713 56.2956 25.8666L72.4494 18.1849C75.763 22.2744 83.3842 28.6231 87.3605 21.3021C91.3368 13.9811 101.029 11.4338 105.378 11.0753C110.687 14.1502 123.083 21.4134 130.197 25.8666C139.088 31.433 141.94 25.3099 149.657 18.1849C157.374 11.0598 165.762 19.6322 170.963 21.3021C176.163 22.972 181.364 14.845 182.538 12.9524C183.713 11.0598 190.591 13.5091 194.114 12.9524C196.932 12.5071 197.969 6.8563 201.921 7.14775L210.999 11.0753Z" fill="url(#paint0_linear_245_4541)" />
+                    <path d="M210.999 11.0753L201.921 7.14775C197.969 6.8563 196.932 12.5071 194.114 12.9524C190.591 13.5091 183.713 11.0598 182.538 12.9524C181.364 14.845 176.163 22.972 170.963 21.3021C165.762 19.6322 157.374 11.0598 149.657 18.1849C141.94 25.3099 139.088 31.433 130.197 25.8666C123.083 21.4134 110.687 14.1502 105.378 11.0753C101.029 11.4338 91.3368 13.9811 87.3605 21.3021C83.3842 28.6231 75.763 22.2744 72.4494 18.1849L56.2956 25.8666C52.982 30.1713 44.4909 36.1979 37.0353 25.8666C27.7158 12.9524 25.8519 4.58735 20.2602 7.83131C15.7869 10.4265 5.55615 20.9361 0.999958 25.8666" stroke="#007D15" />
+                    <path d="M131.418 8.108V7.338L135.356 2.3H136.544L132.639 7.338L132.078 7.162H138.227V8.108H131.418ZM135.697 10V8.108L135.73 7.162V5.49H136.764V10H135.697ZM141.362 10.088C140.819 10.088 140.291 10.0037 139.778 9.835C139.272 9.66633 138.857 9.439 138.535 9.153L139.041 8.284C139.297 8.526 139.631 8.724 140.042 8.878C140.452 9.032 140.889 9.109 141.351 9.109C141.937 9.109 142.388 8.98433 142.704 8.735C143.019 8.48567 143.177 8.152 143.177 7.734C143.177 7.448 143.107 7.19867 142.968 6.986C142.828 6.77333 142.586 6.612 142.242 6.502C141.904 6.38467 141.439 6.326 140.845 6.326H139.096L139.503 2.3H143.848V3.257H139.91L140.482 2.718L140.163 5.897L139.591 5.369H141.076C141.846 5.369 142.465 5.468 142.935 5.666C143.404 5.864 143.745 6.139 143.958 6.491C144.17 6.83567 144.277 7.23533 144.277 7.69C144.277 8.13 144.17 8.53333 143.958 8.9C143.745 9.25933 143.422 9.549 142.99 9.769C142.564 9.98167 142.022 10.088 141.362 10.088ZM148.338 10.088C147.737 10.088 147.198 9.934 146.721 9.626C146.252 9.318 145.878 8.87067 145.599 8.284C145.328 7.69733 145.192 6.986 145.192 6.15C145.192 5.314 145.328 4.60267 145.599 4.016C145.878 3.42933 146.252 2.982 146.721 2.674C147.198 2.366 147.737 2.212 148.338 2.212C148.932 2.212 149.467 2.366 149.944 2.674C150.421 2.982 150.795 3.42933 151.066 4.016C151.337 4.60267 151.473 5.314 151.473 6.15C151.473 6.986 151.337 7.69733 151.066 8.284C150.795 8.87067 150.421 9.318 149.944 9.626C149.467 9.934 148.932 10.088 148.338 10.088ZM148.338 9.109C148.741 9.109 149.093 8.999 149.394 8.779C149.702 8.559 149.94 8.229 150.109 7.789C150.285 7.349 150.373 6.80267 150.373 6.15C150.373 5.49733 150.285 4.951 150.109 4.511C149.94 4.071 149.702 3.741 149.394 3.521C149.093 3.301 148.741 3.191 148.338 3.191C147.935 3.191 147.579 3.301 147.271 3.521C146.963 3.741 146.721 4.071 146.545 4.511C146.376 4.951 146.292 5.49733 146.292 6.15C146.292 6.80267 146.376 7.349 146.545 7.789C146.721 8.229 146.963 8.559 147.271 8.779C147.579 8.999 147.935 9.109 148.338 9.109ZM155.675 10.088C155.074 10.088 154.535 9.934 154.058 9.626C153.589 9.318 153.215 8.87067 152.936 8.284C152.665 7.69733 152.529 6.986 152.529 6.15C152.529 5.314 152.665 4.60267 152.936 4.016C153.215 3.42933 153.589 2.982 154.058 2.674C154.535 2.366 155.074 2.212 155.675 2.212C156.269 2.212 156.804 2.366 157.281 2.674C157.758 2.982 158.132 3.42933 158.403 4.016C158.674 4.60267 158.81 5.314 158.81 6.15C158.81 6.986 158.674 7.69733 158.403 8.284C158.132 8.87067 157.758 9.318 157.281 9.626C156.804 9.934 156.269 10.088 155.675 10.088ZM155.675 9.109C156.078 9.109 156.43 8.999 156.731 8.779C157.039 8.559 157.277 8.229 157.446 7.789C157.622 7.349 157.71 6.80267 157.71 6.15C157.71 5.49733 157.622 4.951 157.446 4.511C157.277 4.071 157.039 3.741 156.731 3.521C156.43 3.301 156.078 3.191 155.675 3.191C155.272 3.191 154.916 3.301 154.608 3.521C154.3 3.741 154.058 4.071 153.882 4.511C153.713 4.951 153.629 5.49733 153.629 6.15C153.629 6.80267 153.713 7.349 153.882 7.789C154.058 8.229 154.3 8.559 154.608 8.779C154.916 8.999 155.272 9.109 155.675 9.109Z" fill="#64BE73" />
+                    <circle cx="148.5" cy="22.5" r="4" fill="#64BE73" stroke="white" stroke-width="3" />
+                    <defs>
+                      <linearGradient id="paint0_linear_245_4541" x1="105.999" y1="7.13086" x2="105.999" y2="89" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#61D474" />
+                        <stop offset="1" stop-color="#BDFFC8" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+
                 </div>
               </div>
             </div>
 
-            {/* Card 5 - Products */}
-            <div className="bg-white w-full sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="px-4 py-3">
-                <div className="flex justify-between items-center">
-                  <div className="text-xs font-medium text-gray-500">
-                    Products
-                  </div>
-                  <div className="p-1 bg-yellow-100 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-yellow-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="flex items-baseline">
-                  <p className="text-2xl font-bold text-gray-900">621</p>
-                  <div className="ml-2 flex items-center text-xs font-medium text-red-600">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                    <span>1%</span>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <div className="flex justify-between text-xs text-gray-500">
-                    <span>Last 7 days</span>
-                    <span>85%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                    <div className="bg-yellow-500 h-1.5 rounded-full w-5/6"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
+           
           </div>
         </div>
 
         {/* Charts and activity */}
-        <div className="mt-1 grid grid-cols-1 gap-4 lg:grid-cols-2 h-[calc(100vh-var(--header-height)-2rem)]">
+        <div className="mt-1 grid grid-cols-1  gap-4 lg:grid-cols-2 h-[calc(100vh-var(--header-height)-2rem)]">
           <div>
             {isLoading ? (
-              <div className="bg-white shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
+              <div className="bg-[#ffffff57] shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
                 <div className="px-4 py-5 flex-grow flex flex-col items-center justify-center">
                   {/* Loading animation */}
                   <div className="w-20 h-20 mb-6 relative">
@@ -714,7 +624,7 @@ const InterviewDashboard = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-white shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
+                  <div className="bg-[#ffffff57] shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
                     <div className="px-4 py-5 flex-grow">
                       {/* Header section */}
                       <div className="flex justify-between items-center">
@@ -749,9 +659,9 @@ const InterviewDashboard = () => {
           </div>
 
           {/* Charts */}
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white p-4 rounded-lg shadow-sm">
+          <div className="space-y-4 flex flex-col ">
+            <div className="flex flex-col justify-center items-center gap-4">
+              <div className="bg-[#ffffff57] w-[420px] p-4 rounded-lg shadow-sm">
                 <h3 className="text-sm font-medium text-gray-500 mb-4">
                   Pending Receivables
                 </h3>
@@ -777,7 +687,7 @@ const InterviewDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="bg-[#ffffff57] w-[420px] p-4 rounded-lg shadow-sm">
                 <h3 className="text-sm font-medium text-gray-500 mb-4">
                   Completed Receivables
                 </h3>
