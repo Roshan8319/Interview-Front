@@ -6,7 +6,7 @@ import loaderAnimation from "../assets/Recrumeta-2Loader.json";
 function Load() {
   
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
       <Lottie
         animationData={loaderAnimation} 
         loop={true}

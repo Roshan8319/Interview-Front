@@ -20,11 +20,11 @@ function SignInPage() {
   const [errorMessage,setErrorMessage]=useState("");
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-      setLoading(true);
+      
       setTimeout(() => {
-        setLoading(false);
+        setLoading(false)
       }, 
     2000);
   },[]);
@@ -33,7 +33,7 @@ function SignInPage() {
     e.preventDefault();
     console.log(email,password);
     console.log(signinas);
-    setLoading(true)
+    // setLoading(true)
     
     try { 
         const targetUrl = signinas === "CLIENT"

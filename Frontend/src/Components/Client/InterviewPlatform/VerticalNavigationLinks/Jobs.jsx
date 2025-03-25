@@ -43,23 +43,18 @@ const Jobs = () => {
 
   const [data,setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const clientId = sessionStorage.getItem("clientId");
+  
    useEffect(() => {
     const fetchJobs = async () => {
-      if(!clientId){
-        console.error("No clientId in sessionStorage!")
-        setLoading(false);
-        return;
-      }
+      
       try {
-        console.log("hi", clientId);    
         
         const response = await axios.get(`${baseUrl}/api/v1/client/getAllJobsForClient`, {
-          params:{clientId},
+          
           withCredentials: true,
         });
-        setData(response.data.data);
-        setStat(response.data.data );
+        setData(response.data.data.jobs);
+        
         console.log(response);
         
       } catch (error) {
@@ -71,7 +66,7 @@ const Jobs = () => {
     };
   
     fetchJobs();
-  }, [clientId]);
+  }, []);
 
 
   return (
@@ -151,11 +146,11 @@ const Jobs = () => {
               </tr>
             </thead>
             <tbody>
-            {Array.isArray(jobData) ? (
+            {Array.isArray(data) && data.length > 0 ?(
               data.map((job, index) => (
                 <tr key={index} className="border-b">
-                  <td className=" py-2 px-4 max-w-max text-start ">{job.title}</td>
-                  <td className=" py-2 px-4 max-w-max text-center ">{job.candidates}</td>
+                  <td className=" py-2 px-4 max-w-max text-start ">{job.jobRole}</td>
+                  <td className=" py-2 px-4 max-w-max text-center ">{job.candidateCount}</td>
                   <td className=" py-2 px-4 max-w-max flex gap-32 ml-40 ">
                     <button  onClick={() => navigate(`${location.pathname}/viewjob`)} >
                       <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
