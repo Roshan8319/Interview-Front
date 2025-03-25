@@ -43,7 +43,7 @@ import { InternalMessages } from "./Internal/Messages";
 
 
 // Interviewer Imports
-import Layout from "./Interviewer/Layout";
+import {InterviewerNavigationLayout} from "./Interviewer/NavigationLayout";
 import InterviewerDashboard from "./Interviewer/Dashboard";
 import MeetingScreen from "./Interviewer/MeetingScreen"
 import Profile from "./Interviewer/Profile";
@@ -72,7 +72,8 @@ export { AgencyNavigationLayout,AgencyDashboard, AgencyCandidates,AgencyAddCandi
 export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages}
 
 //Interviewer Exports
-export {Layout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables}
+export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables}
+
 
 
 
