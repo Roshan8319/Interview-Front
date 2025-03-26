@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Calendar, Briefcase, FileText } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import jwtEncode from "jwt-encode";
 
 const InterviewDashboard = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  const [activeTab, setActiveTab] = useState("Home");
+  const [activeTab, setActiveTab] = useState("interviewDetails");
   const [activeTab2, setActiveTab2] = useState("details");
   const [nextAppointment, setNextAppointment] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +26,10 @@ const InterviewDashboard = () => {
           }
         );
         console.log(response.data.data.appointment);
-        
+
         setNextAppointment(response.data.data.appointment);
         setMeetingLink(response.data.data.appointment.meetingId);
         setInterviewerName(response.data.data.appointment.interviewerName);
-
       } catch (error) {
         console.log("Error occurred while fetching appointment.");
         console.log(error);
@@ -42,14 +42,14 @@ const InterviewDashboard = () => {
 
   const handelJoinInterview = () => {
     const user = {
-        name: interviewerName
+      name: interviewerName,
     };
 
     const token = jwtEncode(user, import.meta.env.VITE_JWT_SECRET_NAME_MASK);
 
     const url = `/interview/${meetingLink}?token=${encodeURIComponent(token)}`;
     window.open(url, "_blank");
-};
+  };
 
   const icons = {
     bell: (
@@ -248,474 +248,632 @@ const InterviewDashboard = () => {
     ),
   };
 
+  const interview = {
+    candidateName: "Aryan Bhardwaj",
+    position: "Software Development Engineer I",
+    profileImage: "/api/placeholder/40/40",
+    date: "04 April 2025",
+    time: "12:00pm",
+    company: "TechInnovate Solutions",
+    interviewMode: "Virtual",
+    interviewType: "Technical Round",
+    jobRequirements: [
+      "Bachelor's degree in Computer Science or related field",
+      "0-2 years of software development experience",
+      "Proficiency in React and Node.js",
+    ],
+    focusArea: [
+      "Frontend Development",
+      "React Ecosystem",
+      "Performance Optimization",
+    ],
+    jobDescription: `We are seeking a motivated Software Development Engineer I to join our dynamic team.
+    The ideal candidate will contribute to building scalable web applications.`,
+    interviewer: {
+      name: "Sarah Thompson",
+      role: "Senior Engineering Manager",
+      department: "Product Engineering",
+    },
+    preparationTips: [
+      "Review recent React.js concepts",
+      "Prepare system design fundamentals",
+      "Practice algorithmic problem-solving",
+    ],
+  };
+
+  const [interviewTab, setInterviewTab] = useState("interviewDetails");
+
   return (
     <div className="p-4 min-h-[calc(100vh-64px)] bg-[#EBDFD7]">
-      {/* Main content */}
-      <main className="max-w-full mx-auto flex flex-col gap-y-4 px-4 lg:px-6">
-        {/* Stats cards */}
-        <div className="w-full px-1  py-2  ">
-          <div className="flex flex-wrap justify-between  gap-4">
-            {/* Card 1 - Total Interviews with gradient background */}
-            <div className="bg-[#ffffff57] w-full sm:w-60 h-[200px] overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className=" flex flex-col gap-y-2 px-4 py-8 ">
-                <div>
-                  <svg width="44" height="44" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="0.5" width="46" height="46" rx="23" fill="#D398E7" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M23 15.0205C20.8484 15.0205 19.1042 16.7647 19.1042 18.9163C19.1042 21.068 20.8484 22.8122 23 22.8122C25.1516 22.8122 26.8959 21.068 26.8959 18.9163C26.8959 16.7647 25.1516 15.0205 23 15.0205ZM17.7292 18.9163C17.7292 16.0053 20.089 13.6455 23 13.6455C25.911 13.6455 28.2709 16.0053 28.2709 18.9163C28.2709 21.8273 25.911 24.1872 23 24.1872C20.089 24.1872 17.7292 21.8273 17.7292 18.9163Z" fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4384 32.6667C14.4384 28.6142 18.414 25.5625 23 25.5625C27.586 25.5625 31.5617 28.6142 31.5617 32.6667C31.5617 33.0464 31.2539 33.3542 30.8742 33.3542C30.4945 33.3542 30.1867 33.0464 30.1867 32.6667C30.1867 29.6241 27.104 26.9375 23 26.9375C18.896 26.9375 15.8134 29.6241 15.8134 32.6667C15.8134 33.0464 15.5056 33.3542 15.1259 33.3542C14.7462 33.3542 14.4384 33.0464 14.4384 32.6667Z" fill="white" />
-                  </svg>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold text-gray-800">Overview</h1>
+      </div>
 
-                </div>
-                <div className="text-xs font-medium text-gray-500">
-                  Total Interviews
-                </div>
-                <div className="flex flex-col gap-y-2 items-baseline">
-                  <p className="text-2xl font-bold text-black">43</p>
-                  <p className=" text-xs font-medium text-gray-500">
-                  <span className="text-[18px] text-green-500 " >↗</span> 12% this week
-                  </p>
-                </div>
-                
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 gap-x-20 mb-6">
+        {/* Total Candidates */}
+
+        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-gray-500 text-sm">Total Candidates</div>
+              <div className="text-2xl font-bold text-gray-800">758</div>
+              <div className="text-green-500 text-xs">
+                7% increase from last month
               </div>
             </div>
+            <div>
+              <svg
+                width="46"
+                height="47"
+                viewBox="0 0 46 47"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect y="0.5" width="46" height="46" rx="23" fill="#D398E7" />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M23 15.0205C20.8484 15.0205 19.1042 16.7647 19.1042 18.9163C19.1042 21.068 20.8484 22.8122 23 22.8122C25.1516 22.8122 26.8959 21.068 26.8959 18.9163C26.8959 16.7647 25.1516 15.0205 23 15.0205ZM17.7292 18.9163C17.7292 16.0053 20.089 13.6455 23 13.6455C25.911 13.6455 28.2709 16.0053 28.2709 18.9163C28.2709 21.8273 25.911 24.1872 23 24.1872C20.089 24.1872 17.7292 21.8273 17.7292 18.9163Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.4384 32.6667C14.4384 28.6142 18.414 25.5625 23 25.5625C27.586 25.5625 31.5617 28.6142 31.5617 32.6667C31.5617 33.0464 31.2539 33.3542 30.8742 33.3542C30.4945 33.3542 30.1867 33.0464 30.1867 32.6667C30.1867 29.6241 27.104 26.9375 23 26.9375C18.896 26.9375 15.8134 29.6241 15.8134 32.6667C15.8134 33.0464 15.5056 33.3542 15.1259 33.3542C14.7462 33.3542 14.4384 33.0464 14.4384 32.6667Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </div>
 
-            {/* Card 2 - Avg-Interview/Month */}
-            <div className="bg-[#ffffff57] w-full h-[200px] sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className=" flex flex-col gap-y-2 px-4 py-8 ">
-                <div className="flex justify-between items-center">
-                  <div className="text-xs font-medium text-gray-500">
-                    Avg-Interview/Month
+          <div className="mt-1 ml-[-4px]">
+            <svg width="100%" height="50" className="mt-2">
+              <polyline
+                points="0,40 50,30 100,35 150,20 200,25 250,15"
+                fill="none"
+                stroke="#9ACD32"
+                strokeWidth="2"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-gray-500 text-sm">
+                Average Interview Per Month
+              </div>
+              <div className="text-2xl font-bold text-gray-800">758</div>
+              <div className="text-green-500 text-xs">
+                7% increase from last month
+              </div>
+            </div>
+          </div>
+          <div className="mt-1 ml-[-4px]">
+            <svg
+              width="235"
+              height="70"
+              viewBox="0 0 235 70"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 3.37256V70H300V16.0195C294.444 11.8038 284.213 2.81783 279.74 0.598903C274.148 -2.17476 272.284 4.97758 262.965 16.0195C255.509 24.853 247.018 19.7001 243.704 16.0195L227.55 9.45144C224.237 12.9481 216.615 18.3764 212.639 12.1167C208.663 5.85708 198.97 3.6791 194.621 3.37256C189.312 6.00172 176.916 12.2119 169.8028 16.0195C160.9114 20.7789 158.0594 15.5435 150.3423 9.45144C142.6252 3.35937 134.237 10.6889 129.0364 12.1167C123.8357 13.5446 118.6351 6.59579 117.4607 4.97758C116.2864 3.35937 109.4081 5.45352 105.8851 4.97758C103.0666 4.59682 102.0305 -0.234751 98.07783 0.0144409L0 3.37256Z"
+                fill="url(#paint0_linear_245_4538)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_245_4538"
+                  x1="150"
+                  y1="0"
+                  x2="150"
+                  y2="70"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#F0C274" />
+                  <stop offset="1" stop-color="#FDE1B1" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-gray-500 text-sm">Today's Income</div>
+              <div className="text-2xl font-bold text-gray-800">758</div>
+              <div className="text-green-500 text-xs">
+                7% increase from last month
+              </div>
+            </div>
+            <div>
+              <svg
+                width="46"
+                height="47"
+                viewBox="0 0 46 47"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect y="0.5" width="46" height="46" rx="23" fill="#D398E7" />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M23 15.0205C20.8484 15.0205 19.1042 16.7647 19.1042 18.9163C19.1042 21.068 20.8484 22.8122 23 22.8122C25.1516 22.8122 26.8959 21.068 26.8959 18.9163C26.8959 16.7647 25.1516 15.0205 23 15.0205ZM17.7292 18.9163C17.7292 16.0053 20.089 13.6455 23 13.6455C25.911 13.6455 28.2709 16.0053 28.2709 18.9163C28.2709 21.8273 25.911 24.1872 23 24.1872C20.089 24.1872 17.7292 21.8273 17.7292 18.9163Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.4384 32.6667C14.4384 28.6142 18.414 25.5625 23 25.5625C27.586 25.5625 31.5617 28.6142 31.5617 32.6667C31.5617 33.0464 31.2539 33.3542 30.8742 33.3542C30.4945 33.3542 30.1867 33.0464 30.1867 32.6667C30.1867 29.6241 27.104 26.9375 23 26.9375C18.896 26.9375 15.8134 29.6241 15.8134 32.6667C15.8134 33.0464 15.5056 33.3542 15.1259 33.3542C14.7462 33.3542 14.4384 33.0464 14.4384 32.6667Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="mt-1 ml-[4px]">
+            <svg
+              width="400"
+              height="50"
+              viewBox="0 0 91"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect y="36" width="15" height="38" rx="3" fill="#70A1E5" />
+              <rect
+                x="30"
+                y="19"
+                width="15"
+                height="55"
+                rx="3"
+                fill="#70A1E5"
+              />
+              <rect
+                x="60"
+                y="47"
+                width="15"
+                height="27"
+                rx="3"
+                fill="#70A1E5"
+              />
+              <rect x="90" width="15" height="74" rx="3" fill="#70A1E5" />
+              <rect
+                x="120"
+                y="19"
+                width="15"
+                height="55"
+                rx="3"
+                fill="#70A1E5"
+              />
+              <rect
+                x="150"
+                y="44"
+                width="15"
+                height="30"
+                rx="3"
+                fill="#70A1E5"
+              />
+              <rect
+                x="180"
+                y="31"
+                width="15"
+                height="43"
+                rx="3"
+                fill="#70A1E5"
+              />
+              <path
+                d="M1.05 89V82H1.87L5.01 87.29H4.57L7.67 82H8.49L8.5 89H7.54L7.53 83.51H7.76L5 88.15H4.54L1.76 83.51H2.01V89H1.05Z"
+                fill="#797979"
+              />
+              <path
+                d="M32.44 89V82.87H30.04V82H35.83V82.87H33.43V89H32.44Z"
+                fill="#797979"
+              />
+              <path
+                d="M63.66 89L61.32 82H62.35L64.5 88.46H63.98L66.21 82H67.13L69.31 88.46H68.81L70.99 82H71.94L69.6 89H68.55L66.51 83.01H66.78L64.73 89H63.66Z"
+                fill="#797979"
+              />
+              <path
+                d="M86.44 89V82.87H84.04V82H89.83V82.87H87.43V89H86.44ZM92.5023 89.06C91.9689 89.06 91.4956 88.9433 91.0823 88.71C90.6689 88.4767 90.3423 88.1567 90.1023 87.75C89.8623 87.3367 89.7423 86.87 89.7423 86.35C89.7423 85.8233 89.8623 85.3567 90.1023 84.95C90.3423 84.5433 90.6689 84.2267 91.0823 84C91.4956 83.7667 91.9689 83.65 92.5023 83.65C93.0289 83.65 93.4989 83.7667 93.9123 84C94.3323 84.2267 94.6589 84.5433 94.8923 84.95C95.1323 85.35 95.2523 85.8167 95.2523 86.35C95.2523 86.8767 95.1323 87.3433 94.8923 87.75C94.6589 88.1567 94.3323 88.4767 93.9123 88.71C93.4989 88.9433 93.0289 89.06 92.5023 89.06ZM92.5023 88.22C92.8423 88.22 93.1456 88.1433 93.4123 87.99C93.6856 87.8367 93.8989 87.62 94.0523 87.34C94.2056 87.0533 94.2823 86.7233 94.2823 86.35C94.2823 85.97 94.2056 85.6433 94.0523 85.37C93.8989 85.09 93.6856 84.8733 93.4123 84.72C93.1456 84.5667 92.8423 84.49 92.5023 84.49C92.1623 84.49 91.8589 84.5667 91.5923 84.72C91.3256 84.8733 91.1123 85.09 90.9523 85.37C90.7923 85.6433 90.7123 85.97 90.7123 86.35C90.7123 86.7233 90.7923 87.0533 90.9523 87.34C91.1123 87.62 91.3256 87.8367 91.5923 87.99C91.8589 88.1433 92.1623 88.22 92.5023 88.22ZM98.7699 89.06C98.2566 89.06 97.7966 88.9467 97.3899 88.72C96.9899 88.4933 96.6733 88.1767 96.4399 87.77C96.2066 87.3633 96.0899 86.89 96.0899 86.35C96.0899 85.81 96.2066 85.34 96.4399 84.94C96.6733 84.5333 96.9899 84.2167 97.3899 83.99C97.7966 83.7633 98.2566 83.65 98.7699 83.65C99.2166 83.65 99.6199 83.75 99.9799 83.95C100.34 84.15 100.627 84.45 100.84 84.85C101.06 85.25 101.17 85.75 101.17 86.35C101.17 86.95 101.063 87.45 100.85 87.85C100.643 88.25 100.36 88.5533 99.9999 88.76C99.6399 88.96 99.2299 89.06 98.7699 89.06ZM98.8499 88.22C99.1833 88.22 99.4833 88.1433 99.7499 87.99C100.023 87.8367 100.237 87.62 100.39 87.34C100.55 87.0533 100.63 86.7233 100.63 86.35C100.63 85.97 100.55 85.6433 100.39 85.37C100.237 85.09 100.023 84.8733 99.7499 84.72C99.4833 84.5667 99.1833 84.49 98.8499 84.49C98.5099 84.49 98.2066 84.5667 97.9399 84.72C97.6733 84.8733 97.4599 85.09 97.2999 85.37C97.1399 85.6433 97.0599 85.97 97.0599 86.35C97.0599 86.7233 97.1399 87.0533 97.2999 87.34C97.4599 87.62 97.6733 87.8367 97.9399 87.99C98.2066 88.1433 98.5099 88.22 98.8499 88.22ZM100.66 89V87.57L100.72 86.34L100.62 85.11V81.58H101.58V89H100.66ZM106.686 89V87.88L106.636 87.67V85.76C106.636 85.3533 106.516 85.04 106.276 84.82C106.043 84.5933 105.69 84.48 105.216 84.48C104.903 84.48 104.596 84.5333 104.296 84.64C103.996 84.74 103.743 84.8767 103.536 85.05L103.136 84.33C103.41 84.11 103.736 83.9433 104.116 83.83C104.503 83.71 104.906 83.65 105.326 83.65C106.053 83.65 106.613 83.8267 107.006 84.18C107.4 84.5333 107.596 85.0733 107.596 85.8V89H106.686ZM104.946 89.06C104.553 89.06 104.206 88.9933 103.906 88.86C103.613 88.7267 103.386 88.5433 103.226 88.31C103.066 88.07 102.986 87.8 102.986 87.5C102.986 87.2133 103.053 86.9533 103.186 86.72C103.326 86.4867 103.55 86.3 103.856 86.16C104.17 86.02 104.59 85.95 105.116 85.95H106.796V86.64H105.156C104.676 86.64 104.353 86.72 104.186 86.88C104.02 87.04 103.936 87.2333 103.936 87.46C103.936 87.72 104.04 87.93 104.246 88.09C104.453 88.2433 104.74 88.32 105.106 88.32C105.466 88.32 105.78 88.24 106.046 88.08C106.32 87.92 106.516 87.6867 106.636 87.38L106.826 88.04C106.7 88.3533 106.476 88.6033 106.156 88.79C105.836 88.97 105.433 89.06 104.946 89.06ZM109.505 91C109.252 91 109.005 90.9567 108.765 90.87C108.525 90.79 108.319 90.67 108.145 90.51L108.555 89.79C108.689 89.9167 108.835 90.0133 108.995 90.08C109.155 90.1467 109.325 90.18 109.505 90.18C109.739 90.18 109.932 90.12 110.085 90C110.239 89.88 110.382 89.6667 110.515 89.36L110.845 88.63L110.945 88.51L113.025 83.7H113.965L111.395 89.53C111.242 89.9033 111.069 90.1967 110.875 90.41C110.689 90.6233 110.482 90.7733 110.255 90.86C110.029 90.9533 109.779 91 109.505 91ZM110.765 89.17L108.345 83.7H109.345L111.405 88.42L110.765 89.17Z"
+                fill="#797979"
+              />
+              <path
+                d="M127.44 89V82.87H125.04V82H130.83V82.87H128.43V89H127.44Z"
+                fill="#797979"
+              />
+              <path
+                d="M157.95 85.31H161.56V86.17H157.95V85.31ZM158.05 89H157.05V82H161.99V82.87H158.05V89Z"
+                fill="#797979"
+              />
+              <path
+                d="M189.09 89.08C188.557 89.08 188.047 89 187.56 88.84C187.073 88.6733 186.69 88.46 186.41 88.2L186.78 87.42C187.047 87.6533 187.387 87.8467 187.8 88C188.213 88.1533 188.643 88.23 189.09 88.23C189.497 88.23 189.827 88.1833 190.08 88.09C190.333 87.9967 190.52 87.87 190.64 87.71C190.76 87.5433 190.82 87.3567 190.82 87.15C190.82 86.91 190.74 86.7167 190.58 86.57C190.427 86.4233 190.223 86.3067 189.97 86.22C189.723 86.1267 189.45 86.0467 189.15 85.98C188.85 85.9133 188.547 85.8367 188.24 85.75C187.94 85.6567 187.663 85.54 187.41 85.4C187.163 85.26 186.963 85.0733 186.81 84.84C186.657 84.6 186.58 84.2933 186.58 83.92C186.58 83.56 186.673 83.23 186.86 82.93C187.053 82.6233 187.347 82.38 187.74 82.2C188.14 82.0133 188.647 81.92 189.26 81.92C189.667 81.92 190.07 81.9733 190.47 82.08C190.87 82.1867 191.217 82.34 191.51 82.54L191.18 83.34C190.88 83.14 190.563 82.9967 190.23 82.91C189.897 82.8167 189.573 82.77 189.26 82.77C188.867 82.77 188.543 82.82 188.29 82.92C188.037 83.02 187.85 83.1533 187.73 83.32C187.617 83.4867 187.56 83.6733 187.56 83.88C187.56 84.1267 187.637 84.3233 187.79 84.47C187.95 84.6167 188.153 84.7333 188.4 84.82C188.653 84.9067 188.93 84.9867 189.23 85.06C189.53 85.1267 189.83 85.2033 190.13 85.29C190.437 85.3767 190.713 85.49 190.96 85.63C191.213 85.77 191.417 85.9567 191.57 86.19C191.723 86.4233 191.8 86.7233 191.8 87.09C191.8 87.4433 191.703 87.7733 191.51 88.08C191.317 88.38 191.017 88.6233 190.61 88.81C190.21 88.99 189.703 89.08 189.09 89.08Z"
+                fill="#797979"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-gray-500 text-sm">Total Income</div>
+              <div className="text-2xl font-bold text-gray-800">758</div>
+              <div className="text-green-500 text-xs">
+                7% increase from last month
+              </div>
+            </div>
+            <div>
+              <svg
+                width="46"
+                height="47"
+                viewBox="0 0 46 47"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect y="0.5" width="46" height="46" rx="23" fill="#D398E7" />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M23 15.0205C20.8484 15.0205 19.1042 16.7647 19.1042 18.9163C19.1042 21.068 20.8484 22.8122 23 22.8122C25.1516 22.8122 26.8959 21.068 26.8959 18.9163C26.8959 16.7647 25.1516 15.0205 23 15.0205ZM17.7292 18.9163C17.7292 16.0053 20.089 13.6455 23 13.6455C25.911 13.6455 28.2709 16.0053 28.2709 18.9163C28.2709 21.8273 25.911 24.1872 23 24.1872C20.089 24.1872 17.7292 21.8273 17.7292 18.9163Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.4384 32.6667C14.4384 28.6142 18.414 25.5625 23 25.5625C27.586 25.5625 31.5617 28.6142 31.5617 32.6667C31.5617 33.0464 31.2539 33.3542 30.8742 33.3542C30.4945 33.3542 30.1867 33.0464 30.1867 32.6667C30.1867 29.6241 27.104 26.9375 23 26.9375C18.896 26.9375 15.8134 29.6241 15.8134 32.6667C15.8134 33.0464 15.5056 33.3542 15.1259 33.3542C14.7462 33.3542 14.4384 33.0464 14.4384 32.6667Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="mt-1 ml-[-2px]">
+            <svg
+              width="230"
+              height="70"
+              viewBox="0 0 230 70"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M285.999 4.07527V82H-4.57764e-05V18.8666C4.55615 13.9361 14.7869 3.42648 19.2602 0.831312C24.8519 -2.41265 26.7158 5.95244 36.0353 18.8666C43.4909 29.1979 51.982 23.1713 55.2956 18.8666L71.4494 11.1849C74.763 15.2744 82.3842 21.6231 86.3605 14.3021C90.3368 6.98106 100.029 4.43378 104.378 4.07527C109.687 7.15023 122.083 14.4134 129.197 18.8666C138.088 24.433 140.94 18.3099 148.657 11.1849C156.374 4.05984 164.762 12.6322 169.963 14.3021C175.163 15.972 180.364 7.84502 181.538 5.95243C182.713 4.05984 189.591 6.50908 193.114 5.95243C195.932 5.50712 196.969 -0.143697 200.921 0.147749L285.999 4.07527Z"
+                fill="url(#paint0_linear_245_4542)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_245_4542"
+                  x1="143.999"
+                  y1="0.130859"
+                  x2="143.999"
+                  y2="82"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#61D474" />
+                  <stop offset="1" stop-color="#BDFFC8" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Candidate Details */}
+
+        {Object.keys(interview).length === 0 && (
+          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-center justify-center text-center min-h-[calc(100vh-20rem)] h-full">
+            <div className="bg-orange-50 rounded-full p-4 mb-4">
+              <Calendar className="w-12 h-12 text-orange-500" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              No Interviews Scheduled
+            </h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Keep an eye out for upcoming interview opportunities.
+            </p>
+          </div>
+        )}
+
+        {Object.keys(interview).length != 0 && (
+          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-start  text-center min-h-[calc(100vh-20rem)] h-full">
+            <div className="w-full">
+              <div className=" flex items-center justify-between w-full">
+                <div className="flex items-center justify-center gap-x-4">
+                  <div className="w-[80px] h-[80px] rounded-full overflow-hidden border border-red-400">
+                    <img
+                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      alt="User Dp"
+                    />
                   </div>
-                  
+                  <div className="flex flex-col items-start justify-start">
+                    <p className="text-xl font-semibold">
+                      {interview.candidateName}
+                    </p>
+                    <p className="text-sm text-[#797979]">
+                      {interview.position}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-baseline">
-                  <p className="text-2xl font-bold text-gray-900">43</p>
-                  <div className="ml-2 flex items-center text-xs font-medium text-green-600">
+                <div className="flex flex-col items-start text-[#797979] text-[16px] gap-y-1">
+                  <div className="flex gap-x-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#797979"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 15l7-7 7 7"
-                      />
+                      <path d="M580-240q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
                     </svg>
-                    <span>8%</span>
+                    <p>{interview.date}</p>
                   </div>
-                </div>
-                <div className="mt-2 flex space-x-1">
-                  {[0.3, 0.5, 0.7, 0.4, 0.9, 1.2, 1.5].map((height, i) => (
-                    <div key={i} className="w-full">
-                      <div
-                        className="bg-[#64BE73] rounded-t"
-                        style={{ height: `${height * 24}px` }}
-                      ></div>
-                      <div className="bg-gray-100 h-1"></div>
-                    </div>
-                  ))}
+
+                  <div className="flex gap-x-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#797979"
+                    >
+                      <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+                    </svg>
+                    <p>{interview.time}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Card 3 - Today's Income */}
-            <div className="bg-[#ffffff57] w-full h-[200px] sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="flex flex-col gap-y-2 px-4 py-8 ">
-                <div className="flex justify-between items-center">
-                  <div className="text-xs font-medium text-gray-500">
-                    Today's Income
-                  </div>
-                 
-                </div>
-                <div className="flex" >
-                  <div className="p-1  rounded-full">
-                    <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44px" height="44px" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">    </style> <g> <path class="st0" d="M418.336,193.866C397.758,111.819,318.07,80.96,311.102,73.444l19.594-71.328c0,0-24.469-7.906-58.797,6.828 c-43.641,18.734-67.953-5.156-67.953-5.156l21.547,70.781c-6.766,7.688-91.516,42.141-106.875,123.219 c-7.797,41.094,3.422,92.531,39.25,127.516c12.953-4.984,29.078-8.219,49.969-8.219h85.594c19.844,0,35.984,16.141,35.984,35.984 c0,0.906-0.125,1.797-0.188,2.688C407.258,328.663,432.555,250.429,418.336,193.866z M312.883,263.132 c-1.969,4.25-4.984,7.984-8.953,11.141c-4.063,3.172-9.25,5.734-15.438,7.578c-3.031,0.875-6.359,1.563-9.938,2.016v11.828h-17.563 v-11.188c-6.422-0.328-12.625-1.172-18.469-2.625c-6.734-1.656-12.063-3.703-16.297-6.25c-1.016-0.625-1.109-0.844-1.109-3.016 v-15.125c0-1.172,0.266-1.172,0.625-1.172c0.313,0,0.672,0.094,0.938,0.234c1.453,0.766,2.984,1.531,4.547,2.297 c3.75,1.781,7.625,3.328,11.531,4.625c3.891,1.313,7.797,2.375,11.594,3.156c3.875,0.797,7.531,1.219,10.813,1.219 c8.266,0,14.234-1.609,18.266-4.922c4.125-3.391,6.203-7.609,6.203-12.547c0-2.469-0.422-4.75-1.25-6.766 c-0.875-2.141-2.469-4.109-4.766-5.875c-2.078-1.625-4.984-3.219-8.609-4.734c-3.5-1.469-8-3.047-13.375-4.703 c-7.109-2.281-13.125-4.719-17.875-7.234c-4.641-2.453-8.375-5.172-11.125-8.063c-2.672-2.813-4.594-5.891-5.75-9.156 c-1.172-3.328-1.766-7.031-1.766-10.984c0-5,1.25-9.609,3.703-13.703c2.5-4.203,6-7.859,10.359-10.906 c4.406-3.078,9.703-5.516,15.688-7.219c1.984-0.547,4.063-0.984,6.125-1.359v-11.625h17.563v10.594 c4.891,0.188,9.766,0.609,14.469,1.469c5.094,0.906,10.109,2.406,14.906,4.406c0.906,0.375,1.125,0.594,1.125,1.453v15.656 c-0.016,0.234-0.219,0.313-0.625,0.313c-0.359,0-0.656-0.063-0.828-0.125c-4.25-1.453-8.688-2.75-13.188-3.797 c-6.516-1.516-13.031-2.297-19.328-2.297c-7.75,0-13.75,1.516-17.859,4.5c-4.375,3.203-6.594,7.344-6.594,12.328 c0,2.156,0.484,4.219,1.406,6.109c0.938,1.906,2.5,3.734,4.688,5.406c2.031,1.563,4.703,3.109,8.203,4.688 c3.313,1.531,7.594,3.109,12.656,4.656c6.797,2.094,12.719,4.344,17.625,6.688c4.797,2.281,8.797,4.844,11.875,7.625 c3,2.672,5.203,5.766,6.594,9.188c1.438,3.5,2.156,7.609,2.156,12.25C315.836,254.179,314.836,258.866,312.883,263.132z"></path> <path class="st0" d="M234.57,374.46c14.281,0,58.859,0,58.859,0c11.828,0,21.406-9.578,21.406-21.391 c0-11.828-9.578-21.406-21.406-21.406c-10.703,0-32.094,0-85.594,0c-53.516,0-70.453,22.297-89.188,41.016l-33.984,29.688 c-2.203,1.922-3.469,4.688-3.469,7.625v98.641c0,1.313,0.766,2.516,1.969,3.063s2.609,0.359,3.609-0.516l65.672-56.297 c2.313-1.969,5.406-2.797,8.391-2.266l102.344,18.609c7.141,1.297,14.484-0.344,20.422-4.531c0,0,130.625-90.828,140.266-98.859 l0,0c9.188-8.438,9.094-20.672,0.641-29.875c-8.438-9.203-24.172-7.25-34.688,0.531c-9.625,8.016-75.359,51.219-75.359,51.219 H234.57l-0.25,0.125c-4.203-0.141-7.5-3.672-7.375-7.875c0.156-4.203,3.688-7.5,7.875-7.359L234.57,374.46z"></path> </g> </g></svg>
-                  </div>
-                  <div className="flex flex-col items-baseline mt-1">
-                    <p className="text-2xl font-bold text-gray-900">$17 </p>
-                    <p className="ml-2 text-xs text-gray-500 whitespace-nowrap">
-                    <span className="text-[18px] text-green-500 " >↗</span> 12% from last day
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-3 flex justify-between items-center">
-                  <div className="flex items-center">
-                    <div className="flex -space-x-2">
-                      <div className="w-5 h-5 rounded-full bg-blue-400 border border-white"></div>
-                      <div className="w-5 h-5 rounded-full bg-green-400 border border-white"></div>
-                      <div className="w-5 h-5 rounded-full bg-yellow-400 border border-white"></div>
-                    </div>
-                    <span className="text-xs text-gray-500 ml-1">
-                      +14 today
-                    </span>
-                  </div>
-                  <span className="text-xs text-green-500 font-medium">
-                    Active
+              <div className="w-full mt-4 flex items-center justify-around">
+                <button
+                  className="flex items-center gap-x-1 justify-center px-4 py-1 bg-white border border-[#E65F2B] rounded-xl 
+                relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
+                >
+                  <span className="absolute inset-0 bg-[#E65F2B] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0 opacity-10"></span>
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 30 30"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="relative z-10 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105"
+                  >
+                    <path
+                      d="M17.75 5.83301H9.50002C9.01379 5.83301 8.54747 6.02616 8.20366 6.36998C7.85984 6.7138 7.66669 7.18011 7.66669 7.66634V22.333C7.66669 22.8192 7.85984 23.2856 8.20366 23.6294C8.54747 23.9732 9.01379 24.1663 9.50002 24.1663H20.5C20.9863 24.1663 21.4526 23.9732 21.7964 23.6294C22.1402 23.2856 22.3334 22.8192 22.3334 22.333V10.4163L17.75 5.83301Z"
+                      stroke="#E65F2B"
+                      strokeWidth="1.83333"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M16.8334 5.83301V9.49967C16.8334 9.9859 17.0265 10.4522 17.3703 10.796C17.7142 11.1399 18.1805 11.333 18.6667 11.333H22.3334"
+                      stroke="#E65F2B"
+                      strokeWidth="1.83333"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span className="relative z-10 font-semibold text-[#E65F2B]">
+                    View Resume
                   </span>
-                </div>
-              </div>
-            </div>
+                </button>
 
-            {/* Card 4 - Total Income */}
-            <div className="bg-[#ffffff57] w-full h-[200px] sm:w-60 overflow-hidden shadow-lg rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105">
-              <div className="flex flex-col gap-y-2 px-4 py-8 ">
-                <div className="flex justify-between items-center">
-                  <div className="text-xs font-medium text-gray-500">
-                    Total Income
-                  </div>
-                 
-                </div>
-                <div className="flex" >
-                  <div className="p-1  rounded-full">
-                    <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44px" height="44px" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">    </style> <g> <path class="st0" d="M418.336,193.866C397.758,111.819,318.07,80.96,311.102,73.444l19.594-71.328c0,0-24.469-7.906-58.797,6.828 c-43.641,18.734-67.953-5.156-67.953-5.156l21.547,70.781c-6.766,7.688-91.516,42.141-106.875,123.219 c-7.797,41.094,3.422,92.531,39.25,127.516c12.953-4.984,29.078-8.219,49.969-8.219h85.594c19.844,0,35.984,16.141,35.984,35.984 c0,0.906-0.125,1.797-0.188,2.688C407.258,328.663,432.555,250.429,418.336,193.866z M312.883,263.132 c-1.969,4.25-4.984,7.984-8.953,11.141c-4.063,3.172-9.25,5.734-15.438,7.578c-3.031,0.875-6.359,1.563-9.938,2.016v11.828h-17.563 v-11.188c-6.422-0.328-12.625-1.172-18.469-2.625c-6.734-1.656-12.063-3.703-16.297-6.25c-1.016-0.625-1.109-0.844-1.109-3.016 v-15.125c0-1.172,0.266-1.172,0.625-1.172c0.313,0,0.672,0.094,0.938,0.234c1.453,0.766,2.984,1.531,4.547,2.297 c3.75,1.781,7.625,3.328,11.531,4.625c3.891,1.313,7.797,2.375,11.594,3.156c3.875,0.797,7.531,1.219,10.813,1.219 c8.266,0,14.234-1.609,18.266-4.922c4.125-3.391,6.203-7.609,6.203-12.547c0-2.469-0.422-4.75-1.25-6.766 c-0.875-2.141-2.469-4.109-4.766-5.875c-2.078-1.625-4.984-3.219-8.609-4.734c-3.5-1.469-8-3.047-13.375-4.703 c-7.109-2.281-13.125-4.719-17.875-7.234c-4.641-2.453-8.375-5.172-11.125-8.063c-2.672-2.813-4.594-5.891-5.75-9.156 c-1.172-3.328-1.766-7.031-1.766-10.984c0-5,1.25-9.609,3.703-13.703c2.5-4.203,6-7.859,10.359-10.906 c4.406-3.078,9.703-5.516,15.688-7.219c1.984-0.547,4.063-0.984,6.125-1.359v-11.625h17.563v10.594 c4.891,0.188,9.766,0.609,14.469,1.469c5.094,0.906,10.109,2.406,14.906,4.406c0.906,0.375,1.125,0.594,1.125,1.453v15.656 c-0.016,0.234-0.219,0.313-0.625,0.313c-0.359,0-0.656-0.063-0.828-0.125c-4.25-1.453-8.688-2.75-13.188-3.797 c-6.516-1.516-13.031-2.297-19.328-2.297c-7.75,0-13.75,1.516-17.859,4.5c-4.375,3.203-6.594,7.344-6.594,12.328 c0,2.156,0.484,4.219,1.406,6.109c0.938,1.906,2.5,3.734,4.688,5.406c2.031,1.563,4.703,3.109,8.203,4.688 c3.313,1.531,7.594,3.109,12.656,4.656c6.797,2.094,12.719,4.344,17.625,6.688c4.797,2.281,8.797,4.844,11.875,7.625 c3,2.672,5.203,5.766,6.594,9.188c1.438,3.5,2.156,7.609,2.156,12.25C315.836,254.179,314.836,258.866,312.883,263.132z"></path> <path class="st0" d="M234.57,374.46c14.281,0,58.859,0,58.859,0c11.828,0,21.406-9.578,21.406-21.391 c0-11.828-9.578-21.406-21.406-21.406c-10.703,0-32.094,0-85.594,0c-53.516,0-70.453,22.297-89.188,41.016l-33.984,29.688 c-2.203,1.922-3.469,4.688-3.469,7.625v98.641c0,1.313,0.766,2.516,1.969,3.063s2.609,0.359,3.609-0.516l65.672-56.297 c2.313-1.969,5.406-2.797,8.391-2.266l102.344,18.609c7.141,1.297,14.484-0.344,20.422-4.531c0,0,130.625-90.828,140.266-98.859 l0,0c9.188-8.438,9.094-20.672,0.641-29.875c-8.438-9.203-24.172-7.25-34.688,0.531c-9.625,8.016-75.359,51.219-75.359,51.219 H234.57l-0.25,0.125c-4.203-0.141-7.5-3.672-7.375-7.875c0.156-4.203,3.688-7.5,7.875-7.359L234.57,374.46z"></path> </g> </g></svg>
-                  </div>
-                  <div className="flex flex-col items-baseline mt-1">
-                    <p className="text-2xl font-bold text-gray-900">$25K</p>
-                    <p className="ml-2 text-xs text-gray-500 whitespace-nowrap">
-                    <span className="text-[18px] text-green-500 " >↗</span> 12% from last day
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-3 flex justify-between items-center">
-                  <svg width="200" height="60" viewBox="0 0 212 89" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M210.999 11.0753V89H0.999954V25.8666C5.55615 20.9361 15.7869 10.4265 20.2602 7.83131C25.8519 4.58735 27.7158 12.9524 37.0353 25.8666C44.4909 36.1979 52.982 30.1713 56.2956 25.8666L72.4494 18.1849C75.763 22.2744 83.3842 28.6231 87.3605 21.3021C91.3368 13.9811 101.029 11.4338 105.378 11.0753C110.687 14.1502 123.083 21.4134 130.197 25.8666C139.088 31.433 141.94 25.3099 149.657 18.1849C157.374 11.0598 165.762 19.6322 170.963 21.3021C176.163 22.972 181.364 14.845 182.538 12.9524C183.713 11.0598 190.591 13.5091 194.114 12.9524C196.932 12.5071 197.969 6.8563 201.921 7.14775L210.999 11.0753Z" fill="url(#paint0_linear_245_4541)" />
-                    <path d="M210.999 11.0753L201.921 7.14775C197.969 6.8563 196.932 12.5071 194.114 12.9524C190.591 13.5091 183.713 11.0598 182.538 12.9524C181.364 14.845 176.163 22.972 170.963 21.3021C165.762 19.6322 157.374 11.0598 149.657 18.1849C141.94 25.3099 139.088 31.433 130.197 25.8666C123.083 21.4134 110.687 14.1502 105.378 11.0753C101.029 11.4338 91.3368 13.9811 87.3605 21.3021C83.3842 28.6231 75.763 22.2744 72.4494 18.1849L56.2956 25.8666C52.982 30.1713 44.4909 36.1979 37.0353 25.8666C27.7158 12.9524 25.8519 4.58735 20.2602 7.83131C15.7869 10.4265 5.55615 20.9361 0.999958 25.8666" stroke="#007D15" />
-                    <path d="M131.418 8.108V7.338L135.356 2.3H136.544L132.639 7.338L132.078 7.162H138.227V8.108H131.418ZM135.697 10V8.108L135.73 7.162V5.49H136.764V10H135.697ZM141.362 10.088C140.819 10.088 140.291 10.0037 139.778 9.835C139.272 9.66633 138.857 9.439 138.535 9.153L139.041 8.284C139.297 8.526 139.631 8.724 140.042 8.878C140.452 9.032 140.889 9.109 141.351 9.109C141.937 9.109 142.388 8.98433 142.704 8.735C143.019 8.48567 143.177 8.152 143.177 7.734C143.177 7.448 143.107 7.19867 142.968 6.986C142.828 6.77333 142.586 6.612 142.242 6.502C141.904 6.38467 141.439 6.326 140.845 6.326H139.096L139.503 2.3H143.848V3.257H139.91L140.482 2.718L140.163 5.897L139.591 5.369H141.076C141.846 5.369 142.465 5.468 142.935 5.666C143.404 5.864 143.745 6.139 143.958 6.491C144.17 6.83567 144.277 7.23533 144.277 7.69C144.277 8.13 144.17 8.53333 143.958 8.9C143.745 9.25933 143.422 9.549 142.99 9.769C142.564 9.98167 142.022 10.088 141.362 10.088ZM148.338 10.088C147.737 10.088 147.198 9.934 146.721 9.626C146.252 9.318 145.878 8.87067 145.599 8.284C145.328 7.69733 145.192 6.986 145.192 6.15C145.192 5.314 145.328 4.60267 145.599 4.016C145.878 3.42933 146.252 2.982 146.721 2.674C147.198 2.366 147.737 2.212 148.338 2.212C148.932 2.212 149.467 2.366 149.944 2.674C150.421 2.982 150.795 3.42933 151.066 4.016C151.337 4.60267 151.473 5.314 151.473 6.15C151.473 6.986 151.337 7.69733 151.066 8.284C150.795 8.87067 150.421 9.318 149.944 9.626C149.467 9.934 148.932 10.088 148.338 10.088ZM148.338 9.109C148.741 9.109 149.093 8.999 149.394 8.779C149.702 8.559 149.94 8.229 150.109 7.789C150.285 7.349 150.373 6.80267 150.373 6.15C150.373 5.49733 150.285 4.951 150.109 4.511C149.94 4.071 149.702 3.741 149.394 3.521C149.093 3.301 148.741 3.191 148.338 3.191C147.935 3.191 147.579 3.301 147.271 3.521C146.963 3.741 146.721 4.071 146.545 4.511C146.376 4.951 146.292 5.49733 146.292 6.15C146.292 6.80267 146.376 7.349 146.545 7.789C146.721 8.229 146.963 8.559 147.271 8.779C147.579 8.999 147.935 9.109 148.338 9.109ZM155.675 10.088C155.074 10.088 154.535 9.934 154.058 9.626C153.589 9.318 153.215 8.87067 152.936 8.284C152.665 7.69733 152.529 6.986 152.529 6.15C152.529 5.314 152.665 4.60267 152.936 4.016C153.215 3.42933 153.589 2.982 154.058 2.674C154.535 2.366 155.074 2.212 155.675 2.212C156.269 2.212 156.804 2.366 157.281 2.674C157.758 2.982 158.132 3.42933 158.403 4.016C158.674 4.60267 158.81 5.314 158.81 6.15C158.81 6.986 158.674 7.69733 158.403 8.284C158.132 8.87067 157.758 9.318 157.281 9.626C156.804 9.934 156.269 10.088 155.675 10.088ZM155.675 9.109C156.078 9.109 156.43 8.999 156.731 8.779C157.039 8.559 157.277 8.229 157.446 7.789C157.622 7.349 157.71 6.80267 157.71 6.15C157.71 5.49733 157.622 4.951 157.446 4.511C157.277 4.071 157.039 3.741 156.731 3.521C156.43 3.301 156.078 3.191 155.675 3.191C155.272 3.191 154.916 3.301 154.608 3.521C154.3 3.741 154.058 4.071 153.882 4.511C153.713 4.951 153.629 5.49733 153.629 6.15C153.629 6.80267 153.713 7.349 153.882 7.789C154.058 8.229 154.3 8.559 154.608 8.779C154.916 8.999 155.272 9.109 155.675 9.109Z" fill="#64BE73" />
-                    <circle cx="148.5" cy="22.5" r="4" fill="#64BE73" stroke="white" stroke-width="3" />
-                    <defs>
-                      <linearGradient id="paint0_linear_245_4541" x1="105.999" y1="7.13086" x2="105.999" y2="89" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#61D474" />
-                        <stop offset="1" stop-color="#BDFFC8" stop-opacity="0" />
-                      </linearGradient>
-                    </defs>
+                <button
+                  className="flex items-center gap-x-1 justify-center px-4 py-1 border border-white bg-[#E65F2B] rounded-xl 
+                   relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
+                >
+                  <span className="absolute inset-0 bg-[#E65F2B] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0 opacity-10"></span>
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 30 30"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="relative z-10 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105"
+                  >
+                    <path
+                      d="M8.125 8.125H17.75C19.2735 8.125 20.5 9.3515 20.5 10.875V19.125C20.5 20.6485 19.2735 21.875 17.75 21.875H8.125C6.6015 21.875 5.375 20.6485 5.375 19.125V10.875C5.375 9.3515 6.6015 8.125 8.125 8.125Z"
+                      stroke="#FFFFFF"
+                      strokeWidth="1.375"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M20.5 17.75L24.625 20.5V9.5L20.5 12.25"
+                      stroke="#FFFFFF"
+                      strokeWidth="1.375"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
 
-                </div>
+                  <span className="relative z-10 font-semibold text-white">
+                    Join Interview
+                  </span>
+                </button>
               </div>
             </div>
+            <hr className="mt-4 w-full bg-[#E65F2B] border-t border-[#E65F2B] rounded-full" />
+            {/* Tabs */}
+            <div className="flex border-b  mb-4">
+              <button
+                onClick={() => setActiveTab("interviewDetails")}
+                className={`px-4 py-2 ${
+                  activeTab === "interviewDetails"
+                    ? "border-b-2 border-orange-500 text-orange-500"
+                    : "text-gray-500"
+                }`}
+              >
+                Interview Details
+              </button>
+              <button
+                onClick={() => setActiveTab("jobDescription")}
+                className={`px-4 py-2 ${
+                  activeTab === "jobDescription"
+                    ? "border-b-2 border-orange-500 text-orange-500"
+                    : "text-gray-500"
+                }`}
+              >
+                Job Description
+              </button>
+            </div>
 
-            
-           
-          </div>
-        </div>
-
-        {/* Charts and activity */}
-        <div className="mt-1 grid grid-cols-1  gap-4 lg:grid-cols-2 h-[calc(100vh-var(--header-height)-2rem)]">
-          <div>
-            {isLoading ? (
-              <div className="bg-[#ffffff57] shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
-                <div className="px-4 py-5 flex-grow flex flex-col items-center justify-center">
-                  {/* Loading animation */}
-                  <div className="w-20 h-20 mb-6 relative">
-                    <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
-                    <div className="absolute inset-0 rounded-full border-4 border-t-blue-500 animate-spin"></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
+            {/* Content */}
+            <div className="space-y-4 w-full">
+              {activeTab === "interviewDetails" && (
+                <div className="w-full px-8 flex items-start justify-between">
+                  <div>
+                    <div className="flex gap-x-2">
                       <svg
-                        className="w-8 h-8 text-blue-500"
-                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
                         fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M1.97798 5.68102C2.71582 4.80381 3.98083 4.375 5.83336 4.375H14.1667C16.0192 4.375 17.2842 4.80381 18.0221 5.68102C18.7528 6.54972 18.8223 7.69097 18.7052 8.7551L18.0799 15.4249C17.9881 16.2817 17.773 17.2209 17.008 17.9198C16.2488 18.6134 15.0724 18.9583 13.3334 18.9583H6.66669C4.92765 18.9583 3.7513 18.6134 2.99201 17.9198C2.22707 17.2209 2.01204 16.2816 1.92025 15.4249L1.91937 15.4167L1.2949 8.75512C1.17779 7.69098 1.24729 6.54972 1.97798 5.68102ZM2.93458 6.48564C2.54147 6.953 2.43082 7.65524 2.5379 8.62293L2.53905 8.63332L3.16357 15.2958C3.24694 16.0702 3.41954 16.6172 3.83512 16.9969C4.25709 17.3824 5.05574 17.7083 6.66669 17.7083H13.3334C14.9443 17.7083 15.743 17.3824 16.1649 16.9969C16.5805 16.6172 16.7531 16.0702 16.8365 15.2958L17.4621 8.62292C17.5691 7.65523 17.4586 6.953 17.0655 6.48564C16.6783 6.02536 15.8725 5.625 14.1667 5.625H5.83336C4.12756 5.625 3.32174 6.02536 2.93458 6.48564Z"
+                          fill="black"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M7.3281 3.37564C7.29269 3.6468 7.29169 3.95495 7.29169 4.33366V5.00033C7.29169 5.3455 7.01187 5.62533 6.66669 5.62533C6.32151 5.62533 6.04169 5.3455 6.04169 5.00033L6.04169 4.312C6.04167 3.95906 6.04165 3.57356 6.08861 3.21381C6.13728 2.84106 6.24156 2.44533 6.48587 2.09185C6.99982 1.34823 7.94128 1.04199 9.33335 1.04199H10.6667C12.0588 1.04199 13.0002 1.34823 13.5142 2.09185C13.7585 2.44533 13.8628 2.84106 13.9114 3.21381C13.9584 3.57357 13.9584 3.95906 13.9584 4.31201L13.9584 5.00033C13.9584 5.3455 13.6785 5.62533 13.3334 5.62533C12.9882 5.62533 12.7084 5.3455 12.7084 5.00033V4.33366C12.7084 3.95495 12.7074 3.6468 12.6719 3.37564C12.6373 3.11011 12.5749 2.93136 12.4859 2.80255C12.3332 2.58158 11.9413 2.29199 10.6667 2.29199H9.33335C8.05876 2.29199 7.66689 2.58158 7.51417 2.80255C7.42515 2.93136 7.36276 3.11011 7.3281 3.37564Z"
+                          fill="black"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M8.95905 10.6257C8.9584 10.6852 8.95838 10.753 8.95838 10.8333V11.6917C8.95838 11.9263 8.96043 12.0988 8.9808 12.2452C9.00039 12.386 9.03151 12.4545 9.05788 12.4917C9.08728 12.5332 9.23385 12.7083 10 12.7083C10.7697 12.7083 10.9145 12.5315 10.9433 12.4904C10.9698 12.4526 11.0009 12.383 11.0201 12.2406C11.0402 12.0925 11.0417 11.9191 11.0417 11.6833V10.8333C11.0417 10.753 11.0417 10.6852 11.0411 10.6257C10.9816 10.625 10.9138 10.625 10.8334 10.625H9.16672C9.08634 10.625 9.01853 10.625 8.95905 10.6257ZM9.13934 9.375C9.14847 9.37501 9.1576 9.37501 9.16672 9.37501H10.8334C10.8425 9.37501 10.8516 9.37501 10.8608 9.375C11.045 9.37496 11.2318 9.37492 11.3842 9.39185C11.5395 9.40911 11.7975 9.45526 12.0045 9.66223C12.2115 9.86921 12.2576 10.1272 12.2749 10.2826C12.2918 10.4349 12.2918 10.6217 12.2917 10.806C12.2917 10.8151 12.2917 10.8242 12.2917 10.8333V11.6927C12.2917 11.9091 12.2917 12.1652 12.2589 12.4082C12.2247 12.6603 12.1501 12.9464 11.9672 13.2075C11.5772 13.7643 10.8887 13.9583 10 13.9583C9.11624 13.9583 8.42948 13.7668 8.03806 13.2145C7.85401 12.9549 7.77783 12.6697 7.74273 12.4175C7.70842 12.171 7.70838 11.9112 7.70838 11.6917V10.8333C7.70838 10.8242 7.70838 10.8151 7.70838 10.806C7.70834 10.6217 7.70829 10.4349 7.72523 10.2826C7.74248 10.1272 7.78863 9.86921 7.99561 9.66223C8.20258 9.45526 8.4606 9.40911 8.61593 9.39185C8.76831 9.37492 8.95506 9.37496 9.13934 9.375Z"
+                          fill="black"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M18.5472 8.79943C18.7502 9.07859 18.6885 9.46947 18.4093 9.6725C16.3958 11.1368 14.0955 12.0078 11.7448 12.3038C11.4023 12.3469 11.0897 12.1043 11.0466 11.7618C11.0035 11.4193 11.2461 11.1067 11.5886 11.0636C13.7379 10.7929 15.8375 9.99724 17.6741 8.66158C17.9532 8.45855 18.3441 8.52027 18.5472 8.79943Z"
+                          fill="black"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M1.66759 9.03865C1.86255 8.7538 2.25151 8.68094 2.53636 8.8759C4.3271 10.1016 6.34647 10.8403 8.40289 11.0705C8.74593 11.109 8.99288 11.4182 8.95447 11.7612C8.91606 12.1042 8.60684 12.3512 8.2638 12.3128C6.00356 12.0597 3.78959 11.2484 1.83034 9.90742C1.54549 9.71246 1.47263 9.3235 1.66759 9.03865Z"
+                          fill="black"
                         />
                       </svg>
+
+                      <p className="">Focus Area</p>
+                    </div>
+                    <div className="text-[#797979]">
+                      <ul className="pl-10 flex flex-col items-start list-disc">
+                        <li>Java</li>
+                        <li>Python</li>
+                      </ul>
                     </div>
                   </div>
-
-                  {/* Loading text */}
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    Loading Interview Data
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-6 text-center max-w-xs">
-                    Please wait while we fetch your upcoming interviews and
-                    candidate information.
-                  </p>
-
-                  {/* Simulated progress bar */}
-                  <div className="w-64 bg-gray-200 rounded-full h-2.5 mb-4 overflow-hidden">
-                    <div className="bg-blue-500 h-2.5 rounded-full w-full animate-pulse"></div>
+                  <div>
+                    <div className="flex gap-x-2">
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11 1.83301L13.8454 8.00034L20.5902 8.80059L15.6035 13.4114L16.9272 20.0738L11 16.7563L5.07285 20.0747L6.39652 13.4123L1.40985 8.79967L8.1556 7.99942L11 1.83301Z"
+                          stroke="black"
+                          stroke-width="1.375"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <p className="">Job Requirements</p>
+                    </div>
+                    <div className="text-[#797979]">
+                      <ul className="pl-10 flex flex-col items-start list-disc">
+                        <li>Backend</li>
+                        <li>API Integration</li>
+                        <li>System Design</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                {nextAppointment && Object.keys(nextAppointment).length > 0 ? (
-                  <div className="bg-white shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
-                    <div className="px-4 py-5 flex-grow ">
-                      {/* Header section with appointment status */}
-                      <div className="flex justify-between items-center">
-                        <h2 className="text-lg font-medium text-gray-700">
-                          Upcoming Interview
-                        </h2>
-                        <span className="flex items-center text-sm font-medium text-green-600">
-                          <span className="mr-1">{icons.check}</span>
-                          {nextAppointment.status}
-                        </span>
-                      </div>
+              )}
 
-                      {/* Main content section */}
-                      <div className="mt-4 flex flex-col h-full ">
-                        {/* Candidate profile and basic info */}
+              {activeTab === "jobDescription" && (
+                <div className=" flex flex-col items-start justify-start">
+                  <div className="flex gap-x-2">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.97798 5.68102C2.71582 4.80381 3.98083 4.375 5.83336 4.375H14.1667C16.0192 4.375 17.2842 4.80381 18.0221 5.68102C18.7528 6.54972 18.8223 7.69097 18.7052 8.7551L18.0799 15.4249C17.9881 16.2817 17.773 17.2209 17.008 17.9198C16.2488 18.6134 15.0724 18.9583 13.3334 18.9583H6.66669C4.92765 18.9583 3.7513 18.6134 2.99201 17.9198C2.22707 17.2209 2.01204 16.2816 1.92025 15.4249L1.91937 15.4167L1.2949 8.75512C1.17779 7.69098 1.24729 6.54972 1.97798 5.68102ZM2.93458 6.48564C2.54147 6.953 2.43082 7.65524 2.5379 8.62293L2.53905 8.63332L3.16357 15.2958C3.24694 16.0702 3.41954 16.6172 3.83512 16.9969C4.25709 17.3824 5.05574 17.7083 6.66669 17.7083H13.3334C14.9443 17.7083 15.743 17.3824 16.1649 16.9969C16.5805 16.6172 16.7531 16.0702 16.8365 15.2958L17.4621 8.62292C17.5691 7.65523 17.4586 6.953 17.0655 6.48564C16.6783 6.02536 15.8725 5.625 14.1667 5.625H5.83336C4.12756 5.625 3.32174 6.02536 2.93458 6.48564Z"
+                        fill="black"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M7.3281 3.37564C7.29269 3.6468 7.29169 3.95495 7.29169 4.33366V5.00033C7.29169 5.3455 7.01187 5.62533 6.66669 5.62533C6.32151 5.62533 6.04169 5.3455 6.04169 5.00033L6.04169 4.312C6.04167 3.95906 6.04165 3.57356 6.08861 3.21381C6.13728 2.84106 6.24156 2.44533 6.48587 2.09185C6.99982 1.34823 7.94128 1.04199 9.33335 1.04199H10.6667C12.0588 1.04199 13.0002 1.34823 13.5142 2.09185C13.7585 2.44533 13.8628 2.84106 13.9114 3.21381C13.9584 3.57357 13.9584 3.95906 13.9584 4.31201L13.9584 5.00033C13.9584 5.3455 13.6785 5.62533 13.3334 5.62533C12.9882 5.62533 12.7084 5.3455 12.7084 5.00033V4.33366C12.7084 3.95495 12.7074 3.6468 12.6719 3.37564C12.6373 3.11011 12.5749 2.93136 12.4859 2.80255C12.3332 2.58158 11.9413 2.29199 10.6667 2.29199H9.33335C8.05876 2.29199 7.66689 2.58158 7.51417 2.80255C7.42515 2.93136 7.36276 3.11011 7.3281 3.37564Z"
+                        fill="black"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.95905 10.6257C8.9584 10.6852 8.95838 10.753 8.95838 10.8333V11.6917C8.95838 11.9263 8.96043 12.0988 8.9808 12.2452C9.00039 12.386 9.03151 12.4545 9.05788 12.4917C9.08728 12.5332 9.23385 12.7083 10 12.7083C10.7697 12.7083 10.9145 12.5315 10.9433 12.4904C10.9698 12.4526 11.0009 12.383 11.0201 12.2406C11.0402 12.0925 11.0417 11.9191 11.0417 11.6833V10.8333C11.0417 10.753 11.0417 10.6852 11.0411 10.6257C10.9816 10.625 10.9138 10.625 10.8334 10.625H9.16672C9.08634 10.625 9.01853 10.625 8.95905 10.6257ZM9.13934 9.375C9.14847 9.37501 9.1576 9.37501 9.16672 9.37501H10.8334C10.8425 9.37501 10.8516 9.37501 10.8608 9.375C11.045 9.37496 11.2318 9.37492 11.3842 9.39185C11.5395 9.40911 11.7975 9.45526 12.0045 9.66223C12.2115 9.86921 12.2576 10.1272 12.2749 10.2826C12.2918 10.4349 12.2918 10.6217 12.2917 10.806C12.2917 10.8151 12.2917 10.8242 12.2917 10.8333V11.6927C12.2917 11.9091 12.2917 12.1652 12.2589 12.4082C12.2247 12.6603 12.1501 12.9464 11.9672 13.2075C11.5772 13.7643 10.8887 13.9583 10 13.9583C9.11624 13.9583 8.42948 13.7668 8.03806 13.2145C7.85401 12.9549 7.77783 12.6697 7.74273 12.4175C7.70842 12.171 7.70838 11.9112 7.70838 11.6917V10.8333C7.70838 10.8242 7.70838 10.8151 7.70838 10.806C7.70834 10.6217 7.70829 10.4349 7.72523 10.2826C7.74248 10.1272 7.78863 9.86921 7.99561 9.66223C8.20258 9.45526 8.4606 9.40911 8.61593 9.39185C8.76831 9.37492 8.95506 9.37496 9.13934 9.375Z"
+                        fill="black"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M18.5472 8.79943C18.7502 9.07859 18.6885 9.46947 18.4093 9.6725C16.3958 11.1368 14.0955 12.0078 11.7448 12.3038C11.4023 12.3469 11.0897 12.1043 11.0466 11.7618C11.0035 11.4193 11.2461 11.1067 11.5886 11.0636C13.7379 10.7929 15.8375 9.99724 17.6741 8.66158C17.9532 8.45855 18.3441 8.52027 18.5472 8.79943Z"
+                        fill="black"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.66759 9.03865C1.86255 8.7538 2.25151 8.68094 2.53636 8.8759C4.3271 10.1016 6.34647 10.8403 8.40289 11.0705C8.74593 11.109 8.99288 11.4182 8.95447 11.7612C8.91606 12.1042 8.60684 12.3512 8.2638 12.3128C6.00356 12.0597 3.78959 11.2484 1.83034 9.90742C1.54549 9.71246 1.47263 9.3235 1.66759 9.03865Z"
+                        fill="black"
+                      />
+                    </svg>
 
-                        <div className="p-4 border border-gray-100 rounded-lg bg-gray-50 max-h-max">
-                          <div className="flex flex-col md:flex-row items-start">
-                            <div className="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto md:mx-0 overflow-hidden relative">
-                              <img
-                                src={nextAppointment?.photoLink}
-                                alt="Appointment"
-                                className="h-full w-full object-cover rounded-full"
-                                onError={(e) =>
-                                  (e.target.style.display = "none")
-                                } // Hide image if it fails
-                              />
-                              {!nextAppointment?.photoLink && (
-                                <span className="absolute text-lg font-medium text-blue-700">
-                                  {nextAppointment?.candidateFirstname?.[0]?.toUpperCase()}
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="mt-4 md:mt-0 md:ml-4 flex-grow">
-                              <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-                                <h3 className="text-lg font-medium text-gray-900 text-center md:text-left">
-                                  {nextAppointment.candidateFirstName}{" "}
-                                  {nextAppointment.candidateLastName}
-                                </h3>
-                                <div className="flex items-center justify-center md:justify-start mt-2 md:mt-0">
-                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    {nextAppointment.hiringRole}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
-                                <div className="flex items-center justify-center md:justify-start text-sm text-gray-600">
-                                  <span className="mr-2 text-gray-500">
-                                    {icons.calendar}
-                                  </span>
-                                  {nextAppointment.appDate}
-                                </div>
-                                <div className="flex items-center justify-center md:justify-start text-sm text-gray-600">
-                                  <span className="mr-2 text-gray-500">
-                                    {icons.clock}
-                                  </span>
-                                  {nextAppointment.appTime}
-                                </div>
-                              </div>
-
-                              <div className="mt-4 flex flex-col md:flex-row items-center justify-center md:justify-start space-y-2 md:space-y-0 md:space-x-4">
-                                <a
-                                  href={nextAppointment.resumeLink}
-                                  className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
-                                >
-                                  <span className="mr-2">{icons.file}</span>
-                                  View Resume
-                                </a>
-                                <button
-                                  className="flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition duration-150 ease-in-out w-full md:w-auto justify-center"
-                                  onClick={handelJoinInterview}
-                                >
-                                  <span className="mr-2">{icons.video}</span>
-                                  Join Interview
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Tabbed section for interview details and notes */}
-                          <div className="mt-6 border-t border-gray-200 pt-4">
-                            <div className="flex space-x-4 border-b border-gray-200 overflow-x-auto scrollbar-hide">
-                              <button
-                                className={`px-1 py-2 border-b-2 text-sm font-medium whitespace-nowrap ${
-                                  activeTab2 === "details"
-                                    ? "border-blue-500 text-blue-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                                }`}
-                                onClick={() => setActiveTab2("details")}
-                              >
-                                Interview Details
-                              </button>
-                              <button
-                                className={`px-1 py-2 border-b-2 text-sm font-medium whitespace-nowrap ${
-                                  activeTab2 === "notes"
-                                    ? "border-blue-500 text-blue-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                                }`}
-                                onClick={() => setActiveTab2("notes")}
-                              >
-                                Job Description
-                              </button>
-                            </div>
-
-                            {/* Auto height tab content container - removed fixed height */}
-                            <div className="py-4 overflow-y-auto">
-                              {/* Interview Details tab content */}
-                              {activeTab2 === "details" && (
-                                <div className="grid grid-cols-1 gap-4">
-                                  <div className="flex items-start">
-                                    <div className="flex-shrink-0 mt-1">
-                                      <span className="text-gray-500">
-                                        {icons.briefcase}
-                                      </span>
-                                    </div>
-                                    <div className="ml-3">
-                                      <p className="text-sm font-medium text-gray-900">
-                                        Job Requirements
-                                      </p>
-                                      <p className="text-sm text-gray-600">
-                                        {nextAppointment?.jobRequirement?.join(
-                                          ", "
-                                        )}
-                                      </p>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex items-start">
-                                    <div className="flex-shrink-0 mt-1">
-                                      <span className="text-gray-500">
-                                        {icons.star}
-                                      </span>
-                                    </div>
-                                    <div className="ml-3">
-                                      <p className="text-sm font-medium text-gray-900">
-                                        Focus Areas
-                                      </p>
-                                      <p className="text-sm text-gray-600">
-                                        {nextAppointment?.focusArea?.join(", ")}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-
-                              {/* Pre-Interview Notes tab content */}
-                              {activeTab2 === "notes" && (
-                                <div className="grid grid-cols-1 gap-4">
-                                  <div className="flex items-start">
-                                    <div className="flex-shrink-0 mt-1">
-                                      <span className="text-gray-500">
-                                        {icons.message}
-                                      </span>
-                                    </div>
-                                    <div className="ml-3">
-                                      <p className="text-sm font-medium text-gray-900">
-                                        Job Description
-                                      </p>
-                                      <p className="text-sm text-gray-600 mt-2">
-                                        {nextAppointment?.jobDescription}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <p>Job Description</p>
                   </div>
-                ) : (
-                  <div className="bg-[#ffffff57] shadow-sm rounded-lg overflow-hidden h-full flex flex-col">
-                    <div className="px-4 py-5 flex-grow">
-                      {/* Header section */}
-                      <div className="flex justify-between items-center">
-                        <h2 className="text-lg font-medium text-gray-700">
-                          Upcoming Interviews
-                        </h2>
-                      </div>
-
-                      {/* Empty state content */}
-                      <div className="mt-8 flex flex-col items-center justify-center text-center py-12">
-                        <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                          <span className="text-gray-400">
-                            {icons.calendar}
-                          </span>
-                        </div>
-
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">
-                          No Upcoming Interviews
-                        </h3>
-
-                        <p className="text-sm text-gray-600 max-w-sm mb-6">
-                          You don't have any scheduled interviews at the moment.
-                          New interviews will appear here when they are
-                          scheduled.
-                        </p>
-                      </div>
-                    </div>
+                  <div className="pl-6 pt-2 text-left text-[#797979]">
+                    <p>{interview.jobDescription}</p>
                   </div>
-                )}
-              </>
-            )}
+                </div>
+              )}
+            </div>
           </div>
+        )}
 
-          {/* Charts */}
-          <div className="space-y-4 flex flex-col ">
-            <div className="flex flex-col justify-center items-center gap-4">
-              <div className="bg-[#ffffff57] w-[420px] p-4 rounded-lg shadow-sm">
-                <h3 className="text-sm font-medium text-gray-500 mb-4">
-                  Pending Receivables
-                </h3>
-                <div className="flex flex-col">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600">Total Amount</span>
-                    <span className="font-medium text-gray-800">
-                      $24,750.00
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600">Interviews</span>
-                    <span className="font-medium text-gray-800">43</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600">Average</span>
-                    <span className="font-medium text-gray-800">$575.58</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Oldest</span>
-                    <span className="font-medium text-red-600">45 days</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#ffffff57] w-[420px] p-4 rounded-lg shadow-sm">
-                <h3 className="text-sm font-medium text-gray-500 mb-4">
-                  Completed Receivables
-                </h3>
-                <div className="flex flex-col">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600">Total Amount</span>
-                    <span className="font-medium text-gray-800">
-                      $87,250.00
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600">Interviews</span>
-                    <span className="font-medium text-gray-800">152</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600">Average</span>
-                    <span className="font-medium text-gray-800">$574.01</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Last Payment</span>
-                    <span className="font-medium text-green-600">Today</span>
-                  </div>
-                </div>
-              </div>
+        {/* Receivables */}
+        <div className="bg-white rounded-lg shadow-md p-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <div className="text-gray-500 text-sm">Pending Receivables</div>
+              <div className="text-xl font-bold text-gray-800">$24,750</div>
+              <div className="text-gray-500 text-xs">43 Interviews</div>
+              <div className="text-gray-500 text-xs">Avg: $575.58</div>
+              <div className="text-gray-500 text-xs">Oldest: 45 days</div>
+            </div>
+            <div>
+              <div className="text-gray-500 text-sm">Completed Receivables</div>
+              <div className="text-xl font-bold text-gray-800">$87,750</div>
+              <div className="text-gray-500 text-xs">152 Interviews</div>
+              <div className="text-gray-500 text-xs">Avg: $435.58</div>
+              <div className="text-gray-500 text-xs">Last Payment: Today</div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
