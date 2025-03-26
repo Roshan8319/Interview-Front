@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import OurTeam from './OurTeam';
+import GrowYourTeam from './GrowYourTeam';
 
 function NavigationLayout() {
   return (
@@ -93,6 +94,7 @@ function NavigationLayout() {
             {/* Your page content goes here */}
 
             <OurTeam/>
+            <GrowYourTeam/>
 
         </div>
 
