@@ -322,7 +322,7 @@ function Candidates() {
                 key={status}
                 onClick={() => handleSelect("status", status)}
                 className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
-                  selectedFilters.status === status
+                  selectedFilters.status === status 
                     ? "bg-[#E65F2B] text-white border-[#E65F2B]"
                     : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
                 }`}
