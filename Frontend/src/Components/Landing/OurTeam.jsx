@@ -4,11 +4,11 @@ function OurTeam() {
   return (
     <div className='min-h-[calc(100vh-64px)] bg-[#F1F5F9]' >
           <div className='w-full flex flex-col items-center justify-center text-[#0F172A] font-semibold gap-y-3 ' >
-              <div className='mt-[2%] text-[16px] ' >
+              <div className='font-normal mt-[2%] text-[22px] ' >
                 Who We Are
               </div>
               <div className='text-[54px]' >
-                <h1>MEET OUR TEAM</h1>
+                <h1>Meet our team</h1>
               </div>
               <div className='text-[20px] font-normal text-center' >
                 <p>Just take a look - each member of the team is watching your every </p>
