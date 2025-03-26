@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import OurTeam from './OurTeam';
+import First from './First';
 
 function NavigationLayout() {
   return (
@@ -91,8 +92,8 @@ function NavigationLayout() {
         <div className="flex-grow">
             
             {/* Your page content goes here */}
-
-            <OurTeam/>
+            <First/>
+            {/* <OurTeam/> */}
 
         </div>
 
