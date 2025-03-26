@@ -96,13 +96,12 @@ function NavigationLayout() {
         <div className="flex-grow">
             
             {/* Your page content goes here */}
-
+            <First/>
 
             <OurTeam/>
             <GrowYourTeam/>
 
-            <First/>
-            {/* <OurTeam/> */}
+          
 
 
         </div>

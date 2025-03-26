@@ -2,7 +2,7 @@ import React from 'react'
 
 function OurTeam() {
   return (
-    <div className='min-h-[calc(100vh-64px)] bg-[#F1F5F9]' >
+    <div className='min-h-[calc(100vh-64px)] bg-[#F1F5F9] pb-10' >
           <div className='w-full flex flex-col items-center justify-center text-[#0F172A] font-semibold gap-y-3 ' >
               <div className='font-normal mt-[2%] text-[22px] ' >
                 Who We Are
