@@ -109,8 +109,8 @@ function NavigationLayout() {
         
 
                 </div>
-            </div>
-            {/* Main Content */}
+            {/* </div>
+            Main Content */}
             <div className="flex-grow">
 
                 {/* Your page content goes here */}
