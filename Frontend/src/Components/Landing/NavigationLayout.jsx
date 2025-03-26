@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import OurTeam from './OurTeam';
 
 function NavigationLayout() {
   return (
-      <div className='flex flex-col min-h-screen font-[Montserrat] ' >
+      <div className='flex flex-col min-h-screen font- ' >
         {/* Header */}
         <div>
            <div className='w-full flex justify-center items-center border-b-[1px] border-[#0F172A] py-2 gap-x-2' >
@@ -88,7 +89,11 @@ function NavigationLayout() {
         </div>  
     {/* Main Content */}
         <div className="flex-grow">
+            
             {/* Your page content goes here */}
+
+            <OurTeam/>
+
         </div>
 
         {/* //Footer */}
