@@ -5,6 +5,7 @@ import Dinanath from "../../assets/Dinanath.png";
 
 
 function OurTeam() {
+<<<<<<< HEAD
     return (
         <div className='min-h-[calc(100vh-64px)] bg-[#F1F5F9]' >
             <div className='w-full flex flex-col items-center justify-center text-[#0F172A] font-semibold gap-y-3 ' >
@@ -33,6 +34,36 @@ function OurTeam() {
                                             <rect y="0.967773" width="36" height="36" rx="18" fill="#252525" />
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0573 14.8657C12.1744 14.4816 12.5316 14.2021 12.9541 14.2021H23.4541C23.8766 14.2021 24.2338 14.4816 24.3509 14.8657L18.2041 18.9636L12.0573 14.8657ZM10.8916 15.1293C10.8915 15.1353 10.8915 15.1413 10.8916 15.1473V22.6396C10.8916 23.7787 11.815 24.7021 12.9541 24.7021H23.4541C24.5932 24.7021 25.5166 23.7787 25.5166 22.6396V15.1473M24.3916 16.1907V22.6396C24.3916 23.1574 23.9719 23.5771 23.4541 23.5771H12.9541C12.4363 23.5771 12.0166 23.1574 12.0166 22.6396V16.1907L17.8921 20.1077C18.081 20.2336 18.3272 20.2336 18.5161 20.1077L24.3916 16.1907ZM25.5166 15.1294C25.511 13.995 24.5898 13.0771 23.4541 13.0771H12.9541C11.8184 13.0771 10.8972 13.995 10.8916 15.1293" fill="white" />
                                         </svg>
+=======
+  return (
+    <div className='min-h-[calc(100vh-64px)] bg-[#F1F5F9] pb-10' >
+          <div className='w-full flex flex-col items-center justify-center text-[#0F172A] font-semibold gap-y-3 ' >
+              <div className='font-normal mt-[2%] text-[22px] ' >
+                Who We Are
+              </div>
+              <div className='text-[54px]' >
+                <h1>Meet our team</h1>
+              </div>
+              <div className='text-[20px] font-normal text-center' >
+                <p>Just take a look - each member of the team is watching your every </p>
+                <p>gesture and will hear your every whisper.</p>
+              </div>
+              <div className='w-full flex justify-center items-center gap-x-10 mt-4' >
+                <div className='w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
+                    <div className='w-full h-[60%] flex justify-center items-center' >
+                        photo
+                    </div>
+                    <div className='w-full h-[40%] flex flex-col justify-center items-center gap-y-2' >
+                        <div className='text-[18px] font-semibold' >Sumit Kumar Mahto</div>
+                        <div className='text-[14px] font-normal' >Full Stack Developer</div>
+                        <div>
+                            <ul className='flex gap-x-4' >
+                                  <li>
+                                      <svg width="36" height="37" viewBox="0 0 36 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <rect y="0.967773" width="36" height="36" rx="18" fill="#252525" />
+                                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0573 14.8657C12.1744 14.4816 12.5316 14.2021 12.9541 14.2021H23.4541C23.8766 14.2021 24.2338 14.4816 24.3509 14.8657L18.2041 18.9636L12.0573 14.8657ZM10.8916 15.1293C10.8915 15.1353 10.8915 15.1413 10.8916 15.1473V22.6396C10.8916 23.7787 11.815 24.7021 12.9541 24.7021H23.4541C24.5932 24.7021 25.5166 23.7787 25.5166 22.6396V15.1473M24.3916 16.1907V22.6396C24.3916 23.1574 23.9719 23.5771 23.4541 23.5771H12.9541C12.4363 23.5771 12.0166 23.1574 12.0166 22.6396V16.1907L17.8921 20.1077C18.081 20.2336 18.3272 20.2336 18.5161 20.1077L24.3916 16.1907ZM25.5166 15.1294C25.511 13.995 24.5898 13.0771 23.4541 13.0771H12.9541C11.8184 13.0771 10.8972 13.995 10.8916 15.1293" fill="white" />
+                                      </svg>
+>>>>>>> e6c2ff97a1e1b9cdca689630cd28e4323b182b0c
 
                                     </li>
                                     <li>

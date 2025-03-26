@@ -2,6 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import OurTeam from './OurTeam';
 
+import GrowYourTeam from './GrowYourTeam';
+
+import First from './First';
+
+
 function NavigationLayout() {
     return (
         <div className='flex flex-col min-h-screen font- ' >
@@ -90,6 +95,18 @@ function NavigationLayout() {
                         </div>
 
                     </div>
+          </div>
+        </div>  
+    {/* Main Content */}
+        <div className="flex-grow">
+            
+            {/* Your page content goes here */}
+            <First/>
+
+            <OurTeam/>
+            <GrowYourTeam/>
+
+        
 
                 </div>
             </div>
