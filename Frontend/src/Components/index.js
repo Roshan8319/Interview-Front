@@ -53,6 +53,8 @@ import InterviewHistory from "./Interviewer/InterviewHistory";
 
 
 
+// Landing Imports
+import { LandingNavigationLayout } from "./Landing/NavigationLayout";
 
 
 
@@ -74,7 +76,8 @@ export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInter
 //Interviewer Exports
 export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables}
 
-
+// Landing Exports
+export {LandingNavigationLayout}
 
 
 

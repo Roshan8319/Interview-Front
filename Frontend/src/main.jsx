@@ -24,6 +24,10 @@ import { InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar
 import { Hello } from './Components'
 import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
 
+
+//Landing Imports
+import { LandingNavigationLayout } from './Components'
+
 import Background from './Components/Background'
 
 
@@ -106,6 +110,12 @@ const router = createBrowserRouter(
         <Route path='receivables' element={<Receivables />} />
         <Route path='interview-history' element={<InterviewHistory />} />       
         
+      </Route>
+
+
+      //Landing Routes
+      <Route path='recrumeta' element={<LandingNavigationLayout/>} >
+
       </Route>
 
 
