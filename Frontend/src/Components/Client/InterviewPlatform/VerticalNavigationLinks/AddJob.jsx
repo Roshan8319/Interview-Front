@@ -65,20 +65,20 @@ const AddJob = () => {
         
     
       <form className='w-[80%] flex items-center  mt-10 ' action="">
-      <div className=" w-[100%] bg-[rgba(255,255,255,0.34)]  grid grid-cols-2  p-2 rounded-2xl ">
-{/* hjgefhhkjshkldsf */}
-        <div className=' w-[100%]' >
+      <div className=" w-[100%] bg-[rgba(255,255,255,0.34)]   grid grid-cols-2  p-8 rounded-2xl ">
+        <div className=' w-[100%] flex flex-col gap-y-4' >
             <div className='flex flex-col justify-between w-[90%] '  >
             <label  className='whitespace-nowrap text-[15px] ' >Job Title</label>
-            <input type="text" name='jobTitle' placeholder="Enter Job Title" value={formData.jobTitle} onChange={handleChange}  className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4 ' />
+            <input type="text" name='jobTitle' placeholder="Enter Job Title" value={formData.jobTitle} onChange={handleChange}    
+            className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" />
           </div>
           <div className='flex flex-col w-[90%]' >
           <label  className='whitespace-nowrap text-[15px] ' >Hiring Manager Email</label>
-          <input className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)]  mb-4' name='hiringManagerEmail' type="email" value={formData.hiringManagerEmail} onChange={handleChange} placeholder='Enter Email'    />
+          <input  className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" name='hiringManagerEmail' type="email" value={formData.hiringManagerEmail} onChange={handleChange} placeholder='Enter Email'    />
           </div>
           <div className='flex flex-col w-[90%] h-fit '>
         <label className='whitespace-nowrap text-[15px]' >Employment Type</label>
-        <select  name='employmentType' value={formData.employment} className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] ' onChange={(e)=>setEmployment(e.target.value)} >
+        <select  name='employmentType' value={formData.employment}  className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" onChange={(e)=>setEmployment(e.target.value)} >
           <option value="FT">Full Time</option>
           <option value="INT">Internship</option>
         </select>
@@ -90,14 +90,14 @@ const AddJob = () => {
 
 
 {/* //kjhsfjhjshkfhkjsh */}
-        <div className=' w-[100%] ' >
+        <div className=' w-[100%] flex flex-col gap-y-4' >
         <div className='flex flex-col w-[90%]  '  >
         <label  className='whitespace-nowrap text-[15px]' >Job Role</label>
-        <input className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' name='jobRole' type="text" value={formData.jobRole} onChange={handleChange} placeholder='Enter Job Role'   />
+        <input  className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" name='jobRole' type="text" value={formData.jobRole} onChange={handleChange} placeholder='Enter Job Role'   />
       </div>
       <div className='flex flex-col w-[90%]'>
         <label className='whitespace-nowrap text-[15px]' >Total Positions</label>
-        <input type="number" className='text-black px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' name='totalPositions' value={formData.totalPositions} onChange={handleChange} placeholder='Enter No. of Positions'  />
+        <input type="number"  className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" name='totalPositions' value={formData.totalPositions} onChange={handleChange} placeholder='Enter No. of Positions'  />
       </div>
       
       <div className='flex flex-col w-[90%]' >
@@ -109,7 +109,7 @@ const AddJob = () => {
       name='jobDescription'
       value={formData.jobDescription}
       onChange={handleChange}
-      className='text-black w-[100%] px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4'
+       className="w-[100%] py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
     ></textarea>
   </div>
 </div>
@@ -121,7 +121,7 @@ const AddJob = () => {
      <div className='flex flex-col w-[90%]'>
         <label className='whitespace-nowrap text-[15px]' >Essentials</label>
         <div style={{ width: '60%' }}>
-          <select  name='essentials' className='text-black w-[100%] px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' onChange={handleAddEssential}>
+          <select  name='essentials'  className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" onChange={handleAddEssential}>
             <option value="">Select an Essential</option>
             {essentialOptions.map((essential) => (
               <option key={essential} value={essential}>
@@ -149,7 +149,7 @@ const AddJob = () => {
       <div className='flex flex-col w-[90%]'>
         <label className='whitespace-nowrap text-[15px]' >Essentials</label>
         <div style={{ width: '60%' }}>
-          <select  name='essentials' className='text-black w-[100%] px-2 py-1 border-2 border-gray-400 rounded-xl bg-[rgba(255,255,255,0.34)] mb-4' onChange={handleAddEssential}>
+          <select  name='essentials'  className=" py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200" onChange={handleAddEssential}>
             <option value="">Select an Essential</option>
             {essentialOptions.map((essential) => (
               <option key={essential} value={essential}>
