@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import OurTeam from './OurTeam';
 import GrowYourTeam from './GrowYourTeam';
-import First from './First';
-import Second from './Second';
+import YourEngineerBuild from './YourEngineerBuild';
+import EveryHiringSolution from './EveryHiringSolution';
+import WhomWeSupport from './WhomWeSupport';
 
 
 function NavigationLayout() {
@@ -99,8 +100,9 @@ function NavigationLayout() {
             <div className="flex-grow">
 
                 {/* Your page content goes here */}
-                <First />
-                <Second/>
+                <YourEngineerBuild />
+                <EveryHiringSolution/>
+                <WhomWeSupport/>
                 <OurTeam />
                 <GrowYourTeam />
             </div>
