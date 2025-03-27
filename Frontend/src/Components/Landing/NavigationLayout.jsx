@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import OurTeam from './OurTeam';
 import GrowYourTeam from './GrowYourTeam';
 import First from './First';
+import Second from './Second';
 
 
 function NavigationLayout() {
@@ -99,6 +100,7 @@ function NavigationLayout() {
 
                 {/* Your page content goes here */}
                 <First />
+                <Second/>
                 <OurTeam />
                 <GrowYourTeam />
             </div>
