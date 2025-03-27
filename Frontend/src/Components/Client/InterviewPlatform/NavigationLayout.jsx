@@ -413,12 +413,12 @@ const navItems = [
     icon2: <ActiveJobIcon />,
     link: "/client/jobs",
   },
-  {
-    text: "Analytics",
-    icon: <AnalyticsIcon />,
-    icon2: <ActiveAnalyticsIcon />,
-    link: "/client/analytics",
-  },
+  // {
+  //   text: "Analytics",
+  //   icon: <AnalyticsIcon />,
+  //   icon2: <ActiveAnalyticsIcon />,
+  //   link: "/client/analytics",
+  // },
   // { text: 'Integration', icon: <IntegrationIcon />,icon2:<ActiveIntegrationIcon/>, link: '/client/integration' },
   {
     text: "Finance",

@@ -14,7 +14,7 @@ import {SignInPage,ResetPassword} from './Components'
 
 
 // Client Imports
-import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics,AnalyticsDateFilter, Integration, Finance, Engagement, Message } from './Components'
+import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics,AnalyticsDateFilter, Integration, Finance, Engagement, Message,CandidateDetails } from './Components'
 //Agency Imports
 import { AgencyNavigationLayout,AgencyDashboard,AgencyCandidates,AgencyAddCandidate,AgencyScheduleInterview } from './Components'
 //Internal Imports
@@ -60,6 +60,8 @@ const router = createBrowserRouter(
         {/* <Route path='engagement' element={<Engagement />} /> */}
         <Route path='candidates/addcandidate' element={<ClientAddCandidate/>}/>
         <Route path='candidates/schedule-interview' element={<ClientScheduleInterview/>}/>
+        <Route path='candidates/details' element={<CandidateDetails/>}/>
+
         <Route path='jobs/addjob' element={<AddJob/>}/>
         <Route path='jobs/viewjob' element={<ViewJob/>}/>
 
