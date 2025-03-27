@@ -1,15 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import OurTeam from './OurTeam';
-
 import GrowYourTeam from './GrowYourTeam';
-
 import First from './First';
 
 
 function NavigationLayout() {
     return (
-        <div className='flex flex-col min-h-screen font- ' >
+        <div className='flex flex-col min-h-screen font-[Montserrat]' >
             {/* Header */}
             <div>
                 <div className='w-full flex justify-center items-center border-b-[1px] border-[#0F172A] py-2 gap-x-2' >
@@ -84,7 +82,6 @@ function NavigationLayout() {
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M4.54839 15.4507C4.30431 15.2066 4.30431 14.8108 4.54839 14.5668L14.4656 4.6496C14.7096 4.40552 15.1054 4.40552 15.3494 4.6496C15.5935 4.89367 15.5935 5.2894 15.3494 5.53348L5.43227 15.4507C5.18819 15.6947 4.79246 15.6947 4.54839 15.4507Z" fill="#E65F2B" />
                                 </svg>
 
-
                             </button>
 
                             <button className=' flex justify-end ' >
@@ -95,40 +92,25 @@ function NavigationLayout() {
                         </div>
 
                     </div>
-          </div>
-        </div>  
-    {/* Main Content */}
-        <div className="flex-grow">
-            
-            {/* Your page content goes here */}
-            <First/>
-
-            <OurTeam/>
-            <GrowYourTeam/>
-
-        
-
                 </div>
-            {/* </div>
-            Main Content */}
+            </div>
+            {/* Main Content */}
             <div className="flex-grow">
 
                 {/* Your page content goes here */}
-
+                <First />
                 <OurTeam />
-
+                <GrowYourTeam />
             </div>
 
             {/* //Footer */}
             <div>
                 <div className="w-full flex justify-center items-center bg-[#0F172A] ">
 
-
-
                     {/* Footer */}
                     <footer className='w-[90%] text-[#E2E8F0]' >
                         {/*1*/}     <div className='w-full flex border-b-[1px] border-[#E2E8F0]' >
-                            <div className='w-[30%] flex flex-col gap-y-6 mt-6 pb-16 ' >
+                            <div className='w-[30%] flex flex-col gap-y-4 mt-6 pb-16 ' >
                                 <div>
                                     <svg
                                         width="300"
@@ -137,10 +119,7 @@ function NavigationLayout() {
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
-                                        <path
-                                            d="M60 185.674V328H90V256.837H90.0024C90.0024 251.386 91.0887 245.988 93.1993 240.952C95.3099 235.916 98.4034 231.34 102.303 227.486C106.203 223.631 110.833 220.574 115.928 218.488C121.024 216.402 126.485 215.328 132 215.328V215.325H139V185.674H132C122.545 185.674 113.182 187.515 104.447 191.091C99.3265 193.187 94.4805 195.856 90 199.036V185.674H60Z"
-                                            fill="white"
-                                        />
+                                        <path d="M60 185.674V328H90V256.837H90.0024C90.0024 251.386 91.0887 245.988 93.1993 240.952C95.3099 235.916 98.4034 231.34 102.303 227.486C106.203 223.631 110.833 220.574 115.928 218.488C121.024 216.402 126.485 215.328 132 215.328V215.325H139V185.674H132C122.545 185.674 113.182 187.515 104.447 191.091C99.3265 193.187 94.4805 195.856 90 199.036V185.674H60Z" fill="white" />
                                         <path
                                             d="M220.912 194.482C218.732 196.637 216.419 198.646 213.989 200.5C216.419 202.354 218.732 204.363 220.912 206.518C227.598 213.126 232.901 220.971 236.519 229.604C240.138 238.238 242 247.492 242 256.837V328H212V256.837H211.998C211.998 251.386 210.911 245.988 208.801 240.952C206.69 235.916 203.597 231.34 199.697 227.486C195.797 223.631 191.167 220.574 186.072 218.488C180.976 216.402 175.515 215.328 170 215.328V215.326H163V185.674H170V185.672C175.515 185.672 180.976 184.598 186.072 182.512C191.167 180.426 195.797 177.369 199.697 173.514C203.597 169.66 206.69 165.084 208.801 160.048C210.911 155.012 211.998 149.614 211.998 144.163C211.998 138.712 210.911 133.314 208.801 128.278C206.69 123.242 203.597 118.666 199.697 114.811C195.797 110.957 191.167 107.899 186.072 105.813C180.976 103.727 175.515 102.654 170 102.654V73C179.455 73 188.818 74.8407 197.553 78.4169C206.289 81.9932 214.226 87.235 220.912 93.8431C227.598 100.451 232.901 108.296 236.519 116.93C240.138 125.564 242 134.818 242 144.163C242 153.508 240.138 162.762 236.519 171.396C232.901 180.029 227.598 187.874 220.912 194.482Z"
                                             fill="#E65F2B"
@@ -183,13 +162,14 @@ function NavigationLayout() {
                                         />
                                     </svg>
                                 </div>
-                                <div className='text-[28x] font-semibold' >
+                                <div className='text-[28px] font-medium' >
                                     <p>Your Engineers Build,</p>
                                     <p>We handle the interviews</p>
                                 </div>
                             </div>
                             <div className='w-[70%] flex items-start justify-center mt-14 pl-5 mb-10' >
-                                {/* non logo materials */}  <div className='w-[24%] flex flex-col gap-y-3 ' >
+                                {/* non logo materials */}  
+                                <div className='w-[24%] flex flex-col gap-y-3 ' >
                                     <p>Sitemap</p>
                                     <ul className='flex flex-col gap-y-3' >
                                         <li><a href='#' className='hover:text-[#E65F2B]' >Products</a></li>
@@ -273,7 +253,7 @@ function NavigationLayout() {
                             </div>
                         </div>
 
-                        {/*2*/}     <div className='w-full mt-[2%] mb-[2%] flex justify-between items-center' >
+                        {/*2*/}     <div className='w-full flex justify-between items-center pt-6 pb-6' >
                             <div>
                                 Recrumeta © 2025. All rights reserved.
                             </div>
