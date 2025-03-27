@@ -124,12 +124,12 @@ const navItems = [
     icon2: <ActiveProfileIcon />,
     link: "/interviewer/profile",
   },
-  {
-    text: "Calendar",
-    icon: <CalendarIcon />,
-    icon2: <ActiveCalendarIcon />,
-    link: "/interviewer/calendar",
-  },
+  // {
+  //   text: "Calendar",
+  //   icon: <CalendarIcon />,
+  //   icon2: <ActiveCalendarIcon />,
+  //   link: "/interviewer/calendar",
+  // },
   {
     text: "Receivables",
     icon: <ReceivablesIcon />,
