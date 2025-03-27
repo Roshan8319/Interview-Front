@@ -1,608 +1,223 @@
-import React from "react";
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useState, useEffect } from 'react';
+import { Trash2, Plus, User, Mail, Phone, Calendar } from 'lucide-react';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-  '& .MuiDialog-paper': {
-    width: '400px' // You can customize this value to whatever you need
-  },
-}));
+const InternalUsers = () => {
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@recrumeta.com',
+      phone: '+1 (555) 123-4567',
+      addedOn: '2024-01-15'
+    },
+    {
+      id: 2,
+      name: 'Sarah Smith',
+      email: 'sarah.smith@recrumeta.com',
+      phone: '+1 (555) 987-6543',
+      addedOn: '2024-02-20'
+    },
+    {
+      id: 3,
+      name: 'Mike Johnson',
+      email: 'mike.johnson@recrumeta.com',
+      phone: '+1 (555) 246-8135',
+      addedOn: '2024-03-10'
+    },
+    {
+      id: 4,
+      name: 'Emily Clark',
+      email: 'emily.clark@recrumeta.com',
+      phone: '+1 (555) 654-3210',
+      addedOn: '2024-04-05'
+    },
+    {
+      id: 5,
+      name: 'David Wilson',
+      email: 'david.wilson@recrumeta.com',
+      phone: '+1 (555) 321-9876',
+      addedOn: '2024-05-15'
+    },
+    {
+      id: 6,
+      name: 'Jessica Brown',
+      email: 'jessica.brown@recrumeta.com',
+      phone: '+1 (555) 789-0123',
+      addedOn: '2024-06-25'
+    },
+  ]);
 
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [newUser, setNewUser] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
 
-function Users() {
-  const [showAll, setShowAll] = useState(false); // State to toggle visibility
-  const [hdipShowAll, setHdipShowAll] = useState(false)
-  const data = [
-    { name: "Sudeep Pradhan", role: "Admin", mail: "firstname.lastname@abcdef.com", phone: "1234567890", domain: "Ecommerce", client: "Phonepe", access: "Access" },
-    { name: "Sandy Pradhan", role: "User", mail: "sandy.pradhan@abcdef.com", phone: "5234567898", domain: "Healthcare", client: "Client 2", access: "Read" },
-    { name: "S Samal", role: "User", mail: "ssamal@abcdef.com", phone: "3334567894", domain: "Education", client: "Client 3", access: "Write" },
-    { name: "Daniel Smith", role: "User", mail: "daniel.smith@abcdef.com", phone: "5435567892", domain: "Finance", client: "Client 4", access: "Read" },
-    { name: "Alice Johnson", role: "Admin", mail: "alice.johnson@abcdef.com", phone: "6545678901", domain: "Marketing", client: "Client 5", access: "Write" },
-    { name: "Bob Lee", role: "User", mail: "bob.lee@abcdef.com", phone: "7656789012", domain: "Retail", client: "Client 6", access: "Read" },
-    { name: "Charlie Brown", role: "Admin", mail: "charlie.brown@abcdef.com", phone: "8767890123", domain: "Technology", client: "Client 7", access: "Access" },
-  ];
-  const data2 = [
-    { name: "John Doe", role: "Admin", mail: "john.doe@xyz.com", phone: "9876543210", domain: "Finance", client: "BankCorp", access: "Full Access" },
-    { name: "Jane Smith", role: "User", mail: "jane.smith@xyz.com", phone: "8765432109", domain: "Healthcare", client: "HealthPlus", access: "Read" },
-    { name: "Michael Brown", role: "User", mail: "michael.brown@xyz.com", phone: "7654321098", domain: "Technology", client: "TechWorld", access: "Write" },
-    { name: "Emily Davis", role: "Admin", mail: "emily.davis@xyz.com", phone: "6543210987", domain: "Marketing", client: "MarketX", access: "Full Access" },
-    { name: "David Wilson", role: "User", mail: "david.wilson@xyz.com", phone: "5432109876", domain: "Retail", client: "RetailCo", access: "Read" },
-    { name: "Sophia Taylor", role: "Admin", mail: "sophia.taylor@xyz.com", phone: "4321098765", domain: "Education", client: "EduCare", access: "Write" },
-    { name: "James Lee", role: "User", mail: "james.lee@xyz.com", phone: "3210987654", domain: "Ecommerce", client: "EcomPlus", access: "Access" },
-  ];
+  const handleAddUser = () => {
+    if (!newUser.name || !newUser.email || !newUser.phone) {
+      alert('Please fill in all fields');
+      return;
+    }
 
-  // Function to handle button click
-  const toggleVisibility = () => {
-    setShowAll(!showAll);
+    const userToAdd = {
+      id: users.length + 1,
+      ...newUser,
+      addedOn: new Date().toISOString().split('T')[0]
+    };
+
+    setUsers([...users, userToAdd]);
+    setNewUser({ name: '', email: '', phone: '' });
+    setIsAddUserModalOpen(false);
   };
-  const toggleVisibility2 = () => {
-    setHdipShowAll(!hdipShowAll);
+
+  const handleDeleteUser = (id) => {
+    setUsers(users.filter(user => user.id !== id));
   };
 
-
-
-  const [editClientUser, setEditClientUser] = useState(null);
-
-  const toggleEditClientUser = (index) => {
-    console.log(index);
-    setEditClientUser(index);
-  }
-  const toggleSaveClientUser = (index) => {
-    setEditClientUser(null)
-  }
-  const cancelEdit = (index) => {
-    setEditClientUser(null)
-  }
-  const [addHdipUser, setAddHdipUser] = React.useState(false);
-  const handleAddHdipUserOpen = () => {
-    setAddHdipUser(true);
-  };
-  const handleAddHdipUserClose = () => {
-    setAddHdipUser(false);
-  };
-  const [addClientUser, setAddClientuser] = React.useState(false);
-  const handleAddClientUserOpen = () => {
-    setAddClientuser(true)
-  }
-  const handleAddClientUserClose = () => {
-    setAddClientuser(false)
-  }
-
-  const [editHdipUser, setEditHdipUser] = useState("")
-
-  const toggleEditHdipUser = (mail) => {
-    console.log(mail);
-
-    console.log("Clicked on Edit");
-
-    setEditHdipUser(mail)
-  }
-  const toggleSaveHdipUser = (mail) => {
-    console.log("Clicked on Save");
-    setEditHdipUser(mail);
-  }
-  const cancelEditHdipUser = () => {
-    console.log("Clicked on Cancel");
-    setEditHdipUser("")
-  }
-
-
-
- const [addClientAccess,setAddClientAccess]=useState("");
- const handleAddClientAccessChange=(e)=>{
-  setAddClientAccess(e.target.value)
- }
- const [addHdipUserAcess,setAddHdipUserAccess]=useState("");
- const handelAddHdipClientUserAccessChange=(e)=>{
-  setAddHdipUserAccess(e.target.value)
- }
-
-
-  return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4 pl-6 " >
-      {/* Search Input Section */}
-      <div className="flex flex-col justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
-        <div className="flex items-center bg-white rounded-full px-4 py-2 w-full sm:w-80">
-          <input
-            type="text"
-            placeholder="Search users by name"
-            className="flex-1 bg-transparent text-gray-600 outline-none text-sm"
-          />
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
-        </div>
-      </div>
-
-
-      <div>
-        <div>
-          <div className="flex items-center gap-x-5">
-            <h1 className="text-md font-semibold">CLIENT USERS</h1>
-
-
-
-            <React.Fragment>
-              <div>
-                <button
-                  className=" p-1 px-4 rounded-full border-[3px] border-[#f0ad4e] bg-[#000000] text-[#f0ad4e] font-medium "
-                  onClick={handleAddClientUserOpen}
-                >
-                  + Add
-                </button>
-              </div>
-              <BootstrapDialog
-                onClose={handleAddClientUserClose}
-                aria-labelledby="add-poc-dialog-title"
-                open={addClientUser}
-                BackdropProps={{
-                  sx: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-                  },
-                }}
-              >
-                <DialogTitle sx={{ m: 0, p: 2 }} id="add-poc-dialog-title">
-                  <h1 className='font-bold text-[#056DDC] text-lg text-center'>ADD CLIENT USER</h1>
-                </DialogTitle>
-                <IconButton
-                  aria-label="close"
-                  onClick={handleAddClientUserClose}
-                  sx={(theme) => ({
-                    position: 'absolute',
-                    right: 8,
-                    top: 8,
-                    color: theme.palette.grey[500],
-                  })}
-                >
-                  <CloseIcon />
-                </IconButton>
-                <DialogContent dividers>
-                  <div className=" w-full flex-col flex items-center justify-center custom_lg:gap-2 md:gap-y-0 ">
-                    <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                      <label className="w-1/4 text-sm font-medium text-gray-600">Client Name</label>
-                      <input
-                        type="text"
-                        placeholder="Phonepe"
-                        className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                      <label className="w-1/4 text-sm font-medium text-[#6B6F7B]">User Name</label>
-                      <input
-                        type="text"
-                        placeholder="Ashok Samal"
-                        className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                      <label className="w-1/4 text-sm font-medium text-[#6B6F7B]">Mail ID</label>
-                      <input
-                        type="mail"
-                        placeholder="rober@xyz.com"
-                        className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                      <label className="w-full text-sm font-medium text-[#6B6F7B]">Phone Number</label>
-                      <input
-                        type="number"
-                        placeholder="9876543210"
-                        className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                      <label className="w-1/4 text-sm font-medium text-[#6B6F7B]">Domain</label>
-                      <input
-                        type="text"
-                        placeholder="Ecommerce"
-                        className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                      <label className=" text-sm font-medium text-[#6B6F7B]">Access</label>
-                      <select
-                        name=""
-                        id=""
-                        onChange={handleAddClientAccessChange}
-                        className={`w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${addClientAccess===""?"text-gray-400":"text-black"}`}
-                      >
-                        <option value="" disabled selected>Select Access</option>
-                        <option value="Read Only" className="text-black">Read Only</option>
-                        <option value="Write Only" className="text-black">Write Only</option>
-                        <option value="Both" className="text-black">Both</option>
-                      </select>
-                    </div>
-                  </div>
-
-                </DialogContent>
-                <DialogActions>
-                  <div className="px-5 py-2">
-                    <button
-                      onClick={handleAddClientUserClose}
-                      className="text-white border py-2 px-5 rounded-full bg-[#056DDC] ">
-                      SAVE
-                    </button>
-                  </div>
-                </DialogActions>
-              </BootstrapDialog>
-            </React.Fragment>
-
+  const AddUserModal = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-xl shadow-2xl p-6 w-96">
+        <h2 className="text-2xl font-bold mb-4 text-center text-[#E65F2B]">Add New User</h2>
+        
+        <div className="space-y-3">
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={newUser.name}
+              onChange={(e) => setNewUser({...newUser, name: e.target.value})}
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+            />
+          </div>
+          
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={newUser.email}
+              onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+            />
+          </div>
+          
+          <div className="relative">
+            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              value={newUser.phone}
+              onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+            />
           </div>
         </div>
-
-        {/* Table Headers */}
-        <div className="mt-4">
-          <div className="w-full grid grid-cols-[1fr_1fr_2fr_1fr_1fr_1fr_0.5fr] gap-2 text-sm font-semibold">
-            <div className="px-6 p-2 w-full">CLIENT</div>
-            <div className="px-4 p-2 w-full">USER</div>
-            <div className="px-4 p-2 w-full">MAIL ID</div>
-            <div className="px-4 p-2 w-full">PHONE NO</div>
-            <div className="px-4 p-2 w-full">DOMAIN</div>
-            <div className="px-4 p-2 w-full">ACCESS</div>
-            <div className="px-6 p-2 w-full"></div>
-          </div>
-
-          {/* Mapping Dynamic Data */}
-          <div
-            className={`overflow-hidden transition-all duration-1000 ease-in-out ${showAll ? "max-h-[1000px]" : "max-h-[200px]" // Adjust max-height accordingly
-              }`}
+        
+        <div className="flex justify-between mt-4">
+          <button 
+            onClick={() => setIsAddUserModalOpen(false)}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
           >
-            {data.slice(0, showAll ? data.length : 3).map((item, index) => (
-              <div
-                key={index}
-                className={`${editClientUser === index ? "bg-white hover:bg-[#FBEEDB] border border-black" : "bg-white hover:bg-[#FBEEDB]"} grid grid-cols-[1fr_1fr_2fr_1fr_1fr_1fr_0.5fr]  mt-1 rounded-full items-center justify-center max-h-max`}
-              >
-                <div className="px-5 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editClientUser !== index}
-                    value={item.client}
-                    className={`block w-full text-left text-blue-500 sm:text-sm px-[5px] py-2 font-normal ${editClientUser === index
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editClientUser !== index}
-                    value={item.name}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editClientUser === index
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editClientUser !== index}
-                    value={item.mail}
-                    className={`block w-full text-left  sm:text-sm px-[5px] py-2 ${editClientUser === index
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editClientUser !== index}
-                    value={item.phone}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editClientUser === index
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : ' border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editClientUser !== index}
-                    value={item.domain}
-                    className={`block w-full text-left  sm:text-sm px-[5px] py-2 ${editClientUser === index
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto"><input
-                  type="text"
-                  disabled={editClientUser !== index}
-                  value={item.access}
-                  className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editClientUser === index
-                    ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                    : ' border border-none'
-                    }`}
-                /></div>
-                <div className="px-4 py-1 w-full flex items-center justify-center">
-                  {editClientUser === index ?
-                    <div
-                      className='flex items-center justify-center gap-x-2'
-                    >
-                      <button
-                        className='py-1 px-2  rounded-lg font-bold bg-[#000000] text-[#f0ad4e]  '
-                        onClick={() => { toggleSaveClientUser(index) }}
-                      >Save</button>
-                      <button
-                        onClick={() => { cancelEdit(index) }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" /></svg>
-                      </button>
-
-
-                    </div>
-
-                    :
-                    <button
-                      className="p-1 bg-gray-200 shadow-md hover:bg-gray-300 rounded-lg"
-                      onClick={() => { toggleEditClientUser(index) }}
-                    >
-                      <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 21H8.425L18.2 11.225L16.775 9.8L7 19.575V21ZM5 23V18.75L18.2 5.575C18.4 5.39167 18.6208 5.25 18.8625 5.15C19.1042 5.05 19.3583 5 19.625 5C19.8917 5 20.15 5.05 20.4 5.15C20.65 5.25 20.8667 5.4 21.05 5.6L22.425 7C22.625 7.18333 22.7708 7.4 22.8625 7.65C22.9542 7.9 23 8.15 23 8.4C23 8.66667 22.9542 8.92083 22.8625 9.1625C22.7708 9.40417 22.625 9.625 22.425 9.825L9.25 23H5ZM17.475 10.525L16.775 9.8L18.2 11.225L17.475 10.525Z" fill="#65558F" />
-                      </svg>
-
-                    </button>
-                  }
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Toggle Button */}
-          <div className="flex justify-end mt-4 text-blue-500">
-            <button
-              onClick={toggleVisibility}
-              className="px-4 py-2"
-            >
-              {showAll ? "Show Less" : "See All"}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div>
-          <div className="flex items-center gap-x-5">
-            <h1 className="text-md font-semibold">HDIP USERS</h1>
-            <React.Fragment>
-              <div>
-                <button
-                  className="border-[3px] p-1 px-4 rounded-full bg-[#000000] text-[#f0ad4e] border-[#f0ad4e] font-medium"
-                  onClick={handleAddHdipUserOpen}
-                >
-                  + Add
-                </button>
-              </div>
-              <BootstrapDialog
-                onClose={handleAddHdipUserClose}
-                aria-labelledby="add-poc-dialog-title"
-                open={addHdipUser}
-                BackdropProps={{
-                  sx: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-                  },
-                }}
-
-              >
-                <DialogTitle sx={{ m: 0, p: 2 }} id="add-poc-dialog-title">
-                  <h1 className='font-bold text-[#056DDC] text-lg text-center'>ADD HDIP USER</h1>
-                </DialogTitle>
-                <IconButton
-                  aria-label="close"
-                  onClick={handleAddHdipUserClose}
-                  sx={(theme) => ({
-                    position: 'absolute',
-                    right: 8,
-                    top: 8,
-                    color: theme.palette.grey[500],
-                  })}
-                >
-                  <CloseIcon />
-                </IconButton>
-                <DialogContent dividers>
-                  <div>
-                    <div className="p-1 flex flex-col items-start justify-center gap-2">
-                      <label className="w-full text-sm font-medium text-gray-600">Name</label>
-                      <input
-                        type="text"
-                        placeholder="John Doe"
-                        className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start justify-center gap-2">
-                    <label className="w-full text-sm font-medium text-[#6B6F7B]">Access</label>
-                      <select
-                        name=""
-                        id=""
-                        onChange={handelAddHdipClientUserAccessChange}
-                        className={`w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${addHdipUserAcess==""?"text-gray-500":"text-black"}`}
-                      >
-                        <option value="" selected disabled>Select Access</option>
-                        <option value="Admin" className="text-black">Admin</option>
-                        <option value="User" className="text-black">User</option>
-                      </select>
-                    </div>
-                    <div className="p-1 flex flex-col items-start justify-center gap-2">
-                      <label className="w-full text-sm font-medium text-[#6B6F7B]">Mail ID</label>
-                      <input
-                        type="mail"
-                        placeholder="rober@xyz.com"
-                        className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start justify-center gap-2">
-                      <label className="w-full text-sm font-medium text-[#6B6F7B]">Phone Number</label>
-                      <input
-                        type="number"
-                        placeholder="9876543210"
-                        className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div className="p-1 flex flex-col items-start justify-center gap-2">
-                      <label className="w-full text-sm font-medium text-[#6B6F7B]">Client</label>
-                      <input
-                        type="text"
-                        placeholder="HealthPlus"
-                        className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-
-                </DialogContent>
-                <DialogActions>
-                  <div className="px-5 py-2">
-                    <button
-                      onClick={handleAddHdipUserClose}
-                      className="text-white border py-2 px-5 rounded-full bg-[#056DDC] ">
-                      SAVE
-                    </button>
-                  </div>
-                </DialogActions>
-              </BootstrapDialog>
-            </React.Fragment>
-          </div>
-        </div>
-
-        {/* Table Headers */}
-        <div className="mt-4">
-          <div className="w-full grid grid-cols-[1fr_1fr_2fr_1fr_1fr_0.5fr] gap-2 text-sm font-semibold">
-            <div className="px-6 p-2 w-full">NAME</div>
-            <div className="px-4 p-2 w-full">ROLE</div>
-            <div className="px-4 p-2 w-full">EMAIL</div>
-            <div className="px-4 p-2 w-full">PHONE NO</div>
-            <div className="px-4 p-2 w-full">CLIENT</div>
-            <div className="px-6 p-2 w-full"></div>
-          </div>
-
-          {/* Mapping Dynamic Data */}
-          <div
-            className={`overflow-hidden transition-all duration-1000 ease-in-out ${hdipShowAll ? "max-h-[1000px]" : "max-h-[200px]" // Adjust max-height accordingly
-              }`}
+            Cancel
+          </button>
+          <button 
+            onClick={handleAddUser}
+            className="px-4 py-2 bg-[#E65F2B] text-white rounded-lg hover:bg-[#b84c22] transition"
           >
-            {data2.slice(0, hdipShowAll ? data2.length : 3).map((item, index) => (
-              <div
-                key={item.mail}
-                className={`${editHdipUser === item.mail ? "bg-none border bg-white hover:bg-[#FBEEDB] border-black" : "bg-white hover:bg-[#FBEEDB]"} grid grid-cols-[1fr_1fr_2fr_1fr_1fr_0.5fr] mt-1 rounded-full items-center justify-center max-h-max`}
-              >
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editHdipUser !== item.mail}
-                    value={item.name}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editHdipUser === item.mail
-                      ? ' focus:outline-none text-blue-500 border  border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : ' border border-none text-blue-500  ' 
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editHdipUser !== item.mail}
-                    value={item.role}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editHdipUser === item.mail
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editHdipUser !== item.mail}
-                    value={item.mail}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editHdipUser === item.mail
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editHdipUser !== item.mail}
-                    value={item.phone}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editHdipUser === item.mail
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-                <div className="px-3 py-1 w-auto">
-                  <input
-                    type="text"
-                    disabled={editHdipUser !== item.mail}
-                    value={item.client}
-                    className={`block w-full text-left sm:text-sm px-[5px] py-2 ${editHdipUser === item.mail
-                      ? ' focus:outline-none border border-[#E8DEF8] focus:ring-1 focus:ring-blue-500 rounded-lg'
-                      : 'border border-none'
-                      }`}
-                  />
-                </div>
-
-                <div className="px-4 py-1 w-full flex items-center justify-center">
-                  {editHdipUser === item.mail ?
-                    <div
-                      className='flex items-center justify-center gap-x-2'
-                    >
-                      <button
-                        className='py-1 px-2 rounded-lg font-bold bg-[#056DDC] text-white'
-                        onClick={() => { toggleSaveHdipUser(item.mail) }}
-                      >Save</button>
-                      <button
-                        onClick={() => { cancelEditHdipUser(item.mail) }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" /></svg>
-                      </button>
-
-
-                    </div>
-
-                    :
-                    <button
-                      className="p-1 bg-gray-200 shadow-md hover:bg-gray-300 rounded-lg"
-                      onClick={() => { toggleEditHdipUser(item.mail) }}
-                    >
-                      <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 21H8.425L18.2 11.225L16.775 9.8L7 19.575V21ZM5 23V18.75L18.2 5.575C18.4 5.39167 18.6208 5.25 18.8625 5.15C19.1042 5.05 19.3583 5 19.625 5C19.8917 5 20.15 5.05 20.4 5.15C20.65 5.25 20.8667 5.4 21.05 5.6L22.425 7C22.625 7.18333 22.7708 7.4 22.8625 7.65C22.9542 7.9 23 8.15 23 8.4C23 8.66667 22.9542 8.92083 22.8625 9.1625C22.7708 9.40417 22.625 9.625 22.425 9.825L9.25 23H5ZM17.475 10.525L16.775 9.8L18.2 11.225L17.475 10.525Z" fill="#65558F" />
-                      </svg>
-
-                    </button>
-                  }
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Toggle Button */}
-          <div className="flex justify-end mt-4 text-blue-500">
-            <button
-              onClick={toggleVisibility2}
-              className="px-4 py-2"
-            >
-              {hdipShowAll ? "Show Less" : "See All"}
-            </button>
-          </div>
+            Add User
+          </button>
         </div>
       </div>
-
-
     </div>
   );
-}
 
-export { Users as InternalUsers };
+  return (
+    <div className="bg-[#EBDFD7] min-h-screen p-6">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">Recrumeta Users</h1>
+
+          <button
+            type="button"
+            onClick={() => setIsAddUserModalOpen(true)}
+            class="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
+          >
+
+            <span class=" pl-2 absolute left-7 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+              Add User
+            </span>
+
+
+            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke="currentColor"
+                fill="none"
+                class="stroke-white"
+              >
+                <line y2="19" y1="5" x2="12" x1="12"></line>
+                <line y2="12" y1="12" x2="19" x1="5"></line>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        {users.length === 0 ? (
+          <div className="text-center text-gray-500 py-12">
+            <p className="text-lg">No users found. Add your first user!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {users.map((user) => (
+              <div 
+                key={user.id} 
+                className="bg-[#F2EAE5] rounded-xl shadow-md p-4 hover:shadow-lg transition relative"
+              >
+                <button 
+                  onClick={() => handleDeleteUser(user.id)}
+                  className="absolute top-3 right-3 text-red-500 hover:text-red-700 transition"
+                >
+                  <Trash2 size={18} />
+                </button>
+                
+                <div className="flex flex-col items-center mb-3">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                    <User className="text-blue-600" size={24} />
+                  </div>
+                  <h2 className="text-lg font-semibold text-[#E65F2B] text-center">{user.name}</h2>
+                </div>
+                
+                <div className="space-y-2 text-gray-600 text-sm">
+                  <div className="flex items-center">
+                    <Mail className="mr-2 text-blue-500" size={16} />
+                    <span className="truncate">{user.email}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Phone className="mr-2 text-green-500" size={16} />
+                    <span>{user.phone}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Calendar className="mr-2 text-purple-500" size={16} />
+                    <span>Added {user.addedOn}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {isAddUserModalOpen && <AddUserModal />}
+      </div>
+    </div>
+  );
+};
+
+export { InternalUsers as InternalUsers };

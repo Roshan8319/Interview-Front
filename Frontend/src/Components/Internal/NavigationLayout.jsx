@@ -507,24 +507,24 @@ const navItems = [
     icon2: <ActiveUserIcon />,
     link: "/internal/users",
   },
-  {
-    text: "Agreements",
-    icon: <AgreementsIcon />,
-    icon2: <ActiveAgreementsIcon />,
-    link: "/internal/agreements",
-  },
+  // {
+  //   text: "Agreements",
+  //   icon: <AgreementsIcon />,
+  //   icon2: <ActiveAgreementsIcon />,
+  //   link: "/internal/agreements",
+  // },
   {
     text: "Finance",
     icon: <FinanceIcon />,
     icon2: <ActiveFinanceIcon />,
     link: "/internal/finance",
   },
-  {
-    text: "Engagement",
-    icon: <EngagementIcon />,
-    icon2: <ActiveEngagementIcon />,
-    link: "/internal/engagement",
-  },
+  // {
+  //   text: "Engagement",
+  //   icon: <EngagementIcon />,
+  //   icon2: <ActiveEngagementIcon />,
+  //   link: "/internal/engagement",
+  // },
 ];
 
 
