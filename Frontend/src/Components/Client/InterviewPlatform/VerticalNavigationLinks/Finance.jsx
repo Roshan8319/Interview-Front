@@ -5,55 +5,55 @@ import React, { useState, useEffect } from 'react';
 
 function Finance() {
   const data = [
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "09/09/2024",
-      "Amount": 1200.00
-    },
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "17/10/2024",
-      "Amount": 1200.00
-    },
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "22/10/2024",
-      "Amount": 1200.00
-    },
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "07/11/2024",
-      "Amount": 1200.00
-    },
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "10/11/2024",
-      "Amount": 1200.00
-    },
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "07/12/2024",
-      "Amount": 1200.00
-    },
-    {
-      "Candidate": "Abc Xyz",
-      "Role": "SDE II",
-      "Experience": "4.2 Years",
-      "Date": "07/12/2024",
-      "Amount": 1200.00
-    }
+      {
+        "Candidate": "Rohan Sharma",
+        "Role": "SDE II",
+        "Experience": "4.5 Years",
+        "Date": "12/08/2024",
+        "Amount": 1500.00
+      },
+      {
+        "Candidate": "Priya Verma",
+        "Role": "SDE II",
+        "Experience": "3.8 Years",
+        "Date": "25/09/2024",
+        "Amount": 1400.00
+      },
+      {
+        "Candidate": "Aarav Kapoor",
+        "Role": "SDE II",
+        "Experience": "5.2 Years",
+        "Date": "30/09/2024",
+        "Amount": 1600.00
+      },
+      {
+        "Candidate": "Ishita Singh",
+        "Role": "SDE II",
+        "Experience": "4.0 Years",
+        "Date": "07/10/2024",
+        "Amount": 1350.00
+      },
+      {
+        "Candidate": "Kabir Mehta",
+        "Role": "SDE II",
+        "Experience": "4.3 Years",
+        "Date": "22/10/2024",
+        "Amount": 1450.00
+      },
+      {
+        "Candidate": "Ananya Roy",
+        "Role": "SDE II",
+        "Experience": "4.1 Years",
+        "Date": "10/11/2024",
+        "Amount": 1300.00
+      },
+      {
+        "Candidate": "Devansh Patel",
+        "Role": "SDE II",
+        "Experience": "4.7 Years",
+        "Date": "07/12/2024",
+        "Amount": 1550.00
+      }
   ];
 
   const months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
@@ -136,96 +136,39 @@ function Finance() {
     <div className='w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4 pl-10 pr-5 text-[14px]  '>
       <div className='w-full '>
         <div className='w-full flex font-semibold text-[20px] p-4'>
-          <div className='w-[50%]'>{isDataRangeEntered? "Past Payments": "Current Dues"}</div>
-          <div className='w-[50%]'>Total: INR 5,00,000.00</div>
+          <div className='w-[50%]'>
+            <h1>Current Dues: <span className='text-[#E65F2B]'>INR 50,000</span></h1>
+          </div>
+          
         </div>
         <div className='w-full  flex mt-6 gap-16  '>
-          <div className='w-[75%]'>
+          <div className='w-full'>
             <table className="w-full text-left ">
               <thead className='text-black'>
-                <tr className='border-b-[3px] border-[#FFFFFF57] ' >
+                <tr className='border-b-[3px] border-[#E65F2B] ' >
                   <th className='py-2 px-4 max-w-max  text-[15px] font-bold'>Candidate</th>
-                  <th className='py-2 px-4 max-w-max  text-[15px] font-normal'>ROLE</th>
-                  <th className='py-2 px-4 max-w-max  text-[15px] font-normal'>EXPERIENCE</th>
-                  <th className='py-2 px-4 max-w-max  text-[15px] font-normal'>DATE</th>
-                  <th className='py-2 px-4 max-w-max  text-[15px] font-normal'>AMOUNT</th>
+                  <th className='py-2 px-4 max-w-max  text-[15px] font-bold'>ROLE</th>
+                  <th className='py-2 px-4 max-w-max  text-[15px] font-bold'>EXPERIENCE</th>
+                  <th className='py-2 px-4 max-w-max  text-[15px] font-bold'>DATE</th>
+                  <th className='py-2 px-4 max-w-max  text-[15px] font-bold'>AMOUNT</th>
                 </tr>
               </thead>
               <tbody className=''  >
                 
                 {filteredData.map((data, index) => (  
-                  <tr key={index} className={`${index % 2 === 0 ? "bg-[#FFFFFF57]" : (isDataRangeEntered ? "bg-[#FFFFFF57] ": "bg-[#FFFFFF57]" ) } h-[91px]  border-b border-gray-300  `}>
-                    <td className='py-3 px-4 max-w-max font-bold text-[15px] mb-2 '>{data.Candidate}</td>
-                    <td className='py-3 px-4 max-w-max'>{data.Role}</td>
-                    <td className='py-3 px-4 max-w-max'>{data.Experience}</td>
-                    <td className='py-3 px-4 max-w-max'>{data.Date}</td>
-                    <td className='py-3 px-4 max-w-max'>{data.Amount}</td>
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-[#FFFFFF57]" : (isDataRangeEntered ? "bg-[#FFFFFF57] ": "bg-[#FFFFFF57]" ) } h-[91px]  border-b border-[#E65F2B]  `}>
+                    <td className='py-3 px-4 max-w-max font-bold text-[15px] mb-2 text-[#E65F2B]'>{data.Candidate}</td>
+                    <td className='py-3 px-4 max-w-max text-[#797979]'>{data.Role}</td>
+                    <td className='py-3 px-4 max-w-max text-[#797979]'>{data.Experience}</td>
+                    <td className='py-3 px-4 max-w-max text-[#797979]'>{data.Date}</td>
+                    <td className='py-3 px-4 max-w-max text-[#797979]'>{data.Amount}</td>
                   </tr>
                 ))}
                 
               </tbody>
             </table>
           </div>
-          
-          
-          
-          
-          
-          <div className='w-[25%] bg-[#FFFFFF57] border rounded-[16px]'>
-            <div className='flex items-center justify-center p-2 text-[#1C1C1C] text-[20px] font-semibold'>{isDataRangeEntered ? 'Duration': "Past Payments"}</div>
-            <div className='space-y-4 mt-10'>
-              <div className=' w-full flex justify-center items-center  ' >
-                
-                <div className=" w-[70%] flex flex-col items-center justify-center  gap-2 "> 
-                  <div className='grid grid-cols-[1fr_2fr]  items-center gap-x-5 ' >
-                    <span className='flex justify-end items-center font-bold ' >Year </span>
-                    <select
-
-                      className="w-[100px] h-[35px] text-center border border-gray-300 rounded-md hover:border-2 hover:border-[#007AFF] focus:outline-none"
-                      value={selectedYear} onChange={(e) => setSelectedYear(parseInt(e.target.value))} >
-                      {years.map((year) => (
-                        <option key={year} value={year}  > {year} </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className='grid grid-cols-[1fr_2fr]  items-center gap-x-5 ' >
-                    <span className='flex justify-end items-center font-bold' >Month</span>
-                  <select
-                    className={`w-[100px] h-[35px] text-center border border-gray-300 rounded-md p-2 hover:border-2 hover:border-[#007AFF] focus:outline-none`}                       value={selectedMonth} onChange={(e) => setSelectedMonth(parseInt(e.target.value))} >
-                      {months.map((month, index) => ( 
-                        <option key={month} value={index + 1}> {month} </option> 
-                        ))} 
-                  </select> 
-                  </div>
-
-                        
-
-                  <div className='w-[130px] h-[32px] mt-4 mb-1 flex justify-center items-center bg-[#007AFF] border-2 transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... rounded-[100px] text-[#FFFFFF] font-normal'>
-                  <button className='w-full h-full  flex justify-center items-center ' onClick="#">
-                    <span className='mr-1' >
-                    <svg width="20px" height="17px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g fill="#ffffff"> <path d="M8.75 1.75a.75.75 0 00-1.5 0v6.59L5.3 6.24a.75.75 0 10-1.1 1.02L7.45 10.76a.78.78 0 00.038.038.748.748 0 001.063-.037l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V1.75z"></path> <path d="M1.75 9a.75.75 0 01.75.75v3c0 .414.336.75.75.75h9.5a.75.75 0 00.75-.75v-3a.75.75 0 011.5 0v3A2.25 2.25 0 0112.75 15h-9.5A2.25 2.25 0 011 12.75v-3A.75.75 0 011.75 9z"></path> </g> </g></svg> 
-                    </span>
-                    <span>Past Receipt</span>
-
-                  </button>
-                </div>
-                </div>
-              </div>  
-              
-            </div>
-          </div>
-
-
-
         </div>
-        <div className=' w-full  flex p-4 gap-16  ' >
-        <div className='w-[75%]  flex items-center justify-end '>
-          <div className='w-[111px] h-[32px] p-2 flex justify-center items-center transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF] border-0 rounded-[100px] text-[#FFFFFF] font-normal'>
-            <button>Download</button>
-          </div>
-        </div>
-        <div className='w-[25%]  ' ></div>
-        </div> 
       </div>
       
       

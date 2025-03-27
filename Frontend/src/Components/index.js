@@ -19,6 +19,7 @@ import Integration from "./Client/InterviewPlatform/VerticalNavigationLinks/Inte
 import Finance from "./Client/InterviewPlatform/VerticalNavigationLinks/Finance"
 import Engagement from "./Client/InterviewPlatform/VerticalNavigationLinks/Engagement"
 import Message from "./Client/InterviewPlatform/VerticalNavigationLinks/Message";
+import CandidateDetails from "./Client/InterviewPlatform/VerticalNavigationLinks/CandidateDetails"
 
 //Agency Imports
 import { AgencyNavigationLayout } from "./Agency/NavigationLayout";
@@ -63,7 +64,7 @@ import { LandingNavigationLayout } from "./Landing/NavigationLayout";
 export {SignInPage,ResetPassword}
 
 //Client Exports
-export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, AnalyticsDateFilter,Integration,Finance,Engagement,Message}
+export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, AnalyticsDateFilter,Integration,Finance,Engagement,Message,CandidateDetails}
 
 //Agency Exports
 export { AgencyNavigationLayout,AgencyDashboard, AgencyCandidates,AgencyAddCandidate, AgencyScheduleInterview}

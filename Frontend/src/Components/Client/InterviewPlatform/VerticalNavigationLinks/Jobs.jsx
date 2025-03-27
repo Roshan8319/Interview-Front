@@ -133,22 +133,20 @@ const Jobs = () => {
 
 
 
-      <div className=' w-[100%] bg-[rgba(255,255,255,0.34)] p-5 mt-8 border rounded-lg ' > 
+      <div className=' w-[100%] bg-[rgba(255,255,255,0.34)] p-5 mt-8 rounded-lg ' > 
         <div>
-          <div className='font-bold text-[18px] ml-2 ' >Details</div>
           <div>
             <table className='w-[100%] h-[100%] ' >
             <thead>
-              <tr className="border-b ">
-                <th className="py-2 px-4 max-w-max text-start font-medium text-black ">Jobs</th>
-                <th className="py-2 px-4 max-w-max font-medium text-black whitespace-nowrap ">Active Candidates</th>
-                
+              <tr className="border-b-2 border-[#E65F2B]">
+                <th className="py-2 px-4 max-w-max text-start text-md font-semibold text-black ">Jobs</th>
+                <th className="py-2 px-4 max-w-max font-semibold text-black whitespace-nowrap ">Active Candidates</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className=''>
             {Array.isArray(data) && data.length > 0 ?(
               data.map((job, index) => (
-                <tr key={index} className="border-b">
+                <tr key={index} className="h-5 border-b border-[#E65F2B] space-y-2">
                   <td className=" py-2 px-4 max-w-max text-start ">{job.jobRole}</td>
                   <td className=" py-2 px-4 max-w-max text-center ">{job.candidateCount}</td>
                   <td className=" py-2 px-4 max-w-max flex gap-32 ml-40 ">
@@ -157,29 +155,16 @@ const Jobs = () => {
                       View↗
                       </div>
                     </button>
-                    <button onClick={() => navigate(`/client/candidates/addcandidate`)} > 
-                      <div className='relative w-[170px] h-8 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group whitespace-nowrap ' > <span class=" pl-2 absolute left-1 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
-              Add Candidate
-            </span>
+
+                    <button  onClick={() => navigate(`/client/candidates/addcandidate`)} >
+                      <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
+                      Add Candidate 
+                      <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#E65F2B"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg></span>
+                      </div>
+                    </button>
 
 
-            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke="currentColor"
-                fill="none"
-                class="stroke-white"
-              >
-                <line y2="19" y1="5" x2="12" x1="12"></line>
-                <line y2="12" y1="12" x2="19" x1="5"></line>
-              </svg>
-            </span> </div></button>
+
                   </td>
                   <td className='py-2 px-4 max-w-max text-center ml-[50%] ' >
                     <svg fill="#000000" width="20px" height="20px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Glyph" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M13,16c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,14.346,13,16z" id="XMLID_294_"></path><path d="M13,26c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,24.346,13,26z" id="XMLID_295_"></path><path d="M13,6c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,4.346,13,6z" id="XMLID_297_"></path></g></svg>

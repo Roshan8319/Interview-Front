@@ -133,43 +133,33 @@ function ViewJob() {
      
   return (
       <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7]  items-center' >
-          <div className='p-5 flex ' >
+          <div className='p-2 flex' >
               <div className="w-[30%] p-5  ">
                   
                   <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700">Job Role</label>
-                      <input
-                          type="text"
-                          value="SDE III"
-                          readOnly
-                          className="w-[60%] mt-1 p-2 border border-gray-300 rounded-md"
-                      />
+                      <p className='text-sm text-[#797979]'>Job Role</p>
+                      <p className='font-lg font-semibold'>SDE-III</p>
+                      
                   </div>
 
-                  <div className="mb-4 ">
-                      <label className="block text-sm font-medium text-gray-700">Interview Time</label>
-                      <input
-                          type="text"
-                          value="60 Minutes"
-                          readOnly
-                          className="w-[60%] mt-1 p-2 border border-gray-300 rounded-md"
-                      />
+                  <div className="mb-4">
+                      <p className='text-sm text-[#797979]'>Hiring Manager Email</p>
+                      <p className='font-lg font-semibold'>sumit@gmail.com</p>
+                      
                   </div>
-
-
 
 
               </div>
-              <div className='w-[70%] p-5 border border-gray-300 rounded-lg shadow ' >
+              <div className='w-[70%] p-5 rounded-lg' >
                     <div className="mb-4">
-                      <label className="block text-sm font-bold text-[#000000]">Job Description</label>
+                      <label className="block text-sm text-[#797979]">Job Description</label>
                       <div className='w-[80%] ' >
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis labore adipisci consequatur obcaecati eum mollitia ipsa explicabo, saepe voluptatem voluptatibus asperiores illum magnam consectetur unde vero nemo amet rem repellendus?
                       </div>
                   </div>
               </div>
           </div>
-          <div className='w-full p-5 ' >
+          <div className='w-full p-2 ' >
               <div className="bg-[rgba(255,255,255,0.34)] p-2 border rounded-2xl shadow mb-4 " >
                   {currentData.map((person, index) => (
                       <div key={index} className="flex flex-col w-full">
