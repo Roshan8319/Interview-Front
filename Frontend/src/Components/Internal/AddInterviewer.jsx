@@ -5,42 +5,7 @@ import axios from "axios";
 function AddInterviewer() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
-  const [selectedStrength, setSelectedStrength] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [items, setItems] = useState([]);
-  const [selectedSkill, setSelectedSkill] = useState("");
-  const [itemsSkills, setItemsSkills] = useState([]);
-
-  const handleSelection = (e) => {
-    const selectedRole = e.target.value;
-
-    if (selectedRole && !items.includes(selectedRole)) {
-      setItems([...items, selectedRole]);
-      setSelectedOption("");
-    }
-  };
-
-  const removeItem = (ItemToRemove) => {
-    console.log("hii remove clicked");
-
-    setItems(items.filter((item) => item !== ItemToRemove));
-  };
-
-  const handleSkillSelection = (e) => {
-    const newSkillOption = e.target.value;
-
-    if (newSkillOption && !itemsSkills.includes(newSkillOption)) {
-      setItemsSkills([...itemsSkills, newSkillOption]);
-      setSelectedSkill("");
-    }
-  };
-  const removeSkill = (ItemToRemove) => {
-    setItemsSkills(itemsSkills.filter((item) => item !== ItemToRemove));
-  };
-
-  const handleStrengthSelection = (e) => {
-    setSelectedStrength(e.target.value);
-  };
+  // State for form data
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -51,48 +16,94 @@ function AddInterviewer() {
     linkedInUrl: "",
     jobTitle: "",
     currentCompany: "",
-    currentCompanyLogo: "",
     experienceInYears: "",
     technicalSkills: "",
-    profilePhoto: "",
+    profilePhoto: null,
     currentDesignation: "",
     interviewExperience: "",
     strength: "",
   });
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      console.log(formData);
-      console.log(baseUrl);
 
-      const response = await axios.post(
-        `${baseUrl}/api/v1/internal/add-interviewer`,
-        formData
-      );
-      console.log(response);
+  // State for role selection
+  const [selectedOption, setSelectedOption] = useState("");
+  const [items, setItems] = useState([]);
 
-      console.log("Interviewer added");
-    } catch (error) {
-      console.log(error, "something error in submit");
-    }
-  };
+  // State for skill selection
+  const [selectedSkill, setSelectedSkill] = useState("");
+  const [itemsSkills, setItemsSkills] = useState([]);
 
+  // State for strength selection
+  const [selectedStrength, setSelectedStrength] = useState(" ");
+
+  // State for file upload
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  // Handler for input changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handler for role selection
+  const handleSelection = (e) => {
+    const selectedRole = e.target.value;
+    if (selectedRole && !items.includes(selectedRole)) {
+      setItems([...items, selectedRole]);
+      setSelectedOption("");
+    }
+  };
+
+  const removeItem = (itemToRemove) => {
+    setItems(items.filter((item) => item !== itemToRemove));
+  };
+
+  // Handler for skill selection
+  const handleSkillSelection = (e) => {
+    const newSkillOption = e.target.value;
+    if (newSkillOption && !itemsSkills.includes(newSkillOption)) {
+      const updatedSkills = [...itemsSkills, newSkillOption];
+      setItemsSkills(updatedSkills);
+      setSelectedSkill("");
+      setFormData((prevData) => ({
+        ...prevData,
+        technicalSkills: updatedSkills.join(", "),
+      }));
+    }
+  };
+
+  const removeSkill = (itemToRemove) => {
+    const updatedSkills = itemsSkills.filter((item) => item !== itemToRemove);
+    setItemsSkills(updatedSkills);
+    setFormData((prevData) => ({
+      ...prevData,
+      technicalSkills: updatedSkills.join(", "),
+    }));
+  };
+
+  // Handler for strength selection
+  const handleStrengthSelection = (e) => {
+    const selectedStrength = e.target.value;
+    setSelectedStrength(selectedStrength);
+    setFormData((prevData) => ({
+      ...prevData,
+      strength: selectedStrength,
+    }));
+  };
+
+  // Handler for file upload
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Validate file type and size
       const validTypes = ["image/jpeg", "image/png", "image/gif"];
       const maxSize = 5 * 1024 * 1024; // 5MB
-
+      
       if (validTypes.includes(file.type) && file.size <= maxSize) {
         setSelectedFile(file);
+        setFormData((prevData) => ({
+          ...prevData,
+          profilePhoto: file,
+        }));
 
         // Create preview
         const reader = new FileReader();
@@ -116,6 +127,24 @@ function AddInterviewer() {
 
   const triggerFileInput = () => {
     fileInputRef.current.click();
+  };
+
+  // Handler for form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(formData);
+      console.log(baseUrl);
+
+      const response = await axios.post(
+        `${baseUrl}/api/v1/internal/add-interviewer`,
+        formData
+      );
+      console.log(response);
+      console.log("Interviewer added");
+    } catch (error) {
+      console.log(error, "Something went wrong in submit");
+    }
   };
   return (
     <div className=" min-h-[calc(100vh-64px)] text-[14px] bg-[#EBDFD7]">
@@ -224,7 +253,7 @@ function AddInterviewer() {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    id=""
+                    
                     placeholder="Last Name"
                      className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
@@ -243,7 +272,7 @@ function AddInterviewer() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    id=""
+                    
                      className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
                 </div>
@@ -262,7 +291,7 @@ function AddInterviewer() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    id=""
+                    
                      className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
                 </div>
@@ -280,7 +309,7 @@ function AddInterviewer() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    id=""
+                    
                      className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
                 </div>
@@ -298,7 +327,7 @@ function AddInterviewer() {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    id=""
+                    
                    className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
                 </div>
@@ -340,7 +369,7 @@ function AddInterviewer() {
                     name="currentDesignation"
                     value={formData.currentDesignation}
                     onChange={handleChange}
-                    id=""
+                    
                     placeholder="Current Designation"
                     className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
@@ -358,7 +387,7 @@ function AddInterviewer() {
                     name="jobTitle"
                     value={formData.jobTitle}
                     onChange={handleChange}
-                    id=""
+                    
                     placeholder="Job Title"
                    className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
@@ -376,7 +405,7 @@ function AddInterviewer() {
                     name="linkedInUrl"
                     value={formData.linkedInUrl}
                     onChange={handleChange}
-                    id=""
+                    
                     placeholder="LinkedIn url"
                     className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   />
