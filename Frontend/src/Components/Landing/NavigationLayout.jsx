@@ -5,6 +5,7 @@ import GrowYourTeam from './GrowYourTeam';
 import YourEngineerBuild from './YourEngineerBuild';
 import EveryHiringSolution from './EveryHiringSolution';
 import WhomWeSupport from './WhomWeSupport';
+import OurProduct from './OurProduct';
 
 
 function NavigationLayout() {
@@ -103,8 +104,10 @@ function NavigationLayout() {
                 <YourEngineerBuild />
                 <EveryHiringSolution/>
                 <WhomWeSupport/>
+                <OurProduct/>
                 <OurTeam />
                 <GrowYourTeam />
+                
             </div>
 
             {/* //Footer */}

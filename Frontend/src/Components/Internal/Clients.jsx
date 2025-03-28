@@ -32,7 +32,7 @@ function Clients() {
     email: "",
     phone: "",
   });
-
+  const [previewImage, setPreviewImage] = useState(null);
   const [rows, setRows] = useState([{ name: "", email: "", mobile: "" }]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -75,12 +75,6 @@ function Clients() {
     }));
   };
 
-  const [addPocDate, setAddPocDate] = useState("");
-
-  const addPocHandleDateChange = (e) => {
-    setAddPocDate(e.target.value);
-  };
-
   const [formData, setFormData] = useState({
     companyName: "",
     companywebsite: "",
@@ -97,9 +91,34 @@ function Clients() {
     pocEmail: "",
   });
 
+  const [logofile, setLogofile] = useState(null); // Add state for the logo file
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/gif"];
+      const maxSize = 5 * 1024 * 1024;
+      if (validTypes.includes(file.type) && file.size <= maxSize) {
+        setLogofile(file);
+        setFormData((prevData) => ({
+          ...prevData,
+          companyLogo: file,
+        }));
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload a valid image (JPEG, PNG, GIF) under 5MB");
+    }
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,12 +126,20 @@ function Clients() {
       console.log("Form submission initiated");
 
       const clientData = new FormData();
-      if (logofile) {
-        clientData.append("companyLogo", logofile);
-      }
       Object.keys(formData).forEach((key) => {
+        if(key !== 'companyLogo'){
         clientData.append(key, formData[key]);
+        }
       });
+      if (logofile) {
+        console.log("Appending file:", logofile.name); // Debug log for file
+        clientData.append("companyLogo", logofile); // Append the logo file
+      } else {
+        console.warn("No file selected for upload"); // Warn if no file is selected
+      }
+
+      
+
       const response = await axios.post(
         `${baseUrl}/api/v1/internal/add-client`,
         clientData,
@@ -127,7 +154,7 @@ function Clients() {
       console.log("Response:", response);
       console.log("Client added successfully");
     } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
+      console.error("Error during form submission:", error.response?.data || error.message);
     }
   };
 
@@ -151,26 +178,20 @@ function Clients() {
       });
   }, []);
 
-  const [previewImage, setPreviewImage] = useState(null);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  
 
   const clearImage = () => {
     setPreviewImage(null);
+    setLogofile(null); 
     // Reset file input
-    if (document.getElementById("logoUpload")) {
-      document.getElementById("logoUpload").value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6 ">

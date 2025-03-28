@@ -1,10 +1,12 @@
 import React from 'react'
-import Col from '../../assets/Col.png'
+import Picture from '../../assets/Picture.png'
+import Picture2 from '../../assets/Picture2.png'
+import Picture3 from '../../assets/Picture3.png'
 
-function WhomWeSupport() {
+function OurProduct() {
   return (
-    <div className='relative p-4 h-full w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
-          <div className='absolute inset-0  z-[-10]  flex justify-center items-center   ' >
+    <div className='relative p-4 h-screen w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
+        <div className='absolute inset-0  z-[-10]  flex justify-center items-center   ' >
               <svg width="140" height="583" viewBox="0 0 140 583" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M128.023 150.247L131.624 148.354L130.937 152.364L133.851 155.203L129.825 155.788L128.023 159.437L126.223 155.788L122.197 155.203L125.11 152.364L124.422 148.354L128.023 150.247Z" fill="#F0C274" />
                   <g clip-path="url(#clip0_348_9299)">
@@ -78,45 +80,66 @@ function WhomWeSupport() {
                       </clipPath>
                   </defs>
               </svg>
-          </div>
-           <div className='flex gap-x-10' >  
-             <div className='w-[500px] h-[551px] flex items-center justify-start' >
-                          <img src={Col} alt="" />
-             </div>
-             <div className='flex flex-col gap-y-4 justify-center items-center ' >
-                <div className='flex justify-center items-center text-[44px] font-bold ' >
-                    <p>Whom we support?</p>
-                </div>
-                <div className='flex gap-x-3 ' >
-                    <div className='w-[290px] py-3 px-3 border flex flex-col gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] ' >
-                        <div className=' flex justify-center items-center rounded-lg text-[#6B21A8] bg-[#F3E8FF] text-[20px] font-medium p-2' >
+        </div>
+
+        <div className='w-[50%]' >
+            <div className='text-[44px] font-bold' >
+                <p>Our product tailored for</p>
+                <p> your needs</p>
+            </div>
+            <div className='text-[18px] font-normal ' >
+                <p>Mauris consequat, cursus pharetra et, habitasse rhoncus quis odio ac. In et dolor eu donec maecenas nulla. Cum sed orci, sit pellentesque quisque feugiat cras ullamcorper. Ultrices in amet, ullamcorper non viverra a, neque orci.</p>
+            </div>
+            <div className='flex text-[20px] font-medium justify-start items-center' >
+                <div>View all the features</div>
+                  <div>
+                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.586 11.1247L11.636 7.17469C11.4538 6.98609 11.353 6.73349 11.3553 6.47129C11.3576 6.20909 11.4628 5.95828 11.6482 5.77287C11.8336 5.58747 12.0844 5.4823 12.3466 5.48002C12.6088 5.47774 12.8614 5.57853 13.05 5.76069L18.707 11.4177C18.8002 11.5103 18.8741 11.6205 18.9246 11.7418C18.9751 11.8632 19.001 11.9933 19.001 12.1247C19.001 12.2561 18.9751 12.3862 18.9246 12.5075C18.8741 12.6289 18.8002 12.739 18.707 12.8317L13.05 18.4887C12.9578 18.5842 12.8474 18.6604 12.7254 18.7128C12.6034 18.7652 12.4722 18.7928 12.3394 18.7939C12.2066 18.7951 12.0749 18.7698 11.952 18.7195C11.8291 18.6692 11.7175 18.595 11.6236 18.5011C11.5297 18.4072 11.4555 18.2955 11.4052 18.1726C11.3549 18.0498 11.3296 17.9181 11.3307 17.7853C11.3319 17.6525 11.3595 17.5213 11.4119 17.3993C11.4643 17.2773 11.5405 17.1669 11.636 17.0747L15.586 13.1247H6C5.73478 13.1247 5.48043 13.0193 5.29289 12.8318C5.10536 12.6443 5 12.3899 5 12.1247C5 11.8595 5.10536 11.6051 5.29289 11.4176C5.48043 11.23 5.73478 11.1247 6 11.1247H15.586Z" fill="#2563EB" />
+                  </svg>
+                 </div>
+            </div>
+        </div>
+
+
+
+        <div className='w-[50%]' >
+            <div className='w-[100%] flex justify-center gap-x-5 ' >
+                <div className='w-[225px] h-auto py-3 px-3 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF] ' >
+                        <div className=' flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[20px] font-medium p-2' >
                             Recruiter
                         </div>
-                        <div className='text-left' >
+                        <div className=' text-left' >
                             <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
                         </div>
-                    </div>
-                    <div className='w-[290px] py-3 px-3 border flex flex-col gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] ' >
-                        <div className=' flex justify-center items-center rounded-lg text-[#1E40AF] bg-[#DBEAFE] font-medium text-[20px] p-2 whitespace-nowrap' >
-                            Hiring Manager
-                        </div>
-                        <div className='text-left' >
-                            <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
-                        </div>
-                    </div>
-                    
                 </div>
-             </div>
-           </div>
-          <div className='absolute z-[-10] top-20 right-20 ' >
-              <svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.292 28.6929C17.6294 26.9572 18.6424 25.4267 20.1083 24.438C21.5741 23.4493 23.3726 23.0834 25.1083 23.4207L55.2115 29.2722C56.9471 29.6096 58.4776 30.6226 59.4664 32.0884C60.4551 33.5543 60.821 35.3528 60.4836 37.0885L56.6135 56.9985C56.2761 58.7341 55.2631 60.2646 53.7973 61.2533C52.3314 62.242 50.5329 62.608 48.7973 62.2706L18.694 56.4191C16.9584 56.0817 15.4279 55.0687 14.4392 53.6029C13.4505 52.1371 13.0845 50.3385 13.4219 48.6029L17.292 28.6929Z" stroke="#F0C274" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                  <path d="M55.2115 29.2723L25.1082 23.4208C23.3726 23.0835 21.5741 23.4494 20.1082 24.4381C18.6424 25.4268 17.6294 26.9573 17.292 28.693L17.1378 29.4861C16.733 31.5689 17.1721 33.7271 18.3586 35.4861C19.545 37.2451 21.3816 38.4608 23.4644 38.8656L50.9499 44.2083C53.0327 44.6131 55.191 44.174 56.95 42.9875C58.709 41.8011 59.9246 39.9645 60.3294 37.8817L60.4836 37.0886C60.821 35.3529 60.4551 33.5544 59.4663 32.0885C58.4776 30.6227 56.9471 29.6097 55.2115 29.2723ZM32.2313 19.6602C32.4338 18.6189 33.0416 17.7006 33.9211 17.1073C34.8006 16.5141 35.8797 16.2945 36.9211 16.497L46.8525 18.4274C47.8939 18.6299 48.8122 19.2377 49.4055 20.1172C49.9987 20.9967 50.2182 22.0758 50.0158 23.1172L49.0521 28.0751L31.2676 24.6181L32.2313 19.6602Z" stroke="#F0C274" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            
+                <div className='w-[186px] h-[158px] flex self-end'>
+                    <img src={Picture} alt=""  />
+                </div>
+            </div>
+
+
+
+            <div className='w-[100%] flex justify-center gap-x-5' >
+                <div className='w-[304px]  py-3 px-3 flex flex-col justify-center items-start' >
+                    <img src={Picture2} alt="" />
+                </div>
+            
+                <div className='w-[40%]' >
+                    <img src={Picture3} alt="" />
+                </div>
+            </div>
+            
+        </div>
+
+        <div className='absolute z-[-10] top-20 right-20 ' >
+              <svg width="534" height="523" viewBox="0 0 534 523" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M507.067 167.128C533.359 219.233 544.932 292.614 520.821 363.026C496.71 433.439 435.139 475.766 349.132 503.76C187.752 556.285 34.6139 488.397 10.7346 421.154C-11.5698 358.346 -0.303894 314.587 55.7311 257.848C111.766 201.108 150.691 160.807 165.349 103.491C179.79 47.0257 198.797 13.3064 242.652 4.49137C290.085 -5.04266 339.969 1.75648 386.78 31.4528C434.536 61.7488 482.608 118.655 507.067 167.128Z" fill="#E65F2B" />
               </svg>
-          </div>
-        
+        </div>
+      
     </div>
   )
 }
 
-export default WhomWeSupport
+export default OurProduct
