@@ -640,15 +640,15 @@ function NavigationLayout() {
 
   return (
     <Box sx={{ display: "flex"}}>
-      <CssBaseline />
-      <AppBar position="fixed" sx ={{...appBarStyle, backgroundColor:"#EBDFD7", height:"60px"}} >
+      {/* AppBar Top Nav Bar */}
+      <AppBar position="fixed" sx ={{...appBarStyle, backgroundColor:"#EBDFD7", height:"64px"}} >
       <div className="flex items-center justify-end h-full mt-[6px]">
           <div className="flex h-full">
             <div
-              className="ml-6 bg-white w-[240px] h-[48px]  flex items-center justify-start px-[2px] rounded-full relative"
+              className="right-4 ml-6 bg-white w-[auto] h-[48px]  flex items-center justify-start p-2 rounded-full relative"
               ref={dropdownRef}
             >
-              <div className="w-[48px] h-[48px] rounded-full bg-white overflow-hidden m-2">
+              <div className="w-[38px] h-[38px] rounded-full bg-white overflow-hidden m-2">
                 <img
                   src="https://i.pinimg.com/736x/aa/e7/b9/aae7b9e5b76d009af2e73c1b15d237a8.jpg"
                   alt="User Logo"
@@ -659,7 +659,7 @@ function NavigationLayout() {
                 <p className="text-black text-xl">Roshan</p>
                 {/* <p className="text-[#292D32] text-sm">Product Manager</p> */}
               </div>
-              <button onClick={toggleDropdown} className="focus:outline-none">
+              <button onClick={toggleDropdown} className="px-2 focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -677,7 +677,7 @@ function NavigationLayout() {
               {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <div
-                  className="absolute top-full right-8 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                  className="absolute top-full right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
                   onMouseLeave={closeDropdown}
                 >
                   <div
@@ -831,7 +831,7 @@ function NavigationLayout() {
         </DrawerHeader> */}
         <Divider />
 
-        <List sx={{ border: "none"}}>
+        <List sx={{ border: "none", top:"40px"}}>
           {navItems.map((items) => (
             <ListItem
               key={items.text}
@@ -851,7 +851,7 @@ function NavigationLayout() {
             >
               <ListItemButton
                 sx={[
-                  { minHeight: 48, px: 2.5 },
+                  { minHeight: 48, px: 3 },
                   open
                     ? { justifyContent: "initial" }
                     : { justifyContent: "center" },
@@ -894,8 +894,8 @@ function NavigationLayout() {
       <Box 
          sx={{ 
           position: "fixed",
-          left: open ? drawerWidth - 12 : theme.spacing(7),
-          top: "120px", // Adjust as needed to position vertically
+          left: open ? drawerWidth - 12 : theme.spacing(6),
+          top: "55px", // Adjust as needed to position vertically
           zIndex: theme.zIndex.drawer + 2, // Ensure it's above the drawer
           transition: theme.transitions.create(["left"], {
             easing: theme.transitions.easing.sharp,
