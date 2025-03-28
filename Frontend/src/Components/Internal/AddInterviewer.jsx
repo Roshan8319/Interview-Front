@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Camera, Upload, X, CheckCircle } from "lucide-react";
+import { Camera, Upload, X, CheckCircle, Loader2 } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AddInterviewer() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const navigate = useNavigate();
 
   // State for form data
   const [formData, setFormData] = useState({
@@ -39,6 +41,9 @@ function AddInterviewer() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Handler for input changes
   const handleChange = (e) => {
@@ -91,7 +96,7 @@ function AddInterviewer() {
     }));
   };
 
-  // Handler for file upload
+ 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -129,23 +134,108 @@ function AddInterviewer() {
     fileInputRef.current.click();
   };
 
-  // Handler for form submission
+  const validateForm = () => {
+    if (!selectedFile) {
+      setErrorMessage("Profile Photo is required");
+      return false;
+    }
+    if (!formData.firstName.trim()) {
+      setErrorMessage("First Name is required");
+      return false;
+    }
+    if (!formData.lastName.trim()) {
+      setErrorMessage("Last Name is required");
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setErrorMessage("Email is required");
+      return false;
+    }
+    if (!formData.phone.trim()) {
+      setErrorMessage("Phone Number is required");
+      return false;
+    }
+    if (!formData.password.trim()) {
+      setErrorMessage("Password is required");
+      return false;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return false;
+    }
+    if (!formData.currentCompany.trim()) {
+      setErrorMessage("Current Company is required");
+      return false;
+    }
+    if (!formData.currentDesignation.trim()) {
+      setErrorMessage("Current Designation is required");
+      return false;
+    }
+    if (!formData.experienceInYears) {
+      setErrorMessage("Work Experience is required");
+      return false;
+    }
+    if (!formData.interviewExperience) {
+      setErrorMessage("Interview Experience is required");
+      return false;
+    }
+    if (!formData.strength) {
+      setErrorMessage("Strength is required");
+      return false;
+    }
+    if (!formData.technicalSkills) {
+      setErrorMessage("At least one skill is required");
+      return false;
+    }
+    setErrorMessage(""); // Clear error if validation passes
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    
+    if (!validateForm()) {
+      return;
+    }
+
     try {
-      console.log(formData);
-      console.log(baseUrl);
+      setIsLoading(true);
+      const formDataToSend = new FormData();
+      
+      Object.keys(formData).forEach((key) => {
+        if (key !== 'profilePhoto') {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      if (selectedFile) {
+        formDataToSend.append('profilePhoto', selectedFile);
+      }
 
       const response = await axios.post(
         `${baseUrl}/api/v1/internal/add-interviewer`,
-        formData
+        formDataToSend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
       );
-      console.log(response);
-      console.log("Interviewer added");
+
+      if (response.status === 200 || response.status === 201) {
+        // Navigate immediately without setting state
+        navigate("/internal/interviewer", { replace: true });
+        return; // Exit the function after navigation
+      }
     } catch (error) {
-      console.log(error, "Something went wrong in submit");
+      console.error(error);
+      setErrorMessage(error.response?.data?.errorMessage || "Something went wrong!");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <div className=" min-h-[calc(100vh-64px)] text-[14px] bg-[#EBDFD7]">
       <form>
@@ -593,11 +683,24 @@ function AddInterviewer() {
 
           {/* MAIN 6 */}
 
-          <div className="flex justify-end mr-10">
-            <button onClick={handleSubmit}>
-              <div className=" w-[79px] h-[40px] p-2 flex justify-center items-center text-lg font-bold bg-[#E65F2B] text-white rounded-lg ">
-                Save
+          <div className="flex flex-col items-end mr-10 gap-2">
+            {errorMessage && (
+              <div className="text-red-500 text-sm font-medium">
+                {errorMessage}
               </div>
+            )}
+            <button 
+              onClick={handleSubmit} 
+              disabled={isLoading}
+              className={`w-[79px] h-[40px] p-2 flex justify-center items-center text-lg font-bold ${
+                isLoading ? 'bg-gray-400' : 'bg-[#E65F2B]'
+              } text-white rounded-lg`}
+            >
+              {isLoading ? (
+                <Loader2 className="w-6 h-6 animate-spin" />
+              ) : (
+                'Save'
+              )}
             </button>
           </div>
         </div>
