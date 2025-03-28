@@ -2,7 +2,7 @@ import React from 'react'
 
 function First() {
     return (
-        <div className='w-full flex justify-center items-center min-h-[calc(100vh-64px)] bg-[#FFFFFF]' >
+        <div className='w-full h-auto flex justify-center items-center min-h-[calc(100vh-64px)] bg-[#FFFFFF]' >
             <div className='w-[90%] flex justify-center items-center gap-5'>
                 {/*2nd*/}   <div className='w-[575px] h-[546px] flex flex-col justify-center items-left gap-y-6' >
                     <div className='text-[60px] font-bold leading-tight ' >

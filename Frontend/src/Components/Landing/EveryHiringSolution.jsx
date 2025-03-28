@@ -4,7 +4,7 @@ import Desktop from '../../assets/Desktop.png'
 function Second() {
     return (
 
-        <div className='relative p-4 h-full w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
+        <div className='relative p-4 h-full w-full bg-[#F1F5F9] z-[-10] pb-10 pt-10 font-[Montserrat] flex items-center justify-center overflow-hidden' >
             <div className='absolute inset-0  z-[-10]  transform translate-x-4 translate-y-4' >
                 <svg width="562" height="653" viewBox="0 0 562 653" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M179.312 479.667C233.321 438.448 125.714 400.253 168.43 355.919C288.142 231.672 124.898 224.621 195.638 156.602C306.093 50.3948 561.283 326.221 561.283 375.07C561.283 420.696 544.052 448.832 495.078 479.667C446.105 510.502 411.883 532.523 389.377 569.389C367.204 605.707 330.766 652.684 239.17 652.684C206.502 652.684 75.0177 638.173 62.3216 594.641C52.2367 560.063 144.85 505.967 179.312 479.667Z" fill="#F0C274" />
@@ -93,7 +93,7 @@ function Second() {
                     <p>Pharetra, eu imperdiet ipsum ultrices amet, dui sit suspendisse.</p>
                 </div>
             </div>
-            <div className='w-[1100px] h-[640px]' >
+            <div className='w-[85%] h-[640px] mb-5' >
                 <img src={Desktop} alt="" />
             </div>
                 <div >
