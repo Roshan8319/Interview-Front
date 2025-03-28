@@ -552,7 +552,7 @@ const handleLogOut = async ()=>{
         <div className="flex items-center justify-end h-full mt-[6px]">
           <div className="flex h-full">
             <div
-              className="right-4 ml-6 bg-white w-[150px] h-[48px]  flex items-center justify-start px-[2px] rounded-full relative"
+              className="right-4 ml-6 bg-white w-[auto] h-[48px] flex items-center justify-start p-2 rounded-full relative"
               ref={dropdownRef}
             >
               <div className="w-[38px] h-[38px] rounded-full bg-white overflow-hidden m-2">
