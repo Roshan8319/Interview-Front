@@ -271,7 +271,7 @@ function Candidates() {
           <div className="py-4 sticky top-[60px] bg-[#EBDFD7]">
             <div className="pl-3 space-y-2">
               {/* Domain Filter */}
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-3">
                 <span className="text-sm font-bold mr-7 flex text-[#E65F2B]">
                   Role
                 </span>
@@ -279,7 +279,7 @@ function Candidates() {
                   <button
                     key={role}
                     onClick={() => handleSelect("role", role)}
-                    className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
+                    className={`flex items-center justify-center px-2 py-1 border rounded-3xl text-[12px] w-auto ${
                       selectedFilters.role === role
                         ? "bg-[#E65F2B] text-white border-[#E65F2B]"
                         : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
@@ -290,7 +290,7 @@ function Candidates() {
                       <span className="w-4 h-4 flex justify-center items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="w-3 h-3"
+                          className="w-4 h-4"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="#FFFFFF"
@@ -310,7 +310,7 @@ function Candidates() {
               </div>
 
               {/* Status Filter */}
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-3">
                 <span className="text-sm font-bold mr-4  text-[#E65F2B]">
                   Status
                 </span>
@@ -318,7 +318,7 @@ function Candidates() {
                   <button
                     key={status}
                     onClick={() => handleSelect("status", status)}
-                    className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
+                    className={`flex items-center justify-center px-2 py-1 border rounded-2xl text-[12px] w-auto ${
                       selectedFilters.status === status
                         ? "bg-[#E65F2B] text-white border-[#E65F2B]"
                         : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
@@ -329,7 +329,7 @@ function Candidates() {
                       <span className="w-4 h-4 flex justify-center items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="w-3 h-3"
+                          className="w-4 h-4"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="#FFFFFF"
