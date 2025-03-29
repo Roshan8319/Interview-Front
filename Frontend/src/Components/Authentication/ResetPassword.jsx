@@ -12,22 +12,22 @@ function ResetPassword() {
       <div className="px-4 py-2 h-[60px] w-full bg-transparent">
         <img src={Recrumeta} alt="Logo" style={{width:"200px", height:"50px"}}/>
       </div>
-      <div className="pt-5 pr-[100px] w-full min-h-[calc(100vh-64px)] flex items-start justify-end">
-        <div className="p-4 px-7 w-[500px] h-[550px] bg-white bg-opacity-45 rounded-2xl">
+      <div className="w-full min-h-[calc(100vh-180px)] flex items-center justify-center">
+        <div className="p-10 w-[500px] h-[auto] bg-white bg-opacity-45 rounded-2xl">
           <div className="w-full h-full">
             <div>
-              <p className="text-[40px] text-black leading-[1.2] font-semibold">
+              <p className="text-[36px] text-black leading-[1.2] font-semibold">
                 Reset your password
               </p>
             </div>
-            <div className="mt-8">
+            <div className="mt-6">
               <div className=" flex items-center justify-center">
-                <div className="w-full flex flex-col space-y-[25px] max-w-md items-center justify-center">
+                <div className="w-full flex flex-col space-y-[16px] max-w-md items-center justify-center">
                   <div className="relative group w-full flex items-center justify-center">
                     <input
                       id="email"
                       type="email"
-                      className="w-[90%] py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
+                      className="w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                       placeholder="Enter Your Email"
                     />
                   </div>
@@ -36,7 +36,7 @@ function ResetPassword() {
                     <input
                       id="old-password"
                       type="password"
-                      className="w-[90%] py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
+                      className="w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                       placeholder="Enter Your Old Password"
                     />
                     <button
@@ -109,7 +109,7 @@ function ResetPassword() {
                     <input
                       id="password"
                       type="password"
-                      className="w-[90%] py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
+                      className="w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                       placeholder="Enter Your New Password"
                     />
                     <button
@@ -182,7 +182,7 @@ function ResetPassword() {
                     <input
                       id="confirm-password"
                       type="password"
-                      className="w-[90%] py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
+                      className="w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                       placeholder="Confirm Your New Password"
                     />
                     <button
@@ -251,12 +251,12 @@ function ResetPassword() {
                     </button>
                   </div>
 
-                  <div className="px-3 w-full flex item-center justify-between">
+                  <div className="px-3 w-full flex item-center gap-x-5">
                     <div class="relative group w-[60%] flex items-center justify-center">
                       <div class="relative w-[90%]">
                         <select
                           id="role"
-                          className="w-full py-2 px-4 border-2 rounded-2xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 appearance-none cursor-pointer"
+                          className="w-full py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 appearance-none cursor-pointer"
                         >
                           <option
                             value=""
@@ -278,10 +278,10 @@ function ResetPassword() {
                         </select>
 
                         <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                          <div class="h-6 w-6 bg-orange-100 rounded-full flex items-center justify-center">
+                          <div class="h-6 w-6 rounded-full flex items-center justify-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4 text-orange-500"
+                              class="h-5 w-5 text-orange-500"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -328,11 +328,11 @@ function ResetPassword() {
               </div>
             </div>
 
-            <div className="px-2 mt-10">
+            <div className="px-2 mt-5">
               <Link to="/auth/signin" className="text-[#E65F2B] text group">
-                <span className="font-semibold group-hover:underline">Signin instead</span>
+                <span className="font-normal group-hover:underline">Signin Instead</span>
               </Link>
-              <p className="text-[#AD988F] mt-1">
+              <p className="text-[#1E1E1E] mt-1">
                 Don't have an account?{" "}
                 <span className="text-[#E65F2B] hover:underline">Contact Sales</span>
               </p>
