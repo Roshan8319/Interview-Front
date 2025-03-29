@@ -251,8 +251,8 @@ function ResetPassword() {
                     </button>
                   </div>
 
-                  <div className="px-3 w-full flex item-center justify-center">
-                    <div class="relative group w-[60%] flex items-center space-x-7">
+                  <div className="px-3 w-full flex item-center gap-x-5">
+                    <div class="relative group w-[60%] flex items-center justify-center">
                       <div class="relative w-[90%]">
                         <select
                           id="role"
