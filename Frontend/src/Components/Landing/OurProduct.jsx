@@ -135,11 +135,11 @@ function OurProduct() {
                 </svg>
             </div>
             {/* vector */}
-            {/* <div className='absolute flex z-[-10] top-[10] left-[25%]'>
+            <div className='absolute flex z-[-10] top-[38%] left-[25%]'>
                 <svg width="211" height="23" viewBox="0 0 211 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 9.24283C27.9029 6.82375 125.829 2.1188 206 9.24285C164.385 9.24285 110.163 9.96321 75.252 17.4678" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                 </svg>
-            </div> */}
+            </div>
         </div>
     )
 }
