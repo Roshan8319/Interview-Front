@@ -88,7 +88,7 @@ const InternalUsers = () => {
               placeholder="Full Name"
               value={newUser.name}
               onChange={(e) => setNewUser({...newUser, name: e.target.value})}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+              className="w-full pl-10 pr-4 py-2 border rounded-3xl focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
             />
           </div>
           
@@ -99,7 +99,7 @@ const InternalUsers = () => {
               placeholder="Email Address"
               value={newUser.email}
               onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+              className="w-full pl-10 pr-4 py-2 border rounded-3xl focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
             />
           </div>
           
@@ -110,7 +110,7 @@ const InternalUsers = () => {
               placeholder="Phone Number"
               value={newUser.phone}
               onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+              className="w-full pl-10 pr-4 py-2 border rounded-3xl focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
             />
           </div>
         </div>
@@ -118,13 +118,13 @@ const InternalUsers = () => {
         <div className="flex justify-between mt-4">
           <button 
             onClick={() => setIsAddUserModalOpen(false)}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-3xl hover:bg-gray-300 transition"
           >
             Cancel
           </button>
           <button 
             onClick={handleAddUser}
-            className="px-4 py-2 bg-[#E65F2B] text-white rounded-lg hover:bg-[#b84c22] transition"
+            className="px-4 py-2 bg-[#E65F2B] text-white rounded-3xl hover:bg-[#b84c22] transition"
           >
             Add User
           </button>

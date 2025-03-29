@@ -214,7 +214,7 @@ function Interviewer() {
                           <span className="w-4 flex justify-center items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              className="w-3 h-3 text-purple-700"
+                              className="w-5 h-5 text-white-700"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -228,7 +228,7 @@ function Interviewer() {
                             </svg>
                           </span>
                         )}
-
+                        &nbsp;
                         {domain}
                       </button>
                     ))}
@@ -253,7 +253,7 @@ function Interviewer() {
                           <span className="w-4 flex justify-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              className="w-3 h-3 text-purple-700"
+                              className="w-5 h-5 text-white-700"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -267,7 +267,7 @@ function Interviewer() {
                             </svg>
                           </span>
                         )}
-
+                        &nbsp;
                         {status}
                       </button>
                     ))}

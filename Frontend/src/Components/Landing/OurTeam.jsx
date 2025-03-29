@@ -5,21 +5,22 @@ import Dinanath from '../../Assets/Dinanath.png'
 
 function OurTeam() {
     return (
-        <div className='bg-[#F1F5F9] p-10'>
-            <div className='w-full flex flex-col items-center justify-center text-[#0F172A] gap-y-8' >
+        <div className='bg-[#F1F5F9] p-14'>
+            <div className='w-full flex flex-col items-center justify-center text-[#0F172A]' >
                 <div className='w-full flex flex-col items-center justify-center'>
-                    <div className='font-normal text-[22px]' >
-                    Who We Are
+                    <div className='font-normal text-[24px]' >
+                        Who We Are
+                    </div>
+                    <div className='text-[54px] font-semibold' >
+                        <h1>Meet our team</h1>
+                    </div>
+                    <div className='text-[20px] font-normal text-center' >
+                        <p>Just take a look - each member of the team is watching your every </p>
+                        <p>gesture and will hear your every whisper.</p>
+                    </div>
                 </div>
-                <div className='text-[54px] font-semibold' >
-                    <h1>Meet our team</h1>
-                </div>
-                <div className='text-[20px] font-normal text-center' >
-                    <p>Just take a look - each member of the team is watching your every </p>
-                    <p>gesture and will hear your every whisper.</p>
-                </div>
-                </div>
-                <div className='w-full flex justify-center items-center gap-x-10 mt-4' >
+                {/* Profile Cards */}
+                <div className='w-full flex justify-center items-center gap-x-10 mt-8' >
                     <div className='w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
                         <div className='w-full h-[60%] flex justify-center items-center' >
                             <img src={Sumit} alt='Sumit' className='w-[310px] h-[230px] rounded-full' />
@@ -29,7 +30,7 @@ function OurTeam() {
                                 <div className='text-[18px] font-semibold' >Sumit Kumar Mahto</div>
                                 <div className='text-[14px] font-normal' >Full Stack Developer</div>
                             </div>
-                            
+
                             <div>
                                 <ul className='flex gap-x-4' >
                                     <li>

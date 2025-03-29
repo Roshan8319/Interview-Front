@@ -39,6 +39,7 @@ import {InternalAgreements} from "./Internal/Agreement"
 import {InternalFinance} from "./Internal/Finance"
 import {InternalEngagement} from "./Internal/Engagement"
 import { InternalMessages } from "./Internal/Messages";
+import RecentsInterviews from "./Internal/RecentsInterviews";
 
 
 
@@ -72,7 +73,7 @@ export { AgencyNavigationLayout,AgencyDashboard, AgencyCandidates,AgencyAddCandi
 
 //Internal Exports
 
-export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages}
+export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages,RecentsInterviews}
 
 //Interviewer Exports
 export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables}

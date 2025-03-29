@@ -19,7 +19,7 @@ const Finance = () => {
   ];
 
   const renderTable = (data, title) => (
-    <div className="w-[70%]">
+    <div className="w-[70%] pt-3">
       <h3 className="font-bold text-lg mb-5 ml-1.5">{title}</h3>
       <table className="w-full border-collapse mb-5">
         <thead>
@@ -60,7 +60,7 @@ const Finance = () => {
     ];
 
     return (
-      <div className="mt-[60px] flex flex-col gap-4 items-start">
+      <div className="pt-3 mt-[60px] flex flex-col gap-4 items-start">
         {summaryItems.map((item) => (
           <div 
             key={item.label} 
@@ -86,7 +86,7 @@ const Finance = () => {
           {renderSummaryCard()}
         </section>
 
-        <section className="flex justify-between">
+        <section className="flex justify-between p-4">
           {renderTable(interviewerData, 'INTERVIEWERS')}
           {renderSummaryCard()}
         </section>

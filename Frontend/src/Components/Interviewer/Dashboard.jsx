@@ -8,7 +8,7 @@ const InterviewDashboard = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [activeTab, setActiveTab] = useState("interviewDetails");
   const [activeTab2, setActiveTab2] = useState("details");
-  const [nextAppointment, setNextAppointment] = useState();
+  const [nextAppointment, setNextAppointment] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [meetingLink, setMeetingLink] = useState("");
   const [interviewerName, setInterviewerName] = useState("");
@@ -25,8 +25,7 @@ const InterviewDashboard = () => {
             withCredentials: true,
           }
         );
-        console.log(response.data.data.appointment);
-
+        console.log(response);
         setNextAppointment(response.data.data.appointment);
         setMeetingLink(response.data.data.appointment.meetingId);
         setInterviewerName(response.data.data.appointment.interviewerName);
@@ -49,6 +48,14 @@ const InterviewDashboard = () => {
 
     const url = `/interview/${meetingLink}?token=${encodeURIComponent(token)}`;
     window.open(url, "_blank");
+  };
+
+  const handleViewResume = () => {
+    if (nextAppointment?.candidateResume) {
+      window.open(nextAppointment.candidateResume, '_blank');
+    } else {
+      alert('Resume not available');
+    }
   };
 
   const icons = {
@@ -248,38 +255,7 @@ const InterviewDashboard = () => {
     ),
   };
 
-  const interview = {
-    candidateName: "Aryan Bhardwaj",
-    position: "Software Development Engineer I",
-    profileImage: "/api/placeholder/40/40",
-    date: "04 April 2025",
-    time: "12:00pm",
-    company: "TechInnovate Solutions",
-    interviewMode: "Virtual",
-    interviewType: "Technical Round",
-    jobRequirements: [
-      "Bachelor's degree in Computer Science or related field",
-      "0-2 years of software development experience",
-      "Proficiency in React and Node.js",
-    ],
-    focusArea: [
-      "Frontend Development",
-      "React Ecosystem",
-      "Performance Optimization",
-    ],
-    jobDescription: `We are seeking a motivated Software Development Engineer I to join our dynamic team.
-    The ideal candidate will contribute to building scalable web applications.`,
-    interviewer: {
-      name: "Sarah Thompson",
-      role: "Senior Engineering Manager",
-      department: "Product Engineering",
-    },
-    preparationTips: [
-      "Review recent React.js concepts",
-      "Prepare system design fundamentals",
-      "Practice algorithmic problem-solving",
-    ],
-  };
+ 
 
   const [interviewTab, setInterviewTab] = useState("interviewDetails");
 
@@ -605,7 +581,7 @@ const InterviewDashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-20">
         {/* Candidate Details */}
 
-        {Object.keys(interview).length === 0 && (
+        {Object.keys(nextAppointment).length === 0 && (
           <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-center justify-center text-center min-h-[calc(100vh-20rem)] h-full">
             <div className="bg-orange-50 rounded-full p-4 mb-4">
               <Calendar className="w-12 h-12 text-orange-500" />
@@ -619,23 +595,28 @@ const InterviewDashboard = () => {
           </div>
         )}
 
-        {Object.keys(interview).length != 0 && (
-          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-start  text-center min-h-[calc(100vh-20rem)] h-full">
+        {Object.keys(nextAppointment).length != 0 && (
+          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-start text-center min-h-[calc(100vh-20rem)] h-full">
             <div className="w-full">
-              <div className=" flex items-center justify-between w-full">
+              <div className="flex items-center justify-between w-full">
                 <div className="flex items-center justify-center gap-x-4">
                   <div className="w-[80px] h-[80px] rounded-full overflow-hidden border border-red-400">
                     <img
-                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      src={
+                        nextAppointment?.candidatePhoto ||
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      }
                       alt="User Dp"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="flex flex-col items-start justify-start">
                     <p className="text-xl font-semibold">
-                      {interview.candidateName}
+                      {nextAppointment.candidateFirstName}{" "}
+                      {nextAppointment.candidateLastName}
                     </p>
                     <p className="text-sm text-[#797979]">
-                      {interview.position}
+                      {nextAppointment.hiringRole}
                     </p>
                   </div>
                 </div>
@@ -650,7 +631,7 @@ const InterviewDashboard = () => {
                     >
                       <path d="M580-240q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
                     </svg>
-                    <p>{interview.date}</p>
+                    <p>{nextAppointment.appDate}</p>
                   </div>
 
                   <div className="flex gap-x-2">
@@ -663,12 +644,13 @@ const InterviewDashboard = () => {
                     >
                       <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
                     </svg>
-                    <p>{interview.time}</p>
+                    <p>{nextAppointment.appTime}</p>
                   </div>
                 </div>
               </div>
               <div className=" w-full ml-[10%] mt-4 flex items-center justify-around">
                 <button
+                  onClick={handleViewResume}
                   className="flex items-center gap-x-1 justify-center px-2 py-[2px] bg-white border border-[#E65F2B] rounded-xl 
                 relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
                 >
@@ -702,6 +684,7 @@ const InterviewDashboard = () => {
                 </button>
 
                 <button
+                  onClick={() => handelJoinInterview()}
                   className="flex items-center gap-x-1 justify-center px-2 py-[2px] border border-white bg-[#E65F2B] rounded-xl 
                    relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
                 >
@@ -810,8 +793,11 @@ const InterviewDashboard = () => {
                     </div>
                     <div className="text-[#797979]">
                       <ul className="pl-10 flex flex-col items-start list-disc">
-                        <li>Java</li>
-                        <li>Python</li>
+                        {nextAppointment.jobRequirement.map(
+                          (requirement, index) => (
+                            <li key={index}>{requirement}</li>
+                          )
+                        )}
                       </ul>
                     </div>
                   </div>
@@ -835,9 +821,9 @@ const InterviewDashboard = () => {
                     </div>
                     <div className="text-[#797979]">
                       <ul className="pl-10 flex flex-col items-start list-disc">
-                        <li>Backend</li>
-                        <li>API Integration</li>
-                        <li>System Design</li>
+                        {nextAppointment.focusArea.map((focus, index) => (
+                          <li key={index}>{focus}</li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -889,7 +875,7 @@ const InterviewDashboard = () => {
                     <p>Job Description</p>
                   </div>
                   <div className="pl-6 pt-2 text-left text-[#797979]">
-                    <p>{interview.jobDescription}</p>
+                    <p>{nextAppointment.jobDescription}</p>
                   </div>
                 </div>
               )}

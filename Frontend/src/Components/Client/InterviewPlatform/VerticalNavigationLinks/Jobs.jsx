@@ -94,7 +94,7 @@ const Jobs = () => {
 
 
 
-          {/* Add Client Button */}
+          {/* Add Job Button */}
           <button
             type="button"
             onClick={() => navigate(`${location.pathname}/addjob`)}
@@ -106,7 +106,7 @@ const Jobs = () => {
             </span>
 
 
-            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+            <span class="absolute right-0 h-full w-[39px] bg-[#E65F2B] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
