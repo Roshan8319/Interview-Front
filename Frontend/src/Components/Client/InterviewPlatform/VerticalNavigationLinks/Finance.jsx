@@ -195,8 +195,13 @@ function Finance() {
         </div>
         <button
           onClick={filterDataByDate}
-          className="px-4 py-2 bg-[#E65F2B] text-white rounded-3xl hover:bg-[#d44d1b] transition-colors"
+          className="px-4 py-2 bg-[#E65F2B] flex justify-center items-center text-white font-semibold text-[16px] rounded-3xl hover:bg-[#d44d1b] transition-colors"
         >
+          <div className='flex items-center justify-center mr-2'>
+            <svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.75 3H14.25L10.5 7.875V15L7.5 12V7.875L3.75 3Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
           Apply Filter
         </button>
       </div>
