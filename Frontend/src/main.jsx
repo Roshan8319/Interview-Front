@@ -18,7 +18,7 @@ import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics,Anal
 //Agency Imports
 import { AgencyNavigationLayout,AgencyDashboard,AgencyCandidates,AgencyAddCandidate,AgencyScheduleInterview } from './Components'
 //Internal Imports
-import {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages} from "./Components"
+import {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages,RecentsInterviews} from "./Components"
 //Interviewer Imports
 import { InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables } from './Components'
 import { Hello } from './Components'
@@ -100,6 +100,7 @@ const router = createBrowserRouter(
         <Route path='finance' element={<InternalFinance/>} />
         <Route path='engagement' element={<InternalEngagement/>}/>
         <Route path='message' element={<InternalMessages/>}/>
+        <Route path='recents' element={<RecentsInterviews/>}/>
        
       </Route>
 

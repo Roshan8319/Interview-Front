@@ -302,6 +302,12 @@ const navItems = [
   //   icon2: <ActiveEngagementIcon />,
   //   link: "/internal/engagement",
   // },
+  {
+    text: "Recents",
+    icon: <FinanceIcon />,
+    icon2: <ActiveFinanceIcon />,
+    link: "/internal/recents",
+  },
 ];
 
 
