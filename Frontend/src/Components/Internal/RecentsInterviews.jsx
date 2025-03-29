@@ -31,7 +31,7 @@ function RecentsInterviews() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold text-[#E65F2B]">Recent Interviews</h1>
-          <div className="bg-[#E65F2B]/10 px-4 py-2 rounded-lg">
+          <div className="bg-[#E65F2B]/10 px-4 py-2 rounded-3xl border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] active:border-[#E65F2B]">
             <Clock className="inline-block w-5 h-5 text-[#E65F2B] mr-2" />
             <span className="text-[#E65F2B] font-medium">Past 2 Hours</span>
           </div>
@@ -56,11 +56,10 @@ function RecentsInterviews() {
                     <span>{interview.hiringRole}</span>
                   </div>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  interview.status === "Completed" 
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${interview.status === "Completed"
                     ? "bg-green-100 text-green-600"
                     : "bg-yellow-100 text-yellow-600"
-                }`}>
+                  }`}>
                   {interview.status}
                 </span>
               </div>
