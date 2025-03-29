@@ -182,6 +182,12 @@ function OurTeam() {
                     </div>
 
                 </div>
+                {/* vector */}
+                <div className='absolute z-10 translate-x-[65%] translate-y-[30%]'>
+                    <svg width="171" height="22" viewBox="0 0 171 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 8.77408C22.6535 6.355 101.472 1.65006 166 8.7741C132.505 8.7741 88.8632 9.49446 60.7638 16.999" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
+                    </svg>
+                </div>
             </div>
         </div>
     )

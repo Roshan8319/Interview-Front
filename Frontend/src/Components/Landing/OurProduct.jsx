@@ -123,7 +123,7 @@ function OurProduct() {
                     </div>
 
                     <div className='w-[500px] h-[386px]' >
-                        <img src={Picture3} alt=""/>
+                        <img src={Picture3} alt="" />
                     </div>
                 </div>
 
@@ -134,7 +134,12 @@ function OurProduct() {
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M507.067 167.128C533.359 219.233 544.932 292.614 520.821 363.026C496.71 433.439 435.139 475.766 349.132 503.76C187.752 556.285 34.6139 488.397 10.7346 421.154C-11.5698 358.346 -0.303894 314.587 55.7311 257.848C111.766 201.108 150.691 160.807 165.349 103.491C179.79 47.0257 198.797 13.3064 242.652 4.49137C290.085 -5.04266 339.969 1.75648 386.78 31.4528C434.536 61.7488 482.608 118.655 507.067 167.128Z" fill="#E65F2B" />
                 </svg>
             </div>
-
+            {/* vector */}
+            {/* <div className='absolute flex z-[-10] top-[10] left-[25%]'>
+                <svg width="211" height="23" viewBox="0 0 211 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9.24283C27.9029 6.82375 125.829 2.1188 206 9.24285C164.385 9.24285 110.163 9.96321 75.252 17.4678" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
+                </svg>
+            </div> */}
         </div>
     )
 }

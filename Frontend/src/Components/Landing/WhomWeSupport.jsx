@@ -3,8 +3,8 @@ import Col from '../../assets/Col.png'
 
 function WhomWeSupport() {
     return (
-        <div className='relative p-4 h-full w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
-            <div className='absolute inset-0  z-[-10]  flex justify-center items-center   ' >
+        <div className='relative p-12 h-full w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
+            <div className='absolute inset-0  z-[-10]  flex justify-center items-center' >
                 <svg width="140" height="583" viewBox="0 0 140 583" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M128.023 150.247L131.624 148.354L130.937 152.364L133.851 155.203L129.825 155.788L128.023 159.437L126.223 155.788L122.197 155.203L125.11 152.364L124.422 148.354L128.023 150.247Z" fill="#F0C274" />
                     <g clip-path="url(#clip0_348_9299)">
@@ -79,16 +79,16 @@ function WhomWeSupport() {
                     </defs>
                 </svg>
             </div>
-            <div className='flex gap-x-40' >
-                <div className='w-[600px] h-[651px] flex items-center justify-start' >
+            <div className='flex gap-x-20 items-center justify-center' >
+                <div className='w-[700px] h-[789px] flex items-center justify-start' >
                     <img src={Col} alt="" />
                 </div>
                 <div className='flex flex-col gap-y-4 justify-center items-center ' >
                     <div className='flex justify-center items-center text-[44px] font-bold ' >
                         <p>Whom we support?</p>
                     </div>
-                    <div className='flex gap-x-3 ' >
-                        <div className='w-[290px] py-3 px-3 border flex flex-col gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] ' >
+                    <div className='flex gap-x-14 ' >
+                        <div className='w-[290px] p-4 border flex flex-col gap-y-5 border-[#FFFFFF] shadow-lg rounded-[10px] ' >
                             <div className=' flex justify-center items-center rounded-lg text-[#6B21A8] bg-[#F3E8FF] text-[20px] font-medium p-2' >
                                 Recruiter
                             </div>
@@ -96,7 +96,7 @@ function WhomWeSupport() {
                                 <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
                             </div>
                         </div>
-                        <div className='w-[290px] py-3 px-3 border flex flex-col gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] ' >
+                        <div className='w-[290px] p-4 border flex flex-col gap-y-5 border-[#FFFFFF] shadow-lg rounded-[10px] ' >
                             <div className=' flex justify-center items-center rounded-lg text-[#1E40AF] bg-[#DBEAFE] font-medium text-[20px] p-2 whitespace-nowrap' >
                                 Hiring Manager
                             </div>
@@ -108,7 +108,7 @@ function WhomWeSupport() {
                     </div>
                 </div>
             </div>
-            <div className='absolute z-[-10] top-20 right-20 ' >
+            <div className='absolute z-[-10] top-56 right-60' >
                 <svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.292 28.6929C17.6294 26.9572 18.6424 25.4267 20.1083 24.438C21.5741 23.4493 23.3726 23.0834 25.1083 23.4207L55.2115 29.2722C56.9471 29.6096 58.4776 30.6226 59.4664 32.0884C60.4551 33.5543 60.821 35.3528 60.4836 37.0885L56.6135 56.9985C56.2761 58.7341 55.2631 60.2646 53.7973 61.2533C52.3314 62.242 50.5329 62.608 48.7973 62.2706L18.694 56.4191C16.9584 56.0817 15.4279 55.0687 14.4392 53.6029C13.4505 52.1371 13.0845 50.3385 13.4219 48.6029L17.292 28.6929Z" stroke="#F0C274" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M55.2115 29.2723L25.1082 23.4208C23.3726 23.0835 21.5741 23.4494 20.1082 24.4381C18.6424 25.4268 17.6294 26.9573 17.292 28.693L17.1378 29.4861C16.733 31.5689 17.1721 33.7271 18.3586 35.4861C19.545 37.2451 21.3816 38.4608 23.4644 38.8656L50.9499 44.2083C53.0327 44.6131 55.191 44.174 56.95 42.9875C58.709 41.8011 59.9246 39.9645 60.3294 37.8817L60.4836 37.0886C60.821 35.3529 60.4551 33.5544 59.4663 32.0885C58.4776 30.6227 56.9471 29.6097 55.2115 29.2723ZM32.2313 19.6602C32.4338 18.6189 33.0416 17.7006 33.9211 17.1073C34.8006 16.5141 35.8797 16.2945 36.9211 16.497L46.8525 18.4274C47.8939 18.6299 48.8122 19.2377 49.4055 20.1172C49.9987 20.9967 50.2182 22.0758 50.0158 23.1172L49.0521 28.0751L31.2676 24.6181L32.2313 19.6602Z" stroke="#F0C274" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />

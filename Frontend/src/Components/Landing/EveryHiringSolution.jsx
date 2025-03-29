@@ -4,8 +4,8 @@ import Desktop from '../../assets/Desktop.png'
 function Second() {
     return (
 
-        <div className='relative p-4 h-full w-full bg-[#F1F5F9] z-[-10] pb-10 pt-10 font-[Montserrat] flex items-center justify-center overflow-hidden' >
-            <div className='absolute inset-0  z-[-10]  transform translate-x-4 translate-y-4' >
+        <div className='relative p-4 h-full w-full bg-[#F1F5F9] z-[-10] pb-10 pt-10 font-[Montserrat] flex items-center justify-center overflow-hidden min-h-[calc(100vh-64px)]' >
+            <div className='absolute inset-0 z-[-10]  transform translate-x-4 translate-y-4' >
                 <svg width="562" height="653" viewBox="0 0 562 653" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M179.312 479.667C233.321 438.448 125.714 400.253 168.43 355.919C288.142 231.672 124.898 224.621 195.638 156.602C306.093 50.3948 561.283 326.221 561.283 375.07C561.283 420.696 544.052 448.832 495.078 479.667C446.105 510.502 411.883 532.523 389.377 569.389C367.204 605.707 330.766 652.684 239.17 652.684C206.502 652.684 75.0177 638.173 62.3216 594.641C52.2367 560.063 144.85 505.967 179.312 479.667Z" fill="#F0C274" />
                     <path d="M128.023 149.748L131.624 147.855L130.937 151.865L133.851 154.704L129.825 155.289L128.023 158.938L126.223 155.289L122.197 154.704L125.11 151.865L124.422 147.855L128.023 149.748Z" fill="#E65F2B" />
@@ -81,21 +81,25 @@ function Second() {
                     </defs>
                 </svg>
             </div>
-
-
-        <div className='w-[90%] h-full flex flex-col justify-center items-center gap-y-4' >
-            <div className='flex flex-col gap-y-4 justify-center items-center' >
-                <div className='text-[44px] font-bold text-[#0F172A]' >
-                    <p>Every Hiring Solution, One Powerful Platform.</p>
+            <div className='w-[90%] h-full flex flex-col justify-center items-center gap-y-4' >
+                <div className='flex flex-col gap-y-4 justify-center items-center' >
+                    <div className='text-[44px] font-bold text-[#0F172A]' >
+                        <p>Every Hiring Solution, One Powerful Platform.</p>
+                    </div>
+                    <div className='flex flex-col text-center text-[#0F172A] ' >
+                        <p>Sit elit feugiat turpis sed integer integer accumsan turpis. Sed suspendisse nec lorem mauris.</p>
+                        <p>Pharetra, eu imperdiet ipsum ultrices amet, dui sit suspendisse.</p>
+                    </div>
+                    {/* vector */}
+                    <div className='absolute z-[-10] top-26 left-[24%]' >
+                        <svg width="127" height="21" viewBox="0 0 127 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 8.61463C16.8793 6.59873 74.6798 2.67794 122 8.61465C97.4367 8.61465 65.433 9.21495 44.8268 15.4687" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
+                        </svg>
+                    </div>
                 </div>
-                <div className='flex flex-col text-center text-[#0F172A] ' >
-                    <p>Sit elit feugiat turpis sed integer integer accumsan turpis. Sed suspendisse nec lorem mauris.</p>
-                    <p>Pharetra, eu imperdiet ipsum ultrices amet, dui sit suspendisse.</p>
+                <div className='w-[85%] h-[640px] mb-5' >
+                    <img src={Desktop} alt="" />
                 </div>
-            </div>
-            <div className='w-[85%] h-[640px] mb-5' >
-                <img src={Desktop} alt="" />
-            </div>
                 <div >
                     <svg width="1162" height="70" viewBox="0 0 1162 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="0.5" y="2.5" width="65" height="65" rx="14.5" fill="white" />
@@ -133,7 +137,7 @@ function Second() {
                                 <path d="M323.8 14.4667H290.2C288.138 14.4667 286.467 16.1381 286.467 18.2V51.8C286.467 53.8619 288.138 55.5333 290.2 55.5333H323.8C325.862 55.5333 327.533 53.8619 327.533 51.8V18.2C327.533 16.1381 325.862 14.4667 323.8 14.4667Z" fill="black" fill-opacity="0.01" />
                             </g>
                         </g>
-                        <mask id="mask1_321_5921" style={{ maskType: 'alpha' }}maskUnits="userSpaceOnUse" x="286" y="14" width="42" height="42">
+                        <mask id="mask1_321_5921" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="286" y="14" width="42" height="42">
                             <path d="M323.8 14.4667H290.2C288.138 14.4667 286.467 16.1381 286.467 18.2V51.8C286.467 53.8619 288.138 55.5333 290.2 55.5333H323.8C325.862 55.5333 327.533 53.8619 327.533 51.8V18.2C327.533 16.1381 325.862 14.4667 323.8 14.4667Z" fill="white" />
                         </mask>
                         <g mask="url(#mask1_321_5921)">
@@ -501,9 +505,7 @@ function Second() {
                         </defs>
                     </svg>
                 </div>
-        </div>
-
-
+            </div>
 
             <div class="absolute z-[-10] top-0 right-0 ">
                 <svg width="371" height="870" viewBox="0 0 371 870" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -561,10 +563,24 @@ function Second() {
                     </defs>
                 </svg>
             </div>
+
+            {/* lines */}
+            <div className='absolute flex z-[-10] bottom-20 justify-center'>
+                <svg width="1095" height="79" viewBox="0 0 1095 79" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 78.4688C1 -33.5312 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M274 78.4688C274 14.4688 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M410 78.4688C410 17.4688 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M1094 78.4688C1094 -33.5312 547 49.4688 547 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M958.999 78.4688C961.999 -3.53125 546.999 49.4688 546.999 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M821 78.4688C821 14.4688 547 49.4688 547 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M548 3.46875L548 78.4687" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M685 78.4688C685 17.4688 547 49.4688 547 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
+                    <path d="M136.001 78.4688C133.001 -3.53125 548.001 49.4688 548.001 0.46875" stroke="#E65F2B" stroke-dasharray="6 6" />
+                </svg>
+            </div>
         </div>
 
-  )
+    )
 }
 
 export default Second
-    
