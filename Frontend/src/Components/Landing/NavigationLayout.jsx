@@ -6,6 +6,7 @@ import YourEngineerBuild from './YourEngineerBuild';
 import EveryHiringSolution from './EveryHiringSolution';
 import WhomWeSupport from './WhomWeSupport';
 import OurProduct from './OurProduct';
+import EffortlessHiring from './EffortlessHiring';
 
 
 function NavigationLayout() {
@@ -101,13 +102,14 @@ function NavigationLayout() {
             <div className="flex-grow">
 
                 {/* Your page content goes here */}
-                <YourEngineerBuild />
+                {/* <YourEngineerBuild /> */}
                 <EveryHiringSolution/>
-                <WhomWeSupport/>
+                <EffortlessHiring/>
+                {/* <WhomWeSupport/>
                 <OurProduct/>
                 <OurTeam />
                 <GrowYourTeam />
-                
+                 */}
             </div>
 
             {/* //Footer */}

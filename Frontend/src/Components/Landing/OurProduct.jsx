@@ -104,13 +104,13 @@ function OurProduct() {
 
         <div className='w-[50%]' >
             <div className='w-[100%] flex justify-center gap-x-5 ' >
-                <div className='w-[225px] h-auto py-3 px-3 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF] ' >
-                        <div className=' flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[20px] font-medium p-2' >
-                            Recruiter
-                        </div>
-                        <div className=' text-left' >
-                            <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
-                        </div>
+                <div className='w-[225px] h-auto py-3 px-3 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF] absolute z-10 top-1/4 left-1/4'>
+                    <div className=' flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[20px] font-medium p-2' >
+                        Recruiter
+                    </div>
+                    <div className=' text-left' >
+                        <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
+                    </div>
                 </div>
             
                 <div className='w-[186px] h-[158px] flex self-end'>
