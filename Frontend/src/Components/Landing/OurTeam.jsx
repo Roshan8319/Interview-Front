@@ -1,7 +1,7 @@
 import React from 'react'
-import Sumit from '../../Assets/Sumit.png'
-import Roshan from '../../Assets/Roshan.png'
-import Dinanath from '../../Assets/Dinanath.png'
+import Sumit from '../../assets/Sumit.png'
+import Roshan from '../../assets/Roshan.png'
+import Dinanath from '../../assets/Dinanath.png'
 
 function OurTeam() {
     return (
