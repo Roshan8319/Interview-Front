@@ -33,7 +33,7 @@ const Jobs = () => {
         setLoading(false);
       }
     };
-  
+
     fetchJobs();
   }, []);
 
