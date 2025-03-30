@@ -52,6 +52,7 @@ import Profile from "./Interviewer/Profile";
 import Calendar from "./Interviewer/Calendar";
 import Receivables from "./Interviewer/Receivables";
 import InterviewHistory from "./Interviewer/InterviewHistory";
+import FetchInterviewDetails from "./Interviewer/FetchInterviewDetails";
 
 
 
@@ -76,7 +77,7 @@ export { AgencyNavigationLayout,AgencyDashboard, AgencyCandidates,AgencyAddCandi
 export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages,RecentsInterviews}
 
 //Interviewer Exports
-export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables}
+export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables,FetchInterviewDetails}
 
 // Landing Exports
 export {LandingNavigationLayout}
