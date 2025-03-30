@@ -22,11 +22,7 @@ import Message from "./Client/InterviewPlatform/VerticalNavigationLinks/Message"
 import CandidateDetails from "./Client/InterviewPlatform/VerticalNavigationLinks/CandidateDetails"
 
 //Agency Imports
-import { AgencyNavigationLayout } from "./Agency/NavigationLayout";
-import { AgencyDashboard } from "./Agency/Dashboard";
-import { AgencyCandidates } from "./Agency/Candidates";
-import { AgencyAddCandidate } from "./Agency/AddCandidate";
-import { AgencyScheduleInterview } from "./Agency/ScheduleInterview";
+
 
 
 //Internal Imports
@@ -68,8 +64,6 @@ export {SignInPage,ResetPassword}
 //Client Exports
 export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, AnalyticsDateFilter,Integration,Finance,Engagement,Message,CandidateDetails}
 
-//Agency Exports
-export { AgencyNavigationLayout,AgencyDashboard, AgencyCandidates,AgencyAddCandidate, AgencyScheduleInterview}
 
 
 //Internal Exports

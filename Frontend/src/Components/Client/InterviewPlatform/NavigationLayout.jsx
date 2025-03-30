@@ -727,7 +727,7 @@ const handleLogOut = async ()=>{
               key={items.text}
               disablePadding
               sx={{
-                display: "block",
+                
                 borderRadius: "25px",
                 overflow: "hidden",
                 display: "flex",
