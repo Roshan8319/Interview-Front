@@ -24,6 +24,19 @@ function RecentsInterviews() {
 
     fetchInterviews();
   }, [baseUrl]);
+  const LoadingSpinner = () => (
+    <div className="flex flex-col items-center justify-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
+      <p className="mt-4 text-lg font-medium text-gray-600">Loading recent interviews...</p>
+    </div>
+  );
+if (loading) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6">
