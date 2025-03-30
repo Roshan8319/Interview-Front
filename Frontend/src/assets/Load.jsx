@@ -1,7 +1,7 @@
 import React from "react";
 
 import Lottie from "lottie-react"; 
-import loaderAnimation from "../assets/Recrumeta-2Loader.json"; 
+import loaderAnimation from "../assets/Recrumeta-2loader.json"; 
 
 function Load() {
   
