@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock, FaUserTie, FaVideo } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function FetchInterviewDetails() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const location = useLocation();
+  const navigate = useNavigate();
   const [token, setToken] = useState('');
 
   const [formData, setFormData] = useState({
@@ -67,7 +68,21 @@ function FetchInterviewDetails() {
 
       if (response.status === 200) {
         setSuccess(true);
-        console.log('Success:', response.data);
+        setFormData({
+          interviewDate: '',
+          interviewTime: '',
+          interviewStatus: 'scheduled',
+          duration: '30',
+          additionalNotes: '',
+          token: token
+        });
+        
+        // Auto-hide success message after 3 seconds
+        setTimeout(() => {
+          setSuccess(false);
+          // Optionally redirect to another page
+          // navigate('/dashboard');
+        }, 3000);
       }
     } catch (error) {
       let errorMessage = 'Failed to submit interview details';
@@ -115,8 +130,13 @@ function FetchInterviewDetails() {
             </div>
           )}
           {success && (
-            <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
-              Interview scheduled successfully!
+            <div className="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-down">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                </svg>
+                <p>Interview scheduled successfully!</p>
+              </div>
             </div>
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
