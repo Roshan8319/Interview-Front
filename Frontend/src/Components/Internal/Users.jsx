@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, User, Mail, Phone, Calendar } from 'lucide-react';
+import axios from 'axios';
 
 const InternalUsers = () => {
+
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -132,6 +135,39 @@ const InternalUsers = () => {
       </div>
     </div>
   );
+  
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const response = axios
+        .get(`${baseUrl}/api/v1/internal/get-internal-users`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(response);
+          setData(res.data.data.users);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    });
+    const LoadingSpinner = () => (
+      <div className="flex flex-col items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
+        <p className="mt-4 text-lg font-medium text-gray-600">Loading profile data...</p>
+      </div>
+    );
+  if (loading) {
+      return (
+        <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      );
+    }
+  
 
   return (
     <div className="bg-[#EBDFD7] min-h-screen p-6">
@@ -170,13 +206,13 @@ const InternalUsers = () => {
           </button>
         </div>
 
-        {users.length === 0 ? (
+        {data.length === 0 ? (
           <div className="text-center text-gray-500 py-12">
             <p className="text-lg">No users found. Add your first user!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {users.map((user) => (
+            {data.map((user) => (
               <div 
                 key={user.id} 
                 className="bg-[#F2EAE5] rounded-xl shadow-md p-4 hover:shadow-lg transition relative"

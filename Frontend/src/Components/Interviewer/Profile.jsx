@@ -1,20 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 
 const ProfilePage = () => {
-  // Initial state to store original values for discarding changes
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  // Initial state with properly defined values
   const initialProfileData = {
-    name: "Rajhav Kholi",
-    phone: "+91 98765 43210",
-    email: "rajhav@gmail.com",
-    linkedInUrl: "https://www.linkedin.com/in/rajhavkholi",
-    currentCompany: "JP Morgan Chase & Co.",
-    strength: "Backend, API Integration",
-    currentDesignation: "SDE-II",
-    experience: 10,
-    interviewExperience: "10+ Years",
-    accountHolderName: "Rajhav Kholi",
-    accountNumber: "4569-8975-1256-6582",
-    ifscCode: "SBINXXX45",
+    firstName: "",
+    phone: "",
+    email: "",
+    linkedInUrl: "",
+    currentCompany: "",
+    strength: "",
+    currentDesignation: "",
+    experienceInYears: "",
+    interviewExperience: "",
+    bankAccountHolderName: "",
+    bankAccountNumber: "",
+    bankIfscCode: "",
   };
 
   const initialProfilePhoto =
@@ -24,8 +27,44 @@ const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(initialProfilePhoto);
   const [profileData, setProfileData] = useState(initialProfileData);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
   const fileInputRef = useRef(null);
+
+  // Fetch interviewer data
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("Fetching data...");
+      
+      try {
+        const response = await axios.get(`${baseUrl}/api/v1/interviewer/getInterviewer`, {
+          withCredentials: true,
+        });
+        console.log(response.data.data.interviewer);
+        
+        setProfileData(response.data.data.interviewer);
+        // If there's a profilePhoto in response data, set it
+        if (response.data.data.interviewer.profilePhoto) {
+          setProfilePhoto(response.data.data.interviewer.profilePhoto);
+        }
+        
+        setData(response.data.data.interviewer);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
+    // Fetch initial profile photo with no-cors mode
+    fetch(initialProfilePhoto, { mode: 'no-cors' })
+      .then(() => setProfilePhoto(initialProfilePhoto))
+      .catch((error) => console.log("Error fetching initial profile photo:", error));
+
+    fetchData();
+  }, []); // Empty dependency array to run once on mount
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -62,17 +101,114 @@ const ProfilePage = () => {
 
   // Discard changes
   const handleDiscardChanges = () => {
-    // Reset to initial values
-    setProfileData(initialProfileData);
-    setProfilePhoto(initialProfilePhoto);
+    // Reset to current server data instead of initial empty values
+    setProfileData(data);
+    // Also reset profile photo to current server data
+    setProfilePhoto(data.profilePhoto || initialProfilePhoto);
     setIsEditing(false);
+  };
+
+  // Save changes - Using axios consistently like the get request
+  const handleSaveChanges = async () => {
+    setIsSaving(true);
+    
+    try {
+      if (profilePhoto !== data.profilePhoto) {
+        // For updating both profile data and photo
+        const formData = new FormData();
+
+        try {
+          // Convert the base64 string to a Blob
+          const imageFile = await fetch(profilePhoto)
+            .then((r) => {
+              if (!r.ok) throw new Error("Failed to fetch image for Blob conversion");
+              return r.blob();
+            })
+            .catch((error) => {
+              console.error("Error converting profile photo to Blob:", error);
+              throw error;
+            });
+
+          formData.append("profilePhoto", imageFile, "profile.jpg");
+        } catch (error) {
+          alert("Failed to process profile photo. Please try again.");
+          setIsSaving(false);
+          return;
+        }
+
+        // Add profile data to FormData
+        formData.append("profileData", JSON.stringify(profileData));
+
+        const response = await axios.patch(
+          `${baseUrl}/api/v1/interviewer/update-interviewer`,
+          formData,
+          {
+            withCredentials: true,
+          }
+        );
+
+        console.log("Profile updated successfully:", response.data);
+        setData(profileData);
+        setIsEditing(false);
+      } else {
+        // For updating just profile data without photo
+        const response = await axios.patch(
+          `${baseUrl}/api/v1/interviewer/update-interviewer`,
+          profileData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Profile updated successfully:", response.data);
+        setData(profileData);
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error.message || error);
+      alert("Failed to update profile. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Define fields that should always be disabled
   const alwaysDisabledFields = ["name", "email", "phone"];
 
+  // Loading Spinner Component
+  const LoadingSpinner = () => (
+    <div className="flex flex-col items-center justify-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
+      <p className="mt-4 text-lg font-medium text-gray-600">Loading profile data...</p>
+    </div>
+  );
+
+  // Saving Overlay Component
+  const SavingOverlay = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#E65F2B]"></div>
+        <p className="mt-4 text-lg font-medium">Saving changes...</p>
+      </div>
+    </div>
+  );
+
+  // Show loading indicator while data is being fetched
+  if (loading) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center">
+      {isSaving && <SavingOverlay />}
+      
       <div className="m-2 p-4 w-[95%] h-[95%] bg-[#F2EAE5] rounded-lg">
         <div>
           <p className="text-[20px] font-semibold">Profile</p>
@@ -84,7 +220,7 @@ const ProfilePage = () => {
             <div className="relative h-[130px] w-[130px] rounded-full overflow-hidden group border border-[#E65F2B]">
               <img
                 src={profilePhoto}
-                alt="profile Photo"
+                alt="Profile Photo"
                 className={`w-full h-full object-cover ${
                   isEditing ? "opacity-50" : ""
                 }`}
@@ -124,7 +260,7 @@ const ProfilePage = () => {
         {/* Personal Information Grid */}
         <div className="p-2 w-full grid grid-cols-3 gap-x-12 gap-y-3">
           {[
-            { id: "name", label: "Your Name", type: "text" },
+            { id: "firstName", label: "Your Name", type: "text" },
             { id: "phone", label: "Phone", type: "tel" },
             { id: "email", label: "Email", type: "email" },
             { id: "linkedInUrl", label: "LinkedIn Url", type: "text" },
@@ -135,7 +271,7 @@ const ProfilePage = () => {
               label: "Current Designation",
               type: "text",
             },
-            { id: "experience", label: "Experience In Years", type: "number" },
+            { id: "experienceInYears", label: "Experience In Years", type: "number" },
             {
               id: "interviewExperience",
               label: "Interview Experience",
@@ -154,7 +290,7 @@ const ProfilePage = () => {
                   <input
                     id={id}
                     type={type}
-                    value={profileData[id]}
+                    value={profileData[id] || ""}
                     onChange={handleInputChange}
                     disabled={!isEditing || alwaysDisabledFields.includes(id)}
                     className={`w-[90%] py-2 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px]
@@ -164,7 +300,7 @@ const ProfilePage = () => {
                           ? "opacity-50 cursor-not-allowed"
                           : "focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                       }`}
-                    placeholder={profileData[id]}
+                    placeholder={label}
                   />
                 </div>
               </div>
@@ -180,12 +316,12 @@ const ProfilePage = () => {
           <div className="mt-3 grid grid-cols-3 gap-x-12">
             {[
               {
-                id: "accountHolderName",
+                id: "bankAccountHolderName",
                 label: "Account Holder Name",
                 type: "text",
               },
-              { id: "accountNumber", label: "Account Number", type: "text" },
-              { id: "ifscCode", label: "IFSC Code", type: "text" },
+              { id: "bankAccountNumber", label: "Account Number", type: "text" },
+              { id: "bankIfscCode", label: "IFSC Code", type: "text" },
             ].map(({ id, label, type }) => (
               <div key={id} className="flex items-center justify-center">
                 <div className="w-full flex flex-col gap-y-[1px] max-w-md">
@@ -199,7 +335,7 @@ const ProfilePage = () => {
                     <input
                       id={id}
                       type={type}
-                      value={profileData[id]}
+                      value={profileData[id] || ""}
                       onChange={handleInputChange}
                       disabled={!isEditing}
                       className={`w-[90%] py-2 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px]
@@ -209,7 +345,7 @@ const ProfilePage = () => {
                             ? "opacity-50 cursor-not-allowed"
                             : "focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                         }`}
-                      placeholder={profileData[id]}
+                      placeholder={label}
                     />
                   </div>
                 </div>
@@ -243,12 +379,13 @@ const ProfilePage = () => {
               </div>
             )}
 
-            {/* Discard Button (Only visible when editing) */}
+            {/* Discard/Save Buttons (Only visible when editing) */}
             {isEditing && (
               <div className="flex gap-x-5">
                 <button
                   onClick={handleDiscardChanges}
                   className="bg-gray-200 text-gray-800 border border-gray-800 font-semibold text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
+                  disabled={isSaving}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -261,17 +398,33 @@ const ProfilePage = () => {
                   </svg>
                   Discard
                 </button>
-                <button className="bg-[#E65F2B] text-white font-semibold text-lg flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="22px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    fill="#ffffff"
-                  >
-                    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
-                  </svg>
-                  Save
+                <button 
+                  onClick={handleSaveChanges}
+                  className="bg-[#E65F2B] text-white font-semibold text-lg flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <span className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Saving...
+                    </span>
+                  ) : (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="22px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="#ffffff"
+                      >
+                        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+                      </svg>
+                      Save
+                    </>
+                  )}
                 </button>
               </div>
             )}
