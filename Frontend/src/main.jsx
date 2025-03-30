@@ -20,7 +20,7 @@ import { AgencyNavigationLayout,AgencyDashboard,AgencyCandidates,AgencyAddCandid
 //Internal Imports
 import {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages,RecentsInterviews} from "./Components"
 //Interviewer Imports
-import { InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables } from './Components'
+import { InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables,FetchInterviewDetails } from './Components'
 import { Hello } from './Components'
 import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
 
@@ -154,7 +154,7 @@ const router = createBrowserRouter(
 
       <Route path='interview/:meetingLink' element={<MeetingScreen />} />
       
-      
+      <Route path='fetch-interview-details' element={<FetchInterviewDetails/>} />
 
 
 
