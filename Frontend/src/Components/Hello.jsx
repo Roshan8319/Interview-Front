@@ -18,11 +18,7 @@ function Hello() {
       
           navigate('/internal/dashboard');
     }
-    const naviToAgency =() =>{
-      
-      
-          navigate('/agency/dashboard');
-    }
+   
     const naviToInterviewer =() =>{
       
       
@@ -45,10 +41,7 @@ function Hello() {
           transition ease-in-out duration-300  hover:scale-105 hover:bg-blue-700  `}>
           Internal 
         </button>
-        <button onClick={naviToAgency} className={` w-[200px] h-[50px] bg-blue-600  text-[24px] text-white font-bold border border-blue-800 rounded-3xl shadow-2xl
-          transition ease-in-out duration-300  hover:scale-105 hover:bg-blue-700  `}>
-          Agency 
-        </button>
+        
         <button onClick={naviToInterviewer} className={` w-[200px] h-[50px] bg-blue-600  text-[24px] text-white font-bold border border-blue-800 rounded-3xl shadow-2xl
           transition ease-in-out duration-300  hover:scale-105 hover:bg-blue-700  `}>
           Interviewer 

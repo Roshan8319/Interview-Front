@@ -7,9 +7,14 @@ import EveryHiringSolution from './EveryHiringSolution';
 import WhomWeSupport from './WhomWeSupport';
 import OurProduct from './OurProduct';
 import EffortlessHiring from './EffortlessHiring';
+import { useNavigate } from 'react-router-dom'
 
 
 function NavigationLayout() {
+    const navigate = useNavigate();
+    const naviToSignIn = () =>{
+        navigate('/auth/signin')
+      }
     return (
         <div className='flex flex-col min-h-screen font-montserrat-recrumeta'>
             {/* Header */}
@@ -89,7 +94,9 @@ function NavigationLayout() {
                             </button>
 
                             <button className=' flex justify-end ' >
-                                <div className='w-[116px] h-[42px] flex justify-center items-center rounded-lg border-2 border-black' >
+                                <div 
+                                onClick={naviToSignIn}
+                                className='w-[116px] h-[42px] flex justify-center items-center rounded-lg border-2 border-black' >
                                     Sign In
                                 </div>
                             </button>

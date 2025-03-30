@@ -34,7 +34,7 @@ import Background from './Components/Background'
 const router = createBrowserRouter( 
   createRoutesFromElements(
     <Route>
-      <Route path='' element={<Hello />} />
+      <Route path='' element={<LandingNavigationLayout/>} />
      
 
 
@@ -107,9 +107,9 @@ const router = createBrowserRouter(
 
 
       //Landing Routes
-      <Route path='recrumeta' element={<LandingNavigationLayout/>} >
+      {/* <Route path='/' element={<LandingNavigationLayout/>} >
 
-      </Route>
+      </Route> */}
 
 
 
