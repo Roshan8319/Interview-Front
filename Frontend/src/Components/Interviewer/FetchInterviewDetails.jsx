@@ -1,19 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock, FaUserTie, FaVideo } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function FetchInterviewDetails() {
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const location = useLocation();
+  const [token, setToken] = useState('');
+
   const [formData, setFormData] = useState({
-    date: '',
-    time: '',
-    duration: '60',
-    platform: 'zoom',
-    additionalNotes: ''
+    interviewDate: '',
+    interviewTime: '',
+    interviewStatus: 'scheduled',
+    duration: '30',
+    additionalNotes: '',
+    token: ''
   });
 
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tokenFromUrl = searchParams.get('token');
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+      setFormData(prev => ({
+        ...prev,
+        token: tokenFromUrl
+      }));
+    }
+  }, [location]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    // Validate required fields
+    if (!formData.interviewDate || !formData.interviewTime) {
+      setError('Please fill in all required fields');
+      setLoading(false);
+      return;
+    }
+
+    const dataToSend = {
+      interviewDate: formData.interviewDate,
+      interviewTime: formData.interviewTime,
+      interviewStatus: formData.interviewStatus,
+      token: token
+    };
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/v1/email/getInterviewerDetails`,
+        dataToSend,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 10000, // 10 second timeout
+        }
+      );
+
+      if (response.status === 200) {
+        setSuccess(true);
+        console.log('Success:', response.data);
+      }
+    } catch (error) {
+      let errorMessage = 'Failed to submit interview details';
+      
+      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        errorMessage = 'Connection timeout. Please try again.';
+      } else if (error.response?.data?.errorMessage) {
+        errorMessage = error.response.data.errorMessage;
+      }
+      
+      setError(errorMessage);
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -40,6 +109,16 @@ function FetchInterviewDetails() {
 
         {/* Interview Details Form */}
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
+              Interview scheduled successfully!
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Date Picker */}
             <div className="relative">
@@ -49,8 +128,8 @@ function FetchInterviewDetails() {
               </label>
               <input
                 type="date"
-                name="date"
-                value={formData.date}
+                name="interviewDate"
+                value={formData.interviewDate}
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#E65F2B] focus:border-[#E65F2B]"
                 required
@@ -65,8 +144,8 @@ function FetchInterviewDetails() {
               </label>
               <input
                 type="time"
-                name="time"
-                value={formData.time}
+                name="interviewTime"
+                value={formData.interviewTime}
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#E65F2B] focus:border-[#E65F2B]"
                 required
@@ -91,9 +170,6 @@ function FetchInterviewDetails() {
                 <option value="90">90 minutes</option>
               </select>
             </div>
-
-    
-           
           </div>
 
           {/* Additional Notes */}
@@ -114,9 +190,10 @@ function FetchInterviewDetails() {
           <div className="mt-8 flex justify-center">
             <button
               type="submit"
-              className="bg-[#E65F2B] text-white px-8 py-3 rounded-lg hover:bg-[#d54d1a] transition-colors duration-300 flex items-center gap-2"
+              disabled={loading}
+              className={`bg-[#E65F2B] text-white px-8 py-3 rounded-lg hover:bg-[#d54d1a] transition-colors duration-300 flex items-center gap-2 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              Schedule Interview
+              {loading ? 'Scheduling...' : 'Schedule Interview'}
               <FaCalendarAlt />
             </button>
           </div>
