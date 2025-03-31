@@ -23,6 +23,9 @@ const InterviewDashboard = () => {
           `${baseUrl}/api/v1/interviewer/my-appointments`,
           {
             withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
         );
         console.log(response);
