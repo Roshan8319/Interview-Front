@@ -326,7 +326,7 @@ function ResetPassword() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> 
 
             <div className="px-2 mt-5">
               <Link to="/auth/signin" className="text-[#E65F2B] text group">
