@@ -5,7 +5,7 @@ import Picture3 from '../../assets/Picture3.png'
 
 function OurProduct() {
     return (
-        <div className='relative p-4 gap-x-40 w-[90%] h-screen w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
+        <div className='relative p-4 flex flex-col lg:flex-row gap-y-8 lg:gap-x-40 w-full min-h-screen font-[Montserrat] items-center justify-center overflow-hidden' >
             <div className='absolute inset-0 z-[-10] flex justify-center items-center' >
                 <svg width="140" height="583" viewBox="0 0 140 583" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M128.023 150.247L131.624 148.354L130.937 152.364L133.851 155.203L129.825 155.788L128.023 159.437L126.223 155.788L122.197 155.203L125.11 152.364L124.422 148.354L128.023 150.247Z" fill="#F0C274" />
@@ -82,14 +82,14 @@ function OurProduct() {
                 </svg>
             </div>
 
-            <div className='w-[40%]' >
-                <div className='text-[44px] font-bold p-2' >
+            <div className='w-full lg:w-[40%] px-4' >
+                <div className='text-[28px] md:text-[36px] lg:text-[44px] font-bold p-2' >
                     <p>Our product tailored for your needs</p>
                 </div>
-                <div className='text-[18px] font-normal p-2' >
+                <div className='text-[16px] lg:text-[18px] font-normal p-2' >
                     <p>Mauris consequat, cursus pharetra et, habitasse rhoncus quis odio ac. In et dolor eu donec maecenas nulla. Cum sed orci, sit pellentesque quisque feugiat cras ullamcorper. Ultrices in amet, ullamcorper non viverra a, neque orci.</p>
                 </div>
-                <div className='flex text-[20px] font-medium justify-start items-center gap-2 p-2' >
+                <div className='flex text-[16px] md:text-[18px] lg:text-[20px] font-medium justify-start items-center gap-2 p-2' >
                     <div className='text-[#E65F2B]'>View all the features</div>
                     <div className='flex items-center justify-center'>
                         <svg width="25" height="25" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,42 +100,40 @@ function OurProduct() {
             </div>
 
 
-            <div className='w-[40%]' >
-                <div className='w-[100%] flex justify-center gap-x-5 ' >
-                    <div className='w-[225px] h-[auto] p-5 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF] ' >
-                        <div className=' flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[20px] font-medium p-2' >
+            <div className='w-full lg:w-[40%] px-4' >
+                <div className='w-full flex flex-col md:flex-row justify-center ' >
+                    <div className='w-full md:w-[225px] h-auto p-5 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]' >
+                        <div className='flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[16px] md:text-[20px] font-medium p-2' >
                             Recruiter
                         </div>
-                        <div className=' text-left' >
+                        <div className='text-left text-[14px] md:text-[16px]' >
                             <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
                         </div>
                     </div>
 
-                    <div className='w-[350px] h-[240px] flex self-end'>
-                        <img src={Picture} alt="" />
+                    <div className='w-full md:w-[350px] h-auto md:h-[200px] flex justify-center md:self-end  '>
+                        <img src={Picture} alt="" className='' />
                     </div>
                 </div>
 
-
-                <div className='w-[auto] flex justify-center gap-x-5' >
-                    <div className='w-[500px] h-[295px] flex flex-col justify-center items-start' >
-                        <img src={Picture2} alt="" />
+                <div className='w-full flex flex-col md:flex-row justify-center gap-5 ' >
+                    <div className='w-full md:w-[500px] h-auto md:h-[215px] flex flex-col justify-center ' >
+                        <img src={Picture2} alt="" className='object-contain' />
                     </div>
 
-                    <div className='w-[500px] h-[386px]' >
-                        <img src={Picture3} alt="" />
+                    <div className='w-full md:w-[500px] h-auto md:h-[255px] flex justify-center ' >
+                        <img src={Picture3} alt="" className='object-contain' />
                     </div>
                 </div>
-
             </div>
 
-            <div className='absolute z-[-10] top-20 right-20 translate-y-[50px]' >
+            <div className='absolute z-[-10] top-20 right-20 translate-y-[50px] hidden lg:block' >
                 <svg width="534" height="523" viewBox="0 0 534 523" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M507.067 167.128C533.359 219.233 544.932 292.614 520.821 363.026C496.71 433.439 435.139 475.766 349.132 503.76C187.752 556.285 34.6139 488.397 10.7346 421.154C-11.5698 358.346 -0.303894 314.587 55.7311 257.848C111.766 201.108 150.691 160.807 165.349 103.491C179.79 47.0257 198.797 13.3064 242.652 4.49137C290.085 -5.04266 339.969 1.75648 386.78 31.4528C434.536 61.7488 482.608 118.655 507.067 167.128Z" fill="#E65F2B" />
                 </svg>
             </div>
-            {/* vector */}
-            <div className='absolute flex z-[-10] top-[38%] left-[25%]'>
+            
+            <div className='absolute z-[-10] top-[38%] left-[25%] hidden lg:flex'>
                 <svg width="211" height="23" viewBox="0 0 211 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 9.24283C27.9029 6.82375 125.829 2.1188 206 9.24285C164.385 9.24285 110.163 9.96321 75.252 17.4678" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                 </svg>
