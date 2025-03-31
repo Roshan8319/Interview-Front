@@ -58,11 +58,8 @@ function SignInPage() {
     };
   }, []);
 
-  const handleLoginViaEmail = async (e) =>{
+  const handleLoginViaEmail = async (e) => {
     e.preventDefault();
-    console.log(email,password);
-    console.log(signinas);
-    
     try { 
         const targetUrl = signinas === "CLIENT"
             ? `${baseUrl}/api/v1/client/signIn`
@@ -70,34 +67,53 @@ function SignInPage() {
                 ? `${baseUrl}/api/v1/internal/signIn`
                 : `${baseUrl}/api/v1/interviewer/signIn`;
 
-        const response = await axios.post(targetUrl, { email, password });
+        const response = await axios.post(
+            targetUrl, 
+            { email, password },
+            { 
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
 
-        console.log(response);
-        const accessToken = response.data.data.accessToken;
-        const refreshToken = response.data.data.refreshToken;
+        const { accessToken, refreshToken } = response.data.data;
+        
+        // Set cookies with secure configuration
+        Cookies.set('accessToken', accessToken, {
+            expires: 1/24, // 1 hour
+            secure: false,
+            sameSite: 'None',
+            path: '/'
+        });
+
+        Cookies.set('refreshToken', refreshToken, {
+            expires: 7, // 7 days
+            secure: false,
+            sameSite: 'none',
+            path: '/'
+        });
+
         let displayName = "";
         let clientId = "";
 
         if (signinas === "CLIENT") {
             displayName = response.data.data.client.companyName;
-            clientId = response.data.data.client.clientId // Store company name
+            clientId = response.data.data.client.clientId;
         } else if (signinas === "INTERVIEWER") {
-            displayName = response.data.data.interviewer.firstName; // Store interviewer's name
+            displayName = response.data.data.interviewer.firstName;
         } 
-        
-        
-        Cookies.set('accessToken', accessToken);
-        Cookies.set('refreshToken', refreshToken);
+
         sessionStorage.setItem('displayName', displayName);
         sessionStorage.setItem('clientId', clientId);
-        
         
         if (response.status === 200) {
             const dashboardPath = signinas === "CLIENT"
                 ? "/client/dashboard"
                 : signinas === "INTERNAL"
                 ? "/internal/dashboard"
-                : "/interviewer/dashboard"
+                : "/interviewer/dashboard";
                 
             navigate(dashboardPath);
         }
