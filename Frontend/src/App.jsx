@@ -4,7 +4,6 @@ import { NavigationLayout } from './Components'
 
 function App() {
  
-
   return (
    <div>
     <NavigationLayout/>
