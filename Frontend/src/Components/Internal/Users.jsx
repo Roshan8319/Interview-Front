@@ -143,6 +143,9 @@ const InternalUsers = () => {
       const response = axios
         .get(`${baseUrl}/api/v1/internal/get-internal-users`, {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         })
         .then((res) => {
           console.log(response);
