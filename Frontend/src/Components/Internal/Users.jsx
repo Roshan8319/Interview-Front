@@ -238,6 +238,7 @@ const InternalUsers = () => {
                   <h2 className="text-lg font-semibold text-[#E65F2B] text-center">{user.firstName} {user.lastName}</h2>
                 </div>
                 
+                
                 <div className="space-y-2 text-gray-600 text-sm">
                   <div className="flex items-center">
                     <Mail className="mr-2 text-blue-500" size={16} />
