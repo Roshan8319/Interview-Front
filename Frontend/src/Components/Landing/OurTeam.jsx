@@ -5,25 +5,25 @@ import Dinanath from '../../assets/Dinanath.png'
 
 function OurTeam() {
     return (
-        <div className='bg-[#F1F5F9] p-14'>
+        <div className='bg-[#F1F5F9] p-4 sm:p-8 md:p-14'>
             <div className='relative w-full min-h-[calc(100vh-260px)] flex flex-col items-center justify-center text-[#0F172A]' >
-                <div className='w-full flex flex-col items-center justify-center'>
-                    <div className='font-normal text-[24px]' >
+                <div className='w-full flex flex-col items-center justify-center px-4'>
+                    <div className='font-normal text-[20px] md:text-[24px]' >
                         Who We Are
                     </div>
-                    <div className='text-[54px] font-semibold' >
+                    <div className='text-[36px] md:text-[54px] font-semibold text-center' >
                         <h1>Meet our team</h1>
                     </div>
-                    <div className='text-[20px] font-normal text-center' >
-                        <p>Just take a look - each member of the team is watching your every </p>
+                    <div className='text-[16px] md:text-[20px] font-normal text-center' >
+                        <p className='px-2'>Just take a look - each member of the team is watching your every </p>
                         <p>gesture and will hear your every whisper.</p>
                     </div>
                 </div>
                 {/* Profile Cards */}
-                <div className='w-full flex justify-center items-center gap-x-10 mt-8' >
-                    <div className='w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
+                <div className='w-full flex flex-col md:flex-row justify-center items-center gap-y-8 md:gap-x-10 mt-8' >
+                    <div className='w-[280px] sm:w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
                         <div className='w-full h-[60%] flex justify-center items-center' >
-                            <img src={Sumit} alt='Sumit' className='w-[310px] h-[230px] rounded-full' />
+                            <img src={Sumit} alt='Sumit' className='w-[280px] sm:w-[310px] h-[230px] rounded-full' />
                         </div>
                         <div className='w-full h-[40%] flex flex-col justify-center items-center gap-y-4' >
                             <div className='flex flex-col justify-center items-center'>
@@ -74,9 +74,9 @@ function OurTeam() {
                             </div>
                         </div>
                     </div>
-                    <div className='w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
+                    <div className='w-[280px] sm:w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
                         <div className='w-full h-[60%] flex justify-center items-center' >
-                            <img src={Roshan} alt='Roshan' className='w-[310px] h-[230px] rounded-full' />
+                            <img src={Roshan} alt='Roshan' className='w-[280px] sm:w-[310px] h-[230px] rounded-full' />
                         </div>
                         <div className='w-full h-[40%] flex flex-col justify-center items-center gap-y-4' >
                             <div className='flex flex-col justify-center items-center'>
@@ -127,9 +127,9 @@ function OurTeam() {
                             </div>
                         </div>
                     </div>
-                    <div className='w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
+                    <div className='w-[280px] sm:w-[310px] h-[378px] border-2 border-[#DCDCDC] rounded-3xl bg-[#FFFFFF]' >
                         <div className='w-full h-[60%] flex justify-center items-center' >
-                            <img src={Dinanath} alt='Dinanath' className='w-[310px] h-[230px] rounded-full' />
+                            <img src={Dinanath} alt='Dinanath' className='w-[280px] sm:w-[310px] h-[230px] rounded-full' />
                         </div>
                         <div className='w-full h-[40%] flex flex-col justify-center items-center gap-y-4' >
                             <div className='flex flex-col justify-center items-center'>
@@ -183,7 +183,7 @@ function OurTeam() {
 
                 </div>
                 {/* vector */}
-                <div className='absolute z-10 translate-x-[65%] top-[17%]'>
+                <div className='absolute z-10 translate-x-[65%] top-[17%] hidden lg:block'>
                     <svg width="171" height="22" viewBox="0 0 171 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 8.77408C22.6535 6.355 101.472 1.65006 166 8.7741C132.505 8.7741 88.8632 9.49446 60.7638 16.999" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                     </svg>
