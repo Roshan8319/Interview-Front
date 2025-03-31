@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Load from "../../assets/Load";
-
 
 function SignInPage() {
 
@@ -21,47 +19,35 @@ function SignInPage() {
   const [password,setPassword] = useState('');
   const [loading, setLoading] = useState(true);
   const [bgLoaded, setBgLoaded] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    let minLoadingTimeout;
-    const startTime = Date.now();
-    const minLoadingTime = 2000; // 2 seconds minimum loading time
-
-    // Preload background image
     const img = new Image();
     img.src = Bg;
-    
     img.onload = () => {
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
-
-      // Wait for minimum time before hiding loader
-      minLoadingTimeout = setTimeout(() => {
-        setBgLoaded(true);
-        setLoading(false);
-      }, remainingTime);
+      setBgLoaded(true);
+      setLoading(false);
     };
-
     img.onerror = () => {
       console.error('Error loading background image');
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
-
-      minLoadingTimeout = setTimeout(() => {
-        setBgLoaded(true);
-        setLoading(false);
-      }, remainingTime);
-    };
-
-    return () => {
-      if (minLoadingTimeout) clearTimeout(minLoadingTimeout);
+      setBgLoaded(true);
+      setLoading(false);
     };
   }, []);
 
+  const LoadingSpinner = () => (
+    <div className="flex flex-col items-center justify-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
+      <p className="mt-4 text-lg font-medium text-gray-600">Loading...</p>
+    </div>
+  );
+
   const handleLoginViaEmail = async (e) =>{
     e.preventDefault();
+    setIsSubmitting(true);
     console.log(email,password);
     console.log(signinas);
+    // setLoading(true)
     
     try { 
         const targetUrl = signinas === "CLIENT"
@@ -105,6 +91,7 @@ function SignInPage() {
         const errorMessage = error?.response?.data?.error?.[0]?.error || "An error occurred";
         setErrorMessage(errorMessage);
     } finally {
+        setIsSubmitting(false);
         setLoading(false);
     }
 }
@@ -114,15 +101,21 @@ function SignInPage() {
 
   return (
     <div className="w-[100%] h-[100%]">
-      {loading || !bgLoaded ? (
-        <Load />
+      {(!bgLoaded || loading) ? (
+        <div className="min-h-screen flex flex-col bg-[#EBDFD7] items-center justify-center">
+          <LoadingSpinner />
+        </div>
       ) : (
         <div
-          className="w-screen h-screen bg-cover bg-center transition-opacity duration-500 opacity-100"
+          className="w-screen h-screen bg-cover bg-center"
           style={{ backgroundImage: `url(${Bg})` }}
         >
           <div className="px-4 py-2 h-[60px] w-full bg-transparent">
-            <img src={Recrumeta} alt="Logo" style={{width:"200px", height:"50px"}}/>
+            <img
+              src={Recrumeta}
+              alt="Logo"
+              style={{ width: "200px", height: "50px" }}
+            />
           </div>
           <div className="w-full min-h-[calc(100vh-180px)] flex items-center justify-center">
             <div className="p-10 w-[500px] h-[auto] bg-white bg-opacity-45 rounded-2xl">
@@ -133,8 +126,8 @@ function SignInPage() {
                     <span className="text-[#E65F2B]">us</span>
                   </p>
                   <p className="pt-4 text-[18px] text-[#666666]">
-                    Connect to one-on-one Virtual Interviews and Professional Hiring
-                    Services
+                    Connect to one-on-one Virtual Interviews and Professional
+                    Hiring Services
                   </p>
                 </div>
                 <div className="mt-5">
@@ -269,30 +262,39 @@ function SignInPage() {
                           </div>
                         </div>
                         <div>
-                          <button onClick={handleLoginViaEmail}
-                                  class="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group">
-                            Sign in
-                            <svg
-                              width="25"
-                              height="30"
-                              viewBox="0 0 39 38"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="transform transition-transform duration-300 group-hover:translate-x-1"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M13.9583 8.98267C13.9583 8.29231 14.518 7.73267 15.2083 7.73267L29.5154 7.73267C29.847 7.73267 30.1649 7.86436 30.3993 8.09878C30.6337 8.3332 30.7654 8.65115 30.7654 8.98267L30.7654 23.2898C30.7654 23.9801 30.2058 24.5398 29.5154 24.5398C28.8251 24.5398 28.2654 23.9801 28.2654 23.2898L28.2654 10.2327L15.2083 10.2327C14.518 10.2327 13.9583 9.67302 13.9583 8.98267Z"
-                                fill="#E65F2B"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M8.5969 29.9012C8.10874 29.4131 8.10874 28.6216 8.5969 28.1335L28.4312 8.29911C28.9194 7.81095 29.7109 7.81095 30.199 8.29911C30.6872 8.78726 30.6872 9.57872 30.199 10.0669L10.3647 29.9012C9.87651 30.3894 9.08505 30.3894 8.5969 29.9012Z"
-                                fill="#E65F2B"
-                              />
-                            </svg>
+                          <button 
+                            onClick={handleLoginViaEmail}
+                            disabled={isSubmitting}
+                            className="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group w-[120px] whitespace-nowrap h-[43px]"
+                          >
+                            {isSubmitting ? (
+                              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#E65F2B]"></div>
+                            ) : (
+                              <>
+                                Sign in
+                                <svg
+                                  width="25"
+                                  height="30"
+                                  viewBox="0 0 39 38"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="transform transition-transform duration-300 group-hover:translate-x-1"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M13.9583 8.98267C13.9583 8.29231 14.518 7.73267 15.2083 7.73267L29.5154 7.73267C29.847 7.73267 30.1649 7.86436 30.3993 8.09878C30.6337 8.3332 30.7654 8.65115 30.7654 8.98267L30.7654 23.2898C30.7654 23.9801 30.2058 24.5398 29.5154 24.5398C28.8251 24.5398 28.2654 23.9801 28.2654 23.2898L28.2654 10.2327L15.2083 10.2327C14.518 10.2327 13.9583 9.67302 13.9583 8.98267Z"
+                                    fill="#E65F2B"
+                                  />
+                                  <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M8.5969 29.9012C8.10874 29.4131 8.10874 28.6216 8.5969 28.1335L28.4312 8.29911C28.9194 7.81095 29.7109 7.81095 30.199 8.29911C30.6872 8.78726 30.6872 9.57872 30.199 10.0669L10.3647 29.9012C9.87651 30.3894 9.08505 30.3894 8.5969 29.9012Z"
+                                    fill="#E65F2B"
+                                  />
+                                </svg>
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
