@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, User, Mail, Phone, Calendar } from 'lucide-react';
 import axios from 'axios';
 
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  credentials: 'include'  // Important for cookies
+});
+
 const InternalUsers = () => {
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -140,14 +151,7 @@ const InternalUsers = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      axios
-        .get(`${baseUrl}/api/v1/internal/get-internal-users`, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          }
-        })
+      api.get('/api/v1/internal/get-internal-users')
         .then((res) => {
           setData(res.data.data.users);
           setLoading(false);
