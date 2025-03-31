@@ -572,7 +572,7 @@ function Second() {
             </div>
 
             {/* lines - hidden on mobile */}
-            <div className='absolute flex z-[-10] bottom-20 justify-center hidden lg:flex'>
+            <div className='absolute  z-[-10] bottom-20 justify-center hidden lg:flex'>
                 <svg width="1095" height="79" viewBox="0 0 1095 79" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 78.4688C1 -33.5312 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
                     <path d="M274 78.4688C274 14.4688 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
