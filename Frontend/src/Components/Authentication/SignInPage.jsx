@@ -83,14 +83,14 @@ function SignInPage() {
         // Set cookies with secure configuration
         Cookies.set('accessToken', accessToken, {
             expires: 1/24, // 1 hour
-            secure: false,
+            secure: true,
             sameSite: 'None',
             path: '/'
         });
 
         Cookies.set('refreshToken', refreshToken, {
             expires: 7, // 7 days
-            secure: false,
+            secure: true,
             sameSite: 'none',
             path: '/'
         });
