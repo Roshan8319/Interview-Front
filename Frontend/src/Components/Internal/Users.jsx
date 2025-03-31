@@ -140,23 +140,23 @@ const InternalUsers = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      const response = axios
+      axios
         .get(`${baseUrl}/api/v1/internal/get-internal-users`, {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
         })
         .then((res) => {
-          console.log(response);
           setData(res.data.data.users);
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          console.error('Error fetching users:', error);
           setLoading(false);
         });
-    });
+    }, []); // Added dependency array to prevent infinite loops
     const LoadingSpinner = () => (
       <div className="flex flex-col items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
