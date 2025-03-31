@@ -235,7 +235,7 @@ const InternalUsers = () => {
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
                     <User className="text-blue-600" size={24} />
                   </div>
-                  <h2 className="text-lg font-semibold text-[#E65F2B] text-center">{user.name}</h2>
+                  <h2 className="text-lg font-semibold text-[#E65F2B] text-center">{user.firstName} {user.lastName}</h2>
                 </div>
                 
                 <div className="space-y-2 text-gray-600 text-sm">
