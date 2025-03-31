@@ -154,7 +154,7 @@ function ViewJob() {
           <div className="mb-4">
             <label className="block text-sm text-[#797979]">Job Description</label>
             <div className='w-[80%] ' >
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis labore adipisci consequatur obcaecati eum mollitia ipsa explicabo, saepe voluptatem voluptatibus asperiores illum magnam consectetur unde vero nemo amet rem repellendus?
+              Design, develop, and maintain scalable software solutions. Collaborate with cross-functional teams, write clean code, and ensure high performance. Debug, test, and optimize applications while adhering to coding standards. Demonstrate problem-solving skills, passion for technology, and continuous learning.
             </div>
           </div>
         </div>
