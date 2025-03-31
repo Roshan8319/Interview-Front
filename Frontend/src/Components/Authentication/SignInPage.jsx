@@ -13,10 +13,10 @@ function SignInPage() {
 
   const navigate = useNavigate();
 
-  const [signinas, setSigninas]= useState('');
-  const [errorMessage,setErrorMessage]=useState("");
-  const [email,setEmail] = useState('');
-  const [password,setPassword] = useState('');
+  const [signinas, setSigninas] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(true);
   const [bgLoaded, setBgLoaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,81 +42,81 @@ function SignInPage() {
     </div>
   );
 
-  const handleLoginViaEmail = async (e) =>{
+  const handleLoginViaEmail = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(email,password);
+    console.log(email, password);
     console.log(signinas);
     // setLoading(true)
-    
-    try { 
-        const targetUrl = signinas === "CLIENT"
-            ? `${baseUrl}/api/v1/client/signIn`
-            : signinas === "INTERNAL"
-                ? `${baseUrl}/api/v1/internal/signIn`
-                : `${baseUrl}/api/v1/interviewer/signIn`;
 
-        const response = await axios.post(
-            targetUrl, 
-            { email, password },
-            { 
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
+    try {
+      const targetUrl = signinas === "CLIENT"
+        ? `${baseUrl}/api/v1/client/signIn`
+        : signinas === "INTERNAL"
+          ? `${baseUrl}/api/v1/internal/signIn`
+          : `${baseUrl}/api/v1/interviewer/signIn`;
 
-        const { accessToken, refreshToken } = response.data.data;
-        
-        // Set cookies with secure configuration
-        Cookies.set('accessToken', accessToken, {
-            expires: 1/24, // 1 hour
-            secure: true,
-            sameSite: 'None',
-            path: '/'
-        });
-
-        Cookies.set('refreshToken', refreshToken, {
-            expires: 7, // 7 days
-            secure: true,
-            sameSite: 'none',
-            path: '/'
-        });
-
-        let displayName = "";
-        let clientId = "";
-
-        if (signinas === "CLIENT") {
-            displayName = response.data.data.client.companyName;
-            clientId = response.data.data.client.clientId;
-        } else if (signinas === "INTERVIEWER") {
-            displayName = response.data.data.interviewer.firstName;
-        } 
-
-        sessionStorage.setItem('displayName', displayName);
-        sessionStorage.setItem('clientId', clientId);
-        
-        if (response.status === 200) {
-            const dashboardPath = signinas === "CLIENT"
-                ? "/client/dashboard"
-                : signinas === "INTERNAL"
-                ? "/internal/dashboard"
-                : "/interviewer/dashboard";
-                
-            navigate(dashboardPath);
+      const response = await axios.post(
+        targetUrl,
+        { email, password },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
+      );
+
+      const { accessToken, refreshToken } = response.data.data;
+
+      // Set cookies with secure configuration
+      Cookies.set('accessToken', accessToken, {
+        expires: 1 / 24, // 1 hour
+        secure: true,
+        sameSite: 'None',
+        path: '/'
+      });
+
+      Cookies.set('refreshToken', refreshToken, {
+        expires: 7, // 7 days
+        secure: true,
+        sameSite: 'none',
+        path: '/'
+      });
+
+      let displayName = "";
+      let clientId = "";
+
+      if (signinas === "CLIENT") {
+        displayName = response.data.data.client.companyName;
+        clientId = response.data.data.client.clientId;
+      } else if (signinas === "INTERVIEWER") {
+        displayName = response.data.data.interviewer.firstName;
+      }
+
+      sessionStorage.setItem('displayName', displayName);
+      sessionStorage.setItem('clientId', clientId);
+
+      if (response.status === 200) {
+        const dashboardPath = signinas === "CLIENT"
+          ? "/client/dashboard"
+          : signinas === "INTERNAL"
+            ? "/internal/dashboard"
+            : "/interviewer/dashboard";
+
+        navigate(dashboardPath);
+      }
     } catch (error) {
-        const errorMessage = error?.response?.data?.error?.[0]?.error || "An error occurred";
-        setErrorMessage(errorMessage);
+      const errorMessage = error?.response?.data?.error?.[0]?.error || "An error occurred";
+      setErrorMessage(errorMessage);
     } finally {
-        setIsSubmitting(false);
-        setLoading(false);
+      setIsSubmitting(false);
+      setLoading(false);
     }
-}
+  }
 
 
-  
+
 
   return (
     <div className="w-[100%] h-[100%]">
@@ -243,7 +243,7 @@ function SignInPage() {
                             <select
                               id="role"
                               value={signinas}
-                              onChange={(e)=>setSigninas(e.target.value)}
+                              onChange={(e) => setSigninas(e.target.value)}
                               className="w-full py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 appearance-none cursor-pointer"
                             >
                               <option
@@ -281,10 +281,10 @@ function SignInPage() {
                           </div>
                         </div>
                         <div>
-                          <button 
+                          <button
                             onClick={handleLoginViaEmail}
                             disabled={isSubmitting}
-                            className="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group w-[120px] whitespace-nowrap h-[43px]"
+                            className="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group w-[130px] whitespace-nowrap h-[47px]"
                           >
                             {isSubmitting ? (
                               <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#E65F2B]"></div>
@@ -297,7 +297,7 @@ function SignInPage() {
                                   viewBox="0 0 39 38"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
-                                  className="transform transition-transform duration-300 group-hover:translate-x-1"
+                                  class="transform transition-transform duration-300 group-hover:translate-x-1"
                                 >
                                   <path
                                     fill-rule="evenodd"
@@ -322,7 +322,7 @@ function SignInPage() {
                 </div>
 
                 <div className="px-2 mt-5">
-                <Link
+                  <Link
                     to="/auth/reset-password"
                     className="text-[#E65F2B] hover:underline"
                   >

@@ -7,19 +7,19 @@ function First() {
             {/* 1st */}
             <div className='w-full lg:w-[40%] flex justify-start items-center px-4 lg:px-0'>
                 <div className='flex flex-col justify-center items-center lg:items-left gap-y-10' >
-                    <div className='text-[40px] lg:text-[60px] font-bold leading-tight text-center lg:text-left' >
-                        <p>Your Engineers Build, <br></br> We handle the interviews</p>
+                    <div className='text-[40px] lg:text-[60px] font-bold leading-tight text-center lg:text-left ' >
+                        <p className='whitespace-nowrap'>Your Engineers Build,</p><p> We handle the interviews</p>
                     </div>
                     <div className='text-[16px] lg:text-[20px] font-normal text-center lg:text-left' >
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. <br className='hidden lg:block'></br>Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,</p>
+                        <p>Focus on innovation and productivity while we streamline your hiring process. Our expert-driven interviews save time, reduce costs, and ensure top-tier talent selection.</p>
                     </div>
                     {/* vector - hidden on mobile */}
-                    <div className="hidden lg:block absolute z-10 top-[23%] left-[20%]">
+                    <div className="hidden lg:block absolute z-10 top-[29%] left-[24%]">
                         <svg width="196" height="24" viewBox="0 0 196 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.500031 9.73334C25.5 7.23335 116.5 2.37106 191 9.73336C152.328 9.73336 101.942 10.4778 69.5 18.2334" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                         </svg>
                     </div>
-                    <div className='w-full flex flex-col lg:flex-row justify-center lg:justify-left items-center gap-y-6 lg:gap-y-0 gap-x-14' >
+                    <div className='w-full flex flex-col lg:flex-row justify-start lg:justify-left items-center gap-y-6 lg:gap-y-0 gap-x-14' >
                         <button className='w-[230px] h-[54px] bg-[#E65F2B] rounded-[50px]' >
                             <div className='text-[20px] lg:text-[24px] font-bold text-white' >
                                 Sign Up Now
@@ -32,12 +32,12 @@ function First() {
                             <p className='text-[18px]'>View Demo</p>
                         </div>
                     </div>
-                    <div className='w-full flex flex-col lg:flex-row pt-10 items-center gap-y-6 lg:gap-y-0' >
-                        <div className='w-full lg:w-[25%] text-center lg:text-left' >
+                    <div className='w-full flex flex-col lg:flex-row items-center gap-x-14 gap-y-5 lg:gap-y-0' >
+                        <div className='w-full lg:w-[55%] text-center lg:text-left' >
                             <p>Trusted by</p>
                             <p>leading companies</p>
                         </div>
-                        <div className='flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-0'>
+                        <div className='w-full flex flex-wrap justify-center lg:justify-start lg:gap-10 gap-x-10'>
                             <div className='w-[32px] lg:w-[10%]'>
                                 <svg width="32" height="32" viewBox="0 0 26 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.7631 9.03779C16.7145 9.03866 17.655 9.24525 18.5233 9.64399C19.3917 10.0428 20.1683 10.6248 20.8026 11.3521L22.7883 9.51609C21.5172 8.06644 19.8497 7.04336 18.0032 6.58043C16.1568 6.11745 14.2171 6.23609 12.4373 6.92084C10.6576 7.60559 9.1204 8.82465 8.02639 10.4189C6.93233 12.0132 6.33228 13.9087 6.30445 15.8581C6.27662 17.8074 6.82236 19.7202 7.87041 21.3466C8.91851 22.973 10.4202 24.2377 12.1797 24.9756C13.9391 25.7135 15.8746 25.8903 17.7335 25.483C19.5923 25.0756 21.2884 24.1031 22.6002 22.6922L20.6596 20.8022C19.8866 21.6313 18.9253 22.2511 17.8617 22.606C16.7981 22.961 15.6652 23.0401 14.5645 22.8363C13.4638 22.6325 12.4295 22.1522 11.554 21.4382C10.6785 20.7242 9.98915 19.7988 9.5476 18.7448C9.106 17.6908 8.92593 16.541 9.02348 15.3982C9.12108 14.2554 9.4932 13.1552 10.1066 12.1959C10.7201 11.2367 11.5557 10.4483 12.5389 9.9012C13.522 9.3541 14.622 9.06542 15.7406 9.06091L15.7631 9.03779Z" fill="#64748B" />

@@ -15,8 +15,7 @@ function OurTeam() {
                         <h1>Meet our team</h1>
                     </div>
                     <div className='text-[16px] md:text-[20px] font-normal text-center' >
-                        <p className='px-2'>Just take a look - each member of the team is watching your every </p>
-                        <p>gesture and will hear your every whisper.</p>
+                        <p className='px-2'>Just take a look - each member of the team is watching your every gesture and will hear your every whisper.</p>
                     </div>
                 </div>
                 {/* Profile Cards */}
@@ -81,7 +80,7 @@ function OurTeam() {
                         <div className='w-full h-[40%] flex flex-col justify-center items-center gap-y-4' >
                             <div className='flex flex-col justify-center items-center'>
                                 <div className='text-[18px] font-semibold' >Roshan Prasad Sahu</div>
-                                <div className='text-[14px] font-normal' >Frontend & Backend Developer</div>
+                                <div className='text-[14px] font-normal' >Full Stack Developer</div>
                             </div>
 
                             <div>
@@ -183,7 +182,7 @@ function OurTeam() {
 
                 </div>
                 {/* vector */}
-                <div className='absolute z-10 translate-x-[65%] top-[17%] hidden lg:block'>
+                <div className='absolute z-10 translate-x-[65%] top-[18%] hidden lg:block'>
                     <svg width="171" height="22" viewBox="0 0 171 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 8.77408C22.6535 6.355 101.472 1.65006 166 8.7741C132.505 8.7741 88.8632 9.49446 60.7638 16.999" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                     </svg>
