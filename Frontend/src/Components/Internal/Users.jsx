@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, User, Mail, Phone, Calendar } from 'lucide-react';
 import axios from 'axios';
 
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  credentials: 'include'  // Important for cookies
+});
+
 const InternalUsers = () => {
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -140,20 +151,16 @@ const InternalUsers = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      const response = axios
-        .get(`${baseUrl}/api/v1/internal/get-internal-users`, {
-          withCredentials: true,
-        })
+      api.get('/api/v1/internal/get-internal-users')
         .then((res) => {
-          console.log(response);
           setData(res.data.data.users);
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          console.error('Error fetching users:', error);
           setLoading(false);
         });
-    });
+    }, []); // Added dependency array to prevent infinite loops
     const LoadingSpinner = () => (
       <div className="flex flex-col items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
