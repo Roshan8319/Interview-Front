@@ -6,32 +6,29 @@ import video from '../../assets/Video.mp4'
 function EffortlessHiring() {
   return (
     <div className='relative p-4 h-screen w-full font-[Montserrat] flex items-center justify-center overflow-hidden' >
-      <div className='w-[30%] absolute inset-0 z-[-10] top-[10%] left-[50%]  ' >
+      {/* Background blobs */}
+      <div className='w-[30%] absolute inset-0 z-[-10] top-[10%] left-[50%]' >
         <img src={Blob} alt="" />
       </div>
-      <div className='w-[10%] absolute inset-0 z-[-10] top-[10%] left-[40%]  ' >
+      <div className='w-[10%] absolute inset-0 z-[-10] top-[10%] left-[40%]' >
         <img src={stars} alt="" />
       </div>
+
       <div className='w-full h-full flex justify-center items-start p-10' >
-        {/* vector */}
-        <div className='absolute flex z-[-10] top-[38%] left-[4%]'>
-                <svg width="211" height="23" viewBox="0 0 211 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 9.24283C27.9029 6.82375 125.829 2.1188 206 9.24285C164.385 9.24285 110.163 9.96321 75.252 17.4678" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
-                </svg>
-            </div>
+        {/* Content Section */}
         <div className='W-[100%] h-full flex-1 flex flex-col justify-center items-start gap-y-8' >
-          <div className='text-[#0F172A] font-bold' >
-            <p className='text-[44px]' >Effortless Hiring,</p>
-            <p className='text-[38px]' >All in One Powerful Platform.</p>
+          <div className='text-[#0F172A] font-bold text-center lg:text-left' >
+            <p className='text-[32px] sm:text-[38px] lg:text-[44px]' >Effortless Hiring,</p>
+            <p className='text-[28px] sm:text-[32px] lg:text-[38px]' >All in One Powerful Platform.</p>
           </div>
           <div>
-            <ul className='text-[20px] font-normal' >
-              <li class="before:content-['✔'] before:mr-2">Est et in pharetra magna adipiscing ornare aliquam.</li>
-              <li class="before:content-['✔'] before:mr-2">Tellus arcu sed consequat ac velit ut eu blandit.</li>
-              <li class="before:content-['✔'] before:mr-2">Ullamcorper ornare in et egestas dolor orci.</li>
+            <ul className='text-[16px] sm:text-[18px] lg:text-[20px] font-normal space-y-4' >
+              <li className="before:content-['✔'] before:mr-2 before:text-[#E65F2B]">Est et in pharetra magna adipiscing ornare aliquam.</li>
+              <li className="before:content-['✔'] before:mr-2 before:text-[#E65F2B]">Tellus arcu sed consequat ac velit ut eu blandit.</li>
+              <li className="before:content-['✔'] before:mr-2 before:text-[#E65F2B]">Ullamcorper ornare in et egestas dolor orci.</li>
             </ul>
           </div>
-          <div className=' flex gap-x-2 text-[#E65F2B] text-[20px] font-medium ' >
+          <div className='flex gap-x-2 text-[#E65F2B] text-[20px] font-medium' >
             <p>Find more about the platform</p>
             <div className='flex items-center justify-center'>
               <svg width="25" height="25" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,9 +37,10 @@ function EffortlessHiring() {
             </div>
           </div>
         </div>
-        <div className="relative w-full h-full flex-1 flex flex-col justify-center items-center relative">
-          {/* Video Div */}
-          <div className="w-[595px] h-[50%] absolute z-[-2] top-9">
+
+        {/* Right Section - Keeping original code untouched */}
+        <div className="relative w-full h-full flex-1 flex flex-col justify-center items-center  ">
+          <div className="w-full lg:w-[595px] h-[50%] absolute z-[-2] top-9">
             <video
               src={video}
               loop
@@ -83,8 +81,8 @@ function EffortlessHiring() {
             </div>
           </div>
 
-          {/* Downward Divs */}
-          <div className="flex justify-center w-full h-auto gap-x-5 z-0 absolute translate-y-[30%]">
+          {/* Cards Section - Keep Original Position */}
+          <div className="hidden lg:flex justify-center w-full h-auto gap-x-5 z-0 absolute translate-y-[30%]">
             <div className="w-[25%] py-3 px-3 border flex flex-col flex-wrap gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]">
               <div className="w-fit p-1 text-[#6B21A8] bg-[#F3E8FF]">Featured</div>
               <div className="text-[16px] font-medium">The Map of Efficient Tech Hiring with AI</div>
@@ -110,9 +108,36 @@ function EffortlessHiring() {
               </div>
             </div>
           </div>
+
+          {/* Mobile Cards - Stacked Version */}
+          <div className="flex lg:hidden flex-col w-full gap-4 mt-[60%] px-4">
+            <div className="w-full py-3 px-3 border flex flex-col flex-wrap gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]">
+              <div className="w-fit p-1 text-[#6B21A8] bg-[#F3E8FF]">Featured</div>
+              <div className="text-[16px] font-medium">The Map of Efficient Tech Hiring with AI</div>
+              <div className="text-[14px] text-[#475569] font-normal">
+                Egestas elit dui scelerisque ut eu purus aliquam vitae habitasse.
+              </div>
+            </div>
+            <div className="w-full py-3 px-3 border flex flex-col flex-wrap gap-y-2 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]">
+              <div className="w-fit p-1 text-[#1E40AF] bg-[#DBEAFE]">Popular</div>
+              <div className="text-[16px] font-medium">Smart Screening</div>
+              <div className="text-[14px] text-[#475569] font-normal">
+                Aliquam ut euismod condimentum elementum ultricies volutpat sit non.
+              </div>
+              <div className="text-[14px] text-[#2563EB] w-auto border flex justify-center p-1 rounded-[8px] border-[#2563EB]">
+                Take Lessons
+              </div>
+            </div>
+            <div className="w-full py-3 px-3 border flex flex-col flex-wrap gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]">
+              <div className="w-fit p-1 text-[#166534] bg-[#DCFCE7]">Featured</div>
+              <div className="text-[16px] font-medium">International & commercial law</div>
+              <div className="text-[14px] text-[#475569] font-normal">
+                Egestas elit dui scelerisque ut eu purus aliquam vitae habitasse.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
   )
 }
