@@ -48,6 +48,7 @@ const Jobs = () => {
     // Navigate to add candidate page
     navigate('/client/candidates/addcandidate', {
       state: { jobId: jobId }
+      
     });
   };
 
@@ -158,7 +159,7 @@ const Jobs = () => {
                         </div>
                       </button>
 
-                      <button onClick={() => navigate(`/client/candidates/addcandidate`)} >
+                      <button onClick={() => handleAddCandidate(job.jobId)} >
                         <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
                           Add Candidate
                           <span>
