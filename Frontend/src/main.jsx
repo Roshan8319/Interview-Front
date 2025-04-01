@@ -9,7 +9,7 @@ import JobDetails from "./Components/Client/InterviewPlatform/VerticalNavigation
 import ViewJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ViewJob'
 
 
-//New SignIn Page
+
 import {SignInPage,ResetPassword} from './Components'
 
 
