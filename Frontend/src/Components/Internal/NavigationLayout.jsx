@@ -415,6 +415,23 @@ function NavigationLayout() {
     setIsDropdownOpen(false);
   };
 
+   const [username, setUsername] = useState("");
+        useEffect(() => {
+          const storedUsername = sessionStorage.getItem("displayName");
+          
+          if (storedUsername) {
+              setUsername(storedUsername);
+          }
+      }, []);
+  
+      const handleLogOut = async ()=>{
+        
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
+            sessionStorage.removeItem("displayName");
+            
+            navigate("/auth/signin");
+        }
 
 
   const location = useLocation();
@@ -441,7 +458,7 @@ function NavigationLayout() {
                 />
               </div>
               <div className="">
-                <p className="text-black text-xl">Roshan</p>
+                <p className="text-black text-xl">{username ? `${username}` : "Roshan"}</p>
                 {/* <p className="text-[#292D32] text-sm">Product Manager</p> */}
               </div>
               <button onClick={toggleDropdown} className="px-2 focus:outline-none">
@@ -482,6 +499,7 @@ function NavigationLayout() {
                       // onClick={handleLogOut}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
+                      onClick={handleLogOut}
                     >
                       Logout
                     </a>
