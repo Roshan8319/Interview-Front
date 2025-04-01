@@ -47,6 +47,29 @@ function NavigationLayout() {
         navigate('/auth/signin');
     };
 
+    const scrollToProduct = (e) => {
+        e.preventDefault();
+        const productSection = document.getElementById('product-section');
+        if (productSection) {
+            productSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+    const scrollToAboutUs = (e) => {
+        e.preventDefault();
+        const productSection = document.getElementById('About-us-section');
+        if (productSection) {
+            productSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+    const scrollToContactUs = (e) => {
+        e.preventDefault();
+        const productSection = document.getElementById('contact-section');
+        if (productSection) {
+            productSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+
     return (
         <div className="flex flex-col min-h-screen font-montserrat-recrumeta">
             {loading ? (
@@ -139,13 +162,13 @@ function NavigationLayout() {
 
                             {/* Desktop Navigation */}
                             <div className="hidden md:flex md:items-center md:gap-x-12">
-                                <Link to="#" className="hover:text-[#E65F2B]">
+                                <Link to="#" onClick={scrollToProduct} className="hover:text-[#E65F2B]">
                                     Product
                                 </Link>
-                                <Link to="#" className="hover:text-[#E65F2B]">
+                                <Link to="#" onClick={scrollToContactUs}  className="hover:text-[#E65F2B]">
                                     Pricing
                                 </Link>
-                                <Link to="#" className="hover:text-[#E65F2B]">
+                                <Link to="#" onClick={scrollToAboutUs} className="hover:text-[#E65F2B]">
                                     About Us
                                 </Link>
                             </div>
@@ -165,17 +188,16 @@ function NavigationLayout() {
                         </div>
 
                         {/* Mobile Menu */}
-                        {/* Mobile Menu */}
                         {isMenuOpen && (
                             <div className="md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-2000 ease-in-out">
                                 <div className="flex flex-col items-center gap-y-4 py-4 border-b border-gray-200">
-                                    <Link to="#" className="hover:text-[#E65F2B]">
+                                    <Link to="#" onClick={scrollToProduct} className="hover:text-[#E65F2B]">
                                         Product
                                     </Link>
-                                    <Link to="#" className="hover:text-[#E65F2B]">
+                                    <Link to="#" onClick={scrollToContactUs} className="hover:text-[#E65F2B]">
                                         Pricing
                                     </Link>
-                                    <Link to="#" className="hover:text-[#E65F2B]">
+                                    <Link to="#" onClick={scrollToAboutUs} className="hover:text-[#E65F2B]">
                                         About Us
                                     </Link>
                                     <button className="text-[#E65F2B] font-medium whitespace-nowrap text-sm">
@@ -197,10 +219,17 @@ function NavigationLayout() {
                         <YourEngineerBuild />
                         <EveryHiringSolution />
                         <EffortlessHiring />
+                        
                         <WhomWeSupport />
-                        <OurProduct />
+                        <div id="product-section">
+                            <OurProduct />
+                        </div>
+                        <div id='About-us-section'>
                         <OurTeam />
+                        </div>
+                        <div id='contact-section'> 
                         <GrowYourTeam />
+                        </div>
                     </div>
                     {/* Footer */}
                     <div className="bg-[#0F172A]">
