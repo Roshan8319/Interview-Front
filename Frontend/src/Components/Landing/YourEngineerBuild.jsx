@@ -1,44 +1,65 @@
-import React from 'react'
-import Group50 from '../../assets/Group50.png'
+import React from 'react';
+import Group50 from '../../assets/Group50.png';
 
 function First() {
     return (
-        <div className='p-4 w-full h-auto flex flex-col lg:flex-row justify-center items-center min-h-[calc(100vh-70px)] bg-[#FFFFFF] gap-[8%]' >
-            {/* 1st */}
+        <div className='p-4 w-full h-auto flex flex-col lg:flex-row justify-center items-center min-h-[calc(100vh-70px)] bg-[#FFFFFF] gap-6 lg:gap-[8%]'>
+            {/* 1st Section */}
             <div className='w-full lg:w-[40%] flex justify-start items-center px-4 lg:px-0'>
-                <div className='flex flex-col justify-center items-center lg:items-left gap-y-10' >
-                    <div className='text-[40px] lg:text-[60px] font-bold leading-tight text-center lg:text-left ' >
-                        <p className='whitespace-nowrap'>Your Engineers Build,</p><p> We handle the interviews</p>
+                <div className='flex flex-col justify-center items-center lg:items-start gap-y-6 lg:gap-y-10'>
+                    {/* Heading */}
+                    <div className='text-[32px] lg:text-[60px] font-bold leading-tight text-center lg:text-left'>
+                        <p className='whitespace-nowrap text-[#1E293B]'>
+                            Your Engineers Build,
+                        </p>
+                        <p className='text-[#1E293B]'>We handle the interviews</p>
                     </div>
-                    <div className='text-[16px] lg:text-[20px] font-normal text-center lg:text-left' >
-                        <p>Focus on innovation and productivity while we streamline your hiring process. Our expert-driven interviews save time, reduce costs, and ensure top-tier talent selection.</p>
-                    </div>
-                    {/* vector - hidden on mobile */}
+                    {/* Vector */}
                     <div className="hidden lg:block absolute z-10 top-[29%] left-[24%]">
                         <svg width="196" height="24" viewBox="0 0 196 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.500031 9.73334C25.5 7.23335 116.5 2.37106 191 9.73336C152.328 9.73336 101.942 10.4778 69.5 18.2334" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                         </svg>
                     </div>
-                    <div className='w-full flex flex-col lg:flex-row justify-start lg:justify-left items-center gap-y-6 lg:gap-y-0 gap-x-14' >
-                        <button className='w-[230px] h-[54px] bg-[#E65F2B] rounded-[50px]' >
-                            <div className='text-[20px] lg:text-[24px] font-bold text-white' >
+                    {/* Subheading */}
+                    <div className='text-[14px] lg:text-[20px] font-normal text-center lg:text-left text-[#475569] px-2 lg:px-0'>
+                        <p>
+                            Focus on innovation and productivity while we streamline your hiring process. Our expert-driven interviews save time, reduce costs, and ensure top-tier talent selection.
+                        </p>
+                    </div>
+                    {/* Buttons */}
+                    <div className='w-full flex flex-col lg:flex-row justify-center lg:justify-start items-center gap-y-4 lg:gap-y-0 gap-x-6 lg:gap-x-14'>
+                        <button className='w-[200px] lg:w-[230px] h-[50px] lg:h-[54px] bg-[#E65F2B] rounded-[50px] shadow-md hover:bg-[#d14f24] transition-all'>
+                            <div className='text-[18px] lg:text-[24px] font-bold text-white'>
                                 Sign Up Now
                             </div>
                         </button>
-                        <div className='flex gap-x-2' >
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20ZM16.126 13.746L12.071 16.644C11.166 17.29 9.941 17.033 9.334 16.068C9.11494 15.7171 8.99918 15.3116 9 14.898V9.102C9 7.942 9.883 7 10.972 7C11.363 7 11.746 7.124 12.071 7.356L16.126 10.254C17.031 10.901 17.272 12.206 16.666 13.171C16.5251 13.3959 16.3417 13.5913 16.126 13.746ZM10.972 9.102V14.898L15.027 12L10.972 9.102Z" fill="#2563EB" />
+                        <div className='flex gap-x-2 items-center'>
+                            <svg
+                                width='24'
+                                height='24'
+                                viewBox='0 0 24 24'
+                                fill='none'
+                                xmlns='http://www.w3.org/2000/svg'
+                            >
+                                <path
+                                    d='M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20ZM16.126 13.746L12.071 16.644C11.166 17.29 9.941 17.033 9.334 16.068C9.11494 15.7171 8.99918 15.3116 9 14.898V9.102C9 7.942 9.883 7 10.972 7C11.363 7 11.746 7.124 12.071 7.356L16.126 10.254C17.031 10.901 17.272 12.206 16.666 13.171C16.5251 13.3959 16.3417 13.5913 16.126 13.746ZM10.972 9.102V14.898L15.027 12L10.972 9.102Z'
+                                    fill='#2563EB'
+                                />
                             </svg>
-                            <p className='text-[18px]'>View Demo</p>
+                            <p className='text-[16px] lg:text-[18px] text-[#2563EB] font-medium'>
+                                View Demo
+                            </p>
                         </div>
                     </div>
-                    <div className='w-full flex flex-col lg:flex-row items-center gap-x-14 gap-y-5 lg:gap-y-0' >
-                        <div className='w-full lg:w-[55%] text-center lg:text-left' >
-                            <p>Trusted by</p>
-                            <p>leading companies</p>
+                    {/* Trusted By Section */}
+                    <div className='w-full flex flex-col lg:flex-row items-center gap-x-10 gap-y-4 lg:gap-y-0'>
+                        <div className='w-full lg:w-[55%] text-center lg:text-left text-[#475569]'>
+                            <p className='font-medium'>Trusted by</p>
+                            <p className='font-medium'>leading companies</p>
                         </div>
-                        <div className='w-full flex flex-wrap justify-center lg:justify-start lg:gap-10 gap-x-10'>
-                            <div className='w-[32px] lg:w-[10%]'>
+                        <div className='w-full flex flex-wrap justify-center lg:justify-start gap-x-6 lg:gap-x-10'>
+                            <div className='w-[28px] lg:w-[32px]'>
+                                {/* SVG icons remain unchanged */}
                                 <svg width="32" height="32" viewBox="0 0 26 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.7631 9.03779C16.7145 9.03866 17.655 9.24525 18.5233 9.64399C19.3917 10.0428 20.1683 10.6248 20.8026 11.3521L22.7883 9.51609C21.5172 8.06644 19.8497 7.04336 18.0032 6.58043C16.1568 6.11745 14.2171 6.23609 12.4373 6.92084C10.6576 7.60559 9.1204 8.82465 8.02639 10.4189C6.93233 12.0132 6.33228 13.9087 6.30445 15.8581C6.27662 17.8074 6.82236 19.7202 7.87041 21.3466C8.91851 22.973 10.4202 24.2377 12.1797 24.9756C13.9391 25.7135 15.8746 25.8903 17.7335 25.483C19.5923 25.0756 21.2884 24.1031 22.6002 22.6922L20.6596 20.8022C19.8866 21.6313 18.9253 22.2511 17.8617 22.606C16.7981 22.961 15.6652 23.0401 14.5645 22.8363C13.4638 22.6325 12.4295 22.1522 11.554 21.4382C10.6785 20.7242 9.98915 19.7988 9.5476 18.7448C9.106 17.6908 8.92593 16.541 9.02348 15.3982C9.12108 14.2554 9.4932 13.1552 10.1066 12.1959C10.7201 11.2367 11.5557 10.4483 12.5389 9.9012C13.522 9.3541 14.622 9.06542 15.7406 9.06091L15.7631 9.03779Z" fill="#64748B" />
                                     <path d="M6.78787 6.74387L4.8288 4.84845C3.29837 6.31036 2.08397 8.04806 1.25527 9.9618C0.426618 11.8755 0 13.9275 0 16C0 18.0724 0.426618 20.1244 1.25527 22.0381C2.08397 23.9519 3.29837 25.6895 4.8288 27.1515L6.78787 25.256C5.5119 24.0457 4.49886 22.6044 3.80741 21.0155C3.11602 19.4266 2.76 17.7218 2.76 16C2.76 14.2781 3.11602 12.5733 3.80741 10.9844C4.49886 9.39555 5.5119 7.95419 6.78787 6.74387Z" fill="#64748B" />
@@ -48,7 +69,7 @@ function First() {
                                     <path d="M6.06834 15.5151C6.23096 12.9646 7.34776 10.572 9.19207 8.82296C11.0364 7.07392 13.4701 6.09928 15.9995 6.0968V3.39392C12.7604 3.39382 9.64521 4.6521 7.29869 6.90834C4.95217 9.16463 3.55392 12.2461 3.39343 15.5151H6.06834Z" fill="#64748B" />
                                 </svg>
                             </div>
-                            <div className='w-[32px] lg:w-[10%]'>
+                            <div className='w-[28px] lg:w-[32px]'>
                                 <svg width="32" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M14.6358 21.7861C13.7585 21.79 12.8928 21.5774 12.1097 21.1659C11.3267 20.7544 10.6485 20.1556 10.1309 19.4187L6.52316 21.5744C6.66045 21.739 6.82297 21.8788 7.0042 21.9882L13.424 25.8375C13.7992 26.0369 14.2145 26.1408 14.6358 26.1408C15.0572 26.1408 15.4724 26.0369 15.8476 25.8375L22.2675 21.9882C22.4487 21.8788 22.6112 21.739 22.7485 21.5744L19.1501 19.3802C18.6355 20.1256 17.9577 20.7326 17.1726 21.151C16.3875 21.5694 15.5179 21.7871 14.6358 21.7861Z" fill="#64748B" />
                                     <path d="M8.98642 15.977C8.98971 14.6084 9.52163 13.289 10.4805 12.2709C11.4394 11.2528 12.758 10.6074 14.1843 10.4581V6.30981C13.9679 6.35272 13.7597 6.42718 13.5671 6.53057L6.87451 10.2098C6.51075 10.4419 6.20828 10.7512 5.99082 11.1135C5.77331 11.4757 5.64671 11.881 5.62088 12.2977V19.6562C5.62385 19.8685 5.65955 20.0793 5.72693 20.2816L9.48792 18.2121C9.15904 17.5086 8.98823 16.7472 8.98642 15.977Z" fill="#64748B" />
@@ -57,7 +78,7 @@ function First() {
                                     <path d="M10.5799 16C10.5799 16.7577 10.8178 17.4984 11.2635 18.1284C11.7092 18.7584 12.3427 19.2494 13.084 19.5394C13.8251 19.8293 14.6407 19.9052 15.4276 19.7574C16.2145 19.6095 16.9372 19.2447 17.5045 18.7089C18.0718 18.1732 18.4581 17.4905 18.6146 16.7474C18.7711 16.0042 18.6908 15.234 18.3838 14.5339C18.0768 13.8339 17.5569 13.2356 16.8898 12.8146C16.2228 12.3937 15.4385 12.169 14.6362 12.169C13.5604 12.169 12.5287 12.5726 11.768 13.2911C11.0073 14.0095 10.5799 14.984 10.5799 16Z" fill="#64748B" />
                                 </svg>
                             </div>
-                            <div className='w-[32px] lg:w-[10%]'>
+                            <div className='w-[28px] lg:w-[32px]'>
                                 <svg width="32" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.02503 6.0672L0.0575256 11.0347L5.02503 16.0022L9.99253 11.0347L5.02503 6.0672Z" fill="#64748B" />
                                     <path d="M10.001 11.0325L5.03158 6.06311C6.34848 7.38049 7.08828 9.16698 7.08828 11.0297C7.08828 12.8925 6.34848 14.6789 5.03158 15.9963L0.0621643 20.9601L5.03158 25.9295L10.001 20.9601L14.9703 15.9963L10.001 11.0325Z" fill="#CBD5E1" />
@@ -69,7 +90,7 @@ function First() {
                                     <path d="M21.0308 9.94056L25.9946 4.97118C24.6772 6.28808 22.8907 7.02789 21.028 7.02789C19.1653 7.02789 17.3788 6.28808 16.0614 4.97118L11.092 0.00177002L6.12265 4.97118L11.092 9.94056L16.0614 14.91L21.0308 9.94056Z" fill="#CBD5E1" />
                                 </svg>
                             </div>
-                            <div className='w-[32px] lg:w-[10%]'>
+                            <div className='w-[28px] lg:w-[32px]'>
                                 <svg width="32" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.9785 3.11148L19.296 6.18212L21.9921 4.62978L13.9785 0L0.593018 7.73445L3.27556 9.28679L13.9785 3.11148Z" fill="#64748B" />
                                     <path d="M24.6767 6.18213L13.9805 12.3574L8.66311 9.2868L5.97375 10.8391L13.9805 15.4621L27.3729 7.73447L24.6767 6.18213Z" fill="#64748B" />
@@ -79,16 +100,31 @@ function First() {
                                     <path d="M25.2145 10.3625V22.7131L19.897 25.7905V28.8952L27.9106 24.2654V8.81012L25.2145 10.3625Z" fill="#64748B" />
                                 </svg>
                             </div>
+                            <div className='w-[28px] lg:w-[32px]'>
+                                <svg width="35" height="32" viewBox="0 0 35 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.3003 12.9922L6.1089 9.97406L0.910645 12.9922V19.0147L6.1089 22.026L11.3003 19.0147V12.9922ZM10.1824 18.367L6.1089 20.7237L2.03534 18.367V13.6399L6.1089 11.2764L10.1824 13.6399V18.367Z" fill="#64748B" />
+                                    <path d="M22.5206 12.9853L17.5303 9.97406L12.5466 12.9853V19.0079L17.5303 22.026L22.5206 19.0079V12.9853Z" fill="#64748B" />
+                                    <path d="M28.9599 9.97406L23.7685 12.9922V19.0147L28.9599 22.026L34.1581 19.0147V12.9922L28.9599 9.97406ZM33.0335 18.367L28.9599 20.7237L24.8863 18.367V13.6399L28.9599 11.2764L33.0335 13.6399V18.367Z" fill="#64748B" />
+                                    <path d="M6.72961 22.9662V28.9888L11.9347 32L17.1192 28.9888V22.9662L11.9347 19.9481L6.72961 22.9662ZM15.9823 28.3617L11.9347 30.6977L7.82543 28.3617V23.6139L11.9347 21.2504L15.996 23.6139L15.9823 28.3617Z" fill="#64748B" />
+                                    <path d="M17.9495 22.9662V28.9888L23.1409 32L28.3391 28.9888V22.9662L23.1409 19.9481L17.9495 22.9662ZM27.2144 28.3617L23.1409 30.7184L19.0742 28.3617V23.6139L23.1409 21.2504L27.2144 23.6139V28.3617Z" fill="#64748B" />
+                                    <path d="M17.1192 9.04067V2.99749L11.9416 0L6.72961 2.99749V9.02002L11.9416 12.052L17.1192 9.04067ZM7.82688 3.68657L11.9416 1.30236L15.9946 3.68657V8.41364L11.9416 10.7496L7.82688 8.39294V3.68657Z" fill="#64748B" />
+                                    <path d="M28.3391 9.06137V3.01814L23.1409 0L17.9495 3.01814V9.04067L23.1409 12.052L28.3391 9.06137ZM19.0742 3.70722L23.1409 1.34371L27.2144 3.70722V8.43429L23.1409 10.7909L19.0742 8.43429V3.70722Z" fill="#64748B" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* 2nd */}
-            <div className='w-full lg:w-[40%] flex justify-center lg:justify-end items-end mt-10 lg:mt-0' >
-                <img src={Group50} alt="" className='w-[80%] lg:w-full'/>
+            {/* 2nd Section */}
+            <div className='w-full lg:w-[40%] flex justify-center lg:justify-end items-end mt-6 lg:mt-0'>
+                <img
+                    src={Group50}
+                    alt='Group Illustration'
+                    className='w-[90%] lg:w-full'
+                />
             </div>
         </div>
-    )
+    );
 }
 
-export default First
+export default First;

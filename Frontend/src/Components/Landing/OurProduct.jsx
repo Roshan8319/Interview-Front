@@ -5,8 +5,9 @@ import Picture3 from '../../assets/Picture3.png'
 
 function OurProduct() {
     return (
-        <div className='relative p-4 flex flex-col lg:flex-row gap-y-8 lg:gap-x-40 w-full min-h-screen font-[Montserrat] items-center justify-center overflow-hidden' >
-            <div className='absolute inset-0 z-[-10] flex justify-center items-center' >
+        <div className='relative p-4 flex flex-col lg:flex-row gap-y-8 lg:gap-x-40 w-full min-h-screen font-[Montserrat] items-center justify-center overflow-hidden'>
+            {/* Background SVG */}
+            <div className='absolute inset-0 z-[-10] flex justify-center items-center'>
                 <svg width="140" height="583" viewBox="0 0 140 583" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M128.023 150.247L131.624 148.354L130.937 152.364L133.851 155.203L129.825 155.788L128.023 159.437L126.223 155.788L122.197 155.203L125.11 152.364L124.422 148.354L128.023 150.247Z" fill="#F0C274" />
                     <g clip-path="url(#clip0_348_9299)">
@@ -82,60 +83,60 @@ function OurProduct() {
                 </svg>
             </div>
 
-            <div className='w-full lg:w-[40%] px-4' >
-                <div className='text-[28px] md:text-[36px] lg:text-[44px] font-bold p-2' >
+            {/* Left Section */}
+            <div className='w-full lg:w-[40%] px-4'>
+                <div className='text-[24px] sm:text-[28px] md:text-[36px] lg:text-[44px] font-bold p-2 text-center lg:text-left'>
                     <p>Our product tailored for your needs</p>
                 </div>
-                <div className='text-[16px] lg:text-[18px] font-normal p-2' >
-                    <p>Mauris consequat, cursus pharetra et, habitasse rhoncus quis odio ac. In et dolor eu donec maecenas nulla. Cum sed orci, sit pellentesque quisque feugiat cras ullamcorper. Ultrices in amet, ullamcorper non viverra a, neque orci.</p>
+                <div className='text-[14px] sm:text-[16px] lg:text-[18px] font-normal p-2 text-center lg:text-left'>
+                    <p>
+                        Recrumeta adapts to your unique recruitment challenges, offering seamless, efficient, and scalable solutions. Optimize hiring, reduce costs, and secure top talent effortlessly.
+                    </p>
                 </div>
-                <div className='flex text-[16px] md:text-[18px] lg:text-[20px] font-medium justify-start items-center gap-2 p-2' >
-                    <div className='text-[#E65F2B]'>View all the features</div>
+                <div className='flex flex-row flex-wrap sm:flex-row text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-medium justify-center lg:justify-start items-center gap-x-2 gap-y-0 p-2'>
+                    <div className='text-[#E65F2B] whitespace-nowrap'>View all the features</div>
                     <div className='flex items-center justify-center'>
                         <svg width="25" height="25" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.7179 10.8489C20.8466 10.9778 20.9189 11.1525 20.9189 11.3347C20.9189 11.5169 20.8466 11.6916 20.7179 11.8206L14.3131 18.2372C14.2497 18.3029 14.1739 18.3553 14.09 18.3914C14.0062 18.4275 13.916 18.4465 13.8247 18.4473C13.7334 18.4481 13.6429 18.4308 13.5584 18.3963C13.4739 18.3617 13.3971 18.3107 13.3325 18.2462C13.2679 18.1817 13.2168 18.1049 13.1822 18.0205C13.1476 17.936 13.1302 17.8455 13.1309 17.7542C13.1317 17.6629 13.1506 17.5727 13.1866 17.4888C13.2226 17.4049 13.2749 17.329 13.3406 17.2656L18.5729 12.0231L3.73205 12.0332C3.54972 12.0335 3.37475 11.9613 3.24565 11.8325C3.11654 11.7037 3.04388 11.529 3.04363 11.3466C3.04339 11.1643 3.11559 10.9893 3.24435 10.8602C3.37311 10.7311 3.54788 10.6585 3.73022 10.6582L18.5747 10.6491L13.3396 5.40389C13.274 5.34044 13.2217 5.26455 13.1857 5.18066C13.1497 5.09676 13.1308 5.00654 13.13 4.91525C13.1293 4.82397 13.1467 4.73345 13.1813 4.64897C13.2159 4.5645 13.267 4.48776 13.3316 4.42324C13.3962 4.35872 13.4729 4.30771 13.5575 4.27318C13.642 4.23865 13.7325 4.2213 13.8238 4.22214C13.9151 4.22297 14.0053 4.24198 14.0891 4.27805C14.173 4.31412 14.2488 4.36653 14.3122 4.43222L20.7179 10.8489Z" fill="#E65F2B" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M20.7179 10.8489C20.8466 10.9778 20.9189 11.1525 20.9189 11.3347C20.9189 11.5169 20.8466 11.6916 20.7179 11.8206L14.3131 18.2372C14.2497 18.3029 14.1739 18.3553 14.09 18.3914C14.0062 18.4275 13.916 18.4465 13.8247 18.4473C13.7334 18.4481 13.6429 18.4308 13.5584 18.3963C13.4739 18.3617 13.3971 18.3107 13.3325 18.2462C13.2679 18.1817 13.2168 18.1049 13.1822 18.0205C13.1476 17.936 13.1302 17.8455 13.1309 17.7542C13.1317 17.6629 13.1506 17.5727 13.1866 17.4888C13.2226 17.4049 13.2749 17.329 13.3406 17.2656L18.5729 12.0231L3.73205 12.0332C3.54972 12.0335 3.37475 11.9613 3.24565 11.8325C3.11654 11.7037 3.04388 11.529 3.04363 11.3466C3.04339 11.1643 3.11559 10.9893 3.24435 10.8602C3.37311 10.7311 3.54788 10.6585 3.73022 10.6582L18.5747 10.6491L13.3396 5.40389C13.274 5.34044 13.2217 5.26455 13.1857 5.18066C13.1497 5.09676 13.1308 5.00654 13.13 4.91525C13.1293 4.82397 13.1467 4.73345 13.1813 4.64897C13.2159 4.5645 13.267 4.48776 13.3316 4.42324C13.3962 4.35872 13.4729 4.30771 13.5575 4.27318C13.642 4.23865 13.7325 4.2213 13.8238 4.22214C13.9151 4.22297 14.0053 4.24198 14.0891 4.27805C14.173 4.31412 14.2488 4.36653 14.3122 4.43222L20.7179 10.8489Z" fill="#E65F2B" />
                         </svg>
                     </div>
                 </div>
             </div>
 
-
-            <div className='w-full lg:w-[40%] px-4' >
-                <div className='w-full flex flex-col md:flex-row justify-center ' >
-                    <div className='w-full md:w-[225px] h-auto p-5 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]' >
-                        <div className='flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[16px] md:text-[20px] font-medium p-2' >
+            {/* Right Section */}
+            <div className='w-full lg:w-[40%] px-4'>
+                <div className='w-full flex flex-col md:flex-row justify-center'>
+                    <div className='w-full md:w-[225px] h-auto p-5 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]'>
+                        <div className='flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[14px] sm:text-[16px] md:text-[20px] font-medium p-2'>
                             Recruiter
                         </div>
-                        <div className='text-left text-[14px] md:text-[16px]' >
-                            <p>Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.</p>
+                        <div className='text-left text-[12px] sm:text-[14px] md:text-[16px]'>
+                            <p>
+                                Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.
+                            </p>
                         </div>
                     </div>
 
-                    <div className='w-full md:w-[350px] h-auto md:h-[200px] flex justify-center md:self-end  '>
-                        <img src={Picture} alt="" className='' />
+                    <div className='w-full md:w-[350px] h-auto md:h-[200px] flex justify-center md:self-end'>
+                        <img src={Picture} alt="Recruiter" className='object-contain' />
                     </div>
                 </div>
 
-                <div className='w-full flex flex-col md:flex-row justify-center gap-5 ' >
-                    <div className='w-full md:w-[500px] h-auto md:h-[215px] flex flex-col justify-center ' >
-                        <img src={Picture2} alt="" className='object-contain' />
+                <div className='w-full flex flex-col md:flex-row justify-center gap-5'>
+                    <div className='w-full md:w-[500px] h-auto md:h-[215px] flex flex-col justify-center'>
+                        <img src={Picture2} alt="Feature 1" className='object-contain' />
                     </div>
 
-                    <div className='w-full md:w-[500px] h-auto md:h-[255px] flex justify-center ' >
-                        <img src={Picture3} alt="" className='object-contain' />
+                    <div className='w-full md:w-[500px] h-auto md:h-[255px] flex justify-center'>
+                        <img src={Picture3} alt="Feature 2" className='object-contain' />
                     </div>
                 </div>
             </div>
 
-            <div className='absolute z-[-10] top-20 right-20 translate-y-[50px] hidden lg:block' >
-                <svg width="534" height="523" viewBox="0 0 534 523" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M507.067 167.128C533.359 219.233 544.932 292.614 520.821 363.026C496.71 433.439 435.139 475.766 349.132 503.76C187.752 556.285 34.6139 488.397 10.7346 421.154C-11.5698 358.346 -0.303894 314.587 55.7311 257.848C111.766 201.108 150.691 160.807 165.349 103.491C179.79 47.0257 198.797 13.3064 242.652 4.49137C290.085 -5.04266 339.969 1.75648 386.78 31.4528C434.536 61.7488 482.608 118.655 507.067 167.128Z" fill="#E65F2B" />
-                </svg>
-            </div>
-            
-            <div className='absolute z-[-10] top-[38%] left-[25%] hidden lg:flex'>
-                <svg width="211" height="23" viewBox="0 0 211 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 9.24283C27.9029 6.82375 125.829 2.1188 206 9.24285C164.385 9.24285 110.163 9.96321 75.252 17.4678" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
+            {/* Decorative SVGs */}
+            <div className='absolute z-[-10] top-[20%] right-[13%] translate-y-[50px] hidden lg:block'>
+                <svg width="434" height="423" viewBox="0 0 534 523" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M507.067 167.128C533.359 219.233 544.932 292.614 520.821 363.026C496.71 433.439 435.139 475.766 349.132 503.76C187.752 556.285 34.6139 488.397 10.7346 421.154C-11.5698 358.346 -0.303894 314.587 55.7311 257.848C111.766 201.108 150.691 160.807 165.349 103.491C179.79 47.0257 198.797 13.3064 242.652 4.49137C290.085 -5.04266 339.969 1.75648 386.78 31.4528C434.536 61.7488 482.608 118.655 507.067 167.128Z" fill="#E65F2B" />
                 </svg>
             </div>
         </div>
