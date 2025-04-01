@@ -279,11 +279,10 @@ function Candidates() {
                   <button
                     key={role}
                     onClick={() => handleSelect("role", role)}
-                    className={`flex items-center justify-center px-2 py-1 border rounded-3xl text-[12px] w-auto ${
-                      selectedFilters.role === role
-                        ? "bg-[#E65F2B] text-white border-[#E65F2B]"
-                        : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
-                    }`}
+                    className={`flex items-center justify-center px-2 py-1 border rounded-3xl text-[12px] w-auto ${selectedFilters.role === role
+                      ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                      : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                      }`}
                   >
                     {/* Tick container */}
                     {selectedFilters.role === role && (
@@ -318,11 +317,10 @@ function Candidates() {
                   <button
                     key={status}
                     onClick={() => handleSelect("status", status)}
-                    className={`flex items-center justify-center px-2 py-1 border rounded-2xl text-[12px] w-auto ${
-                      selectedFilters.status === status
-                        ? "bg-[#E65F2B] text-white border-[#E65F2B]"
-                        : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
-                    }`}
+                    className={`flex items-center justify-center px-2 py-1 border rounded-2xl text-[12px] w-auto ${selectedFilters.status === status
+                      ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                      : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                      }`}
                   >
                     {/* Tick container */}
                     {selectedFilters.status === status && (
@@ -349,90 +347,86 @@ function Candidates() {
               </div>
             </div>
           </div>
-          <div className="bg-[rgba(255,255,255,0.34)] p-2 border rounded-2xl shadow mb-4 ">
-            {Array.isArray(data) ? (
-              data.map((person, index) => (
-                <div key={index} className="flex flex-col w-full">
-                  <div className="w-full flex items-center justify-evenly">
-                    <div
-                      className="w-[98%] h-[80px] grid gap-x-5"
-                      style={{
-                        gridTemplateColumns: "1fr 0.8fr 1.3fr 0.8fr 0.8fr 0.8fr",
-                      }}
+
+          {/* Table */}
+          <div className=" w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden">
+            <table className="w-[100%] h-[100%]">
+              <thead>
+                <tr className="border-b-2 border-[#E65F2B]/20">
+                  <th className="px-6 py-4 font-bold text-[#E65F2B] text-start">Name</th>
+                  <th className="px-6 py-4 font-bold text-[#E65F2B]">Role</th>
+                  <th className="px-6 py-4 font-bold text-[#E65F2B]">Email</th>
+                  <th className="px-6 py-4 font-bold text-[#E65F2B]">Score</th>
+                  <th className="px-6 py-4 font-bold text-[#E65F2B]">Date</th>
+                  <th className="px-6 py-4 font-bold text-[#E65F2B]">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(data) && data.length > 0 ? (
+                  data.map((person, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors"
                     >
-                      {/* Name and Status */}
-                      <div className="flex flex-col items-start justify-evenly">
-                        <div className="text-sm font-semibold text-[#E65F2B] cursor-pointer hover:underline">
-                          <Link to={``}>
-                            {person.firstName} {person.lastName}
-                          </Link>
-                        </div>
-                      </div>
+                      {/* Name */}
+                      <td className="px-6 py-4 max-w-max text-start">
+                        <Link
+                          to={``}
+                          className="text-sm font-semibold text-[#E65F2B] hover:underline"
+                        >
+                          {person.firstName} {person.lastName}
+                        </Link>
+                      </td>
                       {/* Role */}
-                      <div className="flex items-center justify-center">
-                        <div className="text-sm text-[#797979] text-center">
-                          {person.jobRole}
-                        </div>
-                      </div>
+                      <td className="px-6 py-4 max-w-max text-center text-sm text-[#797979]">
+                        {person.jobRole}
+                      </td>
                       {/* Email */}
-                      <div className="flex items-center justify-center">
-                        <div className="text-sm text-[#797979] text-center">
-                          {person.email}
-                        </div>
-                      </div>
+                      <td className="px-6 py-4 max-w-max text-center text-sm text-[#797979]">
+                        {person.email}
+                      </td>
                       {/* Score */}
-                      <div className="flex items-center text-[#797979] justify-center">
+                      <td className="px-6 py-4 max-w-max text-center text-sm text-[#797979]">
                         {person.score}/500
-                      </div>
+                      </td>
                       {/* Date */}
-                      <div className="flex items-center justify-center">
-                        <div className="text-sm text-[#797979] text-center">
-                          {person.createdAt}
-                        </div>
-                      </div>
+                      <td className="px-6 py-4 max-w-max text-center text-sm text-[#797979]">
+                        {person.createdAt}
+                      </td>
                       {/* Status */}
-                      <div className="flex items-center justify-center">
-                        <div className="text-sm text-black text-center">
-                          <div
-                            className={`text-sm px-4 py-[4px] rounded-full text-center bg-[#F6F1EE] ${
-                              person.interviewStatus?.toLowerCase() ===
-                              "recommended"
-                                ? "border-[1px] border-[#89E093] text-[#2EAC34] font-semibold"
-                                : person.interviewStatus?.toLowerCase() ===
-                                  "not recommended"
-                                ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold whitespace-nowrap"
-                                : person.interviewStatus?.toLowerCase() ===
-                                  "scheduled"
-                                ? "border-[1px] border-[#f1a028] text-[#d7870e] font-semibold"
-                                : person.interviewStatus?.toLowerCase() ===
-                                  "not scheduled"
-                                ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold"
-                                : "border-[1px] border-[#a6a6a6] text-[#737373] font-semibold"
+                      <td className="px-6 py-4 max-w-max text-center">
+                        <span
+                          className={`text-sm px-3 py-[4px] rounded-full text-center bg-[#F6F1EE] font-semibold ${person.interviewStatus?.toLowerCase() === "recommended"
+                            ? "border-[1px] border-[#89E093] text-[#2EAC34]"
+                            : person.interviewStatus?.toLowerCase() ===
+                              "not recommended"
+                              ? "border-[1px] border-[#E08989] text-[#AC2E2E]"
+                              : person.interviewStatus?.toLowerCase() === "scheduled"
+                                ? "border-[1px] border-[#F1A028] text-[#D7870E]"
+                                : person.interviewStatus?.toLowerCase() === "not scheduled"
+                                  ? "border-[1px] border-[#E08989] text-[#AC2E2E]"
+                                  : "border-[1px] border-[#A6A6A6] text-[#737373]"
                             }`}
-                          >
-                            {person.interviewStatus}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center w-full mt-0 mb-0">
-                    <hr
-                      style={{
-                        backgroundColor: "#f2a98d",
-                        width: "98%",
-                        height: "1px",
-                        borderRadius: "9999px",
-                        border: "none",
-                      }}
-                    />
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div>No service</div>
-            )}
+                        >
+                          {person.interviewStatus}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="px-6 py-4 text-center text-md text-[#797979]"
+                    >
+                      No Data Available
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
+
         </>
       )}
     </div>

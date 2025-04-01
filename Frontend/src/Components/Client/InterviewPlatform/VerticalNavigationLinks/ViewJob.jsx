@@ -133,7 +133,7 @@ function ViewJob() {
 
   return (
     <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7]  items-center' >
-      <div className='p-2 flex' >
+      <div className='w-[95%] p-2 flex' >
         <div className="w-[30%] p-5  ">
 
           <div className="mb-4">
@@ -154,83 +154,68 @@ function ViewJob() {
           <div className="mb-4">
             <label className="block text-sm text-[#797979]">Job Description</label>
             <div className='w-[80%] ' >
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis labore adipisci consequatur obcaecati eum mollitia ipsa explicabo, saepe voluptatem voluptatibus asperiores illum magnam consectetur unde vero nemo amet rem repellendus?
+              Design, develop, and maintain scalable software solutions. Collaborate with cross-functional teams, write clean code, and ensure high performance. Debug, test, and optimize applications while adhering to coding standards. Demonstrate problem-solving skills, passion for technology, and continuous learning.
             </div>
           </div>
         </div>
       </div>
-      <div className='w-full p-2 ' >
-        <div className="bg-[rgba(255,255,255,0.34)] p-2 border rounded-xl shadow" >
-          {currentData.map((person, index) => (
-            <div key={index} className="flex flex-col w-full">
-              <div className="w-full flex items-center justify-evenly">
-                <div
-                  className="w-[98%] h-[80px] grid gap-x-5"
-                  style={{
-                    gridTemplateColumns: "1fr 0.6fr 1.3fr 0.6fr 0.6fr 0.8fr",
-                  }}
-                >
-                  {/* Name and Status */}
-                  <div className="flex flex-col items-start justify-evenly">
-                    <div className="px-5 text-sm font-semibold text-[#E65F2B]">
-                      {person.name}
-                    </div>
-                  </div>
+
+      {/* Table */}
+      <div className=" w-[95%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden">
+        <table className="w-[100%] h-[100%]">
+          <thead>
+            <tr className="border-b-2 border-[#E65F2B]/20">
+              <th className="px-6 py-4 font-bold text-[#E65F2B] text-start">Name</th>
+              <th className="px-6 py-4 font-bold text-[#E65F2B]">Role</th>
+              <th className="px-6 py-4 font-bold text-[#E65F2B]">Email</th>
+              <th className="px-6 py-4 font-bold text-[#E65F2B]">Score</th>
+              <th className="px-6 py-4 font-bold text-[#E65F2B]">Date</th>
+              <th className="px-6 py-4 font-bold text-[#E65F2B]">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(currentData) && currentData.length > 0 ? (
+              currentData.map((person, index) => (
+                <tr key={index} className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors">
+                  {/* Name */}
+                  <td className="px-6 py-3 max-w-max text-start">{person.name}</td>
                   {/* Role */}
-                  <div className="flex items-center justify-center">
-                    <div className="text-sm text-black text-center">
-                      {person.role}
-                    </div>
-                  </div>
+                  <td className="px-6 py-3 max-w-max text-center">{person.role}</td>
                   {/* Email */}
-                  <div className="flex items-center justify-center">
-                    <div className="text-sm text-black text-center">
-                      {person.email}
-                    </div>
-                  </div>
+                  <td className="px-6 py-3 max-w-max text-center">{person.email}</td>
                   {/* Score */}
-                  <div className="flex items-center justify-center">
-                    {person.score}/500
-                  </div>
+                  <td className="px-6 py-3 max-w-max text-center">{person.score}/500</td>
                   {/* Date */}
-                  <div className="flex items-center justify-center">
-                    <div className="text-sm text-black text-center">
-                      {person.date}
-                    </div>
-                  </div>
+                  <td className="px-6 py-3 max-w-max text-center">{person.date}</td>
                   {/* Status */}
-                  <div className="flex items-center justify-center">
-                    <div className="text-sm text-black text-center">
-                      <div
-                        className={`text-sm px-4 py-[4px] rounded-full text-center bg-[#F6F1EE] ${person.status === "Recommended"
-                          ? "border-[1px] border-[#89E093] text-[#2EAC34] font-semibold"
-                          : person.status === "Not Recommended"
-                            ? "border-[1px] border-[#E08989] text-[#AC2E2E] font-semibold"
-                            : person.status === "Scheduled"
-                              ? "border-[1px] border-[#f1a028] text-[#d7870e] font-semibold"
-                              : "border-[1px] border-[#a6a6a6] text-[#737373] font-semibold"
-                          }`}
-                      >
-                        {person.status}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-center w-full mt-0 mb-0">
-                <hr
-                  style={{
-                    backgroundColor: "#f2a98d",
-                    width: "98%",
-                    height: "1px",
-                    borderRadius: "9999px",
-                    border: "none",
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+                  <td className="px-6 py-3 max-w-max text-center">
+                    <span
+                      className={`text-sm px-3 py-[4px] rounded-full text-center bg-[#F6F1EE] font-semibold  ${person.status === "Recommended"
+                        ? "border-[1px] border-[#89E093] text-[#2EAC34]"
+                        : person.status === "Not Recommended"
+                          ? "border-[1px] border-[#E08989] text-[#AC2E2E]"
+                          : person.status === "Scheduled"
+                            ? "border-[1px] border-[#F1A028] text-[#D7870E]"
+                            : "border-[1px] border-[#A6A6A6] text-[#737373]"
+                        }`}
+                    >
+                      {person.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="6"
+                  className="px-6 py-4 text-center text-md text-[#797979]"
+                >
+                  No Data Available
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   )

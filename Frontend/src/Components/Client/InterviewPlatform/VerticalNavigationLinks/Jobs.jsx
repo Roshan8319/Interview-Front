@@ -10,11 +10,11 @@ const Jobs = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [jobId, setJobId] = useState('');
-  
+
   useEffect(() => {
     // Try to get jobId from sessionStorage when component mounts
     const storedJobId = sessionStorage.getItem('jobId');
-    if(storedJobId) {
+    if (storedJobId) {
       setJobId(storedJobId);
       console.log("Retrieved jobId from session:", storedJobId);
     }
@@ -41,12 +41,12 @@ const Jobs = () => {
     // Store the jobId in sessionStorage before navigating
     sessionStorage.setItem('jobId', jobId);
     console.log("Setting jobId in session:", jobId);
-    
+
     // Set it in state as well
     setJobId(jobId);
-    
+
     // Navigate to add candidate page
-    navigate('/client/candidates/addcandidate', { 
+    navigate('/client/candidates/addcandidate', {
       state: { jobId: jobId }
     });
   };
@@ -127,62 +127,66 @@ const Jobs = () => {
           </div>
         </div>
 
-        <div className='w-[100%] bg-[rgba(255,255,255,0.34)] p-5 mt-8 rounded-lg'>
-          <div>
-            <div>
-              <table className='w-[100%] h-[100%]'>
-                <thead>
-                  <tr className="border-b-2 border-[#E65F2B]">
-                    <th className="py-2 px-4 max-w-max text-start text-md font-semibold text-black">Jobs</th>
-                    <th className="py-2 px-4 max-w-max font-semibold text-black whitespace-nowrap">Active Candidates</th>
-                  </tr>
-                </thead>
-                <tbody className=''>
-                  {Array.isArray(data) && data.length > 0 ? (
-                    data.map((job, index) => (
-                      <tr key={index} className="h-5 border-b border-[#E65F2B] space-y-2">
-                        <td className="py-2 px-4 max-w-max text-start">{job.jobRole}</td>
-                        <td className="py-2 px-4 max-w-max text-center">{job.candidateCount}</td>
-                        <td className="py-2 px-4 max-w-max flex gap-32 ml-40">
-                          <button onClick={() => navigate(`${location.pathname}/viewjob`, { state: { jobId: job.jobId } })}>
-                            <div className='bg-white text-[#E65F2B] flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group'>
-                              View↗
-                            </div>
-                          </button>
+        {/* Table */}
+        <div className=' w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden' >
+          <table className='w-[100%] h-[100%]' >
+            <thead>
+              <tr className="border-b-2 border-[#E65F2B]/20">
+                <th className="py-4 px-6 font-bold text-[#E65F2B]">Jobs</th>
+                <th className="py-4 px-6 font-bold text-[#E65F2B]">Active Candidates</th>
+                <th className="py-4 px-6 font-bold text-[#E65F2B]"></th>
+                <th className="py-4 px-6 font-bold text-[#E65F2B]"></th>
+                <th className="py-4 px-6 font-bold text-[#E65F2B]"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(data) && data.length > 0 ? (
+                data.map((job, index) => (
+                  <tr key={index} className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors">
+                    <td className=" py-3 px-6 max-w-max text-center ">{job.jobRole}</td>
+                    <td className=" py-3 px-6 max-w-max text-center ">{job.candidateCount}</td>
+                    <td className=" py-3 px-6 max-w-max flex gap-52 ml-[16%]">
+                      <button onClick={() => navigate(`${location.pathname}/viewjob`)} >
+                        <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
+                          View
+                          <div className='flex items-center justify-center'>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.2291 4.99136C7.2291 4.64619 7.50892 4.36636 7.8541 4.36636L15.0077 4.36636C15.1734 4.36636 15.3324 4.43221 15.4496 4.54942C15.5668 4.66663 15.6327 4.8256 15.6327 4.99136L15.6327 12.1449C15.6327 12.4901 15.3528 12.7699 15.0077 12.7699C14.6625 12.7699 14.3827 12.4901 14.3827 12.1449L14.3827 5.61636L7.8541 5.61636C7.50892 5.61636 7.2291 5.33654 7.2291 4.99136Z" fill="#E65F2B" />
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.54839 15.4507C4.30431 15.2066 4.30431 14.8108 4.54839 14.5668L14.4656 4.6496C14.7096 4.40552 15.1054 4.40552 15.3494 4.6496C15.5935 4.89367 15.5935 5.2894 15.3494 5.53348L5.43227 15.4507C5.18819 15.6947 4.79246 15.6947 4.54839 15.4507Z" fill="#E65F2B" />
+                            </svg>
+                          </div>
+                        </div>
+                      </button>
 
-                          <button onClick={() => handleAddCandidate(job.jobId)}>
-                            <div className='bg-white text-[#E65F2B] flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group'>
-                              Add Candidate 
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#E65F2B">
-                                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-                                </svg>
-                              </span>
-                            </div>
-                          </button>
-                        </td>
-                        <td className='py-2 px-4 max-w-max text-center ml-[50%]'>
-                          <svg fill="#000000" width="20px" height="20px" viewBox="0 0 32 32" enableBackground="new 0 0 32 32" id="Glyph" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                              <path d="M13,16c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,14.346,13,16z" id="XMLID_294_"></path>
-                              <path d="M13,26c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,24.346,13,26z" id="XMLID_295_"></path>
-                              <path d="M13,6c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,4.346,13,6z" id="XMLID_297_"></path>
-                            </g>
-                          </svg>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="4" className="py-4 text-center">No jobs available</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                      <button onClick={() => navigate(`/client/candidates/addcandidate`)} >
+                        <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
+                          Add Candidate
+                          <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#E65F2B"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                            </svg>
+                          </span>
+                        </div>
+                      </button>
+
+                    </td>
+                    <td className=" py-3 px-6 max-w-max text-center "></td>
+                    <td className='right-0 py-3 px-6 max-w-max text-center ml-[50%]' >
+                      <svg fill="#000000" width="20px" height="20px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Glyph" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M13,16c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,14.346,13,16z" id="XMLID_294_"></path><path d="M13,26c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,24.346,13,26z" id="XMLID_295_"></path><path d="M13,6c0,1.654,1.346,3,3,3s3-1.346,3-3s-1.346-3-3-3S13,4.346,13,6z" id="XMLID_297_"></path></g></svg>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="px-6 py-4 text-center text-md text-[#797979]"
+                  >
+                    No Data Available
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
