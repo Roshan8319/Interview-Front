@@ -1,11 +1,11 @@
-import React from 'react'
-import Desktop from '../../assets/Desktop.png'
+import React from 'react';
+import Desktop from '../../assets/Desktop.png';
 
 function Second() {
     return (
-        <div className='relative p-4 h-full w-full bg-[#F1F5F9] z-[-10] pb-10 pt-10 font-[Montserrat] flex items-center justify-center overflow-hidden min-h-[calc(100vh-64px)]' >
+        <div className='relative p-4 h-full w-full bg-[#F1F5F9] z-[-10] pb-6 pt-6 sm:pb-10 sm:pt-10 font-[Montserrat] flex flex-col items-center justify-center overflow-hidden min-h-[calc(100vh-64px)]'>
             {/* Background shape - hidden on mobile */}
-            <div className='absolute inset-0 z-[-10] transform translate-x-4 translate-y-4 hidden lg:block' >
+            <div className='absolute inset-0 z-[-10] transform translate-x-4 translate-y-4 hidden lg:block'>
                 <svg width="562" height="653" viewBox="0 0 562 653" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M179.312 479.667C233.321 438.448 125.714 400.253 168.43 355.919C288.142 231.672 124.898 224.621 195.638 156.602C306.093 50.3948 561.283 326.221 561.283 375.07C561.283 420.696 544.052 448.832 495.078 479.667C446.105 510.502 411.883 532.523 389.377 569.389C367.204 605.707 330.766 652.684 239.17 652.684C206.502 652.684 75.0177 638.173 62.3216 594.641C52.2367 560.063 144.85 505.967 179.312 479.667Z" fill="#F0C274" />
                     <path d="M128.023 149.748L131.624 147.855L130.937 151.865L133.851 154.704L129.825 155.289L128.023 158.938L126.223 155.289L122.197 154.704L125.11 151.865L124.422 147.855L128.023 149.748Z" fill="#E65F2B" />
@@ -82,30 +82,32 @@ function Second() {
                 </svg>
             </div>
 
-            <div className='w-full lg:w-[90%] h-full flex flex-col justify-center items-center gap-y-4 px-4 lg:px-0' >
-                <div className='flex flex-col gap-y-4 justify-center items-center' >
-                    <div className='text-[28px] sm:text-[36px] lg:text-[44px] font-bold text-[#0F172A] text-center' >
+            {/* Content Section */}
+            <div className='w-full lg:w-[90%] h-full flex flex-col justify-center items-center gap-y-6 px-4 lg:px-0'>
+                {/* Heading */}
+                <div className='flex flex-col gap-y-4 justify-center items-center'>
+                    <div className='text-[28px] sm:text-[36px] lg:text-[44px] font-bold text-[#0F172A] text-center'>
                         <p>Every Hiring Solution, One Powerful Platform.</p>
                     </div>
-                    <div className='flex flex-col text-center text-[#0F172A] text-[14px] sm:text-[16px] lg:text-[18px] px-4 lg:px-0' >
-                        <p>Sit elit feugiat turpis sed integer integer accumsan turpis. Sed suspendisse nec lorem mauris.</p>
-                        <p>Pharetra, eu imperdiet ipsum ultrices amet, dui sit suspendisse.</p>
+                    <div className='flex flex-col text-center text-[#0F172A] text-[14px] sm:text-[16px] lg:text-[18px] px-4 lg:px-0'>
+                        <p>Seamlessly manage hiring workflows from screening to selection. Our all-in-one platform streamlines recruitment, enhances efficiency, and drives smarter hiring decisions.</p>
                     </div>
                     {/* vector - hidden on mobile */}
-                    <div className='absolute z-[-10] top-26 left-[24%] hidden lg:block' >
+                    <div className='absolute z-[-10] top-[9%] left-[24%] hidden lg:block' >
                         <svg width="127" height="21" viewBox="0 0 127 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 8.61463C16.8793 6.59873 74.6798 2.67794 122 8.61465C97.4367 8.61465 65.433 9.21495 44.8268 15.4687" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                         </svg>
                     </div>
                 </div>
 
-                <div className='w-full sm:w-[90%] lg:w-[85%] h-auto lg:h-[640px] mb-5 mt-8 lg:mt-0' >
-                    <img src={Desktop} alt="" className='w-full h-full object-contain' />
+                {/* Image Section */}
+                <div className='w-full sm:w-[90%] lg:w-[85%] h-auto lg:h-[640px] mb-5 mt-8 lg:mt-0'>
+                    <img src={Desktop} alt="Desktop Illustration" className='w-full h-full object-contain' />
                 </div>
 
-                {/* Company logos - scrollable on mobile */}
-                <div className='w-full overflow-x-auto pb-4 lg:pb-0' >
-                    <div className='min-w-[1162px] lg:min-w-0'>
+                {/* Company Logos - Scrollable on Mobile */}
+                <div className='w-full pb-4 lg:pb-0 items-center lg:justify-center flex gap-x-4 lg:gap-x-0'>
+                    <div className='min-w-[1162px] lg:min-w-0 flex items-center justify-between'>
                         <svg width="1162" height="70" viewBox="0 0 1162 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="0.5" y="2.5" width="65" height="65" rx="14.5" fill="white" />
                             <rect x="0.5" y="2.5" width="65" height="65" rx="14.5" stroke="#CBD5E1" />
@@ -513,7 +515,7 @@ function Second() {
                 </div>
             </div>
 
-            {/* Background decorative elements - hidden on mobile */}
+            {/* Background Decorative Elements - Hidden on Mobile */}
             <div className="absolute z-[-10] top-0 right-0 hidden lg:block">
                 <svg width="371" height="870" viewBox="0 0 371 870" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M523.018 342.186C523.029 402.859 502.011 505.762 473.251 551.025C429.456 619.95 361.152 651.435 275.598 662.69C115.069 683.806 0.0175581 580.083 0.0175614 504.349C0.0175645 433.611 23.9191 389.991 91.8501 342.186C159.781 294.38 207.251 260.239 238.469 203.084C269.225 146.778 309.342 121.469 351.238 121.469C396.551 121.469 440.915 138.995 473.251 180.103C506.24 222.042 523.006 281.528 523.018 342.186Z" fill="#E2E8F0" />
@@ -571,8 +573,8 @@ function Second() {
                 </svg>
             </div>
 
-            {/* lines - hidden on mobile */}
-            <div className='absolute  z-[-10] bottom-20 justify-center hidden lg:flex'>
+            {/* Decorative Lines - Hidden on Mobile */}
+            <div className='absolute z-[-10] bottom-28 justify-center hidden lg:flex'>
                 <svg width="1095" height="79" viewBox="0 0 1095 79" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 78.4688C1 -33.5312 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
                     <path d="M274 78.4688C274 14.4688 548 49.4688 548 0.46875" stroke="#CBD5E1" stroke-dasharray="6 6" />
@@ -586,7 +588,7 @@ function Second() {
                 </svg>
             </div>
         </div>
-    )
+    );
 }
 
-export default Second
+export default Second;
