@@ -86,10 +86,12 @@ function GrowYourTeam() {
         </div>
 
         <div className="flex items-center justify-center">
+          <a href="mailto:recrumeta@outlook.com" target="_blank">
           <button className="group px-6 md:px-8 lg:px-10 py-3 md:py-4 bg-[#E65F2B] rounded-full text-[18px] md:text-[20px] lg:text-[24px] font-bold text-white flex items-center gap-2 md:gap-3 hover:bg-[#D54D19] transition-all duration-300 shadow-md hover:shadow-lg">
             <Send className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-12 transition-transform duration-300" />
             Contact Us
           </button>
+          </a>
         </div>
       </div>
     </div>

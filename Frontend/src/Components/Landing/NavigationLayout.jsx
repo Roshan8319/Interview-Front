@@ -338,7 +338,9 @@ function NavigationLayout() {
                                                     </svg>
                                                 </div>
                                                 <div>
+                                                <a href="tel:+917070222841" >
                                                     <p>+91-7070222841</p>
+                                                    </a>
                                                 </div>
                                             </li>
                                         </ul>
@@ -372,7 +374,9 @@ function NavigationLayout() {
                                                     </svg>
                                                 </div>
                                                 <div>
+                                                <a href="mailto:recrumeta@outlook.com" target="_blank">
                                                     <p>recrumeta@outlook.com</p>
+                                                    </a>
                                                 </div>
                                             </li>
                                         </ul>
