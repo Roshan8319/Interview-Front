@@ -17,7 +17,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
   "& .MuiDialog-paper": {
-    width: "515px", // Customize width as needed
+    width: "950px", // Customize width as needed
+    borderRadius: "1rem", // Adds rounded corners (equivalent to rounded-2xl)
+    backgroundColor: "#F2EAE5", // Change this to your desired background color
   },
 }));
 
@@ -122,7 +124,7 @@ function Interviewer() {
       <p className="mt-4 text-lg font-medium text-gray-600">Loading Interviewer data...</p>
     </div>
   );
-if (loading) {
+  if (loading) {
     return (
       <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center justify-center">
         <LoadingSpinner />
@@ -216,11 +218,10 @@ if (loading) {
                       <button
                         key={domain}
                         onClick={() => handleSelect("domain", domain)}
-                        className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
-                          selectedFilters.domain === domain
-                            ? "bg-[#E65F2B] text-white border-[#E65F2B]"
-                            : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
-                        }`}
+                        className={`flex items-center justify-center px-2 py-1 border rounded-2xl text-[12px] w-auto ${selectedFilters.domain === domain
+                          ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                          : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                          }`}
                       >
                         {/* Tick placeholder */}
 
@@ -255,11 +256,10 @@ if (loading) {
                       <button
                         key={status}
                         onClick={() => handleSelect("status", status)}
-                        className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
-                          selectedFilters.status === status
-                            ? "bg-[#E65F2B] text-white border-[#E65F2B]"
-                            : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
-                        }`}
+                        className={`flex items-center justify-center px-2 py-1 border rounded-2xl text-[12px] w-auto ${selectedFilters.status === status
+                          ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                          : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                          }`}
                       >
                         {/* Tick placeholder */}
 
@@ -292,17 +292,17 @@ if (loading) {
           </div>
 
           {/* User Table */}
-          <div className="w-full mt-5">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b-2 border-[#f0ad4e]  text-sm font-semibold text-[#2B313E]">
-                  <th className="py-2 px-4">USERS</th>
-                  <th className="py-2 px-4">EMAIL ID</th>
-                  <th className="py-2 px-4">PHONE NO</th>
-                  <th className="py-2 px-4">STRENGTH</th>
-                  <th className="py-2 px-4">LANGUAGES</th>
-                  <th className="py-2 px-4">EXPERIENCE</th>
-                  <th className="py-2 px-4"></th>
+          <div className="w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden mt-6">
+            <table className="w-[100%] h-[100%]">
+              <thead className="border-b-2 border-[#E65F2B]/20">
+                <tr className="">
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]">USERS</th>
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]">EMAIL ID</th>
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]">PHONE NO</th>
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]">STRENGTH</th>
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]">LANGUAGES</th>
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]">EXPERIENCE</th>
+                  <th className="py-4 px-6 font-bold text-[#E65F2B]"></th>
                 </tr>
               </thead>
               <tbody>
@@ -310,24 +310,22 @@ if (loading) {
                   data.map((user, index) => (
                     <tr
                       key={index}
-                      className={` bg-[#F1E5E1] h-[80px] border-b-2 border-[#f0ad4e]  `}
+                      className={`border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors text-[#797979]`}
                     >
-                      <td className="py-3 px-4 font-semibold text-[#E65F2B] text-sm">
-                        {user.firstName}
-                      </td>
-                      <td className="py-3 px-4 text-[#797979]">{user.email}</td>
-                      <td className="py-3 px-4 text-[#797979]">{user.phone}</td>
-                      <td className="py-3 px-4 text-[#797979]">
+                      <td className="py-3 px-6 max-w-max text-center text-[#000000]">{user.firstName}</td>
+                      <td className="py-3 px-6 max-w-max text-center">{user.email}</td>
+                      <td className="py-3 px-6 max-w-max text-center">{user.phone}</td>
+                      <td className="py-3 px-6 max-w-max text-center">
                         {user.strength}
                       </td>
-                      <td className="py-3 px-4 text-[#797979]">{}</td>
-                      <td className="py-3 px-4 text-[#797979]">
+                      <td className="py-3 px-6 max-w-max text-center">{ }</td>
+                      <td className="py-3 px-6 max-w-max text-center">
                         {user.experience} Years
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3 px-6 max-w-max text-center">
                         <div className="w-full flex items-center justify-between">
                           <button
-                            className="hover:scale-110 hover:duration-150 p-1 border-[3px] rounded-full border-[#f0ad4e] bg-[#000000] "
+                            className="hover:scale-110 hover:duration-150 p-1 rounded-full"
                             onClick={() => {
                               handleEditUserOpen(
                                 user.name,
@@ -337,40 +335,15 @@ if (loading) {
                               );
                             }}
                           >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332"
-                                stroke="#f0ad4e"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                d="M13.3666 2.51688L6.7999 9.08354C6.5499 9.33354 6.2999 9.82521 6.2499 10.1835L5.89157 12.6919C5.75823 13.6002 6.3999 14.2335 7.30823 14.1085L9.81657 13.7502C10.1666 13.7002 10.6582 13.4502 10.9166 13.2002L17.4832 6.63354C18.6166 5.50021 19.1499 4.18354 17.4832 2.51688C15.8166 0.850211 14.4999 1.38354 13.3666 2.51688Z"
-                                stroke="#f0ad4e"
-                                stroke-width="1.5"
-                                stroke-miterlimit="10"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                d="M12.4248 3.4585C12.9831 5.45016 14.5415 7.0085 16.5415 7.57516"
-                                stroke="#f0ad4e"
-                                stroke-width="1.5"
-                                stroke-miterlimit="10"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M1.83337 6.28562C1.83337 5.10481 2.30245 3.97237 3.13741 3.13741C3.97237 2.30245 5.10481 1.83337 6.28562 1.83337H11C11.2432 1.83337 11.4763 1.92995 11.6482 2.10186C11.8201 2.27377 11.9167 2.50693 11.9167 2.75004C11.9167 2.99316 11.8201 3.22631 11.6482 3.39822C11.4763 3.57013 11.2432 3.66671 11 3.66671H6.28562C5.59104 3.66671 4.92491 3.94263 4.43377 4.43377C3.94263 4.92491 3.66671 5.59104 3.66671 6.28562V15.7145C3.66671 16.409 3.94263 17.0752 4.43377 17.5663C4.92491 18.0575 5.59104 18.3334 6.28562 18.3334H15.7145C16.409 18.3334 17.0752 18.0575 17.5663 17.5663C18.0575 17.0752 18.3334 16.409 18.3334 15.7145V11C18.3334 10.7569 18.43 10.5238 18.6019 10.3519C18.7738 10.18 19.0069 10.0834 19.25 10.0834C19.4932 10.0834 19.7263 10.18 19.8982 10.3519C20.0701 10.5238 20.1667 10.7569 20.1667 11V15.7145C20.1667 16.8953 19.6976 18.0277 18.8627 18.8627C18.0277 19.6976 16.8953 20.1667 15.7145 20.1667H6.28562C5.10481 20.1667 3.97237 19.6976 3.13741 18.8627C2.30245 18.0277 1.83337 16.8953 1.83337 15.7145V6.28562Z" fill="black" />
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M13.8756 12.1175L11.8543 13.3367L10.9074 11.7664L12.9287 10.5472L12.9314 10.5454C13.0089 10.4987 13.0803 10.4427 13.1441 10.3786L17.7366 5.76224C17.7826 5.71586 17.8269 5.66786 17.8695 5.61832C18.1729 5.26449 18.6221 4.56416 18.0785 4.01782C17.6192 3.55582 16.9611 3.99216 16.5348 4.36707C16.4205 4.46787 16.3104 4.57338 16.2048 4.68332L16.1737 4.71449L11.6453 9.26574C11.5378 9.37262 11.4535 9.50058 11.3978 9.64157L10.6425 11.5418C10.6282 11.5776 10.6255 11.6169 10.6348 11.6543C10.6441 11.6917 10.6649 11.7252 10.6944 11.75C10.7238 11.7749 10.7603 11.7899 10.7987 11.7928C10.8371 11.7957 10.8745 11.7865 10.9074 11.7664L11.8543 13.3367C10.1997 14.334 8.22433 12.6583 8.93933 10.8635L9.69558 8.96416C9.84282 8.593 10.0643 8.25581 10.3464 7.97324L14.8738 3.42107L14.9004 3.39449C15.0352 3.25699 15.488 2.79316 16.0371 2.45949C16.3368 2.27891 16.8153 2.03966 17.4066 1.99382C18.0849 1.93974 18.8091 2.15332 19.3774 2.72441C19.8124 3.15413 20.086 3.72068 20.152 4.32857C20.1974 4.80239 20.125 5.28009 19.9412 5.71916C19.6753 6.37641 19.2317 6.85949 19.0364 7.05474L14.4439 11.6711C14.2728 11.8428 14.0834 11.9916 13.8756 12.1175ZM17.9575 5.58532C17.9575 5.58532 17.9538 5.58807 17.9456 5.59082L17.9575 5.58532Z" fill="black" />
                             </svg>
+
                           </button>
 
-                          <button className="hover:scale-110 hover:duration-150 p-1 ">
+                          {/* Delete button */}
+                          {/* <button className="hover:scale-110 hover:duration-150 p-1 ">
                             <svg
                               width="20"
                               height="20"
@@ -414,15 +387,16 @@ if (loading) {
                                 stroke-linejoin="round"
                               />
                             </svg>
-                          </button>
+                          </button> */}
+
                         </div>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="px-6 py-4 text-center">
-                      No data available
+                    <td colSpan="4" className="py-3 px-6 max-w-max text-center">
+                      No Data Available
                     </td>
                   </tr>
                 )}
@@ -436,12 +410,12 @@ if (loading) {
             aria-labelledby="edit-user-dialog-title"
             open={editUserOpen}
             BackdropProps={{
-              sx: { backgroundColor: "rgba(255, 255, 255, 0.8)" },
+              sx: { backgroundColor: "rgba(0, 0, 0, 0.40)" },
             }}
           >
             <DialogTitle id="edit-user-dialog-title" sx={{ m: 0, p: 2 }}>
-              <h1 className="font-bold text-[#056DDC] text-lg text-center">
-                EDIT USER
+              <h1 className="font-bold text-[#E65F2B] text-lg text-start">
+                Edit User
               </h1>
               <IconButton
                 aria-label="close"
@@ -457,106 +431,96 @@ if (loading) {
               </IconButton>
             </DialogTitle>
             <DialogContent dividers>
-              <div className=" w-full flex-col flex items-center justify-center custom_lg:gap-2 md:gap-y-0 ">
-                <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                  <label className="w-1/4 text-sm font-medium text-gray-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter Name"
-                    value={editUser.name}
-                    className="p-1 text-sm w-full border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-                <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                  <label className="w-1/4 text-sm font-medium text-[#6B6F7B]">
-                    Mail ID
-                  </label>
-                  <input
-                    type="mail"
-                    placeholder="Enter Mail ID"
-                    value={editUser.email}
-                    className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-                <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                  <label className="w-full text-sm font-medium text-[#6B6F7B]">
-                    Phone Number
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="enter number"
-                    value={editUser.phone}
-                    className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-                <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                  <label className="w-full text-sm font-medium text-[#6B6F7B]">
-                    Experience
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="0-4 years"
-                    value={editUser.experience}
-                    className="w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-                <div className="p-1 flex flex-col items-start custom_lg:gap-2 md:gap-0 w-full">
-                  <label className="w-full text-sm font-medium text-[#6B6F7B]">
-                    Job Assigned
-                  </label>
-                  <select
-                    onChange={handleSelection}
-                    value={selectedOption}
-                    className={`w-full p-1 text-sm border text-center border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-                      items.length === 0 ? "text-gray-500" : "text-black"
-                    } `}
-                  >
-                    <option value="" disabled>
-                      Select Roles
-                    </option>
-                    <option value="EM">EM</option>
-                    <option value="PM">PM</option>
-                    <option value="SDE II">SDE II</option>
-                    <option value="SDE III">SDE III</option>
-                    <option value="DevOps I">DevOps I</option>
-                    <option value="SDET I">SDET I</option>
-                    <option value="SDET II">SDET II</option>
-                  </select>
+              <div className="w-full flex flex-wrap gap-4 md:flex-nowrap">
+                {/* Left Column */}
+                <div className="w-full md:w-1/2 flex flex-col gap-4">
+                  <div className="p-1 flex flex-col items-start custom_lg:gap-1 md:gap-0 w-full">
+                    <label className="w-1/4 text-sm font-medium text-gray-600">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter your name"
+                      value={editUser.name}
+                      className="block w-full h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]" />
+                  </div>
+                  <div className="p-1 flex flex-col items-start custom_lg:gap-1 md:gap-0 w-full">
+                    <label className="w-1/4 text-sm font-medium text-[#6B6F7B]">
+                      Mail ID
+                    </label>
+                    <input
+                      type="mail"
+                      placeholder="Enter your email"
+                      value={editUser.email}
+                      className="block w-full h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]" />
+                  </div>
+                  <div className="p-1 flex flex-col items-start custom_lg:gap-1 md:gap-0 w-full">
+                    <label className="w-full text-sm font-medium text-[#6B6F7B]">
+                      Phone Number
+                    </label>
+                    <input
+                      placeholder="enter number"
+                      value={editUser.phone}
+                      className="block w-full h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]" />
+                  </div>
                 </div>
 
-                <div className="w-1/2 flex items-center justify-start ">
-                  <div className="w-[300px]  gap-x-4">
-                    <ul className="flex flex-wrap justify-start gap-4 items-center ">
-                      {" "}
-                      {items.map((item, index) => (
-                        <li
-                          key={index}
-                          className=" flex justify-center items-center h-[32px] border border-[#49454F] pl-1 pr-1 rounded-lg  text-[#49454F]  "
-                        >
-                          {" "}
-                          {item}{" "}
-                          <button
-                            onClick={() => removeItem(item)}
-                            className="pl-2"
+                {/* Right Column */}
+                <div className="w-full md:w-1/2 flex flex-col gap-4">
+                  <div className="p-1 flex flex-col items-start custom_lg:gap-1 md:gap-0 w-full">
+                    <label className="w-full text-sm font-medium text-[#6B6F7B]">
+                      Experience
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="0-4 Years"
+                      value={editUser.experience}
+                      className="block w-full h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]" />
+                  </div>
+                  <div className="p-1 flex flex-col items-start custom_lg:gap-1 md:gap-0 w-full">
+                    <label className="w-full text-sm font-medium text-[#6B6F7B] text-start">
+                      Job Assigned
+                    </label>
+                    <select
+                      onChange={handleSelection}
+                      value={selectedOption}
+                      className={`block w-full h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm sm:text-sm px-3 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] ${items.length === 0 ? "text-gray-500" : "text-black"
+                        } `}
+                    >
+                      <option value="" disabled>
+                        Select Roles
+                      </option>
+                      <option value="EM">EM</option>
+                      <option value="PM">PM</option>
+                      <option value="SDE II">SDE II</option>
+                      <option value="SDE III">SDE III</option>
+                      <option value="DevOps I">DevOps I</option>
+                      <option value="SDET I">SDET I</option>
+                      <option value="SDET II">SDET II</option>
+                    </select>
+                  </div>
+
+                  <div className="w-[90%] flex items-center justify-start ">
+                    <div className="flex flex-wrap gap-2 mt-[-10px]">
+                      <ul className="flex flex-wrap justify-start gap-2 items-center ">
+                        {" "}
+                        {items.map((item, index) => (
+                          <li
+                            key={index}
+                            className="flex text-[12px] items-center py-1 px-2 inline-block border-[1px] rounded-lg outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                           >
-                            <svg
-                              width="12"
-                              height="12"
-                              viewBox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            {" "}
+                            {item}{" "}
+                            <button
+                              onClick={() => removeItem(item)}
+                              className="ml-2 text-red-500 text-[12px]"
                             >
-                              <path
-                                d="M1.8 11.25L0.75 10.2L4.95 6L0.75 1.8L1.8 0.75L6 4.95L10.2 0.75L11.25 1.8L7.05 6L11.25 10.2L10.2 11.25L6 7.05L1.8 11.25Z"
-                                fill="#49454F"
-                              />
-                            </svg>
-                          </button>{" "}
-                        </li>
-                      ))}{" "}
-                    </ul>
+                              ✕
+                            </button>{" "}
+                          </li>
+                        ))}{" "}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -564,9 +528,12 @@ if (loading) {
             <DialogActions>
               <button
                 onClick={handleEditUserClose}
-                className="text-white border py-1 px-3 rounded-full bg-[#056DDC]"
+                className=" h-[40px] flex items-center gap-2 text-[#E65F2B] bg-white px-6 py-3 rounded-full text-[18px] font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px] active:shadow-md"
               >
-                SAVE
+                Save
+                <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.7179 10.8489C20.8466 10.9778 20.9189 11.1525 20.9189 11.3347C20.9189 11.5169 20.8466 11.6916 20.7179 11.8206L14.3131 18.2372C14.2497 18.3029 14.1739 18.3553 14.09 18.3914C14.0062 18.4275 13.916 18.4465 13.8247 18.4473C13.7334 18.4481 13.6429 18.4308 13.5584 18.3963C13.4739 18.3617 13.3971 18.3107 13.3325 18.2462C13.2679 18.1817 13.2168 18.1049 13.1822 18.0205C13.1476 17.936 13.1302 17.8455 13.1309 17.7542C13.1317 17.6629 13.1506 17.5727 13.1866 17.4888C13.2226 17.4049 13.2749 17.329 13.3406 17.2656L18.5729 12.0231L3.73205 12.0332C3.54972 12.0335 3.37475 11.9613 3.24565 11.8325C3.11654 11.7037 3.04388 11.529 3.04363 11.3466C3.04339 11.1643 3.11559 10.9893 3.24435 10.8602C3.37311 10.7311 3.54788 10.6585 3.73022 10.6582L18.5747 10.6491L13.3396 5.40389C13.274 5.34044 13.2217 5.26455 13.1857 5.18066C13.1497 5.09676 13.1308 5.00654 13.13 4.91525C13.1293 4.82397 13.1467 4.73345 13.1813 4.64897C13.2159 4.5645 13.267 4.48776 13.3316 4.42324C13.3962 4.35872 13.4729 4.30771 13.5575 4.27318C13.642 4.23865 13.7325 4.2213 13.8238 4.22214C13.9151 4.22297 14.0053 4.24198 14.0891 4.27805C14.173 4.31412 14.2488 4.36653 14.3122 4.43222L20.7179 10.8489Z" fill="#E65F2B" />
+                </svg>
               </button>
             </DialogActions>
           </BootstrapDialog>
