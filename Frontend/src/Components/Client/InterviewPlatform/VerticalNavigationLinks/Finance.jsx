@@ -62,7 +62,7 @@ function Finance() {
   for (let year = currentYear; year >= 2000; year--) {
     years.push(year);
   }
- 
+  
   const [filteredData, setFilteredData] = useState(data);
   const [isDataRangeEntered, setIsDataRangeEntered] = useState(false);
 
