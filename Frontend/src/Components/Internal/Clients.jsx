@@ -108,17 +108,17 @@ function Clients() {
           ...prevData,
           companyLogo: file,
         }));
-      
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("Please upload a valid image (JPEG, PNG, GIF) under 5MB");
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please upload a valid image (JPEG, PNG, GIF) under 5MB");
+      }
     }
-  }
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -127,8 +127,8 @@ function Clients() {
 
       const clientData = new FormData();
       Object.keys(formData).forEach((key) => {
-        if(key !== 'companyLogo'){
-        clientData.append(key, formData[key]);
+        if (key !== 'companyLogo') {
+          clientData.append(key, formData[key]);
         }
       });
       if (logofile) {
@@ -138,7 +138,7 @@ function Clients() {
         console.warn("No file selected for upload"); // Warn if no file is selected
       }
 
-      
+
 
       const response = await axios.post(
         `${baseUrl}/api/v1/internal/add-client`,
@@ -178,11 +178,11 @@ function Clients() {
       });
   }, []);
 
-  
+
 
   const clearImage = () => {
     setPreviewImage(null);
-    setLogofile(null); 
+    setLogofile(null);
     // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -197,7 +197,7 @@ function Clients() {
       <p className="mt-4 text-lg font-medium text-gray-600">Loading Clients data...</p>
     </div>
   );
-if (loading) {
+  if (loading) {
     return (
       <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center justify-center">
         <LoadingSpinner />
@@ -267,11 +267,10 @@ if (loading) {
                   <button
                     key={status}
                     onClick={() => handleSelect("status", status)}
-                    className={`flex items-center justify-center px-2 py-1 border rounded-md text-[12px] w-auto ${
-                      selectedFilters.status === status
-                        ? "bg-[#E65F2B] text-white border-[#E65F2B]"
-                        : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
-                    }`}
+                    className={`flex items-center justify-center px-2 py-1 border rounded-2xl text-[12px] w-auto ${selectedFilters.status === status
+                      ? "bg-[#E65F2B] text-white border-[#E65F2B]"
+                      : "bg-[#F6F1EE] text-[#E65F2B] border-[#E65F2B]"
+                      }`}
                   >
                     {/* Tick container */}
 
@@ -301,16 +300,16 @@ if (loading) {
             </div>
 
             {/* Table Section */}
-            <div className="overflow-x-auto mt-6">
-              <table className="min-w-full text-sm text-left text-gray-500 border-collapse">
-                <thead className=" text-gray-700 uppercase font-medium">
+            <div className="w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden mt-6">
+              <table className="w-[100%] h-[100%]">
+                <thead className="border-b-2 border-[#E65F2B]/20">
                   <tr>
-                    <th scope="col" className="px-6 py-4 whitespace-nowrap">
+                    <th scope="col" className="py-4 px-6 font-bold text-[#E65F2B]">
                       Client
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-4 whitespace-nowrap text-center"
+                      className="py-4 px-6 font-bold text-[#E65F2B]"
                     >
                       Active Jobs
                     </th>
@@ -319,7 +318,7 @@ if (loading) {
                     </th> */}
                     <th
                       scope="col"
-                      className="px-6 py-4 whitespace-nowrap text-center"
+                      className="py-4 px-6 font-bold text-[#E65F2B]"
                     >
                       Total Candidates
                     </th>
@@ -328,24 +327,24 @@ if (loading) {
                 <tbody>
                   {Array.isArray(data) ? (
                     data.map((client, index) => (
-                      <tr key={client.id} className="border-b border-[#f0ad4e]">
-                        <td className="px-6 py-4 text-[#E65F2B] font-bold">
+                      <tr key={client.id} className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors">
+                        <td className="py-3 px-6 max-w-max text-center">
                           {client.companyName}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="py-3 px-6 max-w-max text-center">
                           {client.totalJobs}
                         </td>
                         {/* Uncomment below if needed */}
                         {/* <td className="px-6 py-4 text-center">{client.passiveJobs}</td> */}
-                        <td className="px-6 py-4 text-center">
+                        <td className="py-3 px-6 max-w-max text-center">
                           {client.totalCandidates}
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="4" className="px-6 py-4 text-center">
-                        No data available
+                      <td colSpan="4" className="py-3 px-6 max-w-max text-center">
+                        No Data Available
                       </td>
                     </tr>
                   )}
@@ -509,17 +508,13 @@ if (loading) {
                             className="hidden"
                           />
 
-                          <div
-                            className={`
-            w-[360px] h-40 border-2 border-dashed rounded-lg flex items-center justify-center 
-            transition-all duration-300 ease-in-out bg-[#F6F1EE] border-gray-100
-            ${
-              previewImage
-                ? "border-green-500 bg-green-50"
-                : "border-gray-300 hover:border-[#e65f2b] hover:bg-[#fadfd5]"
-            }
-          `}
-                          >
+                          <div className={`w-[360px] h-40 border-2 border-dashed rounded-lg flex items-center justify-center transition-all duration-300 ease-in-out bg-[#F6F1EE] border-gray-100
+                              ${previewImage
+                              ? "border-green-500 bg-green-50"
+                              : "border-gray-300 hover:border-[#e65f2b] hover:bg-[#fadfd5]"
+                            }
+                            `}
+                            >
                             {previewImage ? (
                               <div className="relative w-full h-full flex items-center justify-center p-4">
                                 <img
@@ -540,7 +535,7 @@ if (loading) {
                               <label
                                 htmlFor="logoUpload"
                                 className="flex flex-col items-center justify-center cursor-pointer 
-                         text-gray-500 hover:text-[#e65f2b] transition-colors"
+                              text-gray-500 hover:text-[#e65f2b] transition-colors"
                               >
                                 <ImagePlus className="w-12 h-12 mb-2" />
                                 <span className="text-sm font-medium">
@@ -629,9 +624,12 @@ if (loading) {
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="px-6 py-2 border-[3px] p-2  rounded-full font-medium text-white bg-[#E65F2B]"
+                    className=" h-[40px] flex items-center gap-2 text-[#E65F2B] bg-white px-6 py-3 rounded-full text-[18px] font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px] active:shadow-md"
                   >
                     Submit
+                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M20.7179 10.8489C20.8466 10.9778 20.9189 11.1525 20.9189 11.3347C20.9189 11.5169 20.8466 11.6916 20.7179 11.8206L14.3131 18.2372C14.2497 18.3029 14.1739 18.3553 14.09 18.3914C14.0062 18.4275 13.916 18.4465 13.8247 18.4473C13.7334 18.4481 13.6429 18.4308 13.5584 18.3963C13.4739 18.3617 13.3971 18.3107 13.3325 18.2462C13.2679 18.1817 13.2168 18.1049 13.1822 18.0205C13.1476 17.936 13.1302 17.8455 13.1309 17.7542C13.1317 17.6629 13.1506 17.5727 13.1866 17.4888C13.2226 17.4049 13.2749 17.329 13.3406 17.2656L18.5729 12.0231L3.73205 12.0332C3.54972 12.0335 3.37475 11.9613 3.24565 11.8325C3.11654 11.7037 3.04388 11.529 3.04363 11.3466C3.04339 11.1643 3.11559 10.9893 3.24435 10.8602C3.37311 10.7311 3.54788 10.6585 3.73022 10.6582L18.5747 10.6491L13.3396 5.40389C13.274 5.34044 13.2217 5.26455 13.1857 5.18066C13.1497 5.09676 13.1308 5.00654 13.13 4.91525C13.1293 4.82397 13.1467 4.73345 13.1813 4.64897C13.2159 4.5645 13.267 4.48776 13.3316 4.42324C13.3962 4.35872 13.4729 4.30771 13.5575 4.27318C13.642 4.23865 13.7325 4.2213 13.8238 4.22214C13.9151 4.22297 14.0053 4.24198 14.0891 4.27805C14.173 4.31412 14.2488 4.36653 14.3122 4.43222L20.7179 10.8489Z" fill="#E65F2B" />
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -639,6 +637,7 @@ if (loading) {
           )}
         </div>
       </form>
+
     </div>
   );
 }

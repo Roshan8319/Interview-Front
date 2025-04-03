@@ -19,7 +19,7 @@
     "@zegocloud/zego-uikit-prebuilt": "^2.14.1-beta",
     "axios": "^1.8.2",
     "dayjs": "^1.11.13",
-    "framer-motion": "^12.0.6",
+    "framer-motion": "^12.6.3",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "jwt-encode": "^1.0.1",
