@@ -86,7 +86,7 @@ function OurProduct() {
             {/* Left Section */}
             <div className='w-full lg:w-[40%] px-4'>
                 <div className='text-[24px] sm:text-[28px] md:text-[36px] lg:text-[44px] font-bold p-2 text-center lg:text-left'>
-                    <p>Our product tailored for your needs</p>
+                    <p>Our product <span className='text-[#E0470C]'>tailored</span> for your needs</p>
                 </div>
                 <div className='text-[14px] sm:text-[16px] lg:text-[18px] font-normal p-2 text-center lg:text-left'>
                     <p>

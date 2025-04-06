@@ -95,7 +95,7 @@ function WhomWeSupport() {
                 {/* Text Section */}
                 <div className="flex flex-col gap-y-4 justify-center items-center px-4 lg:px-0">
                     <div className="flex justify-center items-center text-[24px] md:text-[36px] lg:text-[44px] font-bold text-center">
-                        <p>Whom we support?</p>
+                        <p>Whom we <span className='text-[#E0470C]'>support</span>?</p>
                     </div>
                     <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-14">
                         {/* Card 1 */}
