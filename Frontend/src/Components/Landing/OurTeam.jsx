@@ -89,7 +89,7 @@ const TeamCard = ({ member }) => (
 
 function OurTeam() {
     return (
-        <div className="bg-gray-100 p-4 sm:p-8 md:p-14">
+        <div className="bg-[#F1F5F9] p-4 sm:p-8 md:p-14">
             <div className="relative w-full min-h-[calc(100vh-260px)] flex flex-col items-center justify-center text-gray-800">
                 <div className="w-full flex flex-col items-center justify-center px-4">
                     <div className="font-normal text-[20px] md:text-[24px]">Who We Are</div>

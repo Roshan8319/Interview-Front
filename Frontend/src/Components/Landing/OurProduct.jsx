@@ -1,7 +1,7 @@
 import React from 'react'
-import Picture from '../../assets/Picture.png'
-import Picture2 from '../../assets/Picture2.png'
-import Picture3 from '../../assets/Picture3.png'
+import Picture from '../../assets/Picture.jpg'
+import Picture2 from '../../assets/Picture2.jpg'
+import Picture3 from '../../assets/Picture3.jpg'
 
 function OurProduct() {
     return (
@@ -104,7 +104,7 @@ function OurProduct() {
             </div>
 
             {/* Right Section */}
-            <div className='w-full lg:w-[40%] px-4'>
+            {/* <div className='w-full lg:w-[40%] px-4'>
                 <div className='w-full flex flex-col md:flex-row justify-center'>
                     <div className='w-full md:w-[225px] h-auto p-5 border flex flex-col justify-center items-start gap-y-1 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF]'>
                         <div className='flex justify-center items-center rounded-lg text-[#166534] bg-[#DCFCE7] text-[14px] sm:text-[16px] md:text-[20px] font-medium p-2'>
@@ -131,11 +131,61 @@ function OurProduct() {
                         <img src={Picture3} alt="Feature 2" className='object-contain' />
                     </div>
                 </div>
+            </div> */}
+
+
+            {/* Right Section */}
+            <div className='w-full lg:w-[40%]'>
+                <div className='w-full flex flex-col gap-5'>
+                    <div className='grid grid-cols-2 gap-4'>
+                        {/* Recruiter Card */}
+                        <div className='col-span-1 sm:p-5 p-2 border flex flex-col justify-between items-start gap-y-1 sm:gap-y-2 border-[#FFFFFF] shadow-lg rounded-[10px] bg-[#FFFFFF] sm:h-[190px] sm:w-[320px] h-[155px] w-[230px] '>
+                            {/* Recruiter Card Title */}
+                            <div className='flex justify-center items-center rounded-md text-[#166534] bg-[#DCFCE7] text-[12px] sm:text-[12px] md:text-[14px] font-medium p-1'>
+                                Recruiter
+                            </div>
+
+                            {/* Recruiter Card Description */}
+                            <div className='text-left text-[12px] sm:text-[12px] md:text-[14px]'>
+                                <p>
+                                    Recruiting top engineering talent is challenging - Recrumeta makes it easy. Our modern platform empowers recruiters to efficiently source, engage, and hire qualified engineers.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* First Image */}
+                        <div className='sm:ml-[17%] ml-[25%] col-span-1 sm:h-[190px] sm:w-[220px] h-[155px] w-[136px]'>
+                            <img
+                                src={Picture}
+                                alt="Recruiter"
+                                className='w-full h-full object-cover rounded-lg shadow-md border-4 border-white'
+                            />
+                        </div>
+
+                        {/* Bottom Images */}
+                        <div className='col-span-1 sm:h-[240px] sm:w-[167px] h-[179px] w-[100px]'>
+                            <img
+                                src={Picture2}
+                                alt="Feature 1"
+                                className='w-full h-full object-cover rounded-lg shadow-md border-4 border-white'
+                            />
+                        </div>
+                        <div className='sm:ml-[-38%] ml-[-48%] col-span-1 sm:h-[240px] sm:w-[373px] h-[179px] w-[270px]'>
+                            <img
+                                src={Picture3}
+                                alt="Feature 2"
+                                className='w-full h-full object-cover rounded-lg shadow-md border-4 border-white'
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
 
+
+
             {/* Decorative SVGs */}
-            <div className='absolute z-[-10] top-[20%] right-[13%] translate-y-[50px] hidden lg:block'>
-                <svg width="434" height="423" viewBox="0 0 534 523" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className='absolute z-[-10] top-[12%] right-[8%] translate-y-[50px] hidden lg:block'>
+                <svg width="534" height="523" viewBox="0 0 534 523" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" clipRule="evenodd" d="M507.067 167.128C533.359 219.233 544.932 292.614 520.821 363.026C496.71 433.439 435.139 475.766 349.132 503.76C187.752 556.285 34.6139 488.397 10.7346 421.154C-11.5698 358.346 -0.303894 314.587 55.7311 257.848C111.766 201.108 150.691 160.807 165.349 103.491C179.79 47.0257 198.797 13.3064 242.652 4.49137C290.085 -5.04266 339.969 1.75648 386.78 31.4528C434.536 61.7488 482.608 118.655 507.067 167.128Z" fill="#E65F2B" />
                 </svg>
             </div>
