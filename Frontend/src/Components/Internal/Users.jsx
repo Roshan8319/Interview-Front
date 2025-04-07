@@ -327,13 +327,13 @@ const InternalUsers = () => {
                 
                 <div className="flex flex-col items-center mb-3">
                   {user.profilePhoto ? (
-                    <div className="w-12 h-12 rounded-full overflow-hidden mb-2">
+                    <div className="w-24 h-24 rounded-full overflow-hidden mb-2">
                       <img 
                         src={user.profilePhoto} // Cloudinary URL is already complete
                         alt={`${user.name}'s profile`}
                         className="w-full h-full object-cover"
                       />
-                      
+
                     </div>
                   ) : (
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
