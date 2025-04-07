@@ -7,6 +7,14 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const VISITOR_ACCOUNTS = {
+  CLIENT: { email: 'support@zomato.com', password: '1234' },
+  INTERNAL: { email: 'aarav@gmail.co', password: '1234' },
+  INTERVIEWER: { email: 'sumit.kumar.mahto341@gmail.com', password: '1234' }
+};
+
+
+
 function SignInPage() {
 
   const baseUrl = import.meta.env.VITE_BASE_URL
@@ -20,6 +28,17 @@ function SignInPage() {
   const [loading, setLoading] = useState(true);
   const [bgLoaded, setBgLoaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleVisitorLogin = (role) => {
+    setSigninas(role);
+    setEmail(VISITOR_ACCOUNTS[role].email);
+    setPassword(VISITOR_ACCOUNTS[role].password);
+    // Auto trigger sign-in after a short delay to allow state updates
+    setTimeout(() => {
+      const fakeEvent = { preventDefault: () => {} };
+      handleLoginViaEmail(fakeEvent);
+    }, 100);
+  };
 
   useEffect(() => {
     const img = new Image();
@@ -137,14 +156,14 @@ function SignInPage() {
             />
           </div>
           <div className="w-full min-h-[calc(100vh-180px)] flex items-center justify-center">
-            <div className="p-10 w-[500px] h-[auto] bg-white bg-opacity-45 rounded-2xl">
-              <div className="w-full h-full">
+            <div className="p-8 w-[500px] bg-white bg-opacity-45 rounded-2xl">
+              <div className="w-full">
                 <div>
-                  <p className="text-[42px] text-black leading-[1.2] font-semibold">
+                  <p className="text-[38px] text-black leading-[1.2] font-semibold">
                     Upscale your hiring process with{" "}
                     <span className="text-[#E65F2B]">us</span>
                   </p>
-                  <p className="pt-4 text-[18px] text-[#666666]">
+                  <p className="pt-3 text-[16px] text-[#666666]">
                     Connect to one-on-one Virtual Interviews and Professional
                     Hiring Services
                   </p>
@@ -321,10 +340,42 @@ function SignInPage() {
                   </div>
                 </div>
 
-                <div className="px-2 mt-5">
+                <div className="px-2 mt-4">
+                  <div className="border-t border-gray-200 pt-4">
+                    <p className="text-sm text-gray-600 mb-3 text-center">Quick access with visitor accounts</p>
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() => handleVisitorLogin('CLIENT')}
+                        className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
+                      >
+                        <svg className="w-4 h-4 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        Client
+                      </button>
+                      <button
+                        onClick={() => handleVisitorLogin('INTERNAL')}
+                        className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
+                      >
+                        <svg className="w-4 h-4 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        Internal
+                      </button>
+                      <button
+                        onClick={() => handleVisitorLogin('INTERVIEWER')}
+                        className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
+                      >
+                        <svg className="w-4 h-4 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Interviewer
+                      </button>
+                    </div>
+                  </div>
                   <Link
                     to="/auth/reset-password"
-                    className="text-[#E65F2B] hover:underline"
+                    className="text-[#E65F2B] hover:underline block mt-4"
                   >
                     Reset Password?
                   </Link>
