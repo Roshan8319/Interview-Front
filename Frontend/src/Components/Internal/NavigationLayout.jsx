@@ -26,6 +26,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Cookies from 'js-cookie';
 
 const drawerWidth = 240;
 
@@ -424,14 +425,21 @@ function NavigationLayout() {
           }
       }, []);
   
-      const handleLogOut = async ()=>{
-        
-            Cookies.remove("accessToken");
-            Cookies.remove("refreshToken");
-            sessionStorage.removeItem("displayName");
-            
-            navigate("/auth/signin");
+      const handleLogOut = () => {
+        try {
+          // Clear cookies
+          Cookies.remove('accessToken', { path: '/' });
+          Cookies.remove('refreshToken', { path: '/' });
+          
+          // Clear session storage
+          sessionStorage.clear();
+          
+          // Navigate to signin page
+          navigate('/auth/signin', { replace: true });
+        } catch (error) {
+          console.error('Logout error:', error);
         }
+      };
 
 
   const location = useLocation();
@@ -494,15 +502,13 @@ function NavigationLayout() {
                     >
                       Menu
                     </a>
-                    <a
-                      href="#"
-                      // onClick={handleLogOut}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem"
+                    <button
                       onClick={handleLogOut}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem"
                     >
                       Logout
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
