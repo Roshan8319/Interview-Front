@@ -87,17 +87,17 @@ function Second() {
                 {/* Heading */}
                 <div className='flex flex-col gap-y-4 justify-center items-center'>
                     <div className='text-[28px] sm:text-[36px] lg:text-[44px] font-bold text-[#0F172A] text-center'>
-                        <p>Every Hiring Solution, One Powerful Platform.</p>
+                        <p>Every <span className='text-[#E0470C]'>Hiring</span> Solution, One Powerful Platform.</p>
                     </div>
                     <div className='flex flex-col text-center text-[#0F172A] text-[14px] sm:text-[16px] lg:text-[18px] px-4 lg:px-0'>
                         <p>Seamlessly manage hiring workflows from screening to selection. Our all-in-one platform streamlines recruitment, enhances efficiency, and drives smarter hiring decisions.</p>
                     </div>
                     {/* vector - hidden on mobile */}
-                    <div className='absolute z-[-10] top-[9%] left-[24%] hidden lg:block' >
+                    {/* <div className='absolute z-[-10] top-[9%] left-[24%] hidden lg:block' >
                         <svg width="127" height="21" viewBox="0 0 127 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 8.61463C16.8793 6.59873 74.6798 2.67794 122 8.61465C97.4367 8.61465 65.433 9.21495 44.8268 15.4687" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                         </svg>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Image Section */}

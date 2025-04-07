@@ -89,19 +89,19 @@ const TeamCard = ({ member }) => (
 
 function OurTeam() {
     return (
-        <div className="bg-gray-100 p-4 sm:p-8 md:p-14">
+        <div className="bg-[#F1F5F9] p-4 sm:p-8 md:p-14">
             <div className="relative w-full min-h-[calc(100vh-260px)] flex flex-col items-center justify-center text-gray-800">
                 <div className="w-full flex flex-col items-center justify-center px-4">
                     <div className="font-normal text-[20px] md:text-[24px]">Who We Are</div>
                     <div className="text-[36px] md:text-[54px] font-semibold text-center">
-                        <h1>Meet our team</h1>
+                        <h1>Meet our <span className='text-[#E0470C]'>team</span></h1>
                     </div>
                     {/* vector */}
-                    <div className='absolute z-10 translate-x-[65%] top-[18%] hidden lg:block'>
+                    {/* <div className='absolute z-10 translate-x-[65%] top-[18%] hidden lg:block'>
                         <svg width="171" height="22" viewBox="0 0 171 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 8.77408C22.6535 6.355 101.472 1.65006 166 8.7741C132.505 8.7741 88.8632 9.49446 60.7638 16.999" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                         </svg>
-                    </div>
+                    </div> */}
                     <div className="text-[16px] md:text-[20px] font-normal text-center">
                         <p className="px-2">
                             Just take a look - each member of the team is watching your every gesture and will hear your every whisper.

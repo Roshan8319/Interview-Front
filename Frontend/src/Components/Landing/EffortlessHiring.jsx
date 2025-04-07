@@ -18,15 +18,16 @@ function EffortlessHiring() {
         {/* Content Section */}
         <div className='w-full lg:w-[50%] h-full flex-1 flex flex-col justify-center items-start gap-y-4 lg:gap-y-8'>
           <div className='text-[#0F172A] font-bold text-center lg:text-left'>
-            <p className='text-[24px] sm:text-[32px] lg:text-[44px]'>Effortless Hiring,</p>
+            <p className='text-[24px] sm:text-[32px] lg:text-[44px]'>
+              <span className='text-[#E0470C]'>Effortless</span> Hiring,</p>
             <p className='text-[20px] sm:text-[28px] lg:text-[38px]'>All in One Powerful Platform.</p>
           </div>
           {/* Vector */}
-          <div className="hidden lg:block absolute z-[-10] top-[35%] left-[4%]">
+          {/* <div className="hidden lg:block absolute z-[-10] top-[35%] left-[4%]">
             <svg width="252" height="23" viewBox="0 0 252 23" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 8.96207C33.2835 6.54298 150.795 1.83804 247 8.96209C197.061 8.96209 131.996 9.68245 90.1024 17.187" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
             </svg>
-          </div>
+          </div> */}
           <div>
             <ul className='text-[14px] sm:text-[16px] lg:text-[20px] font-normal space-y-2 sm:space-y-4'>
               <li className="before:content-['✔'] before:mr-2 before:text-[#E65F2B]">Streamline your hiring process from start to finish.</li>

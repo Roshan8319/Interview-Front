@@ -10,16 +10,16 @@ function First() {
                     {/* Heading */}
                     <div className='text-[32px] lg:text-[60px] font-bold leading-tight text-center lg:text-left'>
                         <p className='whitespace-nowrap text-[#1E293B]'>
-                            Your Engineers Build,
+                            Your <span className='text-[#E0470C]'>Engineers</span> Build,
                         </p>
                         <p className='text-[#1E293B]'>We handle the interviews</p>
                     </div>
                     {/* Vector */}
-                    <div className="hidden lg:block absolute z-10 top-[29%] left-[24%]">
+                    {/* <div className="hidden lg:block absolute z-10 top-[29%] left-[24%]">
                         <svg width="196" height="24" viewBox="0 0 196 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.500031 9.73334C25.5 7.23335 116.5 2.37106 191 9.73336C152.328 9.73336 101.942 10.4778 69.5 18.2334" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
                         </svg>
-                    </div>
+                    </div> */}
                     {/* Subheading */}
                     <div className='text-[14px] lg:text-[20px] font-normal text-center lg:text-left text-[#475569] px-2 lg:px-0'>
                         <p>
