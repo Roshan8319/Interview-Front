@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const VISITOR_ACCOUNTS = {
   CLIENT: { email: 'support@zomato.com', password: '1234' },
-  INTERNAL: { email: 'aarav@gmail.com', password: '1234' },
+  INTERNAL: { email: 'aarav@gmail.com', password: '123456' },
   INTERVIEWER: { email: 'sumit.kumar.mahto341@gmail.com', password: '1234' }
 };
 
