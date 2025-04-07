@@ -34,10 +34,7 @@ function SignInPage() {
     setEmail(VISITOR_ACCOUNTS[role].email);
     setPassword(VISITOR_ACCOUNTS[role].password);
     // Auto trigger sign-in after a short delay to allow state updates
-    setTimeout(() => {
-      const fakeEvent = { preventDefault: () => {} };
-      handleLoginViaEmail(fakeEvent);
-    }, 100);
+    
   };
 
   useEffect(() => {
