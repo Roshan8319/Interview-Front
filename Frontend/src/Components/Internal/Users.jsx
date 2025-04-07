@@ -333,6 +333,7 @@ const InternalUsers = () => {
                         alt={`${user.name}'s profile`}
                         className="w-full h-full object-cover"
                       />
+                      
                     </div>
                   ) : (
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
