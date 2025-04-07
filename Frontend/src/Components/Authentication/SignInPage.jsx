@@ -109,6 +109,9 @@ function SignInPage() {
       } else if (signinas === "INTERVIEWER") {
         displayName = response.data.data.interviewer.firstName;
       }
+       else if (signinas === "INTERNAL") {
+        displayName = response.data.data.user.firstName;
+      }
 
       sessionStorage.setItem('displayName', displayName);
       sessionStorage.setItem('clientId', clientId);
