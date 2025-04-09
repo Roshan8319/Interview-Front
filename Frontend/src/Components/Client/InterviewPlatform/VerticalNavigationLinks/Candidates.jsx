@@ -349,7 +349,7 @@ function Candidates() {
           </div>
 
           {/* Table */}
-          <div className=" w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden">
+          <div className=" w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden mb-10">
             <table className="w-[100%] h-[100%]">
               <thead>
                 <tr className="border-b-2 border-[#E65F2B]/20">
