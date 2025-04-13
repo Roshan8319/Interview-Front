@@ -37,19 +37,19 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       console.log("Fetching data...");
-      
+
       try {
         const response = await axios.get(`${baseUrl}/api/v1/interviewer/getInterviewer`, {
           withCredentials: true,
         });
         console.log(response.data.data.interviewer);
-        
+
         setProfileData(response.data.data.interviewer);
         // If there's a profilePhoto in response data, set it
         if (response.data.data.interviewer.profilePhoto) {
           setProfilePhoto(response.data.data.interviewer.profilePhoto);
         }
-        
+
         setData(response.data.data.interviewer);
         setLoading(false);
       } catch (error) {
@@ -111,7 +111,7 @@ const ProfilePage = () => {
   // Save changes - Using axios consistently like the get request
   const handleSaveChanges = async () => {
     setIsSaving(true);
-    
+
     try {
       if (profilePhoto !== data.profilePhoto) {
         // For updating both profile data and photo
@@ -206,12 +206,12 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-4">
       {isSaving && <SavingOverlay />}
-      
-      <div className="m-2 p-4 w-[95%] h-[95%] bg-[#F2EAE5] rounded-lg">
+
+      <div className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl mt-10 shadow-md">
         <div>
-          <p className="text-[20px] font-semibold">Profile</p>
+          <p className="text-[24px] font-semibold">Profile</p>
         </div>
 
         {/* Profile Photo Section */}
@@ -221,9 +221,8 @@ const ProfilePage = () => {
               <img
                 src={profilePhoto}
                 alt="Profile Photo"
-                className={`w-full h-full object-cover ${
-                  isEditing ? "opacity-50" : ""
-                }`}
+                className={`w-full h-full object-cover ${isEditing ? "opacity-50" : ""
+                  }`}
               />
               {/* Hidden file input */}
               <input
@@ -258,7 +257,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Personal Information Grid */}
-        <div className="p-2 w-full grid grid-cols-3 gap-x-12 gap-y-3">
+        <div className="p-2 w-full grid grid-cols-3 gap-x-12 gap-y-3 mt-4">
           {[
             { id: "firstName", label: "Your Name", type: "text" },
             { id: "phone", label: "Phone", type: "tel" },
@@ -295,11 +294,19 @@ const ProfilePage = () => {
                     disabled={!isEditing || alwaysDisabledFields.includes(id)}
                     className={`w-[90%] py-2 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px]
                       bg-[#F6F1EE] shadow-sm border-gray-300
-                      ${
-                        !isEditing || alwaysDisabledFields.includes(id)
-                          ? "opacity-50 cursor-not-allowed"
-                          : "focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
+                      ${!isEditing || alwaysDisabledFields.includes(id)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                       }`}
+                    onInput={
+                      id === "experienceInYears"
+                        ? (e) => {
+                          if (e.target.value < 0) e.target.value = 0; // Prevent negative numbers
+                          // Remove non-numeric characters
+                          e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                        }
+                        : undefined
+                    }
                     placeholder={label}
                   />
                 </div>
@@ -340,10 +347,9 @@ const ProfilePage = () => {
                       disabled={!isEditing}
                       className={`w-[90%] py-2 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px]
                         bg-[#F6F1EE] shadow-sm border-gray-300
-                        ${
-                          !isEditing
-                            ? "opacity-50 cursor-not-allowed"
-                            : "focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
+                        ${!isEditing
+                          ? "opacity-50 cursor-not-allowed"
+                          : "focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                         }`}
                       placeholder={label}
                     />
@@ -356,21 +362,21 @@ const ProfilePage = () => {
 
         {/* Edit/Discard Buttons */}
         <div>
-          <div className="mt-7 px-20 flex items-center justify-end ">
+          <div className="mt-7 px-8 flex items-center justify-end ">
             {/* Edit Button */}
 
             {!isEditing && (
               <div>
                 <button
                   onClick={handleEditToggle}
-                  className="bg-[#E65F2B] text-white font-semibold text-lg flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
+                  className="w-[auto] text-[#E65F2B] bg-white font-semibold text-lg flex items-center justify-center px-4 py-1 rounded-full gap-x-1 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    height="22px"
+                    height="20px"
                     viewBox="0 -960 960 960"
                     width="24px"
-                    fill="#ffffff"
+                    fill="#E65F2B"
                   >
                     <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
                   </svg>
@@ -384,7 +390,7 @@ const ProfilePage = () => {
               <div className="flex gap-x-5">
                 <button
                   onClick={handleDiscardChanges}
-                  className="bg-gray-200 text-gray-800 border border-gray-800 font-semibold text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
+                  className="bg-gray-200 text-gray-800 border border-gray-800 font-semibold text-lg flex items-center justify-center px-4 py-1 rounded-full gap-x-1 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
                   disabled={isSaving}
                 >
                   <svg
@@ -392,15 +398,15 @@ const ProfilePage = () => {
                     height="22px"
                     viewBox="0 0 24 24"
                     width="24px"
-                    fill="#000000"
+                    fill="#EF4444"
                   >
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
                   </svg>
                   Discard
                 </button>
-                <button 
+                <button
                   onClick={handleSaveChanges}
-                  className="bg-[#E65F2B] text-white font-semibold text-lg flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
+                  className="bg-[#E65F2B] text-white font-semibold text-lg flex items-center justify-center px-4 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group"
                   disabled={isSaving}
                 >
                   {isSaving ? (
@@ -413,14 +419,13 @@ const ProfilePage = () => {
                     </span>
                   ) : (
                     <>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="22px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        fill="#ffffff"
-                      >
-                        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+                      <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 8.98987V20.3499C16 21.7999 14.96 22.4099 13.69 21.7099L9.76001 19.5199C9.34001 19.2899 8.65999 19.2899 8.23999 19.5199L4.31 21.7099C3.04 22.4099 2 21.7999 2 20.3499V8.98987C2 7.27987 3.39999 5.87988 5.10999 5.87988H12.89C14.6 5.87988 16 7.27987 16 8.98987Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.7" d="M22 5.10999V16.47C22 17.92 20.96 18.53 19.69 17.83L16 15.77V8.98999C16 7.27999 14.6 5.88 12.89 5.88H8V5.10999C8 3.39999 9.39999 2 11.11 2H18.89C20.6 2 22 3.39999 22 5.10999Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <g opacity="0.8">
+                          <path d="M7 12H11" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M9 14V10" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
                       </svg>
                       Save
                     </>
