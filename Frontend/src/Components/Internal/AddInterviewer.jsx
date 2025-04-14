@@ -35,7 +35,7 @@ function AddInterviewer() {
   const [itemsSkills, setItemsSkills] = useState([]);
 
   // State for strength selection
-  const [selectedStrength, setSelectedStrength] = useState(" ");
+  const [selectedStrength, setSelectedStrength] = useState("");
 
   // State for file upload
   const [selectedFile, setSelectedFile] = useState(null);
@@ -96,13 +96,13 @@ function AddInterviewer() {
     }));
   };
 
- 
+
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file) {
       const validTypes = ["image/jpeg", "image/png", "image/gif"];
       const maxSize = 5 * 1024 * 1024; // 5MB
-      
+
       if (validTypes.includes(file.type) && file.size <= maxSize) {
         setSelectedFile(file);
         setFormData((prevData) => ({
@@ -194,7 +194,7 @@ function AddInterviewer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    
+
     if (!validateForm()) {
       return;
     }
@@ -202,7 +202,7 @@ function AddInterviewer() {
     try {
       setIsLoading(true);
       const formDataToSend = new FormData();
-      
+
       Object.keys(formData).forEach((key) => {
         if (key !== 'profilePhoto') {
           formDataToSend.append(key, formData[key]);
@@ -237,13 +237,18 @@ function AddInterviewer() {
   };
 
   return (
-    <div className=" min-h-[calc(100vh-64px)] text-[14px] bg-[#EBDFD7]">
-      <form>
-        <div className=" ">
-          <div className="pt-4">
-            <ul className="grid grid-cols-2 gap-2 ">
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-full max-w-md mx-auto p-4">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-4">
+      <form className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md">
+        <div className="">
+          <div>
+            <p className="text-[24px] font-semibold">Add Interviewer</p>
+          </div>
+
+          {/* Profile Pic */}
+          <div className="pt-2">
+            <ul className="grid">
+              <li className="flex items-center justify-center gap-x-4 ">
+                <div className="w-full max-w-md mx-auto">
                   <div
                     className="relative w-[150px] h-[150px] mx-auto rounded-full border-2 border-dashed border-[#E65F2B] hover:border-[#E65F2B] transition-all duration-300 group"
                     onClick={triggerFileInput}
@@ -310,396 +315,285 @@ function AddInterviewer() {
               </li>
             </ul>
           </div>
-          <hr className=" h-[2px] rounded-full bg-[#f0ad4e] mb-2" />
 
-          {/* MAIN 1 */}
+          {/* Data 1 */}
+          <div className="pt-4">
+            <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+              {/* First Row */}
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="Enter First Name"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
 
-          <div className="">
-            <ul className="grid grid-cols-2 grid-rows-2 gap-2 pl-0 ">
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label className=" w-full  text-right "> First Name</label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    placeholder="Interviewer Name"
-                    className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Last Name
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    
-                    placeholder="Last Name"
-                     className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Email Id
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    
-                     className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter Last Name"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
 
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Phone Number
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="number"
-                    placeholder="Phone Number"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    
-                     className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Password
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="password"
-                    placeholder=" Password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    
-                     className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Confirm Password
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    
-                   className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-            </ul>
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter Email"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              {/* Second Row */}
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Phone</label>
+                <input
+                  type="number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only positive numbers or empty input
+                    if (value === "" || Number(value) >= 0) {
+                      setFormData({ ...formData, phone: value });
+                    }
+                  }}
+                  placeholder="Enter Phone Number"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter Password"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Confirm Password</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Enter Confirm Password"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+            </div>
           </div>
-          <hr className=" h-[2px] rounded-full bg-[#f0ad4e] my-4" />
 
-          {/* MAIN 2 */}
-          <div className="">
-            <ul className="grid grid-cols-2 grid-rows-2 gap-2 ">
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%] flex items-end justify-end">
-                  <label className=" w-full  text-right ">
-                    Current Company
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="text"
-                    name="currentCompany"
-                    value={formData.currentCompany}
-                    onChange={handleChange}
-                    placeholder="Current Company"
-                    className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
+          {/* Data 2 */}
+          <div className="pt-6">
+            <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+              {/* First Row */}
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Current Comapny</label>
+                <input
+                  type="text"
+                  name="currentCompany"
+                  value={formData.currentCompany}
+                  onChange={handleChange}
+                  placeholder="Enter Current Company"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
 
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Current Designation
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="text"
-                    name="currentDesignation"
-                    value={formData.currentDesignation}
-                    onChange={handleChange}
-                    
-                    placeholder="Current Designation"
-                    className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    Job Title
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="text"
-                    name="jobTitle"
-                    value={formData.jobTitle}
-                    onChange={handleChange}
-                    
-                    placeholder="Job Title"
-                   className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label for="" className=" w-full  text-right ">
-                    LinkedIn URL
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    type="text"
-                    name="linkedInUrl"
-                    value={formData.linkedInUrl}
-                    onChange={handleChange}
-                    
-                    placeholder="LinkedIn url"
-                    className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-            </ul>
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Current Designation</label>
+                <input
+                  type="text"
+                  name="currentDesignation"
+                  value={formData.currentDesignation}
+                  onChange={handleChange}
+                  placeholder="Enter Current Designation"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Job Title</label>
+                <input
+                  type="text"
+                  name="jobTitle"
+                  value={formData.jobTitle}
+                  onChange={handleChange}
+                  placeholder="Enter Job Title"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              {/* Second Row */}
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">LinkedIn URL</label>
+                <input
+                  type="url"
+                  name="linkedInUrl"
+                  value={formData.linkedInUrl}
+                  onChange={handleChange}
+                  placeholder="Enter LinkedIn URL"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Work Experience</label>
+                <input
+                  type="number"
+                  name="experienceInYears"
+                  min="1"
+                  value={formData.experienceInYears}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only positive numbers or empty input
+                    if (value === "" || Number(value) >= 0) {
+                      setFormData({ ...formData, experienceInYears: value });
+                    }
+                  }}
+                  placeholder="Enter Work Experience"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="mb-2 text-gray-700">Interview Experience</label>
+                <input
+                  type="number"
+                  name="interviewExperience"
+                  min="1"
+                  value={formData.interviewExperience}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only positive numbers or empty input
+                    if (value === "" || Number(value) >= 0) {
+                      setFormData({ ...formData, interviewExperience: value });
+                    }
+                  }}
+                  placeholder="Enter Interview Experience"
+                  className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                />
+              </div>
+            </div>
           </div>
-          <hr className=" h-[2px] rounded-full bg-[#f0ad4e] my-4" />
 
-          {/* MAIN 3 */}
+          {/* Data 3 */}
+          <div className="grid grid-cols-3 gap-x-10 gap-y-2 pt-6">
+            {/* Strength Dropdown */}
+            <div className="flex flex-col">
+              <label className="mb-2 text-gray-700">Strength</label>
+              <div className="w-52 relative">
+                <select
+                  value={selectedStrength}
+                  onChange={handleStrengthSelection}
+                  className="w-52 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] appearance-none cursor-pointer"
+                >
+                  <option value="" disabled>Select Strength</option>
+                  <option value="Backend">Backend</option>
+                  <option value="Frontend">Frontend</option>
+                  <option value="Testing">Testing</option>
+                  <option value="DevOps">DevOps</option>
+                  <option value="AI/ML">AI/ML</option>
+                  <option value="Data Engineering">Data Engineering</option>
+                </select>
+                <div className='absolute right-[8%] bottom-[38%]'>
+                  <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-          <div className="">
-            <ul className="grid grid-cols-2 gap-2   ">
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label className=" w-full  text-right ">
-                    Work Experience
-                  </label>
+            {/* Skills Dropdown */}
+            <div className="flex flex-col">
+              <label className="mb-2 text-gray-700">Skills</label>
+              <div className="w-52 relative">
+                <select
+                  value={selectedSkill}
+                  onChange={handleSkillSelection}
+                  className="w-52 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] appearance-none cursor-pointer"
+                >
+                  <option value="" disabled>Select Skills</option>
+                  <option value="Python">Python</option>
+                  <option value="Kafka">Kafka</option>
+                  <option value="Java">Java</option>
+                  <option value="DSA">DSA</option>
+                  <option value="OOPS">OOPS</option>
+                </select>
+                <div className='absolute right-[8%] bottom-[38%]'>
+                  <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
+                  </svg>
                 </div>
-                <div className="flex-col justify-start items-center w-1/2  ">
-                  <input
-                    type="number"
-                    name="experienceInYears"
-                    value={formData.experienceInYears}
-                    onChange={handleChange}
-                    placeholder="Years"
-                  className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
+              </div>
 
-              <li className="flex items-center justify-start gap-x-4  ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label className=" w-full  text-right ">
-                    Interview Experience
-                  </label>
-                </div>
-                <div className="flex-col justify-center items-center w-1/2  ">
-                  <input
-                    type="number"
-                    placeholder="Years"
-                    name="interviewExperience"
-                    value={formData.interviewExperience}
-                    onChange={handleChange}
-                   className=" 2xl:w-[360px] xl:w-[300px]  h-[32px] bg-[#F6F1EE] md: border border-gray-300  text-center rounded-lg py-2 px-4  focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                  />
-                </div>
-              </li>
-            </ul>
-          </div>
-          <hr className=" h-[2px] rounded-full bg-[#f0ad4e] my-4" />
-
-          {/* main 4 single div use */}
-
-          <div className="">
-            <ul className="grid grid-cols-2 gap-2  pb-0 ">
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-end justify-end">
-                  <label className=" w-full  text-right ">Strength</label>
-                </div>
-                <div className="w-1/2">
-                  <select
-                    value={selectedStrength}
-                    onChange={handleStrengthSelection}
-                    className={`w-[134px] h-[32px] bg-[#F6F1EE] text-center text-black border rounded-md focus:outline-none focus:ring-1 focus:ring-[#E65F2B] border-[#CAC4D0] ${
-                      selectedStrength == "" ? "text-gray-500" : "text-black"
-                    } `}
+              {/* Selected Skills */}
+              <div className="mt-2 flex flex-wrap gap-2">
+                {itemsSkills.map((skill, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center px-3 py-1 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   >
-                    <option value="" selected disabled>
-                      Select Strength
-                    </option>
-                    <option value="Backend">Backend</option>
-                    <option value="Frontend">Frontend</option>
-                    <option value="Testing">Testing</option>
-                    <option value="DevOps">DevOps</option>
-                    <option value="AI/ML">AI/ML</option>
-                    <option value="Data Engineering">Data Engineering</option>
-                  </select>
-                </div>
-              </li>
-
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-center justify-center">
-                  <label className=" w-full  text-right ">Skills</label>
-                </div>
-                <div className="w-1/2  flex justify-start items-center ">
-                  <select
-                    onChange={handleSkillSelection}
-                    value={selectedSkill}
-                    className={`w-[134px] h-[32px] bg-[#F6F1EE] text-center text-black border rounded-md focus:outline-none focus:ring-1 focus:ring-[#E65F2B] border-[#CAC4D0] ${
-                      itemsSkills.length == 0 ? "text-gray-500" : "text-black"
-                    } `}
-                  >
-                    <option value="" disabled>
-                      Select Skills{" "}
-                    </option>
-                    <option value="Python">Python</option>
-                    <option value="Kafka">Kafka</option>
-                    <option value="Java">Java</option>
-                    <option value="DSA">DSA</option>
-                    <option value="OOPS">OOPS</option>
-                  </select>
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4  ">
-                <div className="w-[30%]  flex items-center justify-center">
-                  <label for="" className=" w-full "></label>
-                </div>
-                <div className="w-1/2 flex items-center justify-start ">
-                  <div className="w-[300px]  gap-x-4">
-                    <ul className="flex flex-wrap justify-start gap-2 items-center ">
-                      {" "}
-                      {items.map((item, index) => (
-                        <li
-                          key={index}
-                          className=" flex justify-center items-center h-[32px] border border-[#49454F] pl-1 pr-1 rounded-lg  text-[#49454F]  "
-                        >
-                          {" "}
-                          {item}{" "}
-                          <button
-                            onClick={() => removeItem(item)}
-                            className="pl-2"
-                          >
-                            <svg
-                              width="12"
-                              height="12"
-                              viewBox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M1.8 11.25L0.75 10.2L4.95 6L0.75 1.8L1.8 0.75L6 4.95L10.2 0.75L11.25 1.8L7.05 6L11.25 10.2L10.2 11.25L6 7.05L1.8 11.25Z"
-                                fill="#49454F"
-                              />
-                            </svg>
-                          </button>{" "}
-                        </li>
-                      ))}{" "}
-                    </ul>
+                    {skill}
+                    <button
+                      onClick={() => removeSkill(skill)}
+                      className="ml-3 text-red-500"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.8 11.25L0.75 10.2L4.95 6L0.75 1.8L1.8 0.75L6 4.95L10.2 0.75L11.25 1.8L7.05 6L11.25 10.2L10.2 11.25L6 7.05L1.8 11.25Z" fill="currentColor" />
+                      </svg>
+                    </button>
                   </div>
-                </div>
-              </li>
-              <li className="flex items-center justify-start gap-x-4 ">
-                <div className="w-[30%]  flex items-center justify-center">
-                  <label for="" className=" w-full "></label>
-                </div>
-                <div className="w-1/2 flex items-center justify-start ">
-                  <div className="w-[300px]   gap-x-4   ">
-                    <ul className="flex flex-wrap justify-start gap-2 items-center ">
-                      {" "}
-                      {itemsSkills.map((item, index) => (
-                        <li
-                          key={index}
-                          className=" flex justify-center items-center h-[32px] border border-[#49454F] pl-1 pr-1 rounded-lg  text-[#49454F]  "
-                        >
-                          {" "}
-                          {item}{" "}
-                          <button
-                            onClick={() => removeSkill(item)}
-                            className="pl-2"
-                          >
-                            <svg
-                              width="12"
-                              height="12"
-                              viewBox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M1.8 11.25L0.75 10.2L4.95 6L0.75 1.8L1.8 0.75L6 4.95L10.2 0.75L11.25 1.8L7.05 6L11.25 10.2L10.2 11.25L6 7.05L1.8 11.25Z"
-                                fill="#49454F"
-                              />
-                            </svg>
-                          </button>{" "}
-                        </li>
-                      ))}{" "}
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* main 5 */}
 
-          {/* MAIN 6 */}
-
-          <div className="flex flex-col items-end mr-10 gap-2">
+          {/* Data 4 */}
+          <div className="flex flex-col items-end gap-2">
             {errorMessage && (
               <div className="text-red-500 text-sm font-medium">
                 {errorMessage}
               </div>
             )}
-            <button 
-              onClick={handleSubmit} 
+            <button
+              onClick={handleSubmit}
               disabled={isLoading}
-              className={`w-[79px] h-[40px] p-2 flex justify-center items-center text-lg font-bold ${
-                isLoading ? 'bg-gray-400' : 'bg-[#E65F2B]'
-              } text-white rounded-lg`}
+              className={`w-[auto] h-[40px] p-4 gap-x-2 flex justify-center items-center text-lg font-bold ${isLoading ? 'bg-gray-400' : 'bg-[#E65F2B]'
+                } text-white rounded-3xl`}
             >
               {isLoading ? (
-                <Loader2 className="w-6 h-6 animate-spin" />
+                <Loader2 className="w-16 h-6 animate-spin" />
               ) : (
-                'Save'
+                <>
+                  <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 8.98987V20.3499C16 21.7999 14.96 22.4099 13.69 21.7099L9.76001 19.5199C9.34001 19.2899 8.65999 19.2899 8.23999 19.5199L4.31 21.7099C3.04 22.4099 2 21.7999 2 20.3499V8.98987C2 7.27987 3.39999 5.87988 5.10999 5.87988H12.89C14.6 5.87988 16 7.27987 16 8.98987Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path opacity="0.7" d="M22 5.10999V16.47C22 17.92 20.96 18.53 19.69 17.83L16 15.77V8.98999C16 7.27999 14.6 5.88 12.89 5.88H8V5.10999C8 3.39999 9.39999 2 11.11 2H18.89C20.6 2 22 3.39999 22 5.10999Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <g opacity="0.8">
+                      <path d="M7 12H11" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M9 14V10" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                  </svg>
+                  Save
+                </>
               )}
             </button>
           </div>

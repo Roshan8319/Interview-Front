@@ -432,7 +432,7 @@ const navItems = [
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
