@@ -3,6 +3,7 @@ import { Calendar, Briefcase, FileText } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import jwtEncode from "jwt-encode";
+import Chart from "react-apexcharts";
 
 const InterviewDashboard = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -12,6 +13,256 @@ const InterviewDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [meetingLink, setMeetingLink] = useState("");
   const [interviewerName, setInterviewerName] = useState("");
+
+
+  const [splineData1, setSplineData1] = useState({
+    series: [
+      {
+        data: [20, 41, 35, 51, 49, 62, 48, 34, 26], // Example data
+      },
+    ],
+    options: {
+      chart: {
+        type: "area",
+        height: 200,
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#BF821A"], // Line color
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth", // Makes it a spline graph
+        width: 1,
+      },
+      fill: {
+        type: "gradient", // Add gradient fill
+        gradient: {
+          shade: "light",
+          type: "vertical",
+          shadeIntensity: 0.5,
+          gradientToColors: ["#F0C274", "#FDE1B1"], // End color
+          inverseColors: false,
+          opacityFrom: 1, // Starting opacity
+          opacityTo: 0.2, // Ending opacity
+          stops: [0, 98, 100],
+        },
+      },
+      grid: {
+        show: false, // Hide grid lines
+      },
+      xaxis: {
+        show: false, // Hide x-axis
+        labels: {
+          show: false, // Hide x-axis labels
+        },
+        axisBorder: {
+          show: false, // Hide x-axis border
+        },
+        axisTicks: {
+          show: false, // Hide x-axis ticks
+        },
+      },
+      yaxis: {
+        show: false, // Hide y-axis
+        labels: {
+          show: false, // Hide y-axis labels
+        },
+      },
+      tooltip: {
+        enabled: false, // Disable tooltips
+      },
+    },
+  });
+
+  const [splineData2, setSplineData2] = useState({
+    series: [
+      {
+        data: [20, 41, 35, 51, 44, 62, 78], // Example data
+      },
+    ],
+    options: {
+      chart: {
+        type: "area",
+        height: 200,
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#007D15"], // Line color
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth", // Makes it a spline graph
+        width: 1,
+      },
+      fill: {
+        type: "gradient", // Add gradient fill
+        gradient: {
+          shade: "light",
+          type: "vertical",
+          shadeIntensity: 0.5,
+          gradientToColors: ["#61D474", "#BDFFC8"], // End color
+          inverseColors: false,
+          opacityFrom: 1, // Starting opacity
+          opacityTo: 0.2, // Ending opacity
+          stops: [0, 95, 100],
+        },
+      },
+      grid: {
+        show: false, // Hide grid lines
+      },
+      xaxis: {
+        show: false, // Hide x-axis
+        labels: {
+          show: false, // Hide x-axis labels
+        },
+        axisBorder: {
+          show: false, // Hide x-axis border
+        },
+        axisTicks: {
+          show: false, // Hide x-axis ticks
+        },
+      },
+      yaxis: {
+        show: false, // Hide y-axis
+        labels: {
+          show: false, // Hide y-axis labels
+        },
+      },
+      tooltip: {
+        enabled: false, // Disable tooltips
+      },
+    },
+  });
+
+  const [barData, setBarData] = useState({
+    series: [
+      {
+        data: [25, 33, 56, 90, 69, 44, 38], // Example data
+      },
+    ],
+    options: {
+      chart: {
+        type: "bar", // Bar graph
+        height: 200,
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false, // Hide toolbar
+        },
+      },
+      colors: ["#70A1E5"], // Bar color
+      dataLabels: {
+        enabled: false, // Disable data labels
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4, // Rounded corners for bars
+          horizontal: false, // Vertical bars
+          columnWidth: "60%", // Width of bars
+        },
+      },
+      fill: {
+        colors: ["#70A1E5"], // Fill color for bars
+        opacity: 0.9, // Bar opacity
+      },
+      grid: {
+        show: false, // Hide grid lines
+      },
+      xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Today", "Fri", "Sat", "Sun"], // Example categories
+        labels: {
+          show: true, // Show x-axis labels
+          offsetY: -5,
+        },
+        axisBorder: {
+          show: false, // Hide x-axis border
+        },
+        axisTicks: {
+          show: false, // Hide x-axis ticks
+        },
+      },
+      yaxis: {
+        show: false, // Show y-axis
+        labels: {
+          show: false, // Show y-axis labels
+        },
+      },
+      tooltip: {
+        enabled: false, // Enable tooltips
+      },
+      states: {
+        hover: {
+          filter: {
+            type: "none", // Disable hover effect
+          },
+        },
+      },
+    },
+  });
+
+  const [lineData, setLineData] = useState({
+    series: [
+      {
+        data: [15, 28, 18, 30, 25, 40, 35], // Example data
+      },
+    ],
+    options: {
+      chart: {
+        type: "line", // Line graph
+        height: 200,
+        zoom: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false, // Hide toolbar
+        },
+      },
+      colors: ["#C273DD"], // Line color
+      dataLabels: {
+        enabled: false, // Disable data labels
+      },
+      stroke: {
+        curve: "smooth", // Smooth line
+        width: 2, // Line thickness
+      },
+      grid: {
+        show: false, // Hide grid lines
+      },
+      xaxis: {
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"], // Example categories
+        labels: {
+          show: false, // Show x-axis labels
+        },
+        axisBorder: {
+          show: false, // Hide x-axis border
+        },
+        axisTicks: {
+          show: false, // Hide x-axis ticks
+        },
+      },
+      yaxis: {
+        show: false, // Show y-axis
+        labels: {
+          show: false, // Show y-axis labels
+        },
+      },
+      tooltip: {
+        enabled: false, // Enable tooltips
+      },
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -258,26 +509,32 @@ const InterviewDashboard = () => {
     ),
   };
 
- 
+
 
   const [interviewTab, setInterviewTab] = useState("interviewDetails");
 
   return (
     <div className="p-4 px-6 min-h-[calc(100vh-64px)] bg-[#EBDFD7]">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Overview</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 gap-x-20 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 gap-x-5 mb-6">
         {/* Total Candidates */}
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="text-gray-500 text-sm">Total Candidates</div>
-              <div className="text-2xl font-bold text-gray-800">758</div>
-              <div className="text-green-500 text-xs">
-                7% increase from last month
+              <div className="text-3xl font-bold text-gray-800 flex items-center gap-2 mt-2">
+                758
+                <span className="text-gray-900 text-xs font-normal flex items-center gap-1">
+                  <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.06043 3.49396C5.06043 3.25233 5.25631 3.05646 5.49793 3.05646L10.5054 3.05646C10.6215 3.05646 10.7327 3.10255 10.8148 3.1846C10.8968 3.26665 10.9429 3.37793 10.9429 3.49396L10.9429 8.50145C10.9429 8.74308 10.747 8.93895 10.5054 8.93895C10.2638 8.93895 10.0679 8.74308 10.0679 8.50145L10.0679 3.93146L5.49793 3.93146C5.25631 3.93146 5.06043 3.73558 5.06043 3.49396Z" fill="#1A932E" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.18387 10.8155C3.01302 10.6446 3.01302 10.3676 3.18387 10.1967L10.1259 3.25472C10.2967 3.08387 10.5738 3.08387 10.7446 3.25472C10.9155 3.42558 10.9155 3.70259 10.7446 3.87344L3.80259 10.8155C3.63173 10.9863 3.35473 10.9863 3.18387 10.8155Z" fill="#1A932E" />
+                  </svg>
+                  10% increase from last month
+                </span>
               </div>
             </div>
             <div>
@@ -305,28 +562,30 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-1 ml-[-4px]">
-            <svg width="100%" height="50" className="mt-2">
-              <polyline
-                points="0,40 50,30 100,35 150,20 200,25 250,15"
-                fill="none"
-                stroke="#9ACD32"
-                strokeWidth="2"
-              />
-            </svg>
+          <div className="mt-[-8%] ml-[-5%]">
+            <Chart
+              options={lineData.options}
+              series={lineData.series}
+              type="line"
+              height={150}
+              width={270}
+            />
           </div>
         </div>
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start ">
             <div>
-              <div className="text-gray-500 text-sm">
-                Average Interview Per Month
-              </div>
-
-              <div className="text-2xl font-bold text-gray-800">758</div>
-              <div className="text-green-500 text-xs">
-                7% increase from last month
+              <div className="text-gray-500 text-sm">Average Interview Per Month</div>
+              <div className="text-3xl font-bold text-gray-800 flex items-center gap-2 mt-2">
+                56
+                <span className="text-gray-900 text-xs font-normal flex items-center gap-1">
+                  <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.06043 3.49396C5.06043 3.25233 5.25631 3.05646 5.49793 3.05646L10.5054 3.05646C10.6215 3.05646 10.7327 3.10255 10.8148 3.1846C10.8968 3.26665 10.9429 3.37793 10.9429 3.49396L10.9429 8.50145C10.9429 8.74308 10.747 8.93895 10.5054 8.93895C10.2638 8.93895 10.0679 8.74308 10.0679 8.50145L10.0679 3.93146L5.49793 3.93146C5.25631 3.93146 5.06043 3.73558 5.06043 3.49396Z" fill="#1A932E" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.18387 10.8155C3.01302 10.6446 3.01302 10.3676 3.18387 10.1967L10.1259 3.25472C10.2967 3.08387 10.5738 3.08387 10.7446 3.25472C10.9155 3.42558 10.9155 3.70259 10.7446 3.87344L3.80259 10.8155C3.63173 10.9863 3.35473 10.9863 3.18387 10.8155Z" fill="#1A932E" />
+                  </svg>
+                  2% increase from last month
+                </span>
               </div>
             </div>
             <div className="">
@@ -372,42 +631,30 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-1 ml-[-4px]">
-            <svg
-              width="235"
-              height="70"
-              viewBox="0 0 235 70"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 3.37256V70H300V16.0195C294.444 11.8038 284.213 2.81783 279.74 0.598903C274.148 -2.17476 272.284 4.97758 262.965 16.0195C255.509 24.853 247.018 19.7001 243.704 16.0195L227.55 9.45144C224.237 12.9481 216.615 18.3764 212.639 12.1167C208.663 5.85708 198.97 3.6791 194.621 3.37256C189.312 6.00172 176.916 12.2119 169.8028 16.0195C160.9114 20.7789 158.0594 15.5435 150.3423 9.45144C142.6252 3.35937 134.237 10.6889 129.0364 12.1167C123.8357 13.5446 118.6351 6.59579 117.4607 4.97758C116.2864 3.35937 109.4081 5.45352 105.8851 4.97758C103.0666 4.59682 102.0305 -0.234751 98.07783 0.0144409L0 3.37256Z"
-                fill="url(#paint0_linear_245_4538)"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_245_4538"
-                  x1="150"
-                  y1="0"
-                  x2="150"
-                  y2="70"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#F0C274" />
-                  <stop offset="1" stop-color="#FDE1B1" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-            </svg>
+          <div className="mt-[-15%] ml-[-5%]">
+            <Chart
+              options={splineData1.options}
+              series={splineData1.series}
+              type="area"
+              height={150}
+              width={270}
+            />
           </div>
         </div>
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="text-gray-500 text-sm">Today's Income</div>
-              <div className="text-2xl font-bold text-gray-800">758</div>
-              <div className="text-green-500 text-xs">
-                7% increase from last month
+              <div className="text-3xl font-bold text-gray-800 flex items-center gap-2 mt-2">
+                ₹2K
+                <span className="text-gray-900 text-xs font-normal flex items-center gap-1">
+                  <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.06043 3.49396C5.06043 3.25233 5.25631 3.05646 5.49793 3.05646L10.5054 3.05646C10.6215 3.05646 10.7327 3.10255 10.8148 3.1846C10.8968 3.26665 10.9429 3.37793 10.9429 3.49396L10.9429 8.50145C10.9429 8.74308 10.747 8.93895 10.5054 8.93895C10.2638 8.93895 10.0679 8.74308 10.0679 8.50145L10.0679 3.93146L5.49793 3.93146C5.25631 3.93146 5.06043 3.73558 5.06043 3.49396Z" fill="#1A932E" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.18387 10.8155C3.01302 10.6446 3.01302 10.3676 3.18387 10.1967L10.1259 3.25472C10.2967 3.08387 10.5738 3.08387 10.7446 3.25472C10.9155 3.42558 10.9155 3.70259 10.7446 3.87344L3.80259 10.8155C3.63173 10.9863 3.35473 10.9863 3.18387 10.8155Z" fill="#1A932E" />
+                  </svg>
+                  4% increase from last day
+                </span>
               </div>
             </div>
             <div>
@@ -435,95 +682,30 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-1 ml-[4px]">
-            <svg
-              width="400"
-              height="50"
-              viewBox="0 0 91"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect y="36" width="15" height="38" rx="3" fill="#70A1E5" />
-              <rect
-                x="30"
-                y="19"
-                width="15"
-                height="55"
-                rx="3"
-                fill="#70A1E5"
-              />
-              <rect
-                x="60"
-                y="47"
-                width="15"
-                height="27"
-                rx="3"
-                fill="#70A1E5"
-              />
-              <rect x="90" width="15" height="74" rx="3" fill="#70A1E5" />
-              <rect
-                x="120"
-                y="19"
-                width="15"
-                height="55"
-                rx="3"
-                fill="#70A1E5"
-              />
-              <rect
-                x="150"
-                y="44"
-                width="15"
-                height="30"
-                rx="3"
-                fill="#70A1E5"
-              />
-              <rect
-                x="180"
-                y="31"
-                width="15"
-                height="43"
-                rx="3"
-                fill="#70A1E5"
-              />
-              <path
-                d="M1.05 89V82H1.87L5.01 87.29H4.57L7.67 82H8.49L8.5 89H7.54L7.53 83.51H7.76L5 88.15H4.54L1.76 83.51H2.01V89H1.05Z"
-                fill="#797979"
-              />
-              <path
-                d="M32.44 89V82.87H30.04V82H35.83V82.87H33.43V89H32.44Z"
-                fill="#797979"
-              />
-              <path
-                d="M63.66 89L61.32 82H62.35L64.5 88.46H63.98L66.21 82H67.13L69.31 88.46H68.81L70.99 82H71.94L69.6 89H68.55L66.51 83.01H66.78L64.73 89H63.66Z"
-                fill="#797979"
-              />
-              <path
-                d="M86.44 89V82.87H84.04V82H89.83V82.87H87.43V89H86.44ZM92.5023 89.06C91.9689 89.06 91.4956 88.9433 91.0823 88.71C90.6689 88.4767 90.3423 88.1567 90.1023 87.75C89.8623 87.3367 89.7423 86.87 89.7423 86.35C89.7423 85.8233 89.8623 85.3567 90.1023 84.95C90.3423 84.5433 90.6689 84.2267 91.0823 84C91.4956 83.7667 91.9689 83.65 92.5023 83.65C93.0289 83.65 93.4989 83.7667 93.9123 84C94.3323 84.2267 94.6589 84.5433 94.8923 84.95C95.1323 85.35 95.2523 85.8167 95.2523 86.35C95.2523 86.8767 95.1323 87.3433 94.8923 87.75C94.6589 88.1567 94.3323 88.4767 93.9123 88.71C93.4989 88.9433 93.0289 89.06 92.5023 89.06ZM92.5023 88.22C92.8423 88.22 93.1456 88.1433 93.4123 87.99C93.6856 87.8367 93.8989 87.62 94.0523 87.34C94.2056 87.0533 94.2823 86.7233 94.2823 86.35C94.2823 85.97 94.2056 85.6433 94.0523 85.37C93.8989 85.09 93.6856 84.8733 93.4123 84.72C93.1456 84.5667 92.8423 84.49 92.5023 84.49C92.1623 84.49 91.8589 84.5667 91.5923 84.72C91.3256 84.8733 91.1123 85.09 90.9523 85.37C90.7923 85.6433 90.7123 85.97 90.7123 86.35C90.7123 86.7233 90.7923 87.0533 90.9523 87.34C91.1123 87.62 91.3256 87.8367 91.5923 87.99C91.8589 88.1433 92.1623 88.22 92.5023 88.22ZM98.7699 89.06C98.2566 89.06 97.7966 88.9467 97.3899 88.72C96.9899 88.4933 96.6733 88.1767 96.4399 87.77C96.2066 87.3633 96.0899 86.89 96.0899 86.35C96.0899 85.81 96.2066 85.34 96.4399 84.94C96.6733 84.5333 96.9899 84.2167 97.3899 83.99C97.7966 83.7633 98.2566 83.65 98.7699 83.65C99.2166 83.65 99.6199 83.75 99.9799 83.95C100.34 84.15 100.627 84.45 100.84 84.85C101.06 85.25 101.17 85.75 101.17 86.35C101.17 86.95 101.063 87.45 100.85 87.85C100.643 88.25 100.36 88.5533 99.9999 88.76C99.6399 88.96 99.2299 89.06 98.7699 89.06ZM98.8499 88.22C99.1833 88.22 99.4833 88.1433 99.7499 87.99C100.023 87.8367 100.237 87.62 100.39 87.34C100.55 87.0533 100.63 86.7233 100.63 86.35C100.63 85.97 100.55 85.6433 100.39 85.37C100.237 85.09 100.023 84.8733 99.7499 84.72C99.4833 84.5667 99.1833 84.49 98.8499 84.49C98.5099 84.49 98.2066 84.5667 97.9399 84.72C97.6733 84.8733 97.4599 85.09 97.2999 85.37C97.1399 85.6433 97.0599 85.97 97.0599 86.35C97.0599 86.7233 97.1399 87.0533 97.2999 87.34C97.4599 87.62 97.6733 87.8367 97.9399 87.99C98.2066 88.1433 98.5099 88.22 98.8499 88.22ZM100.66 89V87.57L100.72 86.34L100.62 85.11V81.58H101.58V89H100.66ZM106.686 89V87.88L106.636 87.67V85.76C106.636 85.3533 106.516 85.04 106.276 84.82C106.043 84.5933 105.69 84.48 105.216 84.48C104.903 84.48 104.596 84.5333 104.296 84.64C103.996 84.74 103.743 84.8767 103.536 85.05L103.136 84.33C103.41 84.11 103.736 83.9433 104.116 83.83C104.503 83.71 104.906 83.65 105.326 83.65C106.053 83.65 106.613 83.8267 107.006 84.18C107.4 84.5333 107.596 85.0733 107.596 85.8V89H106.686ZM104.946 89.06C104.553 89.06 104.206 88.9933 103.906 88.86C103.613 88.7267 103.386 88.5433 103.226 88.31C103.066 88.07 102.986 87.8 102.986 87.5C102.986 87.2133 103.053 86.9533 103.186 86.72C103.326 86.4867 103.55 86.3 103.856 86.16C104.17 86.02 104.59 85.95 105.116 85.95H106.796V86.64H105.156C104.676 86.64 104.353 86.72 104.186 86.88C104.02 87.04 103.936 87.2333 103.936 87.46C103.936 87.72 104.04 87.93 104.246 88.09C104.453 88.2433 104.74 88.32 105.106 88.32C105.466 88.32 105.78 88.24 106.046 88.08C106.32 87.92 106.516 87.6867 106.636 87.38L106.826 88.04C106.7 88.3533 106.476 88.6033 106.156 88.79C105.836 88.97 105.433 89.06 104.946 89.06ZM109.505 91C109.252 91 109.005 90.9567 108.765 90.87C108.525 90.79 108.319 90.67 108.145 90.51L108.555 89.79C108.689 89.9167 108.835 90.0133 108.995 90.08C109.155 90.1467 109.325 90.18 109.505 90.18C109.739 90.18 109.932 90.12 110.085 90C110.239 89.88 110.382 89.6667 110.515 89.36L110.845 88.63L110.945 88.51L113.025 83.7H113.965L111.395 89.53C111.242 89.9033 111.069 90.1967 110.875 90.41C110.689 90.6233 110.482 90.7733 110.255 90.86C110.029 90.9533 109.779 91 109.505 91ZM110.765 89.17L108.345 83.7H109.345L111.405 88.42L110.765 89.17Z"
-                fill="#797979"
-              />
-              <path
-                d="M127.44 89V82.87H125.04V82H130.83V82.87H128.43V89H127.44Z"
-                fill="#797979"
-              />
-              <path
-                d="M157.95 85.31H161.56V86.17H157.95V85.31ZM158.05 89H157.05V82H161.99V82.87H158.05V89Z"
-                fill="#797979"
-              />
-              <path
-                d="M189.09 89.08C188.557 89.08 188.047 89 187.56 88.84C187.073 88.6733 186.69 88.46 186.41 88.2L186.78 87.42C187.047 87.6533 187.387 87.8467 187.8 88C188.213 88.1533 188.643 88.23 189.09 88.23C189.497 88.23 189.827 88.1833 190.08 88.09C190.333 87.9967 190.52 87.87 190.64 87.71C190.76 87.5433 190.82 87.3567 190.82 87.15C190.82 86.91 190.74 86.7167 190.58 86.57C190.427 86.4233 190.223 86.3067 189.97 86.22C189.723 86.1267 189.45 86.0467 189.15 85.98C188.85 85.9133 188.547 85.8367 188.24 85.75C187.94 85.6567 187.663 85.54 187.41 85.4C187.163 85.26 186.963 85.0733 186.81 84.84C186.657 84.6 186.58 84.2933 186.58 83.92C186.58 83.56 186.673 83.23 186.86 82.93C187.053 82.6233 187.347 82.38 187.74 82.2C188.14 82.0133 188.647 81.92 189.26 81.92C189.667 81.92 190.07 81.9733 190.47 82.08C190.87 82.1867 191.217 82.34 191.51 82.54L191.18 83.34C190.88 83.14 190.563 82.9967 190.23 82.91C189.897 82.8167 189.573 82.77 189.26 82.77C188.867 82.77 188.543 82.82 188.29 82.92C188.037 83.02 187.85 83.1533 187.73 83.32C187.617 83.4867 187.56 83.6733 187.56 83.88C187.56 84.1267 187.637 84.3233 187.79 84.47C187.95 84.6167 188.153 84.7333 188.4 84.82C188.653 84.9067 188.93 84.9867 189.23 85.06C189.53 85.1267 189.83 85.2033 190.13 85.29C190.437 85.3767 190.713 85.49 190.96 85.63C191.213 85.77 191.417 85.9567 191.57 86.19C191.723 86.4233 191.8 86.7233 191.8 87.09C191.8 87.4433 191.703 87.7733 191.51 88.08C191.317 88.38 191.017 88.6233 190.61 88.81C190.21 88.99 189.703 89.08 189.09 89.08Z"
-                fill="#797979"
-              />
-            </svg>
+          <div className="mt-[-10%] ml-[-5%]">
+            <Chart
+              options={barData.options}
+              series={barData.series}
+              type="bar"
+              height={150}
+              width={280}
+            />
           </div>
         </div>
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[150px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="text-gray-500 text-sm">Total Income</div>
-              <div className="text-2xl font-bold text-gray-800">758</div>
-              <div className="text-green-500 text-xs">
-                7% increase from last month
+              <div className="text-3xl font-bold text-gray-800 flex items-center gap-2 mt-2">
+                ₹45K
+                <span className="text-gray-900 text-xs font-normal flex items-center gap-1">
+                  <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.06043 3.49396C5.06043 3.25233 5.25631 3.05646 5.49793 3.05646L10.5054 3.05646C10.6215 3.05646 10.7327 3.10255 10.8148 3.1846C10.8968 3.26665 10.9429 3.37793 10.9429 3.49396L10.9429 8.50145C10.9429 8.74308 10.747 8.93895 10.5054 8.93895C10.2638 8.93895 10.0679 8.74308 10.0679 8.50145L10.0679 3.93146L5.49793 3.93146C5.25631 3.93146 5.06043 3.73558 5.06043 3.49396Z" fill="#1A932E" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.18387 10.8155C3.01302 10.6446 3.01302 10.3676 3.18387 10.1967L10.1259 3.25472C10.2967 3.08387 10.5738 3.08387 10.7446 3.25472C10.9155 3.42558 10.9155 3.70259 10.7446 3.87344L3.80259 10.8155C3.63173 10.9863 3.35473 10.9863 3.18387 10.8155Z" fill="#1A932E" />
+                  </svg>
+                  15% increase from last month
+                </span>
               </div>
             </div>
             <div>
@@ -551,41 +733,23 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-1 ml-[-2px]">
-            <svg
-              width="230"
-              height="70"
-              viewBox="0 0 230 70"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M285.999 4.07527V82H-4.57764e-05V18.8666C4.55615 13.9361 14.7869 3.42648 19.2602 0.831312C24.8519 -2.41265 26.7158 5.95244 36.0353 18.8666C43.4909 29.1979 51.982 23.1713 55.2956 18.8666L71.4494 11.1849C74.763 15.2744 82.3842 21.6231 86.3605 14.3021C90.3368 6.98106 100.029 4.43378 104.378 4.07527C109.687 7.15023 122.083 14.4134 129.197 18.8666C138.088 24.433 140.94 18.3099 148.657 11.1849C156.374 4.05984 164.762 12.6322 169.963 14.3021C175.163 15.972 180.364 7.84502 181.538 5.95243C182.713 4.05984 189.591 6.50908 193.114 5.95243C195.932 5.50712 196.969 -0.143697 200.921 0.147749L285.999 4.07527Z"
-                fill="url(#paint0_linear_245_4542)"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_245_4542"
-                  x1="143.999"
-                  y1="0.130859"
-                  x2="143.999"
-                  y2="82"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#61D474" />
-                  <stop offset="1" stop-color="#BDFFC8" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-            </svg>
+          <div className="mt-[-15%] ml-[-5%]">
+            <Chart
+              options={splineData2.options}
+              series={splineData2.series}
+              type="area"
+              height={150}
+              width={270}
+            />
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-5 mb-5">
         {/* Candidate Details */}
 
         {Object.keys(nextAppointment).length === 0 && (
-          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-center justify-center text-center min-h-[calc(100vh-20rem)] h-full">
+          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-center justify-center text-center min-h-[calc(100vh-100rem)] h-full">
             <div className="bg-orange-50 rounded-full p-4 mb-4">
               <Calendar className="w-12 h-12 text-orange-500" />
             </div>
@@ -599,7 +763,7 @@ const InterviewDashboard = () => {
         )}
 
         {Object.keys(nextAppointment).length != 0 && (
-          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-start text-center min-h-[calc(100vh-20rem)] h-full">
+          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-start text-center min-h-[calc(100vh-100rem)] h-full">
             <div className="w-full">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center justify-center gap-x-4">
@@ -613,7 +777,7 @@ const InterviewDashboard = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex flex-col items-start justify-start">
+                  <div className="flex flex-col items-start justify-start mt-[-10px]">
                     <p className="text-xl font-semibold">
                       {nextAppointment.candidateFirstName}{" "}
                       {nextAppointment.candidateLastName}
@@ -623,38 +787,39 @@ const InterviewDashboard = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col items-start text-[#797979] text-[16px] gap-y-1">
-                  <div className="flex gap-x-2">
+                <div className="flex flex-col items-end text-[#797979] text-[16px] gap-y-2">
+                  <div className="flex gap-x-3">
+                    <p>{nextAppointment.appDate}</p>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      height="24px"
+                      height="22px"
                       viewBox="0 -960 960 960"
                       width="24px"
                       fill="#797979"
                     >
                       <path d="M580-240q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
                     </svg>
-                    <p>{nextAppointment.appDate}</p>
                   </div>
 
-                  <div className="flex gap-x-2">
+                  <div className="flex gap-x-3">
+                    <p>{nextAppointment.appTime}</p>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      height="24px"
+                      height="22px"
                       viewBox="0 -960 960 960"
                       width="24px"
                       fill="#797979"
                     >
                       <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
                     </svg>
-                    <p>{nextAppointment.appTime}</p>
+                    
                   </div>
                 </div>
               </div>
-              <div className=" w-full ml-[10%] mt-4 flex items-center justify-around">
+              <div className=" w-full ml-[8%] mt-6 flex items-center justify-around">
                 <button
                   onClick={handleViewResume}
-                  className="flex items-center gap-x-1 justify-center px-2 py-[2px] bg-white border border-[#E65F2B] rounded-xl 
+                  className="flex items-center gap-x-1 justify-center px-2 py-[2px] bg-white border border-[#E65F2B] rounded-3xl 
                 relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
                 >
                   <span className="absolute inset-0 bg-[#E65F2B] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0 opacity-10"></span>
@@ -681,14 +846,14 @@ const InterviewDashboard = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="relative z-10 font-semibold text-[#E65F2B] text-sm">
+                  <span className="relative z-10 font-regular text-[#E65F2B] text-xl">
                     View Resume
                   </span>
                 </button>
 
                 <button
                   onClick={() => handelJoinInterview()}
-                  className="flex items-center gap-x-1 justify-center px-2 py-[2px] border border-white bg-[#E65F2B] rounded-xl 
+                  className="flex items-center gap-x-1 justify-center px-2 py-[2px] border border-white bg-[#E65F2B] rounded-3xl 
                    relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
                 >
                   <span className="absolute inset-0 bg-[#E65F2B] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0 opacity-10"></span>
@@ -716,32 +881,30 @@ const InterviewDashboard = () => {
                     />
                   </svg>
 
-                  <span className="relative z-10 font-semibold text-white text-sm">
+                  <span className="relative z-10 font-regular text-white text-xl">
                     Join Interview
                   </span>
                 </button>
               </div>
             </div>
-            <hr className="mt-4 w-full bg-[#E65F2B] border-t border-[#E65F2B] rounded-full" />
+            {/* <hr className="mt-4 w-full bg-[#E65F2B] border-t border-[#E65F2B] rounded-full" /> */}
             {/* Tabs */}
-            <div className="flex border-b  mb-4">
+            <div className="flex border-b mb-4 mt-6 gap-x-5">
               <button
                 onClick={() => setActiveTab("interviewDetails")}
-                className={`px-4 py-2 ${
-                  activeTab === "interviewDetails"
-                    ? "border-b-2 border-orange-500 text-orange-500"
-                    : "text-gray-500"
-                }`}
+                className={` ${activeTab === "interviewDetails"
+                  ? "border-b-2 border-orange-500 text-orange-500"
+                  : "text-gray-500"
+                  }`}
               >
                 Interview Details
               </button>
               <button
                 onClick={() => setActiveTab("jobDescription")}
-                className={`px-4 py-2 ${
-                  activeTab === "jobDescription"
-                    ? "border-b-2 border-orange-500 text-orange-500"
-                    : "text-gray-500"
-                }`}
+                className={`${activeTab === "jobDescription"
+                  ? "border-b-2 border-orange-500 text-orange-500"
+                  : "text-gray-500"
+                  }`}
               >
                 Job Description
               </button>
@@ -750,7 +913,7 @@ const InterviewDashboard = () => {
             {/* Content */}
             <div className="space-y-4 w-full">
               {activeTab === "interviewDetails" && (
-                <div className="w-full px-8 flex items-start justify-between">
+                <div className="w-full px-10 flex items-start justify-between">
                   <div>
                     <div className="flex gap-x-2">
                       <svg
@@ -887,8 +1050,8 @@ const InterviewDashboard = () => {
         )}
 
         {/* Receivables */}
-        <div className="p-2 flex flex-col items-center justify-between">
-          <div className="p-6 bg-[#F2EAE5] w-full h-[45%] rounded-lg">
+        <div className="flex flex-col items-center justify-between">
+          <div className="p-6 bg-[#F2EAE5] w-full h-[47%] rounded-lg shadow-md">
             <div>
               <p className="text-lg font-semibold">Pending Receivables</p>
             </div>
@@ -903,7 +1066,7 @@ const InterviewDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="p-6 bg-[#F2EAE5] w-full h-[45%] rounded-lg">
+          <div className="p-6 bg-[#F2EAE5] w-full h-[47%] rounded-lg shadow-md">
             <div>
               <p className="text-lg font-semibold">Completed Receivables</p>
             </div>

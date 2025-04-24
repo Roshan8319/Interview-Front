@@ -27,6 +27,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Cookies from 'js-cookie';
+import Profile from "../../assets/ProfileIcon.png";
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -254,23 +256,23 @@ function NavigationLayout() {
   const isMessageRouteActive =
     location.pathname === "/hiring-dog/client/message";
 
-    const [username, setUsername] = useState("");
-      useEffect(() => {
-        const storedUsername = sessionStorage.getItem("displayName");
-        
-        if (storedUsername) {
-            setUsername(storedUsername);
-        }
-    }, []);
+  const [username, setUsername] = useState("");
+  useEffect(() => {
+    const storedUsername = sessionStorage.getItem("displayName");
 
-    const handleLogOut = async ()=>{
-      
-          Cookies.remove("accessToken");
-          Cookies.remove("refreshToken");
-          sessionStorage.removeItem("displayName");
-          
-          navigate("/auth/signin");
-      }
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  const handleLogOut = async () => {
+
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    sessionStorage.removeItem("displayName");
+
+    navigate("/auth/signin");
+  }
 
 
   return (
@@ -281,65 +283,64 @@ function NavigationLayout() {
         <div className="flex items-center justify-end h-full mt-[6px]">
           <div className="flex h-full">
             <div
-              className="right-4 ml-6 bg-white w-[auto] h-[48px] flex items-center justify-start p-2 rounded-full relative"
+              className={`right-4 ml-6 bg-white w-auto h-12 flex items-center justify-start p-2 ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"} relative transition-all duration-100 ring-1 ring-black ring-opacity-5 z-10`}
               ref={dropdownRef}
             >
-              <div className="w-[38px] h-[38px] rounded-full bg-white overflow-hidden m-2">
+              <div className="w-9 h-9 rounded-3xl bg-white overflow-hidden mr-2">
                 <img
-                  src="https://i.pinimg.com/736x/aa/e7/b9/aae7b9e5b76d009af2e73c1b15d237a8.jpg"
+                  src={Profile}
                   alt="User Logo"
-                  className=" w-full h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="justify-center flex flex-col">
-                <p className="text-black text-xl">{username ? `${username}` : "Roshan"}</p>
-                {/* <p className="text-[#292D32] text-sm">Product Manager</p> */}
+              <div className="">
+                <p className="text-black text-xl">{username || "Guest"}</p>
               </div>
-              <button onClick={toggleDropdown} className="px-2 focus:outline-none">
+              <button onClick={toggleDropdown} className="px-1 focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
+                  height="22px"
                   viewBox="0 -960 960 960"
                   width="24px"
                   fill="#000000"
-                  className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""
-                    }`}
+                  className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
                 >
                   <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
                 </svg>
               </button>
-
-              {/* Dropdown Menu */}
-              {isDropdownOpen && (
+              {/* Dropdown Menu with transition effect */}
+              <div
+                className={`absolute right-0 w-full bg-white rounded-b-2xl shadow-lg ring-1 ring-black ring-opacity-5 z-10 transition-all duration-300 origin-top ${isDropdownOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
+                  }`}
+                style={{
+                  top: '100%',
+                  marginTop: '0px',
+                  borderTopLeftRadius: '0',
+                  borderTopRightRadius: '0',
+                  transformOrigin: 'top',
+                }}
+              >
                 <div
-                  className="absolute top-full right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
-                  onMouseLeave={closeDropdown}
+                  className="py-1"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="user-menu"
                 >
-                  <div
-                    className="py-1"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu"
+                  <a
+                    href="#"
+                    onClick={handleLogOut}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 rounded-b-xl"
+                    role="menuitem"
                   >
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem"
-                    >
-                      Menu
-                    </a>
-                    <a
-                      href="#"
-                      // onClick={handleLogOut}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem"
-                      onClick={handleLogOut}
-                    >
-                      Logout
-                    </a>
-                  </div>
+                    <div className="flex items-center">
+                      <svg width="26" height="26" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <span className="ml-3 text-[18px] ">Logout</span>
+                    </div>
+                  </a>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -467,13 +468,13 @@ function NavigationLayout() {
         </DrawerHeader> */}
         <Divider />
 
-        <List sx={{ border: "none", top:"40px" }}>
+        <List sx={{ border: "none", top: "40px" }}>
           {navItems.map((items) => (
             <ListItem
               key={items.text}
               disablePadding
               sx={{
-                
+
                 borderRadius: "25px",
                 overflow: "hidden",
                 display: "flex",
@@ -481,7 +482,7 @@ function NavigationLayout() {
                 justifyContent: "center",
               }}
               className={`${location.pathname.startsWith(items.link)
-                  ? "bg-[#FFFFFF]" : ""
+                ? "bg-[#FFFFFF]" : ""
                 } flex items-center justify-center `}
             >
               <ListItemButton
@@ -507,8 +508,8 @@ function NavigationLayout() {
                 <ListItemText
                   primary={items.text}
                   className={`${location.pathname.startsWith(items.link)
-                      ? "text-[#E65F2B] font-semibold "
-                      : "text-white"
+                    ? "text-[#E65F2B] font-semibold "
+                    : "text-white"
                     } ${open ? "opacity-100" : "opacity-0"}`}
                   sx={{
                     "& .MuiTypography-root": {

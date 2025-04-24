@@ -114,8 +114,8 @@ const AddJob = () => {
 
   return (
     <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7] items-center'>
-      <form className='w-[80%] flex items-center mt-10' action="">
-        <div className="w-[100%] bg-[rgba(255,255,255,0.34)] grid grid-cols-2 p-8 rounded-2xl">
+      <form className='w-[75%] flex items-center mt-10' action="">
+        <div className="w-[100%] bg-[rgba(255,255,255,0.34)] grid grid-cols-2 p-8 rounded-2xl gap-x-10">
 
           {/* Success message */}
           {isSuccess && (
@@ -132,8 +132,8 @@ const AddJob = () => {
           )}
 
           {/* Left Column */}
-          <div className='w-[100%] flex flex-col gap-y-4'>
-            <div className='flex flex-col justify-between w-[90%]'>
+          <div className='flex flex-col gap-y-4'>
+            <div className='flex flex-col justify-between'>
               <label className='whitespace-nowrap text-[15px]'>Job Title</label>
               <input
                 type="text"
@@ -145,7 +145,7 @@ const AddJob = () => {
               />
             </div>
 
-            <div className='flex flex-col w-[90%]'>
+            <div className='flex flex-col'>
               <label className='whitespace-nowrap text-[15px]'>Hiring Manager Email</label>
               <input
                 className="py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
@@ -157,7 +157,7 @@ const AddJob = () => {
               />
             </div>
 
-            <div className='relative flex flex-col w-[90%] h-fit'>
+            <div className='relative flex flex-col'>
               <label className='whitespace-nowrap text-[15px]'>Employment Type</label>
               <select
                 name='employmentType'
@@ -174,7 +174,7 @@ const AddJob = () => {
                 </svg>
               </div>
             </div>
-            <div className='flex flex-col w-[90%]'>
+            <div className='flex flex-col'>
               <label className='whitespace-nowrap text-[15px]'>Job Description</label>
               <div className='w-[100%]'>
                 <textarea
@@ -191,8 +191,8 @@ const AddJob = () => {
           </div>
 
           {/* Right Column */}
-          <div className='w-[100%] flex flex-col gap-y-4'>
-            <div className='flex flex-col w-[90%]'>
+          <div className='flex flex-col gap-y-4'>
+            <div className='flex flex-col'>
               <label className='whitespace-nowrap text-[15px]'>Job Role</label>
               <input
                 className="py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
@@ -204,7 +204,7 @@ const AddJob = () => {
               />
             </div>
 
-            <div className='flex flex-col w-[90%]'>
+            <div className='flex flex-col'>
               <label className='whitespace-nowrap text-[15px]'>Total Positions</label>
               <input
                 type="number"
@@ -221,24 +221,26 @@ const AddJob = () => {
               />
             </div>
             <div className='col-span-2'>
-              <div className='relative flex flex-col w-[90%]'>
+              <div className='relative flex flex-col'>
                 <label className='whitespace-nowrap text-[15px]'>Focus Areas</label>
                 <div className="flex flex-col">
-                  <select
-                    className="w-64 py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200 appearance-none cursor-pointer"
-                    onChange={handleAddFocusArea}
-                  >
-                    <option value="">Select a Focus Area</option>
-                    {focusAreaOptions.map((area) => (
-                      <option key={area} value={area}>
-                        {area}
-                      </option>
-                    ))}
-                  </select>
-                  <div className='absolute right-[48%] translate-y-[18px]'>
-                    <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
-                    </svg>
+                  <div className='w-64 relative'>
+                    <select
+                      className="w-64 py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200 appearance-none cursor-pointer"
+                      onChange={handleAddFocusArea}
+                    >
+                      <option value="">Select a Focus Area</option>
+                      {focusAreaOptions.map((area) => (
+                        <option key={area} value={area}>
+                          {area}
+                        </option>
+                      ))}
+                    </select>
+                    <div className='absolute right-[8%] bottom-[38%]'>
+                      <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
+                      </svg>
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {selectedFocusAreas.map((area) => (
@@ -258,24 +260,26 @@ const AddJob = () => {
               </div>
             </div>
             <div className='col-span-2'>
-              <div className='relative flex flex-col w-[90%]'>
+              <div className='relative flex flex-col'>
                 <label className='whitespace-nowrap text-[15px]'>Essentials</label>
                 <div className="flex flex-col">
-                  <select
-                    className="w-64 py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200 appearance-none cursor-pointer"
-                    onChange={handleAddEssential}
-                  >
-                    <option value="">Select an Essential</option>
-                    {essentialOptions.map((essential) => (
-                      <option key={essential} value={essential}>
-                        {essential}
-                      </option>
-                    ))}
-                  </select>
-                  <div className='absolute right-[48%] translate-y-[18px]'>
-                    <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
-                    </svg>
+                  <div className='w-64 relative'>
+                    <select
+                      className="w-64 py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200 appearance-none cursor-pointer"
+                      onChange={handleAddEssential}
+                    >
+                      <option value="">Select an Essential</option>
+                      {essentialOptions.map((essential) => (
+                        <option key={essential} value={essential}>
+                          {essential}
+                        </option>
+                      ))}
+                    </select>
+                    <div className='absolute right-[8%] bottom-[38%]'>
+                      <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
+                      </svg>
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {selectedEssentials.map((essential) => (

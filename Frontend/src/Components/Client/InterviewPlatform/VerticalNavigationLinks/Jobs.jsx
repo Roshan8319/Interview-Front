@@ -146,7 +146,7 @@ const Jobs = () => {
                   <tr key={index} className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors">
                     <td className=" py-3 px-6 max-w-max text-center ">{job.jobRole}</td>
                     <td className=" py-3 px-6 max-w-max text-center ">{job.candidateCount}</td>
-                    <td className=" py-3 px-6 max-w-max flex gap-52 ml-[16%]">
+                    <td className=" py-3 px-6 max-w-max flex gap-48 ml-[16%]">
                       <button onClick={() => navigate(`${location.pathname}/viewjob`)} >
                         <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
                           View

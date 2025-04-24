@@ -207,7 +207,7 @@ function Clients() {
 
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6 ">
+    <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6">
       <div>
         {location.pathname === "/internal/clients" && (
           <div>
@@ -356,288 +356,275 @@ function Clients() {
       </div>
 
       {/* Add Client Section */}
-      <form action="">
-        <div>
-          {location.pathname === "/internal/clients/addclient" && (
+      <div className="flex flex-col items-center justify-center">
+        {location.pathname === "/internal/clients/addclient" && (
+          <form action="" className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md">
             <div>
               <div>
-                <div class=" flex flex-row ">
-                  <ul className="flex w-[55%]  flex-col gap-y-2">
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        Client Registered Name
-                      </label>
-                      <input
-                        name="companyName"
-                        type="text"
-                        value={formData.companyName}
-                        onChange={handleChange}
-                        placeholder="Enter Client Name"
-                        required
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right w-[30%] text-gray-700 px-4">
-                        Client Website
-                      </label>
-                      <input
-                        type="text"
-                        name="companywebsite"
-                        value={formData.companywebsite}
-                        onChange={handleChange}
-                        placeholder="Enter Web Address"
-                        required
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right  text-gray-700 w-[30%] px-4">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter Client Email"
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        Password
-                      </label>
-                      <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="Enter Password"
-                        required
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        Confirm Password
-                      </label>
-                      <input
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        placeholder="Confirm Password"
-                        required
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        GSTIN
-                      </label>
-                      <input
-                        type="text"
-                        name="gstin"
-                        value={formData.gstin}
-                        onChange={handleChange}
-                        placeholder="Enter GSTIN "
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
+                <p className="text-[24px] font-semibold">Add Client</p>
+              </div>
 
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        Interview Amount
-                      </label>
-                      <input
-                        type="number"
-                        name="interviewAmount"
-                        value={formData.interviewAmount}
-                        onChange={handleChange}
-                        placeholder="Enter Amount"
-                        required
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                  </ul>
-                  <ul className=" flex flex-col gap-y-2 ">
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        Industry
-                      </label>
-                      <input
-                        type="text"
-                        name="industry"
-                        value={formData.industry}
-                        onChange={handleChange}
-                        placeholder="Enter Industry"
-                        required
-                        className="block w-[360px] h-[32px] border text-left bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <label class="text-sm font-medium text-right text-gray-700 w-[30%] px-4">
-                        Address
-                      </label>
-                      <textarea
-                        type="text"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        placeholder="Add Address"
-                        className="block  w-[360px] h-[114px] border bg-[#F6F1EE] border-gray-100 rounded-lg shadow-sm  sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                      />
-                    </li>
-                    <li className="flex items-center">
-                      <div className="flex items-center space-x-4 w-full max-w-2xl">
-                        <label
-                          htmlFor="logoUpload"
-                          className="text-sm font-medium text-gray-700 w-32 text-right pr-4"
-                        >
-                          Company Logo
-                        </label>
-
-                        <div className="flex-grow relative">
-                          <input
-                            id="logoUpload"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="hidden"
-                          />
-
-                          <div className={`w-[360px] h-40 border-2 border-dashed rounded-lg flex items-center justify-center transition-all duration-300 ease-in-out bg-[#F6F1EE] border-gray-100
-                              ${previewImage
+              {/* Company Logo */}
+              <div className="pt-2">
+                <ul className="grid">
+                  <li className="flex items-center justify-center gap-x-4 ">
+                    <div className="w-full max-w-md mx-auto">
+                      <div className="relative w-[150px] h-[150px] mx-auto rounded-full border-[#E65F2B] hover:border-[#E65F2B] transition-all duration-300 group" >
+                        <input
+                          id="logoUpload"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                        <div
+                          className={`w-full h-full flex items-center border-2 border-dashed justify-center transition-all duration-300 ease-in-out bg-[#F6F1EE] rounded-full
+                            ${previewImage
                               ? "border-green-500 bg-green-50"
-                              : "border-gray-300 hover:border-[#e65f2b] hover:bg-[#fadfd5]"
+                              : "border-orange-300 hover:border-[#E65F2B] hover:bg-[#FADFD5]"
                             }
                             `}
-                            >
-                            {previewImage ? (
-                              <div className="relative w-full h-full flex items-center justify-center p-4">
-                                <img
-                                  src={previewImage}
-                                  alt="Company Logo"
-                                  className="max-w-full max-h-full object-contain rounded-md"
-                                />
-                                <button
-                                  onClick={clearImage}
-                                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 
-                           flex items-center justify-center hover:bg-red-600 
-                           transition-colors duration-300"
-                                >
-                                  <X className="w-5 h-5" />
-                                </button>
-                              </div>
-                            ) : (
-                              <label
-                                htmlFor="logoUpload"
-                                className="flex flex-col items-center justify-center cursor-pointer 
-                              text-gray-500 hover:text-[#e65f2b] transition-colors"
+                        >
+                          {previewImage ? (
+                            <div className="relative w-full h-full flex items-center justify-center p-4">
+                              <img
+                                src={previewImage}
+                                alt="Company Logo"
+                                className="max-w-full max-h-full object-contain rounded-full"
+                              />
+                              <button
+                                onClick={clearImage}
+                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors duration-300"
                               >
-                                <ImagePlus className="w-12 h-12 mb-2" />
-                                <span className="text-sm font-medium">
-                                  Click to upload company logo
-                                </span>
-                                <span className="text-xs text-gray-400 mt-1">
-                                  PNG, JPG, or SVG (max 5MB)
-                                </span>
-                              </label>
-                            )}
-                          </div>
+                                <X className="w-5 h-5" />
+                              </button>
+                            </div>
+                          ) : (
+                            <label
+                              htmlFor="logoUpload"
+                              className="flex flex-col items-center justify-center cursor-pointer text-gray-500 hover:text-[#E65F2B] transition-colors"
+                            >
+                              <ImagePlus className="w-10 h-10 mb-2" />
+                              <span className="text-sm font-medium text-center">
+                                Upload Company<br></br>Logo
+                              </span>
+                            </label>
+                          )}
                         </div>
                       </div>
-                    </li>
-                  </ul>
-                </div>
+                      {/* File Details */}
+                      {logofile && (
+                        <div className="mt-2 text-center text-xs text-gray-500">
+                          <p className="truncate">{logofile.name}</p>
+                          <p>{(logofile.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                </ul>
               </div>
 
-              <div className="p-6 rounded-md w-full mt-6">
-                <div className="flex items-center gap-x-5 mb-4">
-                  <div class="relative group inline-block">
-                    {/* Always visible text */}
-                    <h2 class="text-lg font-semibold text-black">
-                      POINT OF CONTACT
-                    </h2>
+              {/* Data 1 */}
+              <div className="pt-4">
+                <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+                  {/* First Row */}
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Client Name</label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleChange}
+                      placeholder="Enter Client Name"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
 
-                    {/* Tooltip */}
-                    <div class="absolute left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                      Point of Contact
-                    </div>
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Website</label>
+                    <input
+                      type="url"
+                      name="companywebsite"
+                      value={formData.companywebsite}
+                      onChange={handleChange}
+                      placeholder="Enter Website URL"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Enter Email"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  {/* Second Row */}
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Industry</label>
+                    <input
+                      type="text"
+                      name="industry"
+                      value={formData.industry}
+                      onChange={handleChange}
+                      placeholder="Enter Industry"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Enter Password"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Confirm Password</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="Enter Confirm Password"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  {/* Third Row */}
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">GSTIN</label>
+                    <input
+                      type="text"
+                      name="gstin"
+                      value={formData.gstin}
+                      onChange={(e) =>
+                        setFormData({ ...formData, gstin: e.target.value.toUpperCase() })
+                      }
+                      placeholder="Enter GSTIN"
+                      style={{ textTransform: 'uppercase' }}
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                    <style>
+                      {`
+                        input[name="gstin"]::placeholder {
+                          text-transform: none; /* Keeps placeholder text in its original case */
+                        }
+                      `}
+                    </style>
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Address</label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      placeholder="Enter Address"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Interview Amount</label>
+                    <input
+                      type="number"
+                      name="interviewAmount"
+                      value={formData.interviewAmount}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Allow only positive numbers or empty input
+                        if (value === "" || Number(value) >= 0) {
+                          setFormData({ ...formData, interviewAmount: value });
+                        }
+                      }}
+                      min="1"
+                      placeholder="Enter Amount"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
                   </div>
                 </div>
+              </div>
 
-                {/* Rows */}
-                <div className="space-y-4">
-                  {rows.map((row, index) => (
-                    <div
-                      key={index}
-                      className="grid grid-cols-[1fr_1fr_1fr_auto] gap-4"
-                    >
-                      <div className="p-2 flex items-center justify-center gap-3">
-                        <label className="text-base font-medium text-gray-600">
-                          Name:{" "}
-                        </label>
-                        <input
-                          type="text"
-                          name="pocName"
-                          value={formData.pocName}
-                          onChange={handleChange}
-                          placeholder="Enter POC Name"
-                          className="w-full p-2 border text-center border-gray-100 bg-[#F6F1EE] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                        />
-                      </div>
-                      <div className="p-2 flex items-center justify-center gap-3">
-                        <label className="text-base font-medium text-gray-600">
-                          Email:
-                        </label>
-                        <input
-                          type="email"
-                          name="pocEmail"
-                          value={formData.pocEmail}
-                          onChange={handleChange}
-                          placeholder="Enter Email"
-                          className="w-full p-2 border text-center border-gray-100 bg-[#F6F1EE] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                        />
-                      </div>
-                      <div className="p-2 flex items-center justify-center gap-3">
-                        <label className="text-base font-medium text-gray-600">
-                          Mobile:
-                        </label>
-                        <input
-                          type="number"
-                          name="pocContactNumber"
-                          value={formData.pocContactNumber}
-                          onChange={handleChange}
-                          placeholder="Enter Number"
-                          className="w-full p-2 border text-center border-gray-100 bg-[#F6F1EE] rounded-md focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
-                        />
-                      </div>
-                      <div className="col-span-1 flex items-center space-x-2"></div>
-                    </div>
-                  ))}
-                </div>
+              {/* Data 2 */}
+              <div className="pt-6">
+                <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+                  <h2 className="text-[20px] font-semibold col-span-3">
+                    Point of Contact
+                  </h2>
+                  {/* First Row */}
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">POC Name</label>
+                    <input
+                      type="text"
+                      name="pocName"
+                      value={formData.pocName}
+                      onChange={handleChange}
+                      placeholder="Enter POC Name"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
 
-                <div className="mt-6 flex justify-end">
-                  <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className=" h-[40px] flex items-center gap-2 text-[#E65F2B] bg-white px-6 py-3 rounded-full text-[18px] font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px] active:shadow-md"
-                  >
-                    Submit
-                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M20.7179 10.8489C20.8466 10.9778 20.9189 11.1525 20.9189 11.3347C20.9189 11.5169 20.8466 11.6916 20.7179 11.8206L14.3131 18.2372C14.2497 18.3029 14.1739 18.3553 14.09 18.3914C14.0062 18.4275 13.916 18.4465 13.8247 18.4473C13.7334 18.4481 13.6429 18.4308 13.5584 18.3963C13.4739 18.3617 13.3971 18.3107 13.3325 18.2462C13.2679 18.1817 13.2168 18.1049 13.1822 18.0205C13.1476 17.936 13.1302 17.8455 13.1309 17.7542C13.1317 17.6629 13.1506 17.5727 13.1866 17.4888C13.2226 17.4049 13.2749 17.329 13.3406 17.2656L18.5729 12.0231L3.73205 12.0332C3.54972 12.0335 3.37475 11.9613 3.24565 11.8325C3.11654 11.7037 3.04388 11.529 3.04363 11.3466C3.04339 11.1643 3.11559 10.9893 3.24435 10.8602C3.37311 10.7311 3.54788 10.6585 3.73022 10.6582L18.5747 10.6491L13.3396 5.40389C13.274 5.34044 13.2217 5.26455 13.1857 5.18066C13.1497 5.09676 13.1308 5.00654 13.13 4.91525C13.1293 4.82397 13.1467 4.73345 13.1813 4.64897C13.2159 4.5645 13.267 4.48776 13.3316 4.42324C13.3962 4.35872 13.4729 4.30771 13.5575 4.27318C13.642 4.23865 13.7325 4.2213 13.8238 4.22214C13.9151 4.22297 14.0053 4.24198 14.0891 4.27805C14.173 4.31412 14.2488 4.36653 14.3122 4.43222L20.7179 10.8489Z" fill="#E65F2B" />
-                    </svg>
-                  </button>
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Email</label>
+                    <input
+                      type="email"
+                      name="pocEmail"
+                      value={formData.pocEmail}
+                      onChange={handleChange}
+                      placeholder="Enter Email"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-gray-700">Phone</label>
+                    <input
+                      type="number"
+                      name="pocContactNumber"
+                      value={formData.pocContactNumber}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Allow only positive numbers or empty input
+                        if (value === "" || Number(value) >= 0) {
+                          setFormData({ ...formData, pocContactNumber: value });
+                        }
+                      }}
+                      placeholder="Enter Phone Number"
+                      className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      </form>
 
+              {/* Submit Button */}
+              <div className="flex justify-end mt-6">
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="h-[40px] flex items-center gap-2 text-[#E65F2B] bg-white px-6 py-3 rounded-full text-[18px] font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px] active:shadow-md"
+                >
+                  Submit
+                  <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.7179 10.8489C20.8466 10.9778 20.9189 11.1525 20.9189 11.3347C20.9189 11.5169 20.8466 11.6916 20.7179 11.8206L14.3131 18.2372C14.2497 18.3029 14.1739 18.3553 14.09 18.3914C14.0062 18.4275 13.916 18.4465 13.8247 18.4473C13.7334 18.4481 13.6429 18.4308 13.5584 18.3963C13.4739 18.3617 13.3971 18.3107 13.3325 18.2462C13.2679 18.1817 13.2168 18.1049 13.1822 18.0205C13.1476 17.936 13.1302 17.8455 13.1309 17.7542C13.1317 17.6629 13.1506 17.5727 13.1866 17.4888C13.2226 17.4049 13.2749 17.329 13.3406 17.2656L18.5729 12.0231L3.73205 12.0332C3.54972 12.0335 3.37475 11.9613 3.24565 11.8325C3.11654 11.7037 3.04388 11.529 3.04363 11.3466C3.04339 11.1643 3.11559 10.9893 3.24435 10.8602C3.37311 10.7311 3.54788 10.6585 3.73022 10.6582L18.5747 10.6491L13.3396 5.40389C13.274 5.34044 13.2217 5.26455 13.1857 5.18066C13.1497 5.09676 13.1308 5.00654 13.13 4.91525C13.1293 4.82397 13.1467 4.73345 13.1813 4.64897C13.2159 4.5645 13.267 4.48776 13.3316 4.42324C13.3962 4.35872 13.4729 4.30771 13.5575 4.27318C13.642 4.23865 13.7325 4.2213 13.8238 4.22214C13.9151 4.22297 14.0053 4.24198 14.0891 4.27805C14.173 4.31412 14.2488 4.36653 14.3122 4.43222L20.7179 10.8489Z" fill="#E65F2B" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
