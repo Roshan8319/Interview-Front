@@ -49,6 +49,7 @@ import Calendar from "./Interviewer/Calendar";
 import Receivables from "./Interviewer/Receivables";
 import InterviewHistory from "./Interviewer/InterviewHistory";
 import FetchInterviewDetails from "./Interviewer/FetchInterviewDetails";
+import Feedback from "./Interviewer/Feedback";
 
 
 
@@ -71,7 +72,7 @@ export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, Analytics
 export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages,RecentsInterviews}
 
 //Interviewer Exports
-export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables,FetchInterviewDetails}
+export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables,FetchInterviewDetails,Feedback}
 
 // Landing Exports
 export {LandingNavigationLayout}

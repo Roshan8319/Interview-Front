@@ -20,7 +20,7 @@ import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics, Ana
 //Internal Imports
 import { InternalNavigationLayout, InternalDashboard, InternalClients, InternalInterviewer, InternalUsers, InternalAgreements, InternalFinance, InternalEngagement, InternalMessages, RecentsInterviews } from "./Components"
 //Interviewer Imports
-import { InterviewerNavigationLayout, InterviewerDashboard, MeetingScreen, Calendar, InterviewHistory, Profile, Receivables, FetchInterviewDetails } from './Components'
+import { InterviewerNavigationLayout, InterviewerDashboard, MeetingScreen, Calendar, InterviewHistory, Profile, Receivables, FetchInterviewDetails,Feedback } from './Components'
 import { Hello } from './Components'
 import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
 
@@ -100,6 +100,7 @@ const router = createBrowserRouter(
         <Route path='calendar' element={<Calendar />} />
         <Route path='receivables' element={<Receivables />} />
         <Route path='interview-history' element={<InterviewHistory />} />
+        <Route path='feedback' element={<Feedback />} />
 
       </Route>
 
