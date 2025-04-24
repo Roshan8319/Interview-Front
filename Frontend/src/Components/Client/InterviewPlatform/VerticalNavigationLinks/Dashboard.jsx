@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/Components/UI/Card";
+} from "@/Components/ui/Card";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { BarChart, Bar, Legend } from 'recharts';
 
