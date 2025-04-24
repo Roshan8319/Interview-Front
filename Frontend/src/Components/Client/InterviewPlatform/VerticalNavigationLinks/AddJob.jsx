@@ -105,7 +105,7 @@ const AddJob = () => {
       });
       setSelectedEssentials([]);
       setSelectedFocusAreas([]);
-
+  
     } catch (error) {
       console.error("Error submitting form:", error.response?.data || error);
       setErrorMessage(error.response?.data?.errorMessage || "Failed to add job. Please try again.");
