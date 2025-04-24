@@ -263,7 +263,7 @@ function AddInterviewer() {
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full text-gray-500 group-hover:text-[#E65F2B] transition-colors">
                         <Camera className="w-[40px] h-[40px] mb-2" />
-                        <span className="text-sm">Upload Profile Photo</span>
+                        <span className="text-sm text-center">Upload Profile <br/>Photo</span>
                       </div>
                     )}
 

@@ -1,7 +1,15 @@
 import React from 'react';
 import Group50 from '../../assets/Group50.png';
+import { useNavigate } from 'react-router-dom';
 
 function First() {
+    const navigate = useNavigate();
+
+    const naviToContact = () => {
+        navigate('/contact', { replace: true }); // Replace current route
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    }
+
     return (
         <div className='p-4 w-full h-auto flex flex-col lg:flex-row justify-center items-center min-h-[calc(100vh-70px)] bg-[#FFFFFF] gap-6 lg:gap-[8%]'>
             {/* 1st Section */}
@@ -29,7 +37,7 @@ function First() {
                     {/* Buttons */}
                     <div className='w-full flex flex-col lg:flex-row justify-center lg:justify-start items-center gap-y-4 lg:gap-y-0 gap-x-6 lg:gap-x-14'>
                         <button className='w-[200px] lg:w-[230px] h-[50px] lg:h-[54px] bg-[#E65F2B] rounded-[50px] shadow-md hover:bg-[#d14f24] transition-all'>
-                            <div className='text-[18px] lg:text-[24px] font-bold text-white'>
+                            <div onClick={naviToContact} className='text-[18px] lg:text-[24px] font-bold text-white'>
                                 Sign Up Now
                             </div>
                         </button>

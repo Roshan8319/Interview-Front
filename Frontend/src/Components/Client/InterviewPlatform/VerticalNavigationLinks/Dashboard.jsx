@@ -1,259 +1,294 @@
 import React from 'react';
-import { useEffect } from 'react';
-import {motion, useAnimation} from 'framer-motion';
-
-//variants
-
-import { useInView } from 'react-intersection-observer';
-
-const styles = {
-  shadow1: {
-    boxShadow: '0 0px 6px #c1c1c1, 0 -0px 0px #c1c1c1, 0px 0 0px #c1c1c1, -0px 0 6px #c1c1c1'
-  }
-};
-
+import { TrendingUp, TrendingDown } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { BarChart, Bar, Legend } from 'recharts';
 
 function Dashboard() {
-  
-  
-  function fadeIn(direction, delay) {
-    let hidden = { opacity: 0 };
-    
-    if (direction === 'up') hidden.y = 20;
-    else if (direction === 'down') hidden.y = -20;
-    else if (direction === 'left') hidden.x = 80;
-    else if (direction === 'right') hidden.x = -80;
-    else {
-        hidden.y = 0;
-        hidden.x = 0;
+  const metricsData = [
+    {
+      title: "Total Interviews",
+      value: "14",
+      trend: "+8.7%",
+      trending: "up",
+      subtitle: "More than last month",
+      description: "Last 6 months"
+    },
+    {
+      title: "Pending Interviews",
+      value: "5",
+      trend: "-16.4%",
+      trending: "down",
+      subtitle: "Fewer pending now",
+      description: "Needs scheduling"
+    },
+    {
+      title: "Recommended",
+      value: "7",
+      trend: "+22%",
+      trending: "up",
+      subtitle: "Higher quality pool",
+      description: "Strong candidates"
+    },
+    {
+      title: "Offers Accepted",
+      value: "3",
+      trend: "+5.2%",
+      trending: "up",
+      subtitle: "Better conversions",
+      description: "Positive outcomes"
     }
+  ];
 
-    const show = {
-        y: 0,
-        x: 0,
-        opacity: 1,
-        transition: {
-            type: 'tween',
-            duration: 1.2,
-            delay: delay,
-            ease: [0.25, 0.25, 0.25, 0.75],
-        },
-    };
+  const chartData = [
+    { role: 'SDE I', visitors: 20 },
+    { role: 'SDE II', visitors: 8 },
+    { role: 'SDE III', visitors: 25 },
+    { role: 'EM', visitors: 10 },
+    { role: 'SDET I', visitors: 34 },
+    { role: 'SDE II', visitors: 18 },
+  ];
 
-    return { hidden, show };
-}
+  const analyticsData = [
+    {
+      name: 'Jan',
+      interviews: 95,
+      selected: 42,
+      rejected: 38,
+    },
+    {
+      name: 'Feb',
+      interviews: 110,
+      selected: 51,
+      rejected: 47,
+    },
+    {
+      name: 'Mar',
+      interviews: 130,
+      selected: 65,
+      rejected: 55,
+    },
+    {
+      name: 'Apr',
+      interviews: 120,
+      selected: 58,
+      rejected: 52,
+    },
+  ];
 
-//Animation
-  const controls1 = useAnimation();
-  const controls2 = useAnimation();
-  const controls3 = useAnimation();
-  const controls4 = useAnimation();
-
-  const [ref1, inView1] = useInView({
-    triggerOnce: true, 
-  });
-  const [ref2, inView2] = useInView({
-    triggerOnce: true, 
-  });
-  const [ref3, inView3] = useInView({
-    triggerOnce: true, 
-  });
-  const [ref4, inView4] = useInView({
-    triggerOnce: true, 
-  });
-
-  useEffect(() => {
-    if (inView1) {
-      controls1.start("show"); 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-2 rounded-lg shadow-md border border-gray-100 text-sm">
+          <p className="font-regular text-gray-600">{`${label}`}</p>
+          <p className="text-[#E65F2B] font-medium">
+            {`Tasks: ${payload[0].value}`}
+          </p>
+        </div>
+      );
     }
-    if (inView2) {
-      controls2.start("show"); 
+    return null;
+  };
+
+  const BarChartTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 rounded-lg shadow-md border border-gray-100">
+          <p className="font-medium text-gray-600 mb-1">{label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.color }} className="text-sm">
+              {`${entry.name}: ${entry.value}`}
+            </p>
+          ))}
+        </div>
+      );
     }
-    if (inView3) {
-      controls3.start("show"); 
-    }
-    if (inView4) {
-      controls4.start("show"); 
-    }
-  }, [controls1, inView1, controls2, inView2, controls3, inView3, controls4, inView4]);
+    return null;
+  };
+
 
   return (
-    <div className=' min-h-[calc(100vh-64px)] bg-[#EBDFD7]  p-1 pt-4 grid grid-cols-2'>
-      {/* Pending Task */}
-
-      <div className='pendingTaskContainer p-4 w-full flex flex-col items-center'>
-      <motion.div
-           ref={ref1} 
-           variants={fadeIn('right', 0.2)} 
-           initial="hidden"
-           animate={controls1} 
-        className='flex ' >
-        <div className='ml-[5%]'>
-          <div className='pendingTaskHeading'>
-            <h1 className='text-[18px] font-semibold text-[#E65F2B]'>Pending Task <span className='text-white text-sm font-normal bg-[#E65F2B] px-2 py-2 rounded-full'>38</span></h1>
-          </div>
-          <div className='pendingTaskBox mt-5'>
-            <div className="p-6 bg-[#ffffff57] rounded-xl w-[400px] h-[246px] transition ease-linear delay-150 hover:-translate-y-0 hover:scale-110 shadow "  >
-              <div className="grid grid-cols-2 gap-2 md:gap-4 gap-y-4 md:gap-y-6 text-center overflow-auto">
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">SDE II</p>
-                  <p className="text-lg md:text-sm font-bold">12</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">SDE III</p>
-                  <p className="text-lg md:text-sm font-bold">8</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">SDET I</p>
-                  <p className="text-lg md:text-sm font-bold">25</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">EM</p>
-                  <p className="text-lg md:text-sm font-bold">6</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">SDE I (Frontend)</p>
-                  <p className="text-lg md:text-sm font-bold">10</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">SDE II (Frontend)</p>
-                  <p className="text-lg md:text-sm font-bold">34</p>
-                </div>
+    <div className='min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4'>
+      {/* Metrics Cards Row */}
+      <div className='grid grid-cols-4 gap-6 p-4'>
+        {metricsData.map((metric, index) => (
+          <Card key={index} className="bg-[#F2EAE5] rounded-xl shadow-sm">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-gray-500 text-sm font-medium">
+                  {metric.title}
+                </CardTitle>
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${metric.trending === 'up' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
+                  }`}>
+                  {metric.trend}
+                  {metric.trending === 'up' ?
+                    <TrendingUp className="h-3 w-3 ml-1" /> :
+                    <TrendingDown className="h-3 w-3 ml-1" />
+                  }
+                </span>
               </div>
-
-            </div>
-          </div>
-        </div>
-    </motion.div>
-
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold mb-1">
+                {metric.value}
+              </div>
+              <div className="flex items-center text-sm font-medium">
+                {metric.subtitle}
+                {metric.trending === 'up' ?
+                  <TrendingUp className="h-4 w-4 ml-1" /> :
+                  <TrendingDown className="h-4 w-4 ml-1" />
+                }
+              </div>
+              <CardDescription className="text-sm text-gray-500 mt-1">
+                {metric.description}
+              </CardDescription>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* All Task */}
-      <div className='pendingTaskContainer p-4 w-full flex flex-col items-center'>
-      <motion.div
-             ref={ref2}
-             variants={fadeIn('left',0.1)}
-             initial="hidden"
-             animate={controls2}
-             
-             className='flex ' >
-        <div className='ml-[5%] flex-grow flex flex-col'>
-          <div className='pendingTaskHeading'>
-          <h1 className='text-[18px] font-semibold text-[#E65F2B]'>All Task <span className='text-white text-sm font-normal  bg-[#E65F2B] px-2 py-2 rounded-full'>38</span></h1>
-          </div>
-          <div className='pendingTaskBox mt-5 '>
-            <div className="p-6 bg-[#FFFFFF57] shadow rounded-xl w-[400px] h-[246px] transition ease-linear delay-150 hover:-translate-y-0 hover:scale-110 " >
-              <div className="grid grid-cols-2 gap-2 md:gap-4 gap-y-4 md:gap-y-6 text-center overflow-auto">
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Total Interviews</p>
-                  <p className="text-lg md:text-sm font-bold">12</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Pending Schedule</p>
-                  <p className="text-lg md:text-sm font-bold">8</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Selects</p>
-                  <p className="text-lg md:text-sm font-bold">25</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Joined</p>
-                  <p className="text-lg md:text-sm font-bold">6</p>
-                </div>
+      {/* Chart */}
+      <div className="grid grid-cols-2 gap-6 p-4">
+        {/* First Column - Area Chart */}
+        <Card className="bg-[#F2EAE5] rounded-xl shadow-sm">
+          <CardHeader className="">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-xl font-semibold text-gray-800">
+                  Total Pending Tasks
+                </CardTitle>
+                <CardDescription className="text-gray-500">
+                  Total for the last 3 months
+                </CardDescription>
               </div>
-
             </div>
-          </div>
-        </div>
-        </motion.div>
-
-      </div>
-
-
-      {/* My Jobs */}
-      <div className='pendingTaskContainer p-4 w-full flex flex-col items-center'>
-      <motion.div 
-              ref={ref3}
-              variants={fadeIn('right',0.1)}
-              initial="hidden"
-              animate={controls3}
-
-        className='flex' > 
-        <div className='ml-[5%] flex-grow flex flex-col  '>
-          <div className='pendingTaskHeading'>
-            <h1 className='text-[18px] font-semibold text-[#E65F2B]'>My Jobs </h1>
-          </div>
-          <div className='pendingTaskBox mt-5 '>
-            <div  className="p-6 bg-[#FFFFFF57] shadow rounded-xl w-[400px] h-[170px] transition ease-linear delay-150 hover:-translate-y-0 hover:scale-110" >
-              <div className="grid grid-cols-2 gap-2 md:gap-4 gap-y-4  md:gap-y-6 text-center overflow-auto">
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">My Jobs</p>
-                  <p className="text-lg md:text-sm font-bold">50</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Total Candidates</p>
-                  <p className="text-lg md:text-sm font-bold">650</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Selected Candidates</p>
-                  <p className="text-lg md:text-sm font-bold">340</p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Rejected Candidates</p>
-                  <p className="text-lg md:text-sm font-bold">244</p>
-                </div>
-              </div>
-
+          </CardHeader>
+          <CardContent>
+            <div className="h-[200px] mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart
+                  data={chartData}
+                  margin={{ top: 0, right: 0, left: 0, bottom: 0 }} // Adjusted margins
+                >
+                  <defs>
+                    <linearGradient id="colorVisitors1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#E65F2B" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#E65F2B" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="role"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12 }}
+                    padding={{ left: 10, right: 10 }} // Added padding
+                    interval={0} // Show all ticks
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12 }}
+                    width={30} // Added fixed width
+                  />
+                  <Tooltip
+                    content={<CustomTooltip />}
+                    cursor={{ stroke: '#E65F2B', strokeWidth: 0 }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="visitors"
+                    stroke="#E65F2B"
+                    fillOpacity={1}
+                    fill="url(#colorVisitors1)"
+                    baseLine={8} // Added baseline
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
-          </div>
-        </div>
-      </motion.div>
-      </div>
+          </CardContent>
+        </Card>
 
-
-      {/* Analytics */}
-      <div className='pendingTaskContainer p-4 w-full flex flex-col items-center'>
-      <motion.div 
-             ref={ref4}
-             variants={fadeIn('left',0.1)}
-             initial="hidden"
-             animate={controls4}
-            className='flex' >
-        <div className='ml-[5%] flex-grow flex flex-col '>
-          <div className='pendingTaskHeading text-start '>
-            <h1 className='text-[18px] font-semibold text-[#E65F2B]'>Analytics</h1>
-          </div>
-          <div className='pendingTaskBox mt-5 '>
-            <div  className="p-6 bg-[#FFFFFF57] shadow rounded-xl w-[400px] h-[170px] transition ease-linear delay-150 hover:-translate-y-0 hover:scale-110">
-              <div className="grid grid-cols-2 gap-2 md:gap-4 gap-y-4  md:gap-y-6 text-left overflow-auto">
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Companies with More Selects</p>
-                  <p className="text-lg md:text-sm font-bold"></p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Diversity Ratio</p>
-                  <p className="text-lg md:text-sm font-bold"></p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Role Wise Company Selects</p>
-                  <p className="text-lg md:text-sm font-bold"></p>
-                </div>
-                <div className='p-1 flex flex-col items-start '>
-                  <p className="text-base md:text-sm">Interview Declined</p>
-                  <p className="text-lg md:text-sm font-bold"></p>
-                </div>
-              </div>
-
+        {/* Second Column - Future Graph */}
+        <Card className="bg-[#F2EAE5] rounded-xl shadow-sm p-2">
+          <CardHeader className="">
+            <div>
+              <CardTitle className="text-xl font-semibold text-gray-800">
+                Analytics Overview
+              </CardTitle>
+              <CardDescription className="text-gray-500">
+                Monthly Interview Statistics
+              </CardDescription>
             </div>
-          </div>
-        </div>
-      </motion.div>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[200px] mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={analyticsData}
+                  margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+                >
+                  <XAxis
+                    dataKey="name"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12 }}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12 }}
+                    width={30}
+                  />
+                  <Tooltip content={<BarChartTooltip />}
+                    cursor={{
+                      fill: '#F3F4F6',
+                      opacity: 0.2,
+                      strokeWidth: 0,
+                      width: 30  // This controls the width of the grey highlight
+                    }}
+                  />
+                  <Legend
+                    wrapperStyle={{ fontSize: '12px' }}
+                    iconType="circle"
+                  />
+                  <Bar
+                    dataKey="interviews"
+                    stackId="a"
+                    fill="#E65F2B"
+                    radius={[0, 0, 0, 0]}
+                    name="Total Interviews"
+                    barSize={60}
+                  />
+                  <Bar
+                    dataKey="selected"
+                    stackId="a"
+                    fill="#10B981"
+                    radius={[0, 0, 0, 0]}
+                    name="Selected"
+                    barSize={60}
+                  />
+                  <Bar
+                    dataKey="rejected"
+                    stackId="a"
+                    fill="#EF4444"
+                    radius={[4, 4, 0, 0]}
+                    name="Rejected"
+                    barSize={60}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-
-
-
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

@@ -9,6 +9,7 @@ import OurProduct from './OurProduct';
 import EffortlessHiring from './EffortlessHiring';
 import { useNavigate } from 'react-router-dom';
 import Load from '../../assets/Load';
+import { Outlet } from 'react-router-dom';
 
 function NavigationLayout() {
     const navigate = useNavigate();
@@ -47,25 +48,69 @@ function NavigationLayout() {
         navigate('/auth/signin');
     };
 
+    const naviToTerms = () => {
+        navigate('/terms', { replace: true }); // Replace current route
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    };
+
+    const naviToPrivacy = () => {
+        navigate('/privacy', { replace: true }); // Replace current route
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    };
+
+    const naviToContact = () => {
+        navigate('/contact', { replace: true }); // Replace current route
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    };
+
+    const navigateToHome = () => {
+        navigate('/', { replace: true }); // Replace current route
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    };
+
     const scrollToProduct = (e) => {
         e.preventDefault();
         const productSection = document.getElementById('product-section');
+        const headerOffset = document.querySelector('.sticky').offsetHeight;
         if (productSection) {
-            productSection.scrollIntoView({ behavior: 'smooth' });
+            const elementPosition = productSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     };
+
+    // Update other scroll functions similarly
     const scrollToAboutUs = (e) => {
         e.preventDefault();
         const productSection = document.getElementById('About-us-section');
+        const headerOffset = document.querySelector('.sticky').offsetHeight;
         if (productSection) {
-            productSection.scrollIntoView({ behavior: 'smooth' });
+            const elementPosition = productSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     };
+
     const scrollToContactUs = (e) => {
         e.preventDefault();
         const productSection = document.getElementById('contact-section');
+        const headerOffset = document.querySelector('.sticky').offsetHeight;
         if (productSection) {
-            productSection.scrollIntoView({ behavior: 'smooth' });
+            const elementPosition = productSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     };
 
@@ -82,7 +127,7 @@ function NavigationLayout() {
                     <div className="sticky top-0 z-50 bg-white">
                         <div className={`w-full flex justify-between items-center py-2 px-4 md:px-2 ${isScrolled ? 'shadow-md' : ''}`}>
                             {/* Logo */}
-                            <div className="flex items-center px-0 md:px-10">
+                            <div className="flex items-center px-0 md:px-10 cursor-pointer" onClick={navigateToHome}>
                                 <svg
                                     width="180"
                                     height="42"
@@ -174,7 +219,7 @@ function NavigationLayout() {
 
                             {/* Sign In and Join as Interviewer */}
                             <div className="hidden md:flex items-center gap-x-6 px-10">
-                                <button className="text-[#E65F2B] font-medium whitespace-nowrap text-sm md:text-base">
+                                <button onClick={naviToContact} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm md:text-base">
                                     <span className="text-[16px] md:text-[18px] hover:underline">Join as interviewer</span>
                                 </button>
                                 <button
@@ -215,27 +260,34 @@ function NavigationLayout() {
 
                     {/* Main Content */}
                     <div className="flex-grow">
-                        <YourEngineerBuild />
-                        <EveryHiringSolution />
-                        <EffortlessHiring />
+                        {window.location.pathname === '/' ? (
+                            <>
+                                <YourEngineerBuild />
+                                <EveryHiringSolution />
+                                <EffortlessHiring />
 
-                        <WhomWeSupport />
-                        <div id="product-section">
-                            <OurProduct />
-                        </div>
-                        <div id='About-us-section'>
-                            <OurTeam />
-                        </div>
-                        <div id='contact-section'>
-                            <GrowYourTeam />
-                        </div>
+                                <WhomWeSupport />
+                                <div id="product-section">
+                                    <OurProduct />
+                                </div>
+                                <div id='About-us-section'>
+                                    <OurTeam />
+                                </div>
+                                <div id='contact-section'>
+                                    <GrowYourTeam />
+                                </div>
+                            </>
+                        ) : (
+                            <Outlet />
+                        )}
                     </div>
                     {/* Footer */}
                     <div className="bg-[#0F172A]">
                         <footer className='w-full px-4 md:w-[95%] mx-auto text-[#E2E8F0]' >
+                            {/* Footer content wrapper */}
                             <div className='w-full flex flex-col md:flex-row border-b-[1px] border-[#E2E8F0] py-8 md:py-0' >
+                                {/* Logo and tagline section */}
                                 <div className='w-full md:w-[30%] flex flex-col gap-y-4 items-start text-left mt-0 md:mt-6 pb-8 md:pb-16' >
-                                    {/* Logo */}
                                     <div className="w-[260px] md:w-[300px]">
                                         <svg
                                             width="300"
@@ -292,15 +344,16 @@ function NavigationLayout() {
                                         <p>We handle the interviews</p>
                                     </div>
                                 </div>
-                                {/* Social section */}
-                                <div className='w-full md:w-[70%] flex flex-col md:flex-row items-start justify-start mt-6 md:mt-14 pl-2 md:pl-5 pb-8 md:pb-10 gap-8 md:gap-0' >
+
+                                {/* Social section - adjusted width and spacing */}
+                                <div className='w-full md:w-[70%] flex flex-col md:flex-row items-start md:items-start justify-end mt-6 md:mt-12 pb-8 md:pb-10 gap-8 md:gap-24 pr-12 pl-2' >
                                     {/* Sitemap Section */}
-                                    <div className='w-full md:w-[24%] flex flex-col gap-y-3 items-start text-left' >
+                                    <div className='w-full md:w-auto flex flex-col gap-y-3 items-start' >
                                         <p>Sitemap</p>
                                         <ul className='flex flex-col gap-y-3' >
-                                            <li><a href='#' className='hover:text-[#E65F2B]' >Products</a></li>
-                                            <li><a href='#' className='hover:text-[#E65F2B]' >Pricing</a></li>
-                                            <li><a href='#' className='hover:text-[#E65F2B]' >About Us</a></li>
+                                            <li><a href='#' onClick={scrollToProduct} className='hover:text-[#E65F2B]' >Products</a></li>
+                                            <li><a href='#' onClick={scrollToContactUs} className='hover:text-[#E65F2B]' >Pricing</a></li>
+                                            <li><a href='#' onClick={scrollToAboutUs} className='hover:text-[#E65F2B]' >About Us</a></li>
                                             <li><a href='#' className='hover:text-[#E65F2B] flex' >Request Demo
                                                 <svg width="25" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.586 11.6247L11.636 7.67469C11.4538 7.48609 11.353 7.23349 11.3553 6.97129C11.3576 6.70909 11.4628 6.45828 11.6482 6.27287C11.8336 6.08747 12.0844 5.9823 12.3466 5.98002C12.6088 5.97774 12.8614 6.07853 13.05 6.26069L18.707 11.9177C18.8002 12.0103 18.8741 12.1205 18.9246 12.2418C18.9751 12.3632 19.001 12.4933 19.001 12.6247C19.001 12.7561 18.9751 12.8862 18.9246 13.0075C18.8741 13.1289 18.8002 13.239 18.707 13.3317L13.05 18.9887C12.9578 19.0842 12.8474 19.1604 12.7254 19.2128C12.6034 19.2652 12.4722 19.2928 12.3394 19.2939C12.2066 19.2951 12.0749 19.2698 11.952 19.2195C11.8291 19.1692 11.7175 19.095 11.6236 19.0011C11.5297 18.9072 11.4555 18.7955 11.4052 18.6726C11.3549 18.5498 11.3296 18.4181 11.3307 18.2853C11.3319 18.1525 11.3595 18.0213 11.4119 17.8993C11.4643 17.7773 11.5405 17.6669 11.636 17.5747L15.586 13.6247H6C5.73478 13.6247 5.48043 13.5193 5.29289 13.3318C5.10536 13.1443 5 12.8899 5 12.6247C5 12.3595 5.10536 12.1051 5.29289 11.9176C5.48043 11.73 5.73478 11.6247 6 11.6247H15.586Z" fill="#E2E8F0" />
@@ -308,8 +361,9 @@ function NavigationLayout() {
                                             </a></li>
                                         </ul>
                                     </div>
+
                                     {/* Contact Section */}
-                                    <div className='w-full md:w-[38%] flex flex-col gap-y-3 items-start text-left' >
+                                    <div className='w-full md:w-auto flex flex-col gap-y-3 items-start' >
                                         <p>Contact Us</p>
                                         <ul className='flex flex-col gap-y-3' >
                                             <li className='flex items-center gap-x-4' >
@@ -340,8 +394,9 @@ function NavigationLayout() {
 
                                         </ul>
                                     </div>
+
                                     {/* Connect Section */}
-                                    <div className='w-full md:w-[38%] flex flex-col gap-y-3 items-start text-left' >
+                                    <div className='w-full md:w-auto flex flex-col gap-y-3 items-start' >
                                         <p>Connect with us</p>
                                         <ul className='flex flex-col gap-y-3'>
                                             <li className='flex items-center gap-x-4' >
@@ -368,12 +423,12 @@ function NavigationLayout() {
                             {/* Copyright Section */}
                             <div className='w-full flex flex-col md:flex-row justify-between items-start text-left gap-y-4 md:gap-y-0 py-6 text-sm md:text-base' >
                                 <div className="text-center md:text-left">
-                                    Recrumeta © 2025. All rights reserved.
+                                    © 2025 Recrumeta. All rights reserved.
                                 </div>
                                 <div className='flex gap-x-4 md:gap-x-8' >
-                                    <Link to='#' className='hover:text-[#E65F2B]'>Terms</Link>
-                                    <Link to='#' className='hover:text-[#E65F2B]'>Privacy</Link>
-                                    <Link to='#' className='hover:text-[#E65F2B]'>Contact</Link>
+                                    <span onClick={naviToTerms} className='hover:text-[#E65F2B] cursor-pointer'>Terms & Conditions</span>
+                                    <span onClick={naviToPrivacy} className='hover:text-[#E65F2B] cursor-pointer'>Privacy Policy</span>
+                                    <span onClick={naviToContact} className='hover:text-[#E65F2B] cursor-pointer'>Contact Us</span>
                                 </div>
                             </div>
                         </footer>

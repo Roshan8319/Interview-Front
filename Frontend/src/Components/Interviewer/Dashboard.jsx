@@ -647,7 +647,7 @@ const InterviewDashboard = () => {
             <div>
               <div className="text-gray-500 text-sm">Today's Income</div>
               <div className="text-3xl font-bold text-gray-800 flex items-center gap-2 mt-2">
-                $26
+                ₹2K
                 <span className="text-gray-900 text-xs font-normal flex items-center gap-1">
                   <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.06043 3.49396C5.06043 3.25233 5.25631 3.05646 5.49793 3.05646L10.5054 3.05646C10.6215 3.05646 10.7327 3.10255 10.8148 3.1846C10.8968 3.26665 10.9429 3.37793 10.9429 3.49396L10.9429 8.50145C10.9429 8.74308 10.747 8.93895 10.5054 8.93895C10.2638 8.93895 10.0679 8.74308 10.0679 8.50145L10.0679 3.93146L5.49793 3.93146C5.25631 3.93146 5.06043 3.73558 5.06043 3.49396Z" fill="#1A932E" />
@@ -698,7 +698,7 @@ const InterviewDashboard = () => {
             <div>
               <div className="text-gray-500 text-sm">Total Income</div>
               <div className="text-3xl font-bold text-gray-800 flex items-center gap-2 mt-2">
-                $45K
+                ₹45K
                 <span className="text-gray-900 text-xs font-normal flex items-center gap-1">
                   <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.06043 3.49396C5.06043 3.25233 5.25631 3.05646 5.49793 3.05646L10.5054 3.05646C10.6215 3.05646 10.7327 3.10255 10.8148 3.1846C10.8968 3.26665 10.9429 3.37793 10.9429 3.49396L10.9429 8.50145C10.9429 8.74308 10.747 8.93895 10.5054 8.93895C10.2638 8.93895 10.0679 8.74308 10.0679 8.50145L10.0679 3.93146L5.49793 3.93146C5.25631 3.93146 5.06043 3.73558 5.06043 3.49396Z" fill="#1A932E" />

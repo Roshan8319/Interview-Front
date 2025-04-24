@@ -179,7 +179,7 @@ function Interviewer() {
                     <line y2="12" y1="12" x2="19" x1="5"></line>
                   </svg>
                 </span>
-                <span class=" pl-2 absolute left-4 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+                <span class=" pl-2 absolute left-2 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
                   Add Interviewer
                 </span>
               </button>

@@ -10,7 +10,14 @@ function ResetPassword() {
       style={{ backgroundImage: `url(${Bg})` }}
     >
       <div className="px-4 py-2 h-[60px] w-full bg-transparent">
-        <img src={Recrumeta} alt="Logo" style={{width:"200px", height:"50px"}}/>
+        <Link to="/">
+          <img
+            src={Recrumeta}
+            alt="Logo"
+            style={{ width: "200px", height: "50px" }}
+            className="cursor-pointer"
+          />
+        </Link>
       </div>
       <div className="w-full min-h-[calc(100vh-180px)] flex items-center justify-center">
         <div className="p-10 w-[500px] h-[auto] bg-white bg-opacity-45 rounded-2xl">
@@ -326,7 +333,7 @@ function ResetPassword() {
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>
 
             <div className="px-2 mt-5">
               <Link to="/auth/signin" className="text-[#E65F2B] text group">

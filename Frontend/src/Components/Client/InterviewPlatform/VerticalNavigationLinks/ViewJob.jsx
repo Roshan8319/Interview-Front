@@ -9,119 +9,123 @@ function ViewJob() {
   const handleToggle = () => {
     setIsVisible(!isVisible);
   };
-  const [people, setPeople] = useState([{
-    name: "Ananya Sharma",
-    status: "Recommended",
-    role: "SDE II",
-    email: "sumit.kumar.mahto341@gmail.com",
-    date: "MON, 4 DEC",
-    score: 450,
-  },
-  {
-    name: "Rohan Verma",
-    status: "Not Recommended",
-    role: "SDET I",
-    email: "sumit@gmail.com",
-    date: "TUE, 5 DEC",
-    score: 320,
-  },
-  {
-    name: "Vikram Singh",
-    status: "Not Scheduled",
-    role: "EM",
-    email: "sumit@gmail.com",
-    date: "WED, 6 DEC",
-    score: 400,
-  },
-  {
-    name: "Priya Desai",
-    status: "Scheduled",
-    role: "SDE II - Frontend",
-    email: "sumit@gmail.com",
-    date: "THU, 7 DEC",
-    score: 360,
-  },
-  {
-    name: "Karthik Iyer",
-    status: "Recommended",
-    role: "SDE III",
-    email: "sumit@gmail.com",
-    date: "FRI, 8 DEC",
-    score: 490,
-  },
-  {
-    name: "Aarav Kapoor",
-    status: "Not Recommended",
-    role: "SDE I",
-    email: "sumit@gmail.com",
-    date: "TUE, 16 AUG 24",
-    score: 320,
-  },
-  {
-    name: "Meera Nair",
-    status: "Recommended",
-    role: "SDE II",
-    email: "sumit@gmail.com",
-    date: "WED, 17 AUG 24",
-    score: 470,
-  },
-  {
-    name: "Shreya Banerjee",
-    status: "Not Scheduled",
-    role: "EM",
-    email: "sumit@gmail.com",
-    date: "THU, 18 AUG 24",
-    score: 390,
-  },
-  {
-    name: "Rahul Gupta",
-    status: "Scheduled",
-    role: "SDET III",
-    email: "sumit@gmail.com",
-    date: "FRI, 19 AUG 24",
-    score: 480,
-  },
-  {
-    name: "Tanvi Reddy",
-    status: "Recommended",
-    role: "Data Scientist",
-    email: "sumit@gmail.com",
-    date: "MON, 20 AUG 24",
-    score: 450,
-  },
-  {
-    name: "Arjun Khanna",
-    status: "Not Recommended",
-    role: "SDE II - Backend",
-    email: "sumit@gmail.com",
-    date: "TUE, 21 AUG 24",
-    score: 310,
-  },
-  {
-    name: "Ishita Malhotra",
-    status: "Scheduled",
-    role: "UI/UX Designer",
-    email: "sumit@gmail.com",
-    date: "WED, 22 AUG 24",
-    score: 370,
-  },
-  {
-    name: "Aditya Roy",
-    status: "Not Scheduled",
-    role: "Product Manager",
-    email: "sumit@gmail.com",
-    date: "THU, 23 AUG 24",
-    score: 420,
-  },
-  {
-    name: "Sanya Bhatia",
-    status: "Recommended",
-    role: "QA Lead",
-    email: "sumit@gmail.com",
-    date: "FRI, 24 AUG 24",
-    score: 490,
-  },
+
+  const [people, setPeople] = useState([
+    {
+      name: "Ananya Sharma",
+      status: "Recommended",
+      role: "SDE II - Frontend",
+      email: "ananya.sharma@example.com",
+      date: "Mon, 12 Feb",
+      score: 450,
+    },
+    {
+      name: "Rohan Verma",
+      status: "Not Recommended",
+      role: "SDET I",
+      email: "rohan.verma@example.com",
+      date: "Wed, 14 Feb",
+      score: 310,
+    },
+    {
+      name: "Vikram Singh",
+      status: "Not Scheduled",
+      role: "Engineering Manager",
+      email: "vikram.singh@example.com",
+      date: "Tue, 20 Feb",
+      score: 400,
+    },
+    {
+      name: "Priya Desai",
+      status: "Scheduled",
+      role: "SDE II - Backend",
+      email: "priya.desai@example.com",
+      date: "Fri, 8 Mar",
+      score: 365,
+    },
+    {
+      name: "Karthik Iyer",
+      status: "Recommended",
+      role: "SDE III - Fullstack",
+      email: "karthik.iyer@example.com",
+      date: "Mon, 18 Mar",
+      score: 490,
+    },
+    {
+      name: "Aarav Kapoor",
+      status: "Not Recommended",
+      role: "SDE I",
+      email: "aarav.kapoor@example.com",
+      date: "Thu, 4 Apr",
+      score: 325,
+    },
+    {
+      name: "Meera Nair",
+      status: "Recommended",
+      role: "SDE II - Mobile",
+      email: "meera.nair@example.com",
+      date: "Tue, 16 Apr",
+      score: 470,
+    },
+    {
+      name: "Shreya Banerjee",
+      status: "Not Scheduled",
+      role: "Engineering Manager",
+      email: "shreya.banerjee@example.com",
+      date: "Mon, 29 Apr",
+      score: 390,
+    },
+    {
+      name: "Rahul Gupta",
+      status: "Scheduled",
+      role: "SDET III",
+      email: "rahul.gupta@example.com",
+      date: "Fri, 3 May",
+      score: 480,
+    },
+    {
+      name: "Tanvi Reddy",
+      status: "Recommended",
+      role: "Data Scientist",
+      email: "tanvi.reddy@example.com",
+      date: "Wed, 15 May",
+      score: 455,
+    },
+    {
+      name: "Arjun Khanna",
+      status: "Not Recommended",
+      role: "SDE II - Backend",
+      email: "arjun.khanna@example.com",
+      date: "Tue, 21 May",
+      score: 310,
+    },
+    {
+      name: "Ishita Malhotra",
+      status: "Scheduled",
+      role: "UI/UX Designer",
+      email: "ishita.malhotra@example.com",
+      date: "Thu, 6 Jun",
+      score: 375,
+    },
+    {
+      name: "Aditya Roy",
+      status: "Not Scheduled",
+      role: "Product Manager",
+      email: "aditya.roy@example.com",
+      date: "Wed, 19 Jun",
+      score: 420,
+    },
+    {
+      name: "Sanya Bhatia",
+      status: "Recommended",
+      role: "QA Lead",
+      email: "sanya.bhatia@example.com",
+      date: "Mon, 24 Jun",
+      score: 490,
+    },
   ]);
+
+
   const itemsPerPage = 6; // Number of items per page
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -161,10 +165,10 @@ function ViewJob() {
       </div>
 
       {/* Table */}
-      <div className=" w-[95%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden">
+      <div className=" w-[95%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden text-sm">
         <table className="w-[100%] h-[100%]">
           <thead>
-            <tr className="border-b-2 border-[#E65F2B]/20">
+            <tr className="border-b-2 border-[#E65F2B]/20 text-[16px]">
               <th className="px-6 py-4 font-bold text-[#E65F2B] text-start">Name</th>
               <th className="px-6 py-4 font-bold text-[#E65F2B]">Role</th>
               <th className="px-6 py-4 font-bold text-[#E65F2B]">Email</th>
