@@ -8,7 +8,7 @@ import {
   // Authentication
   SignInPage,
   ResetPassword,
-
+ 
   // Client
   NavigationLayout,
   Dashboard,
