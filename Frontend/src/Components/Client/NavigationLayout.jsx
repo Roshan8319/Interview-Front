@@ -1,16 +1,12 @@
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import {
-  NavLink,
-  Link,
-  useLocation,
   useNavigate,
   Outlet,
 } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
@@ -21,14 +17,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useTheme, styled } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Cookies from 'js-cookie';
-import Profile from "../../../assets/ProfileIcon.png";
+import Profile from "../../assets/ProfileIcon.png";
 
 const drawerWidth = 240;
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -187,6 +181,7 @@ const ActiveJobIcon = () => (
     />
   </svg>
 );
+
 const CandidatesIcon = () => (
   <svg
     width="22"
@@ -275,74 +270,6 @@ const ActiveCandidatesIcon = () => (
       fill-rule="evenodd"
       clip-rule="evenodd"
       d="M11.0034 14.8822C12.0746 14.8822 13.1826 15.1489 14.0489 15.7264C14.8385 16.2528 15.3244 17.0156 15.3244 17.866C15.3244 18.7162 14.8386 19.4789 14.0492 20.0053C13.1793 20.5868 12.0716 20.8566 11 20.8566C9.92842 20.8566 8.82073 20.5868 7.95085 20.0053C7.16142 19.4789 6.67563 18.7162 6.67563 17.866C6.67563 17.0156 7.16154 16.2528 7.95115 15.7264L7.9528 15.7253L7.9528 15.7253C8.8227 15.149 9.93212 14.8822 11.0034 14.8822ZM8.71305 16.871C8.21079 17.2062 8.05063 17.5798 8.05063 17.866C8.05063 18.1523 8.21096 18.5262 8.71386 18.8614L8.71468 18.862C9.31139 19.261 10.1376 19.4816 11 19.4816C11.8624 19.4816 12.6886 19.261 13.2853 18.862L13.2861 18.8614C13.789 18.5262 13.9494 18.1523 13.9494 17.866C13.9494 17.5797 13.789 17.2058 13.2861 16.8705C12.6949 16.4763 11.8688 16.2572 11.0034 16.2572C10.1387 16.2572 9.30975 16.476 8.71305 16.871Z"
-      fill="#E65F2B"
-    />
-  </svg>
-);
-const AnalyticsIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 22 22"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M1 20.75C1 20.3358 1.33579 20 1.75 20H19.75C20.1642 20 20.5 20.3358 20.5 20.75C20.5 21.1642 20.1642 21.5 19.75 21.5H1.75C1.33579 21.5 1 21.1642 1 20.75Z"
-      fill="white"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M1 8.13086C1 7.16665 1.78579 6.38086 2.75 6.38086H4.34998C5.31419 6.38086 6.09998 7.16665 6.09998 8.13086V16.7509C6.09998 17.7151 5.31419 18.5009 4.34998 18.5009H2.75C1.78579 18.5009 1 17.7151 1 16.7509V8.13086ZM2.75 7.88086C2.61421 7.88086 2.5 7.99507 2.5 8.13086V16.7509C2.5 16.8866 2.61421 17.0009 2.75 17.0009H4.34998C4.48576 17.0009 4.59998 16.8866 4.59998 16.7509V8.13086C4.59998 7.99507 4.48576 7.88086 4.34998 7.88086H2.75Z"
-      fill="white"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M8.19922 4.93945C8.19922 3.97524 8.98501 3.18945 9.94922 3.18945H11.5492C12.5134 3.18945 13.2992 3.97524 13.2992 4.93945V16.7495C13.2992 17.7137 12.5134 18.4995 11.5492 18.4995H9.94922C8.98501 18.4995 8.19922 17.7137 8.19922 16.7495V4.93945ZM9.94922 4.68945C9.81343 4.68945 9.69922 4.80367 9.69922 4.93945V16.7495C9.69922 16.8852 9.81343 16.9995 9.94922 16.9995H11.5492C11.685 16.9995 11.7992 16.8852 11.7992 16.7495V4.93945C11.7992 4.80367 11.685 4.68945 11.5492 4.68945H9.94922Z"
-      fill="white"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M15.3984 1.75C15.3984 0.785786 16.1842 0 17.1484 0H18.7484C19.7126 0 20.4984 0.785786 20.4984 1.75V16.75C20.4984 17.7142 19.7126 18.5 18.7484 18.5H17.1484C16.1842 18.5 15.3984 17.7142 15.3984 16.75V1.75ZM17.1484 1.5C17.0127 1.5 16.8984 1.61421 16.8984 1.75V16.75C16.8984 16.8858 17.0127 17 17.1484 17H18.7484C18.8842 17 18.9984 16.8858 18.9984 16.75V1.75C18.9984 1.61421 18.8842 1.5 18.7484 1.5H17.1484Z"
-      fill="white"
-    />
-  </svg>
-);
-const ActiveAnalyticsIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 22 22"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M1 20.75C1 20.3358 1.33579 20 1.75 20H19.75C20.1642 20 20.5 20.3358 20.5 20.75C20.5 21.1642 20.1642 21.5 19.75 21.5H1.75C1.33579 21.5 1 21.1642 1 20.75Z"
-      fill="#E65F2B"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M1 8.13086C1 7.16665 1.78579 6.38086 2.75 6.38086H4.34998C5.31419 6.38086 6.09998 7.16665 6.09998 8.13086V16.7509C6.09998 17.7151 5.31419 18.5009 4.34998 18.5009H2.75C1.78579 18.5009 1 17.7151 1 16.7509V8.13086ZM2.75 7.88086C2.61421 7.88086 2.5 7.99507 2.5 8.13086V16.7509C2.5 16.8866 2.61421 17.0009 2.75 17.0009H4.34998C4.48576 17.0009 4.59998 16.8866 4.59998 16.7509V8.13086C4.59998 7.99507 4.48576 7.88086 4.34998 7.88086H2.75Z"
-      fill="#E65F2B"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M8.19922 4.93945C8.19922 3.97524 8.98501 3.18945 9.94922 3.18945H11.5492C12.5134 3.18945 13.2992 3.97524 13.2992 4.93945V16.7495C13.2992 17.7137 12.5134 18.4995 11.5492 18.4995H9.94922C8.98501 18.4995 8.19922 17.7137 8.19922 16.7495V4.93945ZM9.94922 4.68945C9.81343 4.68945 9.69922 4.80367 9.69922 4.93945V16.7495C9.69922 16.8852 9.81343 16.9995 9.94922 16.9995H11.5492C11.685 16.9995 11.7992 16.8852 11.7992 16.7495V4.93945C11.7992 4.80367 11.685 4.68945 11.5492 4.68945H9.94922Z"
-      fill="#E65F2B"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M15.3984 1.75C15.3984 0.785786 16.1842 0 17.1484 0H18.7484C19.7126 0 20.4984 0.785786 20.4984 1.75V16.75C20.4984 17.7142 19.7126 18.5 18.7484 18.5H17.1484C16.1842 18.5 15.3984 17.7142 15.3984 16.75V1.75ZM17.1484 1.5C17.0127 1.5 16.8984 1.61421 16.8984 1.75V16.75C16.8984 16.8858 17.0127 17 17.1484 17H18.7484C18.8842 17 18.9984 16.8858 18.9984 16.75V1.75C18.9984 1.61421 18.8842 1.5 18.7484 1.5H17.1484Z"
       fill="#E65F2B"
     />
   </svg>
@@ -553,8 +480,10 @@ export default function MiniDrawer() {
         <div className="flex items-center justify-end h-full mt-[6px]">
           <div className="flex h-full">
             <div
-              className={`right-4 ml-6 bg-white w-auto h-12 flex items-center justify-start p-2 ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"} relative transition-all duration-100 ring-1 ring-black ring-opacity-5 z-10`}
+              className={`right-4 ml-6 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
+                } relative transition-all duration-100 ring-1 ring-black ring-opacity-5 z-10`}
               ref={dropdownRef}
+              onClick={toggleDropdown}
             >
               <div className="w-9 h-9 rounded-3xl bg-white overflow-hidden mr-2">
                 <img
@@ -563,22 +492,24 @@ export default function MiniDrawer() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="">
+              <div>
                 <p className="text-black text-xl">{username || "Guest"}</p>
               </div>
-              <button onClick={toggleDropdown} className="px-1 focus:outline-none">
+              <div className="px-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="22px"
                   viewBox="0 -960 960 960"
                   width="24px"
                   fill="#000000"
-                  className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
+                  className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""
+                    }`}
                 >
                   <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
                 </svg>
-              </button>
-              {/* Dropdown Menu with transition effect */}
+              </div>
+
+              {/* Dropdown Menu */}
               <div
                 className={`absolute right-0 w-full bg-white rounded-b-2xl shadow-lg ring-1 ring-black ring-opacity-5 z-10 transition-all duration-300 origin-top ${isDropdownOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
                   }`}
@@ -604,9 +535,9 @@ export default function MiniDrawer() {
                   >
                     <div className="flex items-center">
                       <svg width="26" height="26" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="ml-3 text-[18px] ">Logout</span>
+                      <span className="ml-3 text-[18px]">Logout</span>
                     </div>
                   </a>
                 </div>

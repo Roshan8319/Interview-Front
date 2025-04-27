@@ -1,623 +1,632 @@
 import React from 'react'
-import { useState, useCallback, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 
-
-//variants
-
-
-//Load Animation Imports
-
-
-
-
-// Material UI usages
-
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-
-
-
-
-
-
-const styles= {
-  gradientText: {
-    backgroundClip: 'text',
-    color: 'transparent',
-    backgroundImage: 'linear-gradient(to right, #000000, #B44B4B, #B44B4B)',
-    
+const styles = {
+  container: {
+    minHeight: '100vh',
+    backgroundColor: '#EBDFD7',
+    padding: '2rem',
   },
-  
-}
-
-
-
+  header: {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'black',
+    marginBottom: '2rem'
+  },
+  sectionTitle: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    marginBottom: '1rem',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'black',
+  },
+  formContainer: {
+    backgroundColor: '#F2EAE5',
+    borderRadius: '1rem',
+    padding: '2rem',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  },
+  inputGroup: {
+    marginBottom: '1.5rem',
+  },
+  label: {
+    display: 'block',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    marginBottom: '0.5rem',
+    color: '#374151',
+  },
+  input: {
+    width: '100%',
+    padding: '0.75rem',
+    borderRadius: '1.0rem',
+    border: '2px solid #e5e7eb',
+    outline: 'none',
+    backgroundColor: '#F6F1EE',
+    transition: 'all 0.2s',
+  },
+  button: {
+    padding: '0.75rem 1.5rem',
+    borderRadius: '3rem',
+    fontWeight: '600',
+    transition: 'transform 0.2s',
+  },
+  primaryButton: {
+    backgroundColor: 'white',
+    color: '#E65F2B',
+    borderRadius: '3rem',
+  },
+  secondaryButton: {
+    backgroundColor: '#DA3030',
+    color: 'white',
+    borderRadius: '3rem',
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '1.5rem',
+  },
+};
 
 function Feedback() {
+  const formatDate = () => {
+    const now = new Date();
 
-  const [candidateName, setCandidateName] = useState('');
-  const [candidateEmail, setCandidateEmail] = useState('');
-  const [candidatePhone, setCandidatePhone] = useState('');
-  const [candidateExperience, setCandidateExperience] = useState('');
-  const [candidateRole, setCandidateRole] = useState('');
-  const [candidateCompany, setCandidateCompany] = useState('');
-  const [interviewerExperience, setInterviewerExperience] = useState('');
-  const [interviewerCompany, setInterviewerCompany] = useState('');
-  const [interviewDate, setInterviewDate] = useState('');
+    // Get parts individually
+    const day = now.getDate().toString().padStart(2, '0');
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const year = now.getFullYear();
 
-  // 2nd section 
-  const [skillName, setSkillName] = useState('');
-  const [skillLevel, setSkillLevel] = useState(90); // Initial skill level
-  const [questions, setQuestions] = useState([
-    { question: '', answer: '' },
-    { question: '', answer: '' },
-  ]);
-  
-  const [summary, setSummary] = useState('');
-
-  const handleSkillNameChange = (event) => {
-    setSkillName(event.target.value);
-  };
-
-  const handleSkillLevelChange = (event) => {
-    setSkillLevel(parseInt(event.target.value, 10));
-  };
-
-  const handleQuestionChange = (index, field, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index][field] = value;
-    setQuestions(updatedQuestions);
-  };
-
-  const handleAddQuestion = useCallback((event) => {
-    event.preventDefault(); 
-    setQuestions([...questions, { question: '', answer: '' }]);
-  }, [questions]);
-
-  const handleSummaryChange = (event) => {
-    setSummary(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission here
-  };
-
-
-
-  // Material UI Usages
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-
-  // Skill Evaluations
-
-  const [communicationRating, setCommunicationRating] = useState('');
-  const [attitudeRating, setAttitudeRating] = useState('');
-  const [strength, setStrength] = useState('');
-  const [improvementPoints, setImprovementPoints] = useState('');
-
-  const handleRatingChange = useCallback((section, rating) => {
-    if (section === 'communication') {
-      setCommunicationRating(rating);
-    } else if (section === 'attitude') {
-      setAttitudeRating(rating);
+    // Get time with AM/PM more safely
+    let timeString;
+    try {
+      // Try to get time string directly without split/trim
+      timeString = now.toLocaleString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      }).replace(/^.*(\d{1,2}:\d{2} [AP]M).*$/, '$1');
+    } catch (e) {
+      // Fallback to basic time format
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const hour12 = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+      timeString = `${hour12}:${minutes} ${ampm}`;
     }
-  },[communicationRating,attitudeRating]);
 
-  const handleStrengthChange =useCallback( (event) => {
-    event.preventDefault(); 
-    setStrength(event.target.value);
-  },[strength]);
+    // Combine in DD/MM/YYYY format with AM/PM time
+    return `${day}/${month}/${year}, ${timeString}`;
+  };
 
-  const handleImprovementPointsChange = useCallback((event) => {
-    event.preventDefault(); 
-    setImprovementPoints(event.target.value);
-  },[improvementPoints]);
+  // Basic candidate details
+  const [formData, setFormData] = useState({
+    candidateName: '',
+    candidateEmail: '',
+    candidatePhone: '',
+    candidateExperience: '',
+    candidateRole: '',
+    candidateCompany: '',
+    interviewerExperience: '',
+    interviewerCompany: '',
+    interviewDate: formatDate(),
+  });
 
+  // Technical evaluation
+  const [skills, setSkills] = useState([
+    { name: '', rating: 90 }
+  ]);
 
-  // overall rank
-  const [selectedRemark, setSelectedRemark] = useState("")
-  
-  const handleStrengthSelection=(e) => {   
-    setSelectedRemark(e.target.value);
-  }
+  // Questions and answers
+  const [questions, setQuestions] = useState([
+    { question: '' }
+  ]);
 
-  //Animations
+  // Soft skills evaluation
+  const [evaluation, setEvaluation] = useState({
+    communication: '',
+    attitude: '',
+    strength: '',
+    improvementPoints: '',
+    overallRemark: '',
+  });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'candidateExperience') {
+      // Convert to number and ensure it's not negative
+      const numValue = Math.max(0, Number(value));
+      setFormData(prev => ({
+        ...prev,
+        [name]: numValue
+      }));
+      return;
+    }
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
+  const handleAddSkill = () => {
+    setSkills([...skills, { name: '', rating: 90 }]);
+  };
 
-
-
-
-
-  //navigations
+  const handleAddQuestion = () => {
+    setQuestions([...questions, { question: '' }]);
+  };
 
   const navigate = useNavigate();
+
+  // Update your handleSubmit function
+  // Update your handleSubmit function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate required fields
+    for (const key in formData) {
+      if (!formData[key] && key !== 'interviewDate') { // interviewDate is auto-filled
+        toast.error(`Please fill in all required fields`);
+        return;
+      }
+    }
+
+    // Validate at least one skill has a name
+    const hasValidSkill = skills.some(skill => skill.name.trim() !== '');
+    if (!hasValidSkill) {
+      toast.error('Please add at least one skill with a name');
+      return;
+    }
+
+    // Validate at least one question is filled
+    const hasValidQuestion = questions.some(q => q.question.trim() !== '');
+    if (!hasValidQuestion) {
+      toast.error('Please add at least one interview question');
+      return;
+    }
+
+    // Validate evaluation fields
+    for (const key in evaluation) {
+      if (!evaluation[key]) {
+        toast.error('Please complete all evaluation sections');
+        return;
+      }
+    }
+
+    try {
+      // Prepare data for submission
+      const submissionData = {
+        candidate: {
+          name: formData.candidateName,
+          email: formData.candidateEmail,
+          phone: formData.candidatePhone,
+          experience: formData.candidateExperience,
+          currentRole: formData.candidateRole,
+          currentCompany: formData.candidateCompany
+        },
+        interviewer: {
+          experience: formData.interviewerExperience,
+          company: formData.interviewerCompany
+        },
+        interviewDate: formData.interviewDate,
+        technicalEvaluation: skills.filter(skill => skill.name.trim() !== ''),
+        questions: questions.filter(q => q.question.trim() !== '').map(q => q.question),
+        evaluation: evaluation
+      };
+
+      // Log data to console for debugging (remove in production)
+      console.log('Submitting feedback:', submissionData);
+
+      // Here you would typically make an API call to save the data
+      // await api.post('/feedback', submissionData);
+
+      toast.success('Feedback submitted successfully!');
+      navigate("/interviewer/dashboard");
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      toast.error('Failed to submit feedback. Please try again.');
+    }
+  };
+
+  // Update your handleCancel function
   const handleCancel = () => {
-    
-    window.scrollTo(0, 0);
+    toast.success('Form cancelled');
     navigate("/interviewer/dashboard");
   };
 
   return (
-    <div className='h-full' >
-      
-      <div className=' overflow-y-auto' >
-      <div className='p-2 flex justify-center items-center  border-[#000000] ' >
-        <div className='flex gap-4 font-semibold text-[36px] ' >
-        
-          <div style={styles.gradientText} > FEEDBACK FORM</div>
-        </div>  
-      </div>
-      <div className='flex p-5' >
-      
-      <div className=' w-[100%] pl-8' >
-      <form onSubmit="#">
-        
-            <div className='flex flex-col w-[30%] ' >
-              <span className='text-[24px] font-bold ' style={styles.gradientText} >Candidate Details</span>
-              <span className='text-[16px] text-[#000000a1]' >Please Provide Candidate Details</span>
+    <div style={styles.container}>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={true}
+        toastOptions={{
+          className: '',
+          duration: 3000,
+          style: {
+            background: '#FFFFFF',
+            color: '#374151',
+            border: '2px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+          },
+          success: {
+            style: {
+              border: '2px solid #E65F2B',
+            },
+            iconTheme: {
+              primary: '#E65F2B',
+              secondary: 'white',
+            },
+          },
+          error: {
+            style: {
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          },
+        }}
+        gutter={-55}
+        containerStyle={{
+          bottom: '40px',
+          right: '30px',
+        }}
+      />
+      <form onSubmit={handleSubmit} style={styles.formContainer}>
+        <h1 style={styles.header}>Interview Feedback Form</h1>
+        {/* Candidate Details Section */}
+        <section style={styles.inputGroup}>
+          <h2 style={styles.sectionTitle}>Candidate Details</h2>
+          <div style={styles.grid}>
+            <div>
+              <label style={styles.label}>Candidate Name</label>
+              <input
+                type="text"
+                name="candidateName"
+                value={formData.candidateName}
+                onChange={handleInputChange}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter candidate's name"
+                required
+              />
             </div>
-           
-            <div className="flex gap-3 w-[70%] ">
-              <div className=' w-[50%] ' >
-                <div className='w-[70%] ' >
-                  <label htmlFor="candidateName" className="block text-[16px] font-semibold text-[#000000]">
-                    Candidate Name:
-                  </label>
+            <div>
+              <label style={styles.label}>Email</label>
+              <input
+                type="email"
+                name="candidateEmail"
+                value={formData.candidateEmail}
+                onChange={handleInputChange}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter candidate's email"
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Phone</label>
+              <input
+                type="tel"
+                name="candidatePhone"
+                value={formData.candidatePhone}
+                onChange={handleInputChange}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter candidate's phone number"
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Experience (Years)</label>
+              <input
+                type="number"
+                name="candidateExperience"
+                min="0"
+                value={formData.candidateExperience}
+                onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === '+' || e.key === 'e') {
+                    e.preventDefault();
+                  }
+                }}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter candidate's experience in years"
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Current Role</label>
+              <input
+                type="text"
+                name="candidateRole"
+                value={formData.candidateRole}
+                onChange={handleInputChange}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter candidate's current role"
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Current Company</label>
+              <input
+                type="text"
+                name="candidateCompany"
+                value={formData.candidateCompany}
+                onChange={handleInputChange}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter candidate's current company"
+                required
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Interviewer Details Section */}
+        <section style={styles.inputGroup}>
+          <h2 style={styles.sectionTitle}>Interviewer Details</h2>
+          <div style={styles.grid}>
+            <div>
+              <label style={styles.label}>Experience (Years)</label>
+              <input
+                type="number"
+                name="interviewerExperience"
+                min="0"
+                value={formData.interviewerExperience}
+                onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === '+' || e.key === 'e') {
+                    e.preventDefault();
+                  }
+                }}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter your experience in years"
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Current Company</label>
+              <input
+                type="text"
+                name="interviewerCompany"
+                value={formData.interviewerCompany}
+                onChange={handleInputChange}
+                style={styles.input}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Enter your current company"
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>Interview Date & Time</label>
+              <input
+                type="text"
+                name="interviewDate"
+                value={formData.interviewDate}
+                readOnly
+                style={{ ...styles.input, cursor: 'default' }}
+                className="transition-all duration-200 text-gray-700 bg-gray-100"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Technical Evaluation Section */}
+        <section style={styles.inputGroup}>
+          <h2 style={styles.sectionTitle}>Technical Evaluation</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '1.5rem',
+          }}>
+            {skills.map((skill, index) => (
+              <div key={index} style={{ marginBottom: '1rem', position: 'relative' }}>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={styles.label}>Skill</label>
+                    <input
+                      type="text"
+                      value={skill.name}
+                      onChange={(e) => {
+                        const newSkills = [...skills];
+                        newSkills[index].name = e.target.value;
+                        setSkills(newSkills);
+                      }}
+                      style={styles.input}
+                      className="transition-all duration-200 text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                      placeholder="e.g., React, Python, etc."
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={styles.label}>Rating (0-100):
+                      <span className='text-[18px]'> {skill.rating}%</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={skill.rating}
+                      onChange={(e) => {
+                        const newSkills = [...skills];
+                        newSkills[index].rating = parseInt(e.target.value);
+                        setSkills(newSkills);
+                      }}
+                      style={{ width: '100%' }}
+                      className="transition-all duration-200 cursor-pointer mt-4"
+                    />
+                  </div>
+                  {skills.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newSkills = skills.filter((_, i) => i !== index);
+                        setSkills(newSkills);
+                      }}
+                      className="absolute -top-3 -right-3 w-8 h-8 rounded-full text-red-500 flex items-center justify-center hover:text-red-700 transition-colors duration-200 text-3xl"
+                      style={{ border: 'none', cursor: 'pointer' }}
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={handleAddSkill}
+            style={{ ...styles.button, ...styles.primaryButton, marginTop: '1rem' }}
+          >
+            Add Skill
+          </button>
+        </section>
+
+        {/* Questions Section */}
+        {/* Questions Section */}
+        <section style={styles.inputGroup}>
+          <h2 style={styles.sectionTitle}>Interview Questions</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '1.5rem'
+          }}>
+            {questions.map((qa, index) => (
+              <div key={index} style={{ marginBottom: '1rem', position: 'relative' }}>
+                <div>
+                  <label style={styles.label}>Question {index + 1}</label>
                   <input
                     type="text"
-                    id="candidateName"
-                    placeholder='Enter Name'
-                    value={candidateName}
-                    onChange={(e) => setCandidateName(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
+                    value={qa.question}
+                    onChange={(e) => {
+                      const newQuestions = [...questions];
+                      newQuestions[index].question = e.target.value;
+                      setQuestions(newQuestions);
+                    }}
+                    style={styles.input}
+                    className="transition-all duration-200 text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                    placeholder="Enter the question asked"
                   />
-                </div>
-                <div className='w-[70%]' >
-                  <label htmlFor="candidatePhone" className="block text-[16px] font-semibold text-[#000000]">
-                    Candidate Phone Number:
-                  </label>
-                  <input
-                    type="tel"
-                    id="candidatePhone"
-                    placeholder='Enter Number'
-                    value={candidatePhone}
-                    onChange={(e) => setCandidatePhone(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
-                  />
-                </div>
-                <div className='w-[70%]' >
-                  <label htmlFor="candidateRole" className="block text-[16px] font-semibold text-[#000000]">
-                    Role:
-                  </label>
-                  <input
-                    type="text"
-                    id="candidateRole"
-                    placeholder='Enter Role'
-                    value={candidateRole}
-                    onChange={(e) => setCandidateRole(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
-                  />
+                  {questions.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newQuestions = questions.filter((_, i) => i !== index);
+                        setQuestions(newQuestions);
+                      }}
+                      className="absolute -top-3 -right-3 w-8 h-8 rounded-full text-red-500 flex items-center justify-center hover:text-red-700 transition-colors duration-200 text-3xl"
+                      style={{ border: 'none', cursor: 'pointer' }}
+                    >
+                      ×
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className=' w-[50%]  ' >
-                <div className=' w-[70%] ' >
-                  <label htmlFor="candidateEmail" className="block text-[16px] font-semibold text-[#000000]">
-                    Candidate Email:
-                  </label>
-                  <input
-                    type="email"
-                    id="candidateEmail"
-                    placeholder='Enter Email'
-                    value={candidateEmail}
-                    onChange={(e) => setCandidateEmail(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px]"
-                  />
-                </div>
-                <div className='w-[70%]' >
-                  <label htmlFor="candidateExperience" className="block text-[16px] font-semibold text-[#000000]">
-                    Candidate Year of Experience:
-                  </label>
-                  <input
-                    type="number"
-                    id="candidateExperience"
-                    placeholder='Enter Year'
-                    value={candidateExperience}
-                    onChange={(e) => setCandidateExperience(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
-                  />
-                </div>
-                <div className='w-[70%]' >
-                  <label htmlFor="candidateCompany" className="block text-[16px] font-semibold text-[#000000]">
-                    Current Company:
-                  </label>
-                  <input
-                    type="text"
-                    id="candidateCompany"
-                    placeholder='Enter Company'
-                    value={candidateCompany}
-                    onChange={(e) => setCandidateCompany(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
-                  />
-                </div>
-              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={handleAddQuestion}
+            style={{ ...styles.button, ...styles.primaryButton, marginTop: '1rem' }}
+          >
+            Add Question
+          </button>
+        </section>
+
+        {/* Overall Evaluation Section */}
+        <section style={styles.inputGroup}>
+          <h2 style={styles.sectionTitle}>Overall Evaluation</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '1.5rem'
+          }}>
+            <div>
+              <label style={styles.label}>Communication Skills</label>
+              <textarea
+                name="communication"
+                value={evaluation.communication}
+                onChange={(e) => setEvaluation({ ...evaluation, communication: e.target.value })}
+                style={{ ...styles.input, minHeight: '80px' }}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Evaluate the candidate's communication skills"
+              />
             </div>
-          
-            <div className='flex flex-col w-[30%] ' >
-            <span className='text-[24px] font-bold ' style={styles.gradientText} >Interviewer Details</span>
-            <span className='text-[16px] text-[#000000a1]' >Please Provide Interviewer Details</span>
+            <div>
+              <label style={styles.label}>Attitude & Personality</label>
+              <textarea
+                name="attitude"
+                value={evaluation.attitude}
+                onChange={(e) => setEvaluation({ ...evaluation, attitude: e.target.value })}
+                style={{ ...styles.input, minHeight: '80px' }}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Comment on the candidate's attitude and personality"
+              />
             </div>
-            <div className="flex gap-3 w-[70%] ">
-              <div className=' w-[50%] ' >
-                <div className='w-[70%] ' >
-                  <label htmlFor="candidateName" className="block text-[16px] font-semibold text-[#000000]">
-                  Interviewer Year of Experience :
-                  </label>
-                  <input
-                     type="number"
-                     id="interviewerExperience"
-                     placeholder='Enter Year'
-                     value={interviewerExperience}
-                     onChange={(e) => setInterviewerExperience(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
-                  />
-                </div>
-                <div className='w-[70%]' >
-                  <label htmlFor="candidatePhone" className="block text-[16px] font-semibold text-[#000000]">
-                  Interview Date :
-                  </label>
-                  <input
-                    type="date"
-                    id="interviewDate"
-                    value={interviewDate}
-                    
-                    placeholder="DD/MM/YYYY"
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px] "
-                  />
-                </div>
-              </div>
-              <div className=' w-[50%]  ' >
-                <div className=' w-[70%] ' >
-                  <label htmlFor="candidateEmail" className="block text-[16px] font-semibold text-[#000000]">
-                  Current Company :
-                  </label>
-                  <input
-                    type="text"
-                    id="interviewerCompany"
-                    placeholder='Enter Company'
-                    value={interviewerCompany}
-                    onChange={(e) => setInterviewerCompany(e.target.value)}
-                    className="mt-1 p-2 text-[14px] w-full border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] mb-[12px]"
-                  />
-                </div>
-              </div>
+            <div>
+              <label style={styles.label}>Key Strengths</label>
+              <textarea
+                name="strength"
+                value={evaluation.strength}
+                onChange={(e) => setEvaluation({ ...evaluation, strength: e.target.value })}
+                style={{ ...styles.input, minHeight: '80px' }}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="List the candidate's key strengths"
+              />
             </div>
-          
-            <div className='flex flex-col w-[30%] ' >
-            <span className='text-[24px] font-bold ' style={styles.gradientText} >Question Asked</span>
-            <span className='text-[16px] text-[#000000a1]' >Please Provide Asked Question</span>
+            <div>
+              <label style={styles.label}>Areas for Improvement</label>
+              <textarea
+                name="improvementPoints"
+                value={evaluation.improvementPoints}
+                onChange={(e) => setEvaluation({ ...evaluation, improvementPoints: e.target.value })}
+                style={{ ...styles.input, minHeight: '80px' }}
+                className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Suggest areas where the candidate can improve"
+              />
             </div>
-            <div className="flex gap-3 w-[70%]  ">
-              <div className=' w-[90%]  p-3 border-[1px] rounded-xl border-black' >
-                  <div className='' >
-                      <div className='w-full  rounded-md text-[#0000008a] ' >
-                        <div className="w-full flex justify-between px-2 items-center mb-4">
-                          <input
-                            type="text"
-                            placeholder="Skill Name"
-                            value={skillName}
-                            onChange={handleSkillNameChange}
-                            className="border-[2px] border-gray-400 rounded-[13px] shadow-md outline-none  focus:border-[#056DDC] px-3 py-1 "
-                          />
-                          <div className='flex justify-center items-center' >
-                          <div className="w-48 bg-[#AC878787] rounded-full">
-                            <div
-                              className="rounded-full h-4 bg-gradient-to-r from-green-300 to-green-600 "
-                              style={{ width: `${skillLevel}%` }}
-                            ></div>
-                          </div>
-                          <span className="ml-2 text-[12px] "><span className='text-[16px] text-[#000000] font-medium ' >{skillLevel}/</span>100</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                  </div>
-                  <div className='bg-[#E8F0F5] p-5 py-1 m-1 ' >
-                    <ol className='list-decimal' >
-                          <div className="">
-                            {questions.map((question, index) => (
-                               <li>
-                              <div key={index} className=" rounded-md p-4">
-                                <div className="mb-2">
-                                  <label htmlFor={`question-${index}`} className="block text-sm font-medium text-gray-700">
-                                    Question {index + 1}:
-                                  </label>
-                                  <textarea
-                                    id={`question-${index}`}
-                                    rows={2}
-                                    placeholder='Question'
-                                    value={question.question}
-                                    onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
-                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none   "
-                                  />
-                                </div>
-                                <div>
-                                  <label htmlFor={`answer-${index}`} className="block text-sm font-medium text-gray-700">
-                                    Answer:
-                                  </label>
-                                  <textarea
-                                    id={`answer-${index}`}
-                                    rows={2}
-                                    placeholder='Answer'
-                                    value={question.answer}
-                                    onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
-                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 outline-none  focus:border-[#056DDC] "
-                                  />
-                                </div>
-                              </div>
-                              </li>
-                            ))}
-                          </div>
-                        <div className='flex justify-end' >
-                          <button
-                            onClick={handleAddQuestion}
-                          >
-                            <svg width="32" height="30" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M16 0C12.8355 0 9.74207 0.858769 7.11088 2.46771C4.4797 4.07665 2.42894 6.3635 1.21793 9.03907C0.00693254 11.7146 -0.309921 14.6588 0.307443 17.4991C0.924806 20.3395 2.44866 22.9486 4.6863 24.9964C6.92394 27.0441 9.77487 28.4387 12.8786 29.0037C15.9823 29.5687 19.1993 29.2787 22.1229 28.1705C25.0466 27.0622 27.5454 25.1854 29.3035 22.7775C31.0616 20.3695 32 17.5385 32 14.6425C32 12.7196 31.5861 10.8156 30.7821 9.03907C29.978 7.26256 28.7994 5.64838 27.3137 4.2887C25.828 2.92901 24.0641 1.85045 22.1229 1.1146C20.1817 0.37874 18.1012 0 16 0ZM20.8 16.1068H17.6V19.0353C17.6 19.4236 17.4314 19.7961 17.1314 20.0707C16.8313 20.3453 16.4244 20.4995 16 20.4995C15.5757 20.4995 15.1687 20.3453 14.8686 20.0707C14.5686 19.7961 14.4 19.4236 14.4 19.0353V16.1068H11.2C10.7757 16.1068 10.3687 15.9525 10.0686 15.6779C9.76858 15.4033 9.60001 15.0309 9.60001 14.6425C9.60001 14.2542 9.76858 13.8817 10.0686 13.6071C10.3687 13.3325 10.7757 13.1783 11.2 13.1783H14.4V10.2498C14.4 9.86142 14.5686 9.48899 14.8686 9.21439C15.1687 8.93979 15.5757 8.78552 16 8.78552C16.4244 8.78552 16.8313 8.93979 17.1314 9.21439C17.4314 9.48899 17.6 9.86142 17.6 10.2498V13.1783H20.8C21.2243 13.1783 21.6313 13.3325 21.9314 13.6071C22.2314 13.8817 22.4 14.2542 22.4 14.6425C22.4 15.0309 22.2314 15.4033 21.9314 15.6779C21.6313 15.9525 21.2243 16.1068 20.8 16.1068Z" fill="#231F20" />
-                            </svg>
-                          </button>
-                        </div>
-                    </ol>
-                    <ul>
-                      <li className='px-3' >
-                      <div className="mt-4">
-                        <label htmlFor="summary" className="block text-sm font-medium text-gray-700">
-                          Summary:
-                        </label>
-                        <textarea
-                          id="summary"
-                          rows={4}
-                          value={summary}
-                          onChange={handleSummaryChange}
-                          className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 outline-none  focus:border-[#056DDC]"
-                        />
-                      </div>
-                      </li>
-                    </ul>
-                  </div>
-                  
-              </div>
+            <div>
+              <label style={styles.label}>Overall Remarks</label>
+              <textarea
+                name="overallRemark"
+                value={evaluation.overallRemark}
+                onChange={(e) => setEvaluation({ ...evaluation, overallRemark: e.target.value })}
+                style={{ ...styles.input, minHeight: '100px' }}
+                className="transition-all duration-200 text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
+                placeholder="Provide overall feedback and hiring recommendation"
+              />
             </div>
-         
-            <div className='flex flex-col w-[30%] ' >
-            <span className='text-[24px] font-bold ' style={styles.gradientText} >Skill Evaluation</span>
-            <span className='text-[16px] text-[#000000a1]' >Please Evaluate Candidate’s skill</span>
-            </div>
-            <div className="flex gap-3 w-[70%]  ">
-                  <div className='flex flex-col gap-y-5 w-[90%]   ' >
-                   
-                    <div className='w-[100%]  p-3 border-[1px] rounded-xl border-black' >
-                      <div className='text-[#000000] font-medium text-[24px]' >Communication</div>
-                      <div className='text-[#000000] font-normal text-[17px] ' >How would you like to rate?</div>
-                      <div className='flex justify-between' >
-                        <button type='button'
-                          className={`w-[180px] h-[35px] rounded-md ${communicationRating === 'Poor'
-                            ? 'bg-[#F22129] text-white'
-                            : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('communication', 'Poor')}
-                        >
-                          Poor
-                        </button>
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${communicationRating === 'Average'
-                            ? 'bg-[#FFD700] text-black'
-                            : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('communication', 'Average')}
-                        >
-                          Average
-                        </button>
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${communicationRating === 'Good'
-                            ? 'bg-[#32CD32] text-white'
-                            : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('communication', 'Good')}
-                        >
-                          Good
-                        </button>
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${communicationRating === 'Excellent'
-                            ? 'bg-[#008000] text-white'
-                            : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('communication', 'Excellent')}
-                        >
-                          Excellent
-                        </button>
-                      </div>
-                    </div>
-                    <div className='w-[100%]  p-3 border-[1px] rounded-xl border-black' >
-                      <div className='text-[#000000] font-medium text-[24px]' >Attitude</div>
-                      <div className='text-[#000000] font-normal text-[17px] ' >How would you like to rate?</div>
-                      <div className='flex justify-between' >
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${attitudeRating === 'Poor'
-                              ? 'bg-[#F22129] text-white'
-                              : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('attitude', 'Poor')}
-                        >
-                          Poor
-                        </button>
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${attitudeRating === 'Average'
-                              ? 'bg-[#FFD700] text-black'
-                              : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('attitude', 'Average')}
-                        >
-                          Average
-                        </button>
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${attitudeRating === 'Good'
-                              ? 'bg-[#32CD32] text-white'
-                              : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('attitude', 'Good')}
-                        >
-                          Good
-                        </button>
-                        <button type='button'
-                          className={`w-[180px] h-[35px]  rounded-md ${attitudeRating === 'Excellent'
-                              ? 'bg-[#008000] text-white'
-                              : 'bg-gray-200 text-gray-700'
-                            }`}
-                          onClick={() => handleRatingChange('attitude', 'Excellent')}
-                        >
-                          Excellent
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-     
-            <div className='flex flex-col w-[30%] ' >
-            <span className='text-[24px] font-bold flex flex-wrap ' style={styles.gradientText} >Strength and Improvement</span>
-            <span className='text-[16px] text-[#000000a1]' >Please Provide the Strength and </span>
-            <span className='text-[16px] text-[#000000a1]' > Improvement point of the </span>
-            <span className='text-[16px] text-[#000000a1]' >  Candidate</span>
-            </div>
-            <div className="flex gap-3 w-[70%]  ">
-                  <div className='flex flex-col gap-y-5 w-[90%]   ' >
-                   
-                    <div className='w-[100%] ' >
-                      <div>
-                        <label htmlFor="strength" className="block text-[17px] font-medium text-[#000000]">
-                          Candidate's Strength:
-                        </label>
-                        <textarea
-                          id="strength"
-                          rows={2}
-                          value={strength}
-                          placeholder='Please Provide the strength of the candidate'
-                          onChange={handleStrengthChange}
-                          className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 outline-none  focus:border-[#056DDC]"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="improvementPoints"
-                          className="block text-[17px] font-medium text-[#000000]"
-                        >
-                          Improvement Points:
-                        </label>
-                        <textarea
-                          id="improvementPoints"
-                          rows={2}
-                          placeholder='Please provide the Improvement point of the candidate'
-                          value={improvementPoints}
-                          onChange={handleImprovementPointsChange}
-                          className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 outline-none  focus:border-[#056DDC]"
-                        />
-                      </div>
-                      
-                      
-                    </div>
-                    
-                  </div>
-            </div>
-         
-            <div className='flex flex-col w-[30%] ' >
-            <span className='text-[24px] font-bold flex flex-wrap ' style={styles.gradientText} >Overall Remark</span>
-            </div>
-            <div className="flex gap-3 w-[70%]  ">
-                  <div className='flex gap-y-5 w-[90%] gap-x-8  ' >
-                   
-                    
-                      <div className='w-[50%]' >
-                        <label htmlFor="strength" className="block text-[17px] font-medium text-[#000000]">
-                        Overall Remark
-                        </label>
-                        <div className={`w-[90%] h-[60px] border-[1px] border-white rounded-lg ${selectedRemark == "Strongly Recommended" ? "bg-[#008000] " : "Null" }  ${selectedRemark == "Recommended" ? "bg-[#32CD32] " : "Null" }  ${selectedRemark == "Not Recommended" ? "bg-[#E23D28] " : "Null" }  ${selectedRemark == "Strongly Not Recommended" ? "bg-[#F22129] " : "Null" }`} >
-                        <select
-                            value={selectedRemark}
-                            onChange={handleStrengthSelection}
-                            
-                            className={`  w-[100%] h-[59px] text-center text-black border rounded-md focus:outline-none bg-transparent  border-[#CAC4D0] ${selectedRemark == "bg-transparent" ? "text-gray-500": "text-black" }} `}
-                          >
-                            <option  value="" selected disabled >Remark</option>
-                            <option value="Strongly Recommended">Strongly Recommended</option>
-                            <option value="Recommended">Recommended</option>
-                            <option value="Not Recommended">Not Recommended</option>
-                            <option value="Strongly Not Recommended">Strongly Not Recommended</option>
-                            
-                          </select>
-                        </div>
-                      </div>
-                      <div className='w-[50%]' >
-                        <label
-                          htmlFor="improvementPoints"
-                          className="block text-[17px] font-medium text-[#000000]"
-                        >
-                          Overall Score (auto-Calculated)
-                        </label>
-                        <div className='w-[90%] h-[60px] border-[1px] border-[#000000] rounded-lg ' ></div>
-                      </div>
-                      
-                      
-                    
-                    
-                  </div>
-            </div>
-        
-              
-                <button
-                  onClick={handleCancel}
-                  className="w-[15%] h-[50px] text-white border-[3px] py-1 px-3 rounded-full bg-[#F22129]  transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#E32636] via-[#D2122E] to-[#EF0107] duration-300 ...  "
-                >
-                  Cancel
-                </button>
-                <button
-                  className="w-[15%] h-[50px] text-white border-[3px] py-1 px-3 rounded-full  transition ease-linear delay-150 hover:-translate-y-1 hover:scale-110 hover:border-[3px] hover:bg-gradient-to-r from-[#0575E6] via-[#295cde] to-[#133bca] duration-300 ... bg-[#007AFF]"
-                >
-                  Submit Feedback
-                </button>
-            
-        
+          </div>
+        </section>
+
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+          <button
+            type="button"
+            onClick={handleCancel}
+            style={{ ...styles.button, ...styles.secondaryButton }}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            style={{ ...styles.button }}
+            className='bg-[#E65F2B] text-white hover:bg-[#D05425] transition-colors duration-200'
+          >
+            Submit Feedback
+          </button>
+        </div>
       </form>
-      </div>
-      </div>
-      </div>
-      
-      
     </div>
-   
-    
-  )
+  );
 }
 
-
-
-export default Feedback
+export default Feedback;

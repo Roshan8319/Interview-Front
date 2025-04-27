@@ -104,7 +104,7 @@ const Jobs = () => {
               onClick={() => navigate(`${location.pathname}/addjob`)}
               className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
             >
-              <span className="pl-2 absolute left-7 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+              <span className="pl-2 absolute left-5 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
                 Add Job
               </span>
               <span className="absolute right-0 h-full w-[39px] bg-[#E65F2B] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">

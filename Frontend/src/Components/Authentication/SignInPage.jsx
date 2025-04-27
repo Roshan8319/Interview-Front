@@ -61,8 +61,6 @@ function SignInPage() {
   const handleLoginViaEmail = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(email, password);
-    console.log(signinas);
     // setLoading(true)
 
     try {

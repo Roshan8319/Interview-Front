@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Group50 from '../../assets/Group50.png';
 import { useNavigate } from 'react-router-dom';
+import ViewDemo, { VIDEO_URL } from './ViewDemo';
 
 function First() {
     const navigate = useNavigate();
+    const [showDemo, setShowDemo] = useState(false);
 
     const naviToContact = () => {
         navigate('/contact', { replace: true }); // Replace current route
@@ -22,43 +24,32 @@ function First() {
                         </p>
                         <p className='text-[#1E293B]'>We handle the interviews</p>
                     </div>
-                    {/* Vector */}
-                    {/* <div className="hidden lg:block absolute z-10 top-[29%] left-[24%]">
-                        <svg width="196" height="24" viewBox="0 0 196 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.500031 9.73334C25.5 7.23335 116.5 2.37106 191 9.73336C152.328 9.73336 101.942 10.4778 69.5 18.2334" stroke="#E65F2B" stroke-width="10" stroke-linejoin="round" />
-                        </svg>
-                    </div> */}
+
                     {/* Subheading */}
                     <div className='text-[14px] lg:text-[20px] font-normal text-center lg:text-left text-[#475569] px-2 lg:px-0'>
                         <p>
                             Focus on innovation and productivity while we streamline your hiring process. Our expert-driven interviews save time, reduce costs, and ensure top-tier talent selection.
                         </p>
                     </div>
+
                     {/* Buttons */}
                     <div className='w-full flex flex-col lg:flex-row justify-center lg:justify-start items-center gap-y-4 lg:gap-y-0 gap-x-6 lg:gap-x-14'>
-                        <button className='w-[200px] lg:w-[230px] h-[50px] lg:h-[54px] bg-[#E65F2B] rounded-[50px] shadow-md hover:bg-[#d14f24] transition-all'>
-                            <div onClick={naviToContact} className='text-[18px] lg:text-[24px] font-bold text-white'>
-                                Sign Up Now
-                            </div>
+                        <button onClick={naviToContact} className='w-[200px] lg:w-[230px] h-[50px] lg:h-[54px] bg-[#E65F2B] rounded-[50px] shadow-md hover:bg-[#d14f24] transition-all'>
+                            <span className='text-[18px] lg:text-[24px] font-bold text-white'>
+                                Join Us Now
+                            </span>
                         </button>
-                        <div className='flex gap-x-2 items-center'>
-                            <svg
-                                width='24'
-                                height='24'
-                                viewBox='0 0 24 24'
-                                fill='none'
-                                xmlns='http://www.w3.org/2000/svg'
-                            >
-                                <path
-                                    d='M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20ZM16.126 13.746L12.071 16.644C11.166 17.29 9.941 17.033 9.334 16.068C9.11494 15.7171 8.99918 15.3116 9 14.898V9.102C9 7.942 9.883 7 10.972 7C11.363 7 11.746 7.124 12.071 7.356L16.126 10.254C17.031 10.901 17.272 12.206 16.666 13.171C16.5251 13.3959 16.3417 13.5913 16.126 13.746ZM10.972 9.102V14.898L15.027 12L10.972 9.102Z'
-                                    fill='#2563EB'
-                                />
+
+                        <button onClick={() => setShowDemo(true)} className='w-fit flex gap-x-2 items-center hover:opacity-80 transition-all cursor-pointer'>
+                            <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                <path d='M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20ZM16.126 13.746L12.071 16.644C11.166 17.29 9.941 17.033 9.334 16.068C9.11494 15.7171 8.99918 15.3116 9 14.898V9.102C9 7.942 9.883 7 10.972 7C11.363 7 11.746 7.124 12.071 7.356L16.126 10.254C17.031 10.901 17.272 12.206 16.666 13.171C16.5251 13.3959 16.3417 13.5913 16.126 13.746ZM10.972 9.102V14.898L15.027 12L10.972 9.102Z' fill='#2563EB' />
                             </svg>
-                            <p className='text-[16px] lg:text-[18px] text-[#2563EB] font-medium'>
+                            <span className='text-[16px] lg:text-[18px] text-[#2563EB] font-medium'>
                                 View Demo
-                            </p>
-                        </div>
+                            </span>
+                        </button>
                     </div>
+
                     {/* Trusted By Section */}
                     <div className='w-full flex flex-col lg:flex-row items-center gap-x-10 gap-y-4 lg:gap-y-0'>
                         <div className='w-full lg:w-[55%] text-center lg:text-left text-[#475569]'>
@@ -123,6 +114,7 @@ function First() {
                     </div>
                 </div>
             </div>
+
             {/* 2nd Section */}
             <div className='w-full lg:w-[40%] flex justify-center lg:justify-end items-end mt-6 lg:mt-0'>
                 <img
@@ -131,6 +123,16 @@ function First() {
                     className='w-[90%] lg:w-full'
                 />
             </div>
+
+            {/* Demo Modal */}
+            {showDemo && (
+                <ViewDemo
+                    isOpen={showDemo}
+                    onClose={() => setShowDemo(false)}
+                    videoUrl={VIDEO_URL}
+                />
+            )}
+
         </div>
     );
 }
