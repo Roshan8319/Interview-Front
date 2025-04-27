@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
 import {
   // Authentication
@@ -50,35 +50,42 @@ import {
 } from './Components'
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  // Get user info from your auth system (e.g. localStorage, context, etc.)
-  const user = JSON.parse(localStorage.getItem('user'));
-  
-  if (!user) {
-    // Not logged in, redirect to login page
-    return <Navigate to="/auth/signin" replace />;
-  }
+  const location = useLocation();
 
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // User's role is not authorized, redirect to home page
-    return <Navigate to="/" replace />;
-  }
+  try {
+    const user = JSON.parse(localStorage.getItem('user'));
 
-  // Authorized, render children
-  return children;
+    if (!user) {
+      // Store the attempted URL for redirect after login
+      localStorage.setItem('redirectPath', location.pathname);
+      return <Navigate to="/auth/signin" state={{ from: location }} replace />;
+    }
+
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+      return <Navigate to="/" replace />;
+    }
+
+    return children;
+  } catch (error) {
+    console.error('Auth error:', error);
+    return <Navigate to="/auth/signin" state={{ from: location }} replace />;
+  }
 };
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorBoundary />}>
       {/* Public Routes */}
-      <Route path='' element={<LandingNavigationLayout />}>
+      <Route path='/' element={<LandingNavigationLayout />}>
+        <Route index element={<Navigate to="/auth/signin" replace />} />
         <Route path='terms' element={<Terms />} />
         <Route path='privacy' element={<Privacy />} />
         <Route path='contact' element={<Contact />} />
       </Route>
-      
-      {/* Authentication Route */}
+
+      {/* Authentication Routes - Keep these unprotected */}
       <Route path='auth'>
+        <Route index element={<Navigate to="signin" replace />} />
         <Route path='signin' element={<SignInPage />} />
         <Route path='reset-password' element={<ResetPassword />} />
       </Route>
