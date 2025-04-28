@@ -77,6 +77,7 @@ function Contact() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
 
         if (!validateForm()) return;
 
@@ -90,30 +91,45 @@ function Contact() {
         });
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            setFormData({
-                name: '',
-                email: '',
-                phone: '',
-                message: ''
+            const response = await fetch("https://formcarry.com/s/1ra8f0NTeV5", {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
             });
 
+            const data = await response.json();
+
             toast.dismiss(loadingToast);
-            toast.success('Message sent successfully!', {
-                style: {
-                    background: '#FFFFFF',
-                    color: '#374151',
-                    border: '2px solid #359E45',
-                },
-                iconTheme: {
-                    primary: '#359E45',
-                    secondary: 'white',
-                },
-            });
+
+            if (data.code === 200) {
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                });
+
+                toast.success('Message sent successfully!', {
+                    style: {
+                        background: '#FFFFFF',
+                        color: '#374151',
+                        border: '2px solid #359E45',
+                    },
+                    iconTheme: {
+                        primary: '#359E45',
+                        secondary: 'white',
+                    },
+                });
+            } else {
+                throw new Error(data.message || 'Failed to send message');
+            }
 
         } catch (error) {
             toast.dismiss(loadingToast);
-            toast.error('Failed to send message. Please try again.', {
+            toast.error(error.message || 'Failed to send message. Please try again.', {
                 style: {
                     background: '#FFFFFF',
                     color: '#374151',
