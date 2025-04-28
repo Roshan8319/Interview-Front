@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import video1 from '../../assets/Video1.mp4'
+import toast, { Toaster } from 'react-hot-toast';
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -8,22 +9,275 @@ function Contact() {
         phone: '',
         message: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e) => {
+    const validateForm = () => {
+        if (!formData.name.trim() || formData.name.length < 2) {
+            toast.error('Please enter a valid name (minimum 2 characters)', {
+                style: {
+                    background: '#FFFFFF',
+                    color: '#374151',
+                    border: '2px solid #EF4444',
+                },
+                iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                },
+            });
+            return false;
+        }
+
+        if (!formData.email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+            toast.error('Please enter a valid email address', {
+                style: {
+                    background: '#FFFFFF',
+                    color: '#374151',
+                    border: '2px solid #EF4444',
+                },
+                iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                },
+            });
+            return false;
+        }
+
+        if (!formData.phone.replace(/\D/g, '').match(/^\d{10}$/)) {
+            toast.error('Please enter a valid 10-digit phone number', {
+                style: {
+                    background: '#FFFFFF',
+                    color: '#374151',
+                    border: '2px solid #EF4444',
+                },
+                iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                },
+            });
+            return false;
+        }
+
+        if (!formData.message.trim() || formData.message.length < 10) {
+            toast.error('Please enter a message (minimum 10 characters)', {
+                style: {
+                    background: '#FFFFFF',
+                    color: '#374151',
+                    border: '2px solid #EF4444',
+                },
+                iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                },
+            });
+            return false;
+        }
+
+        return true;
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log(formData);
+        e.stopPropagation();
+
+        if (!validateForm()) return;
+
+        setIsSubmitting(true);
+        const loadingToast = toast.loading('Sending your message...', {
+            style: {
+                background: '#FFFFFF',
+                color: '#374151',
+                border: '2px solid #e5e7eb',
+            },
+        });
+
+        try {
+            const response = await fetch("https://formcarry.com/s/1ra8f0NTeV5", {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            toast.dismiss(loadingToast);
+
+            if (data.code === 200) {
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                });
+
+                toast.success('Message sent successfully!', {
+                    style: {
+                        background: '#FFFFFF',
+                        color: '#374151',
+                        border: '2px solid #359E45',
+                    },
+                    iconTheme: {
+                        primary: '#359E45',
+                        secondary: 'white',
+                    },
+                });
+            } else {
+                throw new Error(data.message || 'Failed to send message');
+            }
+
+        } catch (error) {
+            toast.dismiss(loadingToast);
+            toast.error(error.message || 'Failed to send message. Please try again.', {
+                style: {
+                    background: '#FFFFFF',
+                    color: '#374151',
+                    border: '2px solid #EF4444',
+                },
+                iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                },
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+
+        if (name === 'phone') {
+            // Format phone number as user types
+            const formatted = value.replace(/\D/g, '')
+                .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+            setFormData(prev => ({
+                ...prev,
+                phone: formatted
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+
+        switch (name) {
+            case 'name':
+                if (!value.trim() || value.length < 2) {
+                    toast.error('Name should be at least 2 characters long', {
+                        style: {
+                            background: '#FFFFFF',
+                            color: '#374151',
+                            border: '2px solid #EF4444',
+                        },
+                        iconTheme: {
+                            primary: '#EF4444',
+                            secondary: 'white',
+                        },
+                    });
+                }
+                break;
+
+            case 'email':
+                if (!value.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+                    toast.error('Please enter a valid email address', {
+                        style: {
+                            background: '#FFFFFF',
+                            color: '#374151',
+                            border: '2px solid #EF4444',
+                        },
+                        iconTheme: {
+                            primary: '#EF4444',
+                            secondary: 'white',
+                        },
+                    });
+                }
+                break;
+
+            case 'phone':
+                if (!value.replace(/\D/g, '').match(/^\d{10}$/)) {
+                    toast.error('Please enter a valid 10-digit phone number', {
+                        style: {
+                            background: '#FFFFFF',
+                            color: '#374151',
+                            border: '2px solid #EF4444',
+                        },
+                        iconTheme: {
+                            primary: '#EF4444',
+                            secondary: 'white',
+                        },
+                    });
+                }
+                break;
+
+            case 'message':
+                if (!value.trim() || value.length < 10) {
+                    toast.error('Message should be at least 10 characters long', {
+                        style: {
+                            background: '#FFFFFF',
+                            color: '#374151',
+                            border: '2px solid #EF4444',
+                        },
+                        iconTheme: {
+                            primary: '#EF4444',
+                            secondary: 'white',
+                        },
+                    });
+                }
+                break;
+
+            default:
+                break;
+        }
     };
 
     return (
         <div className="min-h-screen bg-[#F1F5F9]">
+            <Toaster
+                position="bottom-right"
+                reverseOrder={true}
+                toastOptions={{
+                    className: '',
+                    duration: 3000,
+                    style: {
+                        background: '#FFFFFF',
+                        color: '#374151',
+                        border: '2px solid #e5e7eb',
+                        display: 'flex',
+                        alignItems: 'center',
+                    },
+                    success: {
+                        style: {
+                            border: '2px solid #359E45',
+                        },
+                        iconTheme: {
+                            primary: '#359E45',
+                            secondary: 'white',
+                        },
+                    },
+                    error: {
+                        style: {
+                            border: '2px solid #EF4444',
+                        },
+                        iconTheme: {
+                            primary: '#EF4444',
+                            secondary: 'white',
+                        },
+                    },
+                }}
+                gutter={-60}
+                containerStyle={{
+                    bottom: '40px',
+                    right: '50px',
+                }}
+            />
+
             <div className="max-w-7xl mx-auto px-6 py-12 sm:px-6 lg:px-8 font-montserrat">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     {/* Left Section */}
@@ -40,7 +294,7 @@ function Contact() {
                             We'll get back to you within 24 hours. Let's build the future of tech hiring together.
                         </p>
                         {/* Contact Form */}
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                             <div className="grid grid-cols-1 gap-6">
                                 <input
                                     type="text"
@@ -48,6 +302,7 @@ function Contact() {
                                     placeholder="Your Name"
                                     value={formData.name}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-200"
                                     required
                                 />
@@ -57,6 +312,7 @@ function Contact() {
                                     placeholder="Email Address"
                                     value={formData.email}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-200"
                                     required
                                 />
@@ -66,6 +322,7 @@ function Contact() {
                                     placeholder="Phone Number"
                                     value={formData.phone}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-200"
                                     required
                                 />
@@ -74,30 +331,46 @@ function Contact() {
                                     placeholder="Message"
                                     value={formData.message}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     rows="4"
                                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-200"
                                     required
                                 ></textarea>
                             </div>
+
                             <button
                                 type="submit"
-                                className="bg-[#E65F2B] text-white px-8 py-3 rounded-3xl hover:bg-[#d45525] transition-colors duration-300 flex items-center"
+                                disabled={isSubmitting}
+                                className={`bg-[#E65F2B] text-white px-8 py-3 rounded-3xl transition-all duration-300 flex items-center
+                                ${isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:bg-[#d45525]'}`}
                             >
-                                Leave us a Message
-                                <svg
-                                    className="w-5 h-5 ml-2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                    />
-                                </svg>
+                                {isSubmitting ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Sending...
+                                    </>
+                                ) : (
+                                    <>
+                                        Leave us a Message
+                                        <svg
+                                            className="w-5 h-5 ml-2"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                            />
+                                        </svg>
+                                    </>
+                                )}
                             </button>
                         </form>
                     </div>
@@ -163,12 +436,12 @@ function Contact() {
                                     <h4 className="font-semibold">Quick Contact</h4>
                                 </div>
                                 <div className="space-y-3">
-                                    <a href="mailto:contact@recrumeta.com" className="flex items-center gap-2 text-gray-600 hover:text-[#E65F2B] transition-colors">
+                                    <a href="mailto:recrumeta@outlook.com" className="flex items-center gap-2 text-gray-600 hover:text-[#E65F2B] transition-colors">
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                                         </svg>
-                                        contact@recrumeta.com
+                                        recrumeta@outlook.com
                                     </a>
                                     <a href="tel:+917070222841" className="flex items-center gap-2 text-gray-600 hover:text-[#E65F2B] transition-colors">
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

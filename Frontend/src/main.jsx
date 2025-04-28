@@ -2,80 +2,115 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { ClientAddCandidate } from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddCandidate'
-import { ClientScheduleInterview } from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ScheduleInterview'
-import AddJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/AddJob'
-import JobDetails from "./Components/Client/InterviewPlatform/VerticalNavigationLinks/JobDetails"
-import ViewJob from './Components/Client/InterviewPlatform/VerticalNavigationLinks/ViewJob'
+import { Navigate, useLocation } from 'react-router-dom'
+ 
+import {
+  // Authentication
+  SignInPage,
+  ResetPassword,
+ 
+  // Client
+  NavigationLayout,
+  Dashboard,
+  Jobs,
+  Candidates,
+  Finance,
+  ViewJob,
+  ClientAddCandidate,
+  AddJob,
 
+  // Internal
+  InternalAddInterviewer,
+  InternalNavigationLayout,
+  InternalDashboard,
+  InternalClients,
+  InternalInterviewer,
+  InternalUsers,
+  InternalFinance,
+  RecentsInterviews,
 
+  // Interviewer
+  InterviewerNavigationLayout,
+  InterviewerDashboard,
+  MeetingScreen,
+  InterviewHistory,
+  Profile,
+  Receivables,
+  FetchInterviewDetails,
+  Feedback,
 
-import { SignInPage, ResetPassword } from './Components'
+  // Landing
+  LandingNavigationLayout,
+  Contact,
+  Privacy,
+  Terms,
 
+  // Error
+  ErrorBoundary,
+} from './Components'
 
-// Client Imports
-import { NavigationLayout, Dashboard, Settings, Jobs, Candidates, Analytics, AnalyticsDateFilter, Integration, Finance, Engagement, Message, CandidateDetails } from './Components'
-//Agency Imports
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const location = useLocation();
 
-//Internal Imports
-import { InternalNavigationLayout, InternalDashboard, InternalClients, InternalInterviewer, InternalUsers, InternalAgreements, InternalFinance, InternalEngagement, InternalMessages, RecentsInterviews } from "./Components"
-//Interviewer Imports
-import { InterviewerNavigationLayout, InterviewerDashboard, MeetingScreen, Calendar, InterviewHistory, Profile, Receivables, FetchInterviewDetails } from './Components'
-import { Hello } from './Components'
-import { InternalAddInterviewer } from './Components/Internal/AddInterviewer'
+  try {
+    const user = JSON.parse(localStorage.getItem('user'));
 
+    if (!user) {
+      // Store the attempted URL for redirect after login
+      localStorage.setItem('redirectPath', location.pathname);
+      return <Navigate to="/auth/signin" state={{ from: location }} replace />;
+    }
 
-//Landing Imports
-import { LandingNavigationLayout } from './Components'
-import Terms from './Components/Landing/Terms';
-import Privacy from './Components/Landing/Privacy';
-import Contact from './Components/Landing/Contact';
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+      return <Navigate to="/" replace />;
+    }
 
-
-
-import Background from './Components/Background'
-
+    return children;
+  } catch (error) {
+    console.error('Auth error:', error);
+    return <Navigate to="/auth/signin" state={{ from: location }} replace />;
+  }
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route>
-      <Route path='' element={<LandingNavigationLayout />} />
-
-      //Client   Routes
-      <Route path='client' element={<NavigationLayout />}>
-        <Route path='message' element={<Message />} />
-        <Route path='dashboard' element={<Dashboard />} />
-        {/* <Route path='settings' element={<Settings />} /> */}
-        <Route path='jobs' element={<Jobs />} />
-        <Route path='candidates' element={<Candidates />} />
-        {/* <Route path='analytics' element={<Analytics />} /> */}
-        <Route path='analytics'>
-          <Route path='' element={<Analytics />} />
-          <Route path='filter' element={<AnalyticsDateFilter />} />
-        </Route>
-
-        {/* <Route path='integration' element={<Integration />} /> */}
-        <Route path='finance' element={<Finance />} />
-        {/* <Route path='engagement' element={<Engagement />} /> */}
-        <Route path='candidates/addcandidate' element={<ClientAddCandidate />} />
-        <Route path='candidates/schedule-interview' element={<ClientScheduleInterview />} />
-        <Route path='candidates/details' element={<CandidateDetails />} />
-
-        <Route path='jobs/addjob' element={<AddJob />} />
-        <Route path='jobs/viewjob' element={<ViewJob />} />
-
-        <Route path='jobs/jobdetails' element={<JobDetails />} />
-
+    <Route errorElement={<ErrorBoundary />}>
+      {/* Public Routes */}
+      <Route path='/' element={<LandingNavigationLayout />}>
+        <Route index element={<Navigate to="/auth/signin" replace />} />
+        <Route path='terms' element={<Terms />} />
+        <Route path='privacy' element={<Privacy />} />
+        <Route path='contact' element={<Contact />} />
       </Route>
 
-      <Route path='/client/analytics/filter' element={<AnalyticsDateFilter />} />
+      {/* Authentication Routes - Keep these unprotected */}
+      <Route path='auth'>
+        <Route index element={<Navigate to="signin" replace />} />
+        <Route path='signin' element={<SignInPage />} />
+        <Route path='reset-password' element={<ResetPassword />} />
+      </Route>
 
+      {/* Protected Client Routes */}
+      <Route path='client' element={
+        <ProtectedRoute allowedRoles={['client']}>
+          <NavigationLayout />
+        </ProtectedRoute>
+      }>
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='jobs' element={<Jobs />} />
+        <Route path='candidates' element={<Candidates />} />
+        <Route path='finance' element={<Finance />} />
+        <Route path='jobs/viewjob' element={<ViewJob />} />
+        <Route path='candidates/addcandidate' element={<ClientAddCandidate />} />
+        <Route path='jobs/addjob' element={<AddJob />} />
+      </Route>
 
-      //Agency Routes
-
-
-      //Internal Routes
-      <Route path='internal' element={<InternalNavigationLayout />}>
+      {/* Protected Internal Routes */}
+      <Route path='internal' element={
+        <ProtectedRoute allowedRoles={['internal']}>
+          <InternalNavigationLayout />
+        </ProtectedRoute>
+      }>
         <Route path='dashboard' element={<InternalDashboard />} />
         <Route path='clients'>
           <Route path='' element={<InternalClients />} />
@@ -84,54 +119,39 @@ const router = createBrowserRouter(
         <Route path='interviewer' element={<InternalInterviewer />} />
         <Route path='addinterviewer' element={<InternalAddInterviewer />} />
         <Route path='users' element={<InternalUsers />} />
-        <Route path='agreements' element={<InternalAgreements />} />
         <Route path='finance' element={<InternalFinance />} />
-        <Route path='engagement' element={<InternalEngagement />} />
-        <Route path='message' element={<InternalMessages />} />
         <Route path='recents' element={<RecentsInterviews />} />
-
       </Route>
 
-
-      //Interviewer Routes
-      <Route path='interviewer' element={<InterviewerNavigationLayout />}>
+      {/* Protected Interviewer Routes */}
+      <Route path='interviewer' element={
+        <ProtectedRoute allowedRoles={['interviewer']}>
+          <InterviewerNavigationLayout />
+        </ProtectedRoute>
+      }>
         <Route path='dashboard' element={<InterviewerDashboard />} />
         <Route path='profile' element={<Profile />} />
-        <Route path='calendar' element={<Calendar />} />
         <Route path='receivables' element={<Receivables />} />
         <Route path='interview-history' element={<InterviewHistory />} />
-
+        <Route path='feedback' element={<Feedback />} />
       </Route>
 
-
-      //Landing Routes
-      <Route path='' element={<LandingNavigationLayout />} >
-        <Route path='terms' element={<Terms />} />
-        <Route path='privacy' element={<Privacy />} />
-        <Route path='contact' element={<Contact />} />
-      </Route>
-
-
-
-      //Authorisation
-      <Route path='auth'>
-        <Route path='signin' element={<SignInPage />} />
-        <Route path='reset-password' element={<ResetPassword />} />
-      </Route>
-
-      //Meeting
-      <Route path='interview/:meetingLink' element={<MeetingScreen />} />
-      <Route path='fetch-interview-details' element={<FetchInterviewDetails />} />
-
-
+      {/* Protected Meeting Routes */}
+      <Route path='interview/:meetingLink' element={
+        <ProtectedRoute allowedRoles={['interviewer', 'client']}>
+          <MeetingScreen />
+        </ProtectedRoute>
+      } />
+      <Route path='fetch-interview-details' element={
+        <ProtectedRoute allowedRoles={['interviewer', 'client']}>
+          <FetchInterviewDetails />
+        </ProtectedRoute>
+      } />
     </Route>
-
   )
 )
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />
-
 )
-
-//

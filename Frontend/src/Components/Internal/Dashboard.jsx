@@ -16,7 +16,7 @@ import {
 import {
   CardDescription,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/Components/Ui/Card";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 function Dashboard() {

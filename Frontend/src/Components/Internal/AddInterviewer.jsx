@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Camera, Upload, X, CheckCircle, Loader2 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toast } from 'react-hot-toast';
 
 function AddInterviewer() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -136,68 +137,84 @@ function AddInterviewer() {
 
   const validateForm = () => {
     if (!selectedFile) {
-      setErrorMessage("Profile Photo is required");
+      toast.error("Profile Photo is required");
       return false;
     }
     if (!formData.firstName.trim()) {
-      setErrorMessage("First Name is required");
+      toast.error("First Name is required");
       return false;
     }
     if (!formData.lastName.trim()) {
-      setErrorMessage("Last Name is required");
+      toast.error("Last Name is required");
       return false;
     }
     if (!formData.email.trim()) {
-      setErrorMessage("Email is required");
+      toast.error("Email is required");
+      return false;
+    }
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address");
       return false;
     }
     if (!formData.phone.trim()) {
-      setErrorMessage("Phone Number is required");
+      toast.error("Phone Number is required");
+      return false;
+    }
+    // Phone number validation (assuming 10 digits)
+    if (!/^\d{10}$/.test(formData.phone)) {
+      toast.error("Please enter a valid 10-digit phone number");
       return false;
     }
     if (!formData.password.trim()) {
-      setErrorMessage("Password is required");
+      toast.error("Password is required");
+      return false;
+    }
+    // Password strength validation
+    if (formData.password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("Passwords do not match");
+      toast.error("Passwords do not match");
       return false;
     }
     if (!formData.currentCompany.trim()) {
-      setErrorMessage("Current Company is required");
+      toast.error("Current Company is required");
       return false;
     }
     if (!formData.currentDesignation.trim()) {
-      setErrorMessage("Current Designation is required");
+      toast.error("Current Designation is required");
       return false;
     }
     if (!formData.experienceInYears) {
-      setErrorMessage("Work Experience is required");
+      toast.error("Work Experience is required");
       return false;
     }
     if (!formData.interviewExperience) {
-      setErrorMessage("Interview Experience is required");
+      toast.error("Interview Experience is required");
       return false;
     }
     if (!formData.strength) {
-      setErrorMessage("Strength is required");
+      toast.error("Strength is required");
       return false;
     }
     if (!formData.technicalSkills) {
-      setErrorMessage("At least one skill is required");
+      toast.error("At least one skill is required");
       return false;
     }
-    setErrorMessage(""); // Clear error if validation passes
     return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
 
     if (!validateForm()) {
       return;
     }
+
+    const loadingToast = toast.loading('Saving interviewer details...');
 
     try {
       setIsLoading(true);
@@ -213,7 +230,7 @@ function AddInterviewer() {
         formDataToSend.append('profilePhoto', selectedFile);
       }
 
-      const response = await axios.post(
+      await axios.post(
         `${baseUrl}/api/v1/internal/add-interviewer`,
         formDataToSend,
         {
@@ -223,21 +240,241 @@ function AddInterviewer() {
         }
       );
 
-      if (response.status === 200 || response.status === 201) {
-        // Navigate immediately without setting state
+      toast.dismiss(loadingToast);
+      toast.success('Interviewer added successfully!');
+      setTimeout(() => {
         navigate("/internal/interviewer", { replace: true });
-        return; // Exit the function after navigation
-      }
+      }, 1000);
+
     } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.errorMessage || "Something went wrong!");
+      toast.dismiss(loadingToast);
+
+      // If the error is 500 but data was saved (check response data)
+      if (error.response?.status === 500 && error.response?.data) {
+        toast.success('Interviewer added successfully!');
+        setTimeout(() => {
+          navigate("/internal/interviewer", { replace: true });
+        }, 1000);
+      } else {
+        // Show error only for non-500 errors or when there's no response data
+        const errorMessage = error.response?.data?.errorMessage || "Something went wrong!";
+        toast.error(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Add handleBlur function after handleChange
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'firstName':
+        if (!value.trim()) {
+          toast.error('First Name is required', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'lastName':
+        if (!value.trim()) {
+          toast.error('Last Name is required', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'email':
+        if (!value.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+          toast.error('Please enter a valid email address', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'phone':
+        if (!value.match(/^\d{10}$/)) {
+          toast.error('Please enter a valid 10-digit phone number', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'password':
+        if (value.length < 8) {
+          toast.error('Password must be at least 8 characters long', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'confirmPassword':
+        if (value !== formData.password) {
+          toast.error('Passwords do not match', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'currentCompany':
+        if (!value.trim()) {
+          toast.error('Current Company is required', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'currentDesignation':
+        if (!value.trim()) {
+          toast.error('Current Designation is required', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'experienceInYears':
+        if (!value || value < 1) {
+          toast.error('Work Experience must be at least 1 year', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      case 'interviewExperience':
+        if (!value || value < 1) {
+          toast.error('Interview Experience must be at least 1 year', {
+            style: {
+              background: '#FFFFFF',
+              color: '#374151',
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          });
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-4">
+      <Toaster
+        position="bottom-right"
+        reverseOrder={true}
+        toastOptions={{
+          className: '',
+          duration: 3000,
+          style: {
+            background: '#FFFFFF',
+            color: '#374151',
+            border: '2px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+          },
+          success: {
+            style: {
+              border: '2px solid #359E45',
+            },
+            iconTheme: {
+              primary: '#359E45',
+              secondary: 'white',
+            },
+          },
+          error: {
+            style: {
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          },
+        }}
+        gutter={-40}
+        containerStyle={{
+          bottom: '40px',
+          right: '40px',
+        }}
+      />
       <form className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md">
         <div className="">
           <div>
@@ -263,7 +500,7 @@ function AddInterviewer() {
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full text-gray-500 group-hover:text-[#E65F2B] transition-colors">
                         <Camera className="w-[40px] h-[40px] mb-2" />
-                        <span className="text-sm text-center">Upload Profile <br/>Photo</span>
+                        <span className="text-sm text-center">Upload Profile <br />Photo</span>
                       </div>
                     )}
 
@@ -327,6 +564,7 @@ function AddInterviewer() {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter First Name"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -339,6 +577,7 @@ function AddInterviewer() {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Last Name"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -351,6 +590,7 @@ function AddInterviewer() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Email"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -370,6 +610,7 @@ function AddInterviewer() {
                       setFormData({ ...formData, phone: value });
                     }
                   }}
+                  onBlur={handleBlur}
                   placeholder="Enter Phone Number"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -382,6 +623,7 @@ function AddInterviewer() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Password"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -394,6 +636,7 @@ function AddInterviewer() {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Confirm Password"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -412,6 +655,7 @@ function AddInterviewer() {
                   name="currentCompany"
                   value={formData.currentCompany}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Current Company"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -424,6 +668,7 @@ function AddInterviewer() {
                   name="currentDesignation"
                   value={formData.currentDesignation}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Current Designation"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -436,6 +681,7 @@ function AddInterviewer() {
                   name="jobTitle"
                   value={formData.jobTitle}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter Job Title"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -449,6 +695,7 @@ function AddInterviewer() {
                   name="linkedInUrl"
                   value={formData.linkedInUrl}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter LinkedIn URL"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -468,6 +715,7 @@ function AddInterviewer() {
                       setFormData({ ...formData, experienceInYears: value });
                     }
                   }}
+                  onBlur={handleBlur}
                   placeholder="Enter Work Experience"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -487,6 +735,7 @@ function AddInterviewer() {
                       setFormData({ ...formData, interviewExperience: value });
                     }
                   }}
+                  onBlur={handleBlur}
                   placeholder="Enter Interview Experience"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
@@ -568,28 +817,24 @@ function AddInterviewer() {
 
 
           {/* Data 4 */}
-          <div className="flex flex-col items-end gap-2">
-            {errorMessage && (
-              <div className="text-red-500 text-sm font-medium">
-                {errorMessage}
-              </div>
-            )}
+          <div className="flex justify-end">
             <button
               onClick={handleSubmit}
               disabled={isLoading}
-              className={`w-[auto] h-[40px] p-4 gap-x-2 flex justify-center items-center text-lg font-bold ${isLoading ? 'bg-gray-400' : 'bg-[#E65F2B]'
-                } text-white rounded-3xl`}
+              className={`w-[auto] h-[40px] p-4 gap-x-2 flex justify-center items-center text-lg font-bold 
+                ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E65F2B] hover:bg-[#d54e1a] active:bg-[#c44517]'} 
+                text-white rounded-3xl transition-colors duration-200`}
             >
               {isLoading ? (
                 <Loader2 className="w-16 h-6 animate-spin" />
               ) : (
                 <>
                   <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 8.98987V20.3499C16 21.7999 14.96 22.4099 13.69 21.7099L9.76001 19.5199C9.34001 19.2899 8.65999 19.2899 8.23999 19.5199L4.31 21.7099C3.04 22.4099 2 21.7999 2 20.3499V8.98987C2 7.27987 3.39999 5.87988 5.10999 5.87988H12.89C14.6 5.87988 16 7.27987 16 8.98987Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path opacity="0.7" d="M22 5.10999V16.47C22 17.92 20.96 18.53 19.69 17.83L16 15.77V8.98999C16 7.27999 14.6 5.88 12.89 5.88H8V5.10999C8 3.39999 9.39999 2 11.11 2H18.89C20.6 2 22 3.39999 22 5.10999Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M16 8.98987V20.3499C16 21.7999 14.96 22.4099 13.69 21.7099L9.76001 19.5199C9.34001 19.2899 8.65999 19.2899 8.23999 19.5199L4.31 21.7099C3.04 22.4099 2 21.7999 2 20.3499V8.98987C2 7.27987 3.39999 5.87988 5.10999 5.87988H12.89C14.6 5.87988 16 7.27987 16 8.98987Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path opacity="0.7" d="M22 5.10999V16.47C22 17.92 20.96 18.53 19.69 17.83L16 15.77V8.98999C16 7.27999 14.6 5.88 12.89 5.88H8V5.10999C8 3.39999 9.39999 2 11.11 2H18.89C20.6 2 22 3.39999 22 5.10999Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     <g opacity="0.8">
-                      <path d="M7 12H11" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                      <path d="M9 14V10" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M7 12H11" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M9 14V10" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </g>
                   </svg>
                   Save

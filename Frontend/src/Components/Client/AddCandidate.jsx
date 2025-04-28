@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; // Add this import
+import { useLocation, useNavigate } from "react-router-dom"; // Add this import
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import axios from "axios";
-
-import UploadResume from "../../../../assets/UploadResume.png";
+import { Toaster, toast } from "react-hot-toast";
+import UploadResume from "../../assets/UploadResume.png";
 
 const steps = ["Basic Details", "Upload Resume"];
 
@@ -21,15 +21,83 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
 
   const handleNextStep = () => {
     // Validate required fields
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phoneNumber) {
-      alert('Please fill all required fields');
+    const requiredFields = {
+      firstName: "First Name",
+      lastName: "Last Name",
+      email: "Email",
+      phoneNumber: "Phone Number"
+    };
+
+    const missingFields = [];
+    for (const [field, label] of Object.entries(requiredFields)) {
+      if (!formData[field]) {
+        missingFields.push(label);
+      }
+    }
+
+    if (missingFields.length > 0) {
+      toast.error(`Please fill in all required fields: ${missingFields.join(', ')}`);
       return;
     }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    // Phone validation (basic)
+    const phoneRegex = /^\d{10,15}$/;
+    if (!phoneRegex.test(formData.phoneNumber.replace(/\D/g, ''))) {
+      toast.error('Please enter a valid phone number');
+      return;
+    }
+
+    toast.success('Information saved! Moving to resume upload');
     nextStep();
   };
 
   return (
     <div className="w-full">
+      <Toaster
+        position="bottom-right"
+        reverseOrder={true}
+        toastOptions={{
+          className: '',
+          duration: 3000,
+          style: {
+            background: '#FFFFFF',
+            color: '#374151',
+            border: '2px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+          },
+          success: {
+            style: {
+              border: '2px solid #359E45',
+            },
+            iconTheme: {
+              primary: '#359E45',
+              secondary: 'white',
+            },
+          },
+          error: {
+            style: {
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          },
+        }}
+        gutter={-80}
+        containerStyle={{
+          bottom: '40px',
+          right: '30px',
+        }}
+      />
       <div className="w-full flex flex-col items-center justify-center">
         <div className="w-[90%] flex items-center justify-center">
           <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
@@ -139,7 +207,7 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
       {errorMessage && (
         <div className="text-red-500 text-center mt-4">{errorMessage}</div>
       )}
-      
+
       {isSuccess && (
         <div className="text-green-500 text-center mt-4">Candidate information saved successfully!</div>
       )}
@@ -173,6 +241,7 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
 
 function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
   const [file, setFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -185,12 +254,20 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!file) {
-      alert('Please upload a resume');
+      toast.error('Please upload a resume');
       return;
     }
-    handleSubmit();
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      await handleSubmit();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -235,7 +312,7 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
                         resume: null
                       }));
                     }}
-                    className="mt-4 text-orange-500 underline"
+                    className="p-2 text-orange-500 underline"
                   >
                     Remove and upload another
                   </button>
@@ -290,26 +367,27 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
             <button
               type="button"
               onClick={onSubmit}
-              className={`flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-full transition-colors duration-200 ${
-                !file ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={!file}
+              disabled={!file || isSubmitting}
+              className={`flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-full transition-colors duration-200 
+                ${(!file || isSubmitting) ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              <span>Submit Application</span>
-              <svg
-                className="w-5 h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
+              {!isSubmitting && (
+                <svg
+                  className="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              )}
             </button>
           </div>
         </div>
@@ -320,10 +398,12 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
 
 function AddCandidate() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -337,22 +417,34 @@ function AddCandidate() {
     try {
       setErrorMessage('');
       setIsSuccess(false);
-
+  
       if (!formData.jobId) {
-        throw new Error('Job ID is missing');
+        toast.error('Job ID is missing');
+        return false;
       }
-
+  
+      if (!formData.resume) {
+        toast.error('Please upload a resume');
+        return false;
+      }
+  
+      // Create FormData and append files
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach(key => {
-        if (key === 'resume') {
-          if (formData[key] instanceof File) {
-            formDataToSend.append(key, formData[key]);
-          }
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
-
+  
+      // Append basic details
+      formDataToSend.append('firstName', formData.firstName);
+      formDataToSend.append('lastName', formData.lastName);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phoneNumber', formData.phoneNumber);
+      formDataToSend.append('jobId', formData.jobId);
+      formDataToSend.append('interviewerId', null); // Add this line to explicitly set interviewer as null
+  
+      // Append resume with specific filename
+      const resumeFile = formData.resume;
+      const fileExtension = resumeFile.name.split('.').pop();
+      const newFileName = `${formData.firstName}_${formData.lastName}_resume.${fileExtension}`;
+      formDataToSend.append('resume', resumeFile, newFileName);
+  
       const baseUrl = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(
         `${baseUrl}/api/v1/client/add-candidate`,
@@ -362,35 +454,51 @@ function AddCandidate() {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            console.log('Upload Progress:', percentCompleted);
+          }
         }
       );
-
+  
       console.log("Response:", response);
-      setIsSuccess(true);
-      alert("Application submitted successfully!");
-
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        resume: null,
-        jobId: formData.jobId // Preserve jobId
-      });
-      setActiveStep(0);
-
+  
+      if (response.data.success) {
+        setIsSuccess(true);
+        setShowSuccess(true);
+        toast.success('Application submitted successfully!');
+        return true;
+      } else {
+        throw new Error(response.data.message || 'Failed to submit application');
+      }
+  
     } catch (error) {
       console.error("Error submitting form:", error);
-      setErrorMessage(error.response?.data?.message || error.message || "Failed to submit application");
-      alert(error.response?.data?.message || error.message || "Failed to submit application");
+      const errorMessage = error.response?.data?.message || error.message || "Failed to submit application";
+      setErrorMessage(errorMessage);
+      toast.error(errorMessage);
+      return false;
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      resume: null,
+      jobId: formData.jobId // Preserve jobId
+    });
+    setActiveStep(0);
+    setShowSuccess(false);
+    navigate('/client/jobs');
   };
 
   return (
     <div className="w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] flex items-center justify-center">
       <div className="w-full p-4 flex flex-col items-center justify-center">
-        <div className="p-4  w-[80%] bg-[#F2EAE5] flex flex-col items-center justify-center rounded-2xl">
+        <div className="p-4 w-[80%] bg-[#F2EAE5] flex flex-col items-center justify-center rounded-2xl">
           <Box sx={{ width: "60%" }}>
             <Stepper
               activeStep={activeStep}
@@ -418,7 +526,9 @@ function AddCandidate() {
             </Stepper>
           </Box>
 
-          {activeStep === 0 ? (
+          {showSuccess ? (
+            <SuccessScreen resetForm={resetForm} />
+          ) : activeStep === 0 ? (
             <BasicDetailsForm
               formData={formData}
               setFormData={setFormData}
@@ -434,6 +544,47 @@ function AddCandidate() {
               handleSubmit={submitForm}
             />
           )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SuccessScreen({ resetForm }) {
+  return (
+    <div className="w-full flex flex-col items-center justify-between">
+      <div className="mt-8 w-full">
+        <div className="flex items-center justify-center">
+          <div className="border-2 w-[48%] py-8 border-dashed border-gray-300 rounded-xl p-10 text-center bg-gray-100">
+            <div className="flex flex-col items-center justify-center gap-y-6">
+              <div className="w-32 h-32 flex items-center justify-center">
+                <iframe src="https://lottie.host/embed/753450eb-ca02-49c3-b805-5b844db25388/PLesBd5L2c.lottie"></iframe>
+              </div>
+              <h2 className="text-xl font-medium text-gray-800">
+                Candidate Details Created Successfully
+              </h2>
+              <button
+                onClick={resetForm}
+                className="mt-4 flex items-center space-x-2 bg-[#E65F2B] hover:bg-orange-600 hover:shadow-md text-white font-medium py-2 px-6 rounded-full transition-all duration-200 group"
+              >
+                <span>Back to Dashboard</span>
+                <svg
+                  className="w-5 h-5 transition-transform duration-200 group-hover:rotate-[-45deg]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

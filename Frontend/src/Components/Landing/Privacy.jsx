@@ -1,6 +1,73 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const Privacy = () => {
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
+    const handleEmailClick = (e) => {
+        e.preventDefault();
+        setShowConfirmDialog(true);
+    };
+
+    const handleConfirmEmail = () => {
+        window.location.href = "mailto:recrumeta@outlook.com";
+        setShowConfirmDialog(false);
+    };
+
+    const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black/40" onClick={onClose}></div>
+                <div className="relative bg-white rounded-3xl w-[90%] md:max-w-md shadow-xl">
+                    {/* Close button */}
+                    <button
+                        onClick={onClose}
+                        className="absolute right-3 top-3 md:right-4 md:top-4 text-gray-400 hover:text-gray-600 transition-colors p-2"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="md:w-6 md:h-6">
+                            <path d="M18 6L6 18M6 6l12 12"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
+
+                    {/* Content container */}
+                    <div className="p-5 md:p-8">
+                        {/* Title */}
+                        <h3 className="text-[#E65F2B] text-xl md:text-2xl font-semibold mb-2 pr-8">
+                            {title}
+                        </h3>
+
+                        {/* Message */}
+                        <p className="text-gray-600 text-base md:text-lg mb-6 md:mb-8">
+                            {message}
+                        </p>
+
+                        {/* Buttons - Always side by side */}
+                        <div className="flex flex-row justify-end gap-3">
+                            <button
+                                onClick={onClose}
+                                className="px-5 py-2.5 rounded-full border-2 border-[#475569] text-[#475569] hover:bg-gray-100 transition-colors duration-300 text-base md:text-lg"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={onConfirm}
+                                className="px-5 py-2.5 rounded-full bg-[#E65F2B] text-white hover:bg-[#d64e1a] transition-colors duration-300 text-base md:text-lg"
+                            >
+                                Proceed
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="min-h-screen py-12 px-6 sm:px-6 lg:px-8 bg-[#F1F5F9] font-montserrat">
             <div className="max-w-3xl mx-auto">
@@ -16,7 +83,7 @@ const Privacy = () => {
                 <section className="mb-4">
                     <h2 className="text-xl font-semibold mb-2">1. Information We Collect</h2>
                     <p className="text-gray-700">We collect information in the following ways:</p>
-                    
+
                     <h3 className="pl-4 text-lg font-medium mt-2">a. Information You Provide:</h3>
                     <ul className="list-disc pl-12 text-gray-700 space-y-1">
                         <li>Name, email address, phone number, and other contact details</li>
@@ -80,7 +147,7 @@ const Privacy = () => {
                     </ul>
                     <p className="text-gray-700 mt-2">
                         To exercise these rights, contact us at{' '}
-                        <a href="mailto:recrumeta@outlook.com" className="text-[#E65F2B] hover:underline">
+                        <a href="#" onClick={handleEmailClick} className="text-[#E65F2B] hover:underline">
                             recrumeta@outlook.com
                         </a>
                     </p>
@@ -115,8 +182,8 @@ const Privacy = () => {
                     <div className="mt-2 space-y-1 text-gray-700">
                         <p>
                             📩{' '}
-                            <a href="mailto:recrumeta@outlook.in" className="text-[#E65F2B] hover:underline">
-                                recrumeta@outlook.in
+                            <a href="#" onClick={handleEmailClick} className="text-[#E65F2B] hover:underline">
+                                recrumeta@outlook.com
                             </a>
                         </p>
                         <p>
@@ -128,6 +195,15 @@ const Privacy = () => {
                     </div>
                 </section>
             </div>
+
+            {/* Confirm Email Dialog */}
+            <ConfirmDialog
+                isOpen={showConfirmDialog}
+                onClose={() => setShowConfirmDialog(false)}
+                onConfirm={handleConfirmEmail}
+                title="Open Email Client?"
+                message="This will open your default email client to send an email to recrumeta@outlook.com"
+            />
         </div>
     );
 };

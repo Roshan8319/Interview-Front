@@ -29,7 +29,6 @@ const SkeletonRow = () => (
 
 function Candidates() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -38,13 +37,17 @@ function Candidates() {
     status: "All",
   });
 
+  // Add filteredData state
+  const [filteredData, setFilteredData] = useState([]);
+
   const role = [
-    "SDE II",
-    "SDE III",
-    "SDET I",
+    "All",
+    "SDE-I",
+    "SDE-II",
+    "SDE-III",
+    "SDET-I",
     "EM",
-    "SDE I - Frontend",
-    "SDE II - Frontend",
+    "DevOps-I"
   ];
   const status = [
     "All",
@@ -55,10 +58,18 @@ function Candidates() {
   ];
   // All
   const handleSelect = (category, value) => {
-    setSelectedFilters((prev) => ({
-      ...prev,
-      [category]: value,
-    }));
+    if (category === "role" && value === selectedFilters.role) {
+      // If clicking the same role button, reset to "All"
+      setSelectedFilters(prev => ({
+        ...prev,
+        [category]: "All"
+      }));
+    } else {
+      setSelectedFilters(prev => ({
+        ...prev,
+        [category]: value
+      }));
+    }
   };
 
   const [people, setPeople] = useState([]);
@@ -85,11 +96,12 @@ function Candidates() {
           }
         );
         setData(response.data.data.candidates);
+        setFilteredData(response.data.data.candidates); // Set initial filtered data
         setStat(response.data.data.statistics);
-        console.log(response);
       } catch (error) {
         console.error("Error fetching data:", error);
         setData([]);
+        setFilteredData([]);
       } finally {
         setLoading(false);
       }
@@ -97,6 +109,33 @@ function Candidates() {
 
     fetchCandidates();
   }, []);
+
+  useEffect(() => {
+    let result = [...data];
+
+    // Filter by role
+    if (selectedFilters.role !== "All") {
+      result = result.filter(item => item.jobRole === selectedFilters.role);
+    }
+
+    // Filter by status
+    if (selectedFilters.status !== "All") {
+      result = result.filter(item => {
+        if (selectedFilters.status === "Recommended") {
+          return item.interviewStatus?.toLowerCase() === "recommended";
+        } else if (selectedFilters.status === "Not Recommended") {
+          return item.interviewStatus?.toLowerCase() === "not recommended";
+        } else if (selectedFilters.status === "Scheduled") {
+          return item.interviewStatus?.toLowerCase() === "scheduled";
+        } else if (selectedFilters.status === "Not Scheduled") {
+          return item.interviewStatus?.toLowerCase() === "not scheduled";
+        }
+        return true;
+      });
+    }
+
+    setFilteredData(result);
+  }, [selectedFilters, data]);
 
   return (
     <div className="flex flex-col gap-y-4 px-6 pt-2 bg-[#EBDFD7] min-h-screen">
@@ -112,7 +151,7 @@ function Candidates() {
           </div>
 
           {/* Filters Skeleton */}
-          <div className="py-4 sticky top-[60px] bg-[#EBDFD7]">
+          <div className="py-4 top-[60px] bg-[#EBDFD7]">
             <div className="pl-3 space-y-2">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="flex items-center space-x-4">
@@ -135,61 +174,7 @@ function Candidates() {
           </div>
         </div>
       ) : (
-        // Existing content
         <>
-          <div>
-            <div className="flex flex-col w-full justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
-              {/* Search Input */}
-              {/* <div className="flex items-center rounded-full px-4 py-2 w-[446px] bg-[#F6F1EE] border-gray-300 border focus-within:border-[#F6F1EE]">
-                <input
-                  type="text"
-                  placeholder="Search candidate by name"
-                  className="flex-1 bg-transparent text-gray-600 outline-none text-sm"
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#000000"
-                >
-                  <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                </svg>
-              </div> */}
-
-              {/* Add Client Button */}
-              {/* <button
-                type="button"
-                onClick={() => navigate(`${location.pathname}/addcandidate`)}
-                class="relative w-[170px] h-10 flex items-center rounded-xl overflow-hidden border border-[#E65F2B] bg-[#E65F2B] cursor-pointer transition-all duration-300 hover:bg-[#cd4b18] active:border-[#72290d] group"
-              >
-
-                <span class=" pl-2 absolute left-1 text-white font-semibold transition-all duration-300 group-hover:text-transparent">
-                  Add Candidate
-                </span>
-
-
-                <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke-linejoin="round"
-                    stroke-linecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    class="stroke-white"
-                  >
-                    <line y2="19" y1="5" x2="12" x1="12"></line>
-                    <line y2="12" y1="12" x2="19" x1="5"></line>
-                  </svg>
-                </span>
-              </button> */}
-            </div>
-          </div>
-
           <div className="w-full flex items-center justify-evenly">
             {stat ? ( // Check if stat exists
               <div className="w-[98%] grid grid-cols-5 gap-x-5 justify-evenly ">
@@ -268,7 +253,7 @@ function Candidates() {
             )}
           </div>
 
-          <div className="py-4 sticky top-[60px] bg-[#EBDFD7]">
+          <div className="py-4 top-[60px] bg-[#EBDFD7]">
             <div className="pl-3 space-y-2">
               {/* Domain Filter */}
               <div className="flex items-center space-x-3">
@@ -362,8 +347,8 @@ function Candidates() {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(data) && data.length > 0 ? (
-                  data.map((person, index) => (
+                {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                  filteredData.map((person, index) => (
                     <tr
                       key={index}
                       className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors"

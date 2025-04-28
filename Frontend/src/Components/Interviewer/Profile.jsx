@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
 
 const ProfilePage = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -36,24 +37,21 @@ const ProfilePage = () => {
   // Fetch interviewer data
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Fetching data...");
-
+      const loadingToast = toast.loading("Fetching profile data...");
       try {
         const response = await axios.get(`${baseUrl}/api/v1/interviewer/getInterviewer`, {
           withCredentials: true,
         });
-        console.log(response.data.data.interviewer);
 
         setProfileData(response.data.data.interviewer);
-        // If there's a profilePhoto in response data, set it
         if (response.data.data.interviewer.profilePhoto) {
           setProfilePhoto(response.data.data.interviewer.profilePhoto);
         }
-
         setData(response.data.data.interviewer);
-        setLoading(false);
+        toast.success("Profile loaded successfully!", { id: loadingToast });
       } catch (error) {
-        console.log(error);
+        toast.error("Failed to load profile data", { id: loadingToast });
+      } finally {
         setLoading(false);
       }
     };
@@ -61,10 +59,10 @@ const ProfilePage = () => {
     // Fetch initial profile photo with no-cors mode
     fetch(initialProfilePhoto, { mode: 'no-cors' })
       .then(() => setProfilePhoto(initialProfilePhoto))
-      .catch((error) => console.log("Error fetching initial profile photo:", error));
+      .catch(() => toast.error("Failed to load default profile photo"));
 
     fetchData();
-  }, []); // Empty dependency array to run once on mount
+  }, []);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -79,10 +77,17 @@ const ProfilePage = () => {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast.error("Image size should be less than 5MB");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePhoto(reader.result);
+        toast.success("Photo updated successfully");
       };
+      reader.onerror = () => toast.error("Failed to read image file");
       reader.readAsDataURL(file);
     }
   };
@@ -101,75 +106,69 @@ const ProfilePage = () => {
 
   // Discard changes
   const handleDiscardChanges = () => {
-    // Reset to current server data instead of initial empty values
-    setProfileData(data);
-    // Also reset profile photo to current server data
-    setProfilePhoto(data.profilePhoto || initialProfilePhoto);
-    setIsEditing(false);
+    const discardToast = toast.loading("Discarding changes...");
+    try {
+      // Reset to current server data instead of initial empty values
+      setProfileData(data);
+      // Also reset profile photo to current server data
+      setProfilePhoto(data.profilePhoto || initialProfilePhoto);
+      setIsEditing(false);
+      toast.success("Changes discarded successfully!", { id: discardToast });
+    } catch (error) {
+      toast.error("Failed to discard changes", { id: discardToast });
+    }
   };
 
   // Save changes - Using axios consistently like the get request
   const handleSaveChanges = async () => {
     setIsSaving(true);
+    const saveToast = toast.loading("Saving changes...");
 
     try {
       if (profilePhoto !== data.profilePhoto) {
-        // For updating both profile data and photo
         const formData = new FormData();
 
         try {
-          // Convert the base64 string to a Blob
           const imageFile = await fetch(profilePhoto)
             .then((r) => {
-              if (!r.ok) throw new Error("Failed to fetch image for Blob conversion");
+              if (!r.ok) throw new Error("Failed to process image");
               return r.blob();
-            })
-            .catch((error) => {
-              console.error("Error converting profile photo to Blob:", error);
-              throw error;
             });
 
           formData.append("profilePhoto", imageFile, "profile.jpg");
         } catch (error) {
-          alert("Failed to process profile photo. Please try again.");
-          setIsSaving(false);
-          return;
+          throw new Error("Failed to process profile photo");
         }
 
-        // Add profile data to FormData
         formData.append("profileData", JSON.stringify(profileData));
 
         const response = await axios.patch(
           `${baseUrl}/api/v1/interviewer/update-interviewer`,
           formData,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
 
-        console.log("Profile updated successfully:", response.data);
         setData(profileData);
-        setIsEditing(false);
+        toast.success("Profile updated successfully!", { id: saveToast });
       } else {
-        // For updating just profile data without photo
         const response = await axios.patch(
           `${baseUrl}/api/v1/interviewer/update-interviewer`,
           profileData,
           {
             withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
           }
         );
 
-        console.log("Profile updated successfully:", response.data);
         setData(profileData);
-        setIsEditing(false);
+        toast.success("Profile updated successfully!", { id: saveToast });
       }
+      setIsEditing(false);
     } catch (error) {
-      console.error("Error updating profile:", error.message || error);
-      alert("Failed to update profile. Please try again.");
+      toast.error(
+        error.response?.data?.message || "Failed to update profile",
+        { id: saveToast }
+      );
     } finally {
       setIsSaving(false);
     }
@@ -207,6 +206,44 @@ const ProfilePage = () => {
 
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-4">
+      <Toaster
+        position="bottom-right"
+        reverseOrder={true}
+        toastOptions={{
+          className: '',
+          duration: 3000,
+          style: {
+            background: '#FFFFFF',
+            color: '#374151',
+            border: '2px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+          },
+          success: {
+            style: {
+              border: '2px solid #359E45',
+            },
+            iconTheme: {
+              primary: '#359E45',
+              secondary: 'white',
+            },
+          },
+          error: {
+            style: {
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          },
+        }}
+        gutter={-40}
+        containerStyle={{
+          bottom: '40px',
+          right: '40px',
+        }}
+      />
       {isSaving && <SavingOverlay />}
 
       <div className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl mt-10 shadow-md">

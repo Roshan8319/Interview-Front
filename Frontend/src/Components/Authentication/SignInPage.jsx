@@ -5,7 +5,7 @@ import Recrumeta from "../../assets/Recrumeta.png";
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const VISITOR_ACCOUNTS = {
   CLIENT: { email: 'support@zomato.com', password: '1234' },
@@ -18,8 +18,8 @@ const VISITOR_ACCOUNTS = {
 function SignInPage() {
 
   const baseUrl = import.meta.env.VITE_BASE_URL
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [signinas, setSigninas] = useState('');
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,6 +51,11 @@ function SignInPage() {
     };
   }, []);
 
+  useEffect(() => {
+    // Clear error message when role, email, or password changes
+    setErrorMessage("");
+  }, [signinas, email, password]);
+
   const LoadingSpinner = () => (
     <div className="flex flex-col items-center justify-center">
       <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#E65F2B]"></div>
@@ -58,12 +63,22 @@ function SignInPage() {
     </div>
   );
 
+  const getDefaultPath = (role) => {
+    switch (role) {
+      case "CLIENT":
+        return "/client/dashboard";
+      case "INTERNAL":
+        return "/internal/dashboard";
+      case "INTERVIEWER":
+        return "/interviewer/dashboard";
+      default:
+        return "/";
+    }
+  };
+
   const handleLoginViaEmail = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(email, password);
-    console.log(signinas);
-    // setLoading(true)
 
     try {
       const targetUrl = signinas === "CLIENT"
@@ -85,45 +100,49 @@ function SignInPage() {
 
       const { accessToken, refreshToken } = response.data.data;
 
-      // Set cookies with secure configuration
+      // Set cookies
       Cookies.set('accessToken', accessToken, {
-        expires: 1 / 24, // 1 hour
+        expires: 1 / 24,
         secure: true,
         sameSite: 'None',
         path: '/'
       });
 
       Cookies.set('refreshToken', refreshToken, {
-        expires: 7, // 7 days
+        expires: 7,
         secure: true,
         sameSite: 'none',
         path: '/'
       });
 
-      let displayName = "";
-      let clientId = "";
+      // Create user object for localStorage
+      const user = {
+        role: signinas.toLowerCase(), // Convert to lowercase to match protected route expectations
+        displayName: "",
+        clientId: ""
+      };
 
+      // Set role-specific data
       if (signinas === "CLIENT") {
-        displayName = response.data.data.client.companyName;
-        clientId = response.data.data.client.clientId;
+        user.displayName = response.data.data.client.companyName;
+        user.clientId = response.data.data.client.clientId;
       } else if (signinas === "INTERVIEWER") {
-        displayName = response.data.data.interviewer.firstName;
-      }
-      else if (signinas === "INTERNAL") {
-        displayName = response.data.data.user.firstName;
+        user.displayName = response.data.data.interviewer.firstName;
+      } else if (signinas === "INTERNAL") {
+        user.displayName = response.data.data.user.firstName;
       }
 
-      sessionStorage.setItem('displayName', displayName);
-      sessionStorage.setItem('clientId', clientId);
+      // Store user data in localStorage
+      localStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('displayName', user.displayName);
+      sessionStorage.setItem('clientId', user.clientId);
+
+      // Check for redirect path from protected route
+      const redirectPath = localStorage.getItem('redirectPath') || getDefaultPath(signinas);
+      localStorage.removeItem('redirectPath'); // Clean up
 
       if (response.status === 200) {
-        const dashboardPath = signinas === "CLIENT"
-          ? "/client/dashboard"
-          : signinas === "INTERNAL"
-            ? "/internal/dashboard"
-            : "/interviewer/dashboard";
-
-        navigate(dashboardPath);
+        navigate(redirectPath);
       }
     } catch (error) {
       const errorMessage = error?.response?.data?.error?.[0]?.error || "An error occurred";
@@ -132,10 +151,7 @@ function SignInPage() {
       setIsSubmitting(false);
       setLoading(false);
     }
-  }
-
-
-
+  };
 
   return (
     <div className="w-[100%] h-[100%]">
@@ -303,6 +319,11 @@ function SignInPage() {
                           </div>
                         </div>
                         <div>
+                          {errorMessage && (
+                            <div className="w-[90%] mx-auto mb-4 px-4 py-2 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                              {errorMessage}
+                            </div>
+                          )}
                           <button
                             onClick={handleLoginViaEmail}
                             disabled={isSubmitting}

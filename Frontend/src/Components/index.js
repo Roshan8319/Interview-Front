@@ -1,83 +1,88 @@
-import Hello from "./Hello";
+// Authentication Components
+import SignInPage from "./Authentication/SignInPage"
+import ResetPassword from "./Authentication/ResetPassword"
 
+// Client Components
+import NavigationLayout from "./Client/NavigationLayout"
+import Dashboard from "./Client/Dashboard"
+import Jobs from "./Client/Jobs"
+import Candidates from "./Client/Candidates"
+import Finance from "./Client/Finance"
+import ViewJob from "./Client/ViewJob"
+import { ClientAddCandidate } from "./Client/AddCandidate"
+import AddJob from "./Client/AddJob"
 
+// Internal Components
+import { InternalNavigationLayout } from "./Internal/NavigationLayout"
+import { InternalDashboard } from "./Internal/Dashboard"
+import { InternalClients } from "./Internal/Clients"
+import { InternalInterviewer } from "./Internal/Interviewer"
+import { InternalUsers } from "./Internal/Users"
+import { InternalFinance } from "./Internal/Finance"
+import RecentsInterviews from "./Internal/RecentsInterviews"
+import { InternalAddInterviewer } from "./Internal/AddInterviewer"
 
-//New SignIn Import 
-import SignInPage from "../Components/Authentication/SignInPage"
-import ResetPassword from "./Authentication/ResetPassword";
-
-//Client Imports
-
-import NavigationLayout from "./Client/InterviewPlatform/NavigationLayout";
-import Dashboard from "./Client/InterviewPlatform/VerticalNavigationLinks/Dashboard"
-import Settings from "./Client/InterviewPlatform/VerticalNavigationLinks/Settings"
-import Jobs from "./Client/InterviewPlatform/VerticalNavigationLinks/Jobs"
-import Candidates from "./Client/InterviewPlatform/VerticalNavigationLinks/Candidates"
-import Analytics from "./Client/InterviewPlatform/VerticalNavigationLinks/Analytics"
-import AnalyticsDateFilter from "./Client/InterviewPlatform/VerticalNavigationLinks/AnalyticsDateFilter";
-import Integration from "./Client/InterviewPlatform/VerticalNavigationLinks/Integration"
-import Finance from "./Client/InterviewPlatform/VerticalNavigationLinks/Finance"
-import Engagement from "./Client/InterviewPlatform/VerticalNavigationLinks/Engagement"
-import Message from "./Client/InterviewPlatform/VerticalNavigationLinks/Message";
-import CandidateDetails from "./Client/InterviewPlatform/VerticalNavigationLinks/CandidateDetails"
-
-//Agency Imports
-
-
-
-//Internal Imports
-import { InternalNavigationLayout } from "./Internal/NavigationLayout";
-import {InternalDashboard } from "./Internal/Dashboard"
-import {InternalClients} from "./Internal/Clients"
-import {InternalInterviewer} from "./Internal/Interviewer"
-import {InternalUsers} from "./Internal/Users"
-import {InternalAgreements} from "./Internal/Agreement"
-import {InternalFinance} from "./Internal/Finance"
-import {InternalEngagement} from "./Internal/Engagement"
-import { InternalMessages } from "./Internal/Messages";
-import RecentsInterviews from "./Internal/RecentsInterviews";
-
-
-
-
-// Interviewer Imports
-import {InterviewerNavigationLayout} from "./Interviewer/NavigationLayout";
-import InterviewerDashboard from "./Interviewer/Dashboard";
+// Interviewer Components  
+import { InterviewerNavigationLayout } from "./Interviewer/NavigationLayout"
+import InterviewerDashboard from "./Interviewer/Dashboard"
 import MeetingScreen from "./Interviewer/MeetingScreen"
-import Profile from "./Interviewer/Profile";
-import Calendar from "./Interviewer/Calendar";
-import Receivables from "./Interviewer/Receivables";
-import InterviewHistory from "./Interviewer/InterviewHistory";
-import FetchInterviewDetails from "./Interviewer/FetchInterviewDetails";
+import Profile from "./Interviewer/Profile"
+import Receivables from "./Interviewer/Receivables"
+import InterviewHistory from "./Interviewer/InterviewHistory"
+import FetchInterviewDetails from "./Interviewer/FetchInterviewDetails"
+import Feedback from "./Interviewer/Feedback"
 
+// Landing Components
+import { LandingNavigationLayout } from "./Landing/NavigationLayout"
+import Contact from "./Landing/Contact"
+import Privacy from "./Landing/Privacy"
+import Terms from "./Landing/Terms"
 
+//Error Components
+import ErrorBoundary from "./Error/ErrorBoundary"
 
-// Landing Imports
-import { LandingNavigationLayout } from "./Landing/NavigationLayout";
+// Grouped exports by feature
+export {
+    // Authentication
+    SignInPage,
+    ResetPassword,
 
+    // Client
+    NavigationLayout,
+    Dashboard,
+    Jobs, 
+    Candidates,
+    Finance,
+    ViewJob,
+    ClientAddCandidate,
+    AddJob,
 
+    // Internal
+    InternalNavigationLayout,
+    InternalAddInterviewer,
+    InternalDashboard,
+    InternalClients,
+    InternalInterviewer,
+    InternalUsers,
+    InternalFinance,
+    RecentsInterviews,
 
-//New Sigin page 
+    // Interviewer
+    InterviewerNavigationLayout,
+    InterviewerDashboard,
+    MeetingScreen,
+    InterviewHistory,
+    Profile,
+    Receivables,
+    FetchInterviewDetails,
+    Feedback,
 
-export {SignInPage,ResetPassword}
+    // Landing
+    LandingNavigationLayout,
+    Contact,
+    Privacy,
+    Terms,
 
-//Client Exports
-export {NavigationLayout,Dashboard,Settings,Jobs,Candidates,Analytics, AnalyticsDateFilter,Integration,Finance,Engagement,Message,CandidateDetails}
-
-
-
-//Internal Exports
-
-export {InternalNavigationLayout,InternalDashboard,InternalClients,InternalInterviewer,InternalUsers,InternalAgreements,InternalFinance,InternalEngagement,InternalMessages,RecentsInterviews}
-
-//Interviewer Exports
-export {InterviewerNavigationLayout,InterviewerDashboard,MeetingScreen,Calendar,InterviewHistory,Profile,Receivables,FetchInterviewDetails}
-
-// Landing Exports
-export {LandingNavigationLayout}
-
-
-
-
-
-export {Hello}
+    // Error
+    ErrorBoundary,
+}

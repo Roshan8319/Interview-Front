@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AddJob = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [employment, setEmployment] = useState('FT');
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     jobTitle: "",
     jobRole: "",
@@ -13,66 +16,125 @@ const AddJob = () => {
     totalPositions: ""
   });
 
-  // Error message state
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
+  const essentialOptions = ['Java', 'OOPS', 'Springboot', 'React.js', 'AWS', 'Kafka'];
+  const focusAreaOptions = ['Frontend', 'Backend', 'DevOps', 'Full Stack', 'Mobile', 'AI/ML', 'Cloud'];
+  const [selectedEssentials, setSelectedEssentials] = useState([]);
+  const [selectedFocusAreas, setSelectedFocusAreas] = useState([]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrorMessage(''); // Clear error message when user makes changes
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  // For Essentials
-  const [selectedEssentials, setSelectedEssentials] = useState([]);
-  const essentialOptions = ['Java', 'OOPS', 'Springboot', 'React.js', 'AWS', 'Kafka'];
+  const handleNumberInput = (e) => {
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    const numValue = parseInt(value) || 0;
+    if (numValue < 0) {
+      toast.error("Number of positions cannot be negative");
+      return;
+    }
+    setFormData(prev => ({
+      ...prev,
+      totalPositions: value
+    }));
+  };
+
+  const handleEmailInput = (e) => {
+    const email = e.target.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setFormData(prev => ({
+      ...prev,
+      hiringManagerEmail: email
+    }));
+    
+    if (email && !emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+    }
+  };
 
   const handleAddEssential = (event) => {
     const value = event.target.value;
-    if (value && !selectedEssentials.includes(value)) {
-      setSelectedEssentials([...selectedEssentials, value]);
+    if (!value) return;
+    
+    if (selectedEssentials.includes(value)) {
+      toast.error("This skill is already added");
+      return;
     }
-    event.target.value = ''; // Reset the dropdown
+    
+    setSelectedEssentials(prev => [...prev, value]);
+    event.target.value = '';
   };
-
-  const handleRemoveEssential = (essential) => {
-    setSelectedEssentials(selectedEssentials.filter((item) => item !== essential));
-  };
-
-  // For Focus Areas
-  const [selectedFocusAreas, setSelectedFocusAreas] = useState([]);
-  const focusAreaOptions = ['Frontend', 'Backend', 'DevOps', 'Full Stack', 'Mobile', 'AI/ML', 'Cloud'];
 
   const handleAddFocusArea = (event) => {
     const value = event.target.value;
-    if (value && !selectedFocusAreas.includes(value)) {
-      setSelectedFocusAreas([...selectedFocusAreas, value]);
+    if (!value) return;
+    
+    if (selectedFocusAreas.includes(value)) {
+      toast.error("This focus area is already added");
+      return;
     }
-    event.target.value = ''; // Reset the dropdown
+    
+    setSelectedFocusAreas(prev => [...prev, value]);
+    event.target.value = '';
+  };
+
+  const handleRemoveEssential = (essential) => {
+    setSelectedEssentials(prev => prev.filter(item => item !== essential));
+    toast.success(`Removed ${essential} from essential skills`);
   };
 
   const handleRemoveFocusArea = (area) => {
-    setSelectedFocusAreas(selectedFocusAreas.filter((item) => item !== area));
+    setSelectedFocusAreas(prev => prev.filter(item => item !== area));
+    toast.success(`Removed ${area} from focus areas`);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      jobTitle: "",
+      jobRole: "",
+      jobDescription: "",
+      employmentType: "FT",
+      hiringManagerEmail: "",
+      totalPositions: ""
+    });
+    setSelectedEssentials([]);
+    setSelectedFocusAreas([]);
+    setEmployment('FT');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setIsSuccess(false);
 
-    // Validate essentials and focusArea
+    // Form validation
+    if (!formData.jobTitle) {
+      toast.error("Please enter a job title");
+      return;
+    }
+    if (!formData.jobRole) {
+      toast.error("Please enter a job role");
+      return;
+    }
+    if (!formData.jobDescription) {
+      toast.error("Please enter a job description");
+      return;
+    }
+    if (!formData.hiringManagerEmail) {
+      toast.error("Please enter hiring manager's email");
+      return;
+    }
+    if (!formData.totalPositions) {
+      toast.error("Please enter number of positions");
+      return;
+    }
     if (selectedEssentials.length === 0) {
-      setErrorMessage("Please select at least one essential skill");
+      toast.error("Please select at least one essential skill");
       return;
     }
-
     if (selectedFocusAreas.length === 0) {
-      setErrorMessage("Please select at least one focus area");
-      return;
-    }
-
-    // Validate other required fields
-    if (!formData.jobTitle || !formData.jobRole || !formData.jobDescription || !formData.hiringManagerEmail || !formData.totalPositions) {
-      setErrorMessage("Please fill in all required fields");
+      toast.error("Please select at least one focus area");
       return;
     }
 
@@ -85,52 +147,64 @@ const AddJob = () => {
         employmentType: employment,
       };
 
-      console.log("Sending data:", dataToSend);
-
       const response = await axios.post(`${baseUrl}/api/v1/client/add-job`, dataToSend, {
         withCredentials: true,
       });
 
-      console.log("Response:", response);
-      setIsSuccess(true);
-
-      // Reset form after successful submission
-      setFormData({
-        jobTitle: "",
-        jobRole: "",
-        jobDescription: "",
-        employmentType: "FT",
-        hiringManagerEmail: "",
-        totalPositions: ""
-      });
-      setSelectedEssentials([]);
-      setSelectedFocusAreas([]);
-
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Job added successfully!");
+        resetForm();
+        navigate('/client/jobs');
+      }
     } catch (error) {
-      console.error("Error submitting form:", error.response?.data || error);
-      setErrorMessage(error.response?.data?.errorMessage || "Failed to add job. Please try again.");
+      const errorMessage = error.response?.data?.message || "Failed to add job. Please try again.";
+      toast.error(errorMessage);
+      console.error("Error adding job:", error);
     }
   };
 
   return (
     <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7] items-center'>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={true}
+        toastOptions={{
+          className: '',
+          duration: 3000,
+          style: {
+            background: '#FFFFFF',
+            color: '#374151',
+            border: '2px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+          },
+          success: {
+            style: {
+              border: '2px solid #359E45',
+            },
+            iconTheme: {
+              primary: '#359E45',
+              secondary: 'white',
+            },
+          },
+          error: {
+            style: {
+              border: '2px solid #EF4444',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: 'white',
+            },
+          },
+        }}
+        gutter={-40}
+        containerStyle={{
+          bottom: '40px',
+          right: '30px',
+        }}
+      />
       <form className='w-[75%] flex items-center mt-10' action="">
         <div className="w-[100%] bg-[rgba(255,255,255,0.34)] grid grid-cols-2 p-8 rounded-2xl gap-x-10">
-
-          {/* Success message */}
-          {isSuccess && (
-            <div className="col-span-2 mb-4 p-2 bg-green-200 text-green-700 rounded-xl">
-              Job added successfully!
-            </div>
-          )}
-
-          {/* Error message */}
-          {errorMessage && (
-            <div className="col-span-2 mb-4 p-2 bg-red-200 text-red-700 rounded-xl">
-              {errorMessage}
-            </div>
-          )}
-
           {/* Left Column */}
           <div className='flex flex-col gap-y-4'>
             <div className='flex flex-col justify-between'>
@@ -152,7 +226,7 @@ const AddJob = () => {
                 name='hiringManagerEmail'
                 type="email"
                 value={formData.hiringManagerEmail}
-                onChange={handleChange}
+                onChange={handleEmailInput}
                 placeholder='Enter Email'
               />
             </div>
@@ -211,7 +285,7 @@ const AddJob = () => {
                 className="py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                 name='totalPositions'
                 value={formData.totalPositions}
-                onChange={handleChange}
+                onChange={handleNumberInput}
                 onInput={(e) => {
                   if (e.target.value < 0) e.target.value = 0; // Prevent negative numbers
                   // Remove non-numeric characters
