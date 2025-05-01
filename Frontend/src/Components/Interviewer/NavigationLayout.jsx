@@ -28,6 +28,47 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Cookies from 'js-cookie';
 import Profile from "../../assets/ProfileIcon.png";
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import CloseIcon from "@mui/icons-material/Close";
+
+const CustomSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase': {
+    color: '#E65F2B',
+    '&.Mui-checked': {
+      color: '#4CAF50',
+      '& + .MuiSwitch-track': {
+        backgroundColor: '#4CAF50',
+        opacity: 0.5,
+      },
+    },
+  },
+  '& .MuiSwitch-track': {
+    backgroundColor: '#E65F2B',
+    opacity: 0.5,
+  },
+}));
+
+const StatusDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+  "& .MuiDialog-paper": {
+    width: "400px",
+    maxWidth: "95%",
+    borderRadius: "1rem",
+    backgroundColor: "#F2EAE5",
+  },
+}));
 
 const drawerWidth = 240;
 
@@ -126,12 +167,12 @@ const navItems = [
     icon2: <ActiveProfileIcon />,
     link: "/interviewer/profile",
   },
-  // {
-  //   text: "Calendar",
-  //   icon: <CalendarIcon />,
-  //   icon2: <ActiveCalendarIcon />,
-  //   link: "/interviewer/calendar",
-  // },
+  {
+    text: "Calendar",
+    icon: <CalendarIcon />,
+    icon2: <ActiveCalendarIcon />,
+    link: "/interviewer/calendar",
+  },
   {
     text: "Receivables",
     icon: <ReceivablesIcon />,
@@ -147,13 +188,14 @@ const navItems = [
 
 ];
 
-
-
-
 function NavigationLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [isActive, setIsActive] = useState(true);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -217,8 +259,6 @@ function NavigationLayout() {
     },
   };
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -240,21 +280,30 @@ function NavigationLayout() {
     setIsDropdownOpen(false);
   };
 
-
-
-
-
-
-
-
-
-
-
-
+  const handleStatusToggle = () => {
+    if (isActive) {
+      // If currently active, show confirmation dialog before becoming inactive
+      setConfirmDialogOpen(true);
+    } else {
+      // If currently inactive, directly become active with no confirmation needed
+      setIsActive(true);
+      // Add API call here to update status
+    }
+  };
 
   const location = useLocation();
-  const isMessageRouteActive =
-    location.pathname === "/hiring-dog/client/message";
+
+  const handleConfirmInactive = () => {
+    // User confirmed they want to be inactive
+    setIsActive(false);
+    setConfirmDialogOpen(false);
+    // Add API call here to update status
+  };
+
+  const handleCancelInactive = () => {
+    // User canceled the inactive status change
+    setConfirmDialogOpen(false);
+  };
 
   const [username, setUsername] = useState("");
   useEffect(() => {
@@ -280,10 +329,35 @@ function NavigationLayout() {
       <CssBaseline />
       {/* AppBar - Top Nav Bar */}
       <AppBar position="fixed" sx={{ ...appBarStyle, backgroundColor: "#EBDFD7", height: "64px" }} >
-        <div className="flex items-center justify-end h-full mt-[6px]">
-          <div className="flex h-full">
+        <div className="flex items-center justify-end h-full">
+          <div className="flex items-center gap-8"> {/* Added items-center and gap-4 */}
+            {/* Toggle */}
+            <div className="flex items-center">
+              <FormControlLabel
+                control={
+                  <CustomSwitch
+                    checked={isActive}
+                    onChange={handleStatusToggle}
+                  />
+                }
+                label={
+                  <span className={`text-lg font-medium ${isActive ? 'text-green-600' : 'text-orange-600'}`}>
+                    {isActive ? 'Active' : 'Inactive'}
+                  </span>
+                }
+                labelPlacement="start"
+                sx={{
+                  margin: 0,
+                  '& .MuiFormControlLabel-label': {
+                    marginRight: '8px'
+                  }
+                }}
+              />
+            </div>
+
+            {/* Profile */}
             <div
-              className={`right-4 ml-6 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
+              className={`right-4 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
                 } relative transition-all duration-100 ring-1 ring-black ring-opacity-5 z-10`}
               ref={dropdownRef}
               onClick={toggleDropdown}
@@ -564,6 +638,53 @@ function NavigationLayout() {
         <DrawerHeader />
         <Outlet />
       </Box>
+
+      {/* Dialog */}
+      <StatusDialog
+        open={confirmDialogOpen}
+        onClose={handleCancelInactive}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        BackdropProps={{
+          sx: { backgroundColor: "rgba(0, 0, 0, 0.40)" },
+        }}
+      >
+        <DialogTitle sx={{ m: 0, p: 2, borderBottom: 'none' }}>
+          <h1 className="font-bold text-[#E65F2B] text-lg text-start">Confirm Status Change</h1>
+          <IconButton
+            aria-label="close"
+            onClick={handleCancelInactive}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ borderTop: 'none', borderBottom: 'none' }}>
+          <DialogContentText id="alert-dialog-description">
+            Changing your status to inactive means you won't be assigned any new interviews.
+            Are you sure you want to become inactive?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ borderTop: 'none' }} className="p-4 mb-2">
+          <button
+            onClick={handleCancelInactive}
+            className="px-4 py-2 rounded-full text-gray-600 hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleConfirmInactive}
+            className="px-4 py-2 rounded-full bg-[#E65F2B] text-white hover:bg-[#d45525]"
+          >
+            Confirm Inactive Status
+          </button>
+        </DialogActions>
+      </StatusDialog>
     </Box>
   )
 }

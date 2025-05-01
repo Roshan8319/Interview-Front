@@ -16,7 +16,7 @@ const Terms = () => {
     };
 
     const handleConfirmEmail = () => {
-        window.location.href = "mailto:recrumeta@outlook.com";
+        window.location.href = "mailto:team.recrumeta@gmail.com";
         setShowConfirmDialog(false);
     };
 
@@ -174,7 +174,7 @@ const Terms = () => {
                     <p className="text-gray-700 mb-4">
                         If you have any questions about these Terms, please contact us at{' '}
                         <a href="#" onClick={handleEmailClick} className="text-[#E65F2B] hover:underline">
-                            recrumeta@outlook.com
+                            team.recrumeta@gmail.com
                         </a>
                         .
                     </p>
@@ -187,7 +187,7 @@ const Terms = () => {
                 onClose={() => setShowConfirmDialog(false)}
                 onConfirm={handleConfirmEmail}
                 title="Open Email Client?"
-                message="This will open your default email client to send an email to recrumeta@outlook.com"
+                message="This will open your default email client to send an email to team.recrumeta@gmail.com"
             />
         </div >
     );

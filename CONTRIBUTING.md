@@ -51,6 +51,6 @@ If you encounter any issues, please:
 
 ## Need Help?
 
-Feel free to reach out by opening an issue or contacting us directly at [recrumeta@oulook.com](mailto:recrumeta@oulook.com).
+Feel free to reach out by opening an issue or contacting us directly at [team.recrumeta@gmail.com](mailto:team.recrumeta@gmail.com).
 
 Happy coding!

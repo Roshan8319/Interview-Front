@@ -9,7 +9,7 @@ const Privacy = () => {
     };
 
     const handleConfirmEmail = () => {
-        window.location.href = "mailto:recrumeta@outlook.com";
+        window.location.href = "mailto:team.recrumeta@gmail.com";
         setShowConfirmDialog(false);
     };
 
@@ -148,7 +148,7 @@ const Privacy = () => {
                     <p className="text-gray-700 mt-2">
                         To exercise these rights, contact us at{' '}
                         <a href="#" onClick={handleEmailClick} className="text-[#E65F2B] hover:underline">
-                            recrumeta@outlook.com
+                            team.recrumeta@gmail.com
                         </a>
                     </p>
                 </section>
@@ -183,7 +183,7 @@ const Privacy = () => {
                         <p>
                             📩{' '}
                             <a href="#" onClick={handleEmailClick} className="text-[#E65F2B] hover:underline">
-                                recrumeta@outlook.com
+                                team.recrumeta@gmail.com
                             </a>
                         </p>
                         <p>
@@ -202,7 +202,7 @@ const Privacy = () => {
                 onClose={() => setShowConfirmDialog(false)}
                 onConfirm={handleConfirmEmail}
                 title="Open Email Client?"
-                message="This will open your default email client to send an email to recrumeta@outlook.com"
+                message="This will open your default email client to send an email to team.recrumeta@gmail.com"
             />
         </div>
     );

@@ -79,7 +79,7 @@ This project is licensed under the [MIT License](./LICENSE).
 
 For support, pricing details, or partnership inquiries:
 
-- 📧 **Email:** recrumeta@oulook.com
+- 📧 **Email:** team.recrumeta@gmail.com
 - 📞 **Phone:** +91-7070222841
 - 🌐 **Website:** [recrumeta.in](https://recrumeta.in)
 
