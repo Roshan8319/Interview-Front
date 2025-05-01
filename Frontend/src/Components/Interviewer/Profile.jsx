@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
+import ProfileIcon from "../../assets/ProfileIcon.png";
 
 const ProfilePage = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -21,19 +22,16 @@ const ProfilePage = () => {
     bankIfscCode: "",
   };
 
-  const initialProfilePhoto =
-    "https://i.pinimg.com/736x/7c/e2/4d/7ce24d5a7e3759a1a819649d65a9da2e.jpg";
-
   // State variables
   const [isEditing, setIsEditing] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState(initialProfilePhoto);
+  const [profilePhoto, setProfilePhoto] = useState(ProfileIcon); // Initialize with the imported default icon
   const [profileData, setProfileData] = useState(initialProfileData);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(initialProfileData); // Initialize data state as well
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
   const fileInputRef = useRef(null);
-
+  
   // Fetch interviewer data
   useEffect(() => {
     const fetchData = async () => {
@@ -43,26 +41,24 @@ const ProfilePage = () => {
           withCredentials: true,
         });
 
-        setProfileData(response.data.data.interviewer);
-        if (response.data.data.interviewer.profilePhoto) {
-          setProfilePhoto(response.data.data.interviewer.profilePhoto);
+        const fetchedData = response.data.data.interviewer;
+        setProfileData(fetchedData); // Set form data
+        setData(fetchedData); // Set the original data for discard functionality
+        if (fetchedData.profilePhoto) {
+          setProfilePhoto(fetchedData.profilePhoto); // Set photo if available
+        } else {
+          setProfilePhoto(ProfileIcon); // Ensure default icon if no photo fetched
         }
-        setData(response.data.data.interviewer);
         toast.success("Profile loaded successfully!", { id: loadingToast });
       } catch (error) {
-        toast.error("Failed to load profile data", { id: loadingToast });
+        console.error("Fetch error:", error); // Log the error for debugging
+        toast.error(error.response?.data?.message || "Failed to load profile data", { id: loadingToast });
       } finally {
         setLoading(false);
       }
     };
-
-    // Fetch initial profile photo with no-cors mode
-    fetch(initialProfilePhoto, { mode: 'no-cors' })
-      .then(() => setProfilePhoto(initialProfilePhoto))
-      .catch(() => toast.error("Failed to load default profile photo"));
-
     fetchData();
-  }, []);
+  }, [baseUrl]); // Add baseUrl as dependency if it could change, though unlikely with env vars
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -78,17 +74,26 @@ const ProfilePage = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        toast.error("Image size should be less than 5MB");
+        toast.error("Image size should be less than 5MB", {
+          style: { border: '2px solid #EF4444' },
+          iconTheme: { primary: '#EF4444', secondary: 'white' },
+        });
         return;
       }
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfilePhoto(reader.result);
-        toast.success("Photo updated successfully");
+        setProfilePhoto(reader.result); // Update state with the preview URL (Data URL)
+        toast.success("Photo updated successfully", {
+          style: { border: '2px solid #359E45' },
+          iconTheme: { primary: '#359E45', secondary: 'white' },
+        });
       };
-      reader.onerror = () => toast.error("Failed to read image file");
-      reader.readAsDataURL(file);
+      reader.onerror = () => toast.error("Failed to read image file", {
+        style: { border: '2px solid #EF4444' },
+        iconTheme: { primary: '#EF4444', secondary: 'white' },
+      });
+      reader.readAsDataURL(file); // Read the file for preview
     }
   };
 

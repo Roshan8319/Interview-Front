@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import video1 from '../../assets/Video1.mp4'
+import video1 from '../../assets/Video1.mp4';
 import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 function Contact() {
+    const baseUrl = import.meta.env.VITE_BASE_URL;
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -91,20 +93,15 @@ function Contact() {
         });
 
         try {
-            const response = await fetch("https://formcarry.com/s/1ra8f0NTeV5", {
-                method: 'POST',
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const data = await response.json();
+            // Use the existing contact endpoint
+            const response = await axios.post(
+                `${baseUrl}/api/v1/contact`,
+                formData
+            );
 
             toast.dismiss(loadingToast);
 
-            if (data.code === 200) {
+            if (response.data.success) {
                 setFormData({
                     name: '',
                     email: '',
@@ -112,7 +109,7 @@ function Contact() {
                     message: ''
                 });
 
-                toast.success('Message sent successfully!', {
+                toast.success(response.data.message || 'Message sent successfully!', {
                     style: {
                         background: '#FFFFFF',
                         color: '#374151',
@@ -124,12 +121,12 @@ function Contact() {
                     },
                 });
             } else {
-                throw new Error(data.message || 'Failed to send message');
+                throw new Error(response.data.message || 'Failed to send message');
             }
 
         } catch (error) {
             toast.dismiss(loadingToast);
-            toast.error(error.message || 'Failed to send message. Please try again.', {
+            toast.error(error.response?.data?.message || 'Failed to send message. Please try again.', {
                 style: {
                     background: '#FFFFFF',
                     color: '#374151',
@@ -145,6 +142,7 @@ function Contact() {
         }
     };
 
+    // Rest of your component remains the same...
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -237,6 +235,7 @@ function Contact() {
         }
     };
 
+    // The rest of the component remains the same
     return (
         <div className="min-h-screen bg-[#F1F5F9]">
             <Toaster
@@ -289,7 +288,7 @@ function Contact() {
                             Whether you're looking to join as an interviewer, explore pricing, or simply want to learn more about Recrumeta — we're here to help.
                             <br /><br />
                             📩 For pricing details or to become an interviewer:<br />
-                            Fill out the form below or email us directly at contact@recrumeta.com
+                            Fill out the form below or email us directly at team.recrumeta@gmail.com
                             <br /><br />
                             We'll get back to you within 24 hours. Let's build the future of tech hiring together.
                         </p>
@@ -436,12 +435,12 @@ function Contact() {
                                     <h4 className="font-semibold">Quick Contact</h4>
                                 </div>
                                 <div className="space-y-3">
-                                    <a href="mailto:recrumeta@outlook.com" className="flex items-center gap-2 text-gray-600 hover:text-[#E65F2B] transition-colors">
+                                    <a href="mailto:team.recrumeta@gmail.com" className="flex items-center gap-2 text-gray-600 hover:text-[#E65F2B] transition-colors">
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                                         </svg>
-                                        recrumeta@outlook.com
+                                        <span className="truncate">team.recrumeta@gmail.com</span>
                                     </a>
                                     <a href="tel:+917070222841" className="flex items-center gap-2 text-gray-600 hover:text-[#E65F2B] transition-colors">
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

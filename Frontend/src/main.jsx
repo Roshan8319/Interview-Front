@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Navigate, useLocation } from 'react-router-dom'
- 
+  
 import {
   // Authentication
   SignInPage,
@@ -38,12 +38,14 @@ import {
   Receivables,
   FetchInterviewDetails,
   Feedback,
+  Calendar,
 
   // Landing
   LandingNavigationLayout,
   Contact,
   Privacy,
   Terms,
+  JoinAsInterviewer,
 
   // Error
   ErrorBoundary,
@@ -81,6 +83,7 @@ const router = createBrowserRouter(
         <Route path='terms' element={<Terms />} />
         <Route path='privacy' element={<Privacy />} />
         <Route path='contact' element={<Contact />} />
+        <Route path='join-as-interviewer' element={<JoinAsInterviewer />} />
       </Route>
 
       {/* Authentication Routes - Keep these unprotected */}
@@ -134,6 +137,7 @@ const router = createBrowserRouter(
         <Route path='receivables' element={<Receivables />} />
         <Route path='interview-history' element={<InterviewHistory />} />
         <Route path='feedback' element={<Feedback />} />
+        <Route path='calendar' element={<Calendar />} />
       </Route>
 
       {/* Protected Meeting Routes */}

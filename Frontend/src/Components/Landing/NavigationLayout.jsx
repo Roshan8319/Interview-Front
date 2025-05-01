@@ -67,6 +67,11 @@ function NavigationLayout() {
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
     };
 
+    const naviToJoinAsInterviewer = () => {
+        navigate('/join-as-interviewer', { replace: true }); // Replace current route
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    };
+
     const navigateToHome = () => {
         navigate('/', { replace: true }); // Replace current route
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
@@ -323,7 +328,7 @@ function NavigationLayout() {
 
                             {/* Sign In and Join as Interviewer */}
                             <div className="hidden md:flex items-center gap-x-6 px-10">
-                                <button onClick={naviToContact} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm md:text-base">
+                                <button onClick={naviToJoinAsInterviewer} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm md:text-base">
                                     <span className="text-[16px] md:text-[18px] hover:underline">Join as interviewer</span>
                                 </button>
                                 <button
@@ -348,7 +353,7 @@ function NavigationLayout() {
                                     <Link to="#" onClick={scrollToAboutUs} className="hover:text-[#E65F2B]">
                                         About Us
                                     </Link>
-                                    <button onClick={naviToContact} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm">
+                                    <button onClick={naviToJoinAsInterviewer} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm">
                                         Join as interviewer
                                     </button>
                                     <button
@@ -496,7 +501,7 @@ function NavigationLayout() {
                                                         e.preventDefault();
                                                         setShowEmailDialog(true);
                                                     }}>
-                                                        <p>recrumeta@outlook.com</p>
+                                                        <p>team.recrumeta@gmail.com</p>
                                                     </a>
                                                 </div>
                                             </li>
@@ -563,11 +568,11 @@ function NavigationLayout() {
                                 isOpen={showEmailDialog}
                                 onClose={() => setShowEmailDialog(false)}
                                 onConfirm={() => {
-                                    window.open('mailto:recrumeta@outlook.com', '_blank');
+                                    window.open('mailto:team.recrumeta@gmail.com', '_blank');
                                     setShowEmailDialog(false);
                                 }}
                                 title="Send Email"
-                                message="Would you like to send an email to recrumeta@outlook.com?"
+                                message="Would you like to send an email to team.recrumeta@gmail.com?"
                             />
 
                             <ConfirmDialog
