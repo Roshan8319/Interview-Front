@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Navigate, useLocation } from 'react-router-dom'
-  
+
 import {
   // Authentication
   SignInPage,
   ResetPassword,
- 
+
   // Client
   NavigationLayout,
   Dashboard,
@@ -51,7 +51,7 @@ import {
   ErrorBoundary,
 } from './Components'
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
+const ProtectedRoute = ({ children, allowedRoles, restrictVisitor = false }) => {
   const location = useLocation();
 
   try {
@@ -65,6 +65,11 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
       return <Navigate to="/" replace />;
+    }
+
+    // If this route should restrict visitors and the user is a visitor, redirect
+    if (restrictVisitor && user.isVisitor) {
+      return <Navigate to={`/${user.role}/dashboard`} replace />;
     }
 
     return children;
@@ -142,14 +147,10 @@ const router = createBrowserRouter(
 
       {/* Protected Meeting Routes */}
       <Route path='interview/:meetingLink' element={
-        <ProtectedRoute allowedRoles={['interviewer', 'client']}>
           <MeetingScreen />
-        </ProtectedRoute>
       } />
       <Route path='fetch-interview-details' element={
-        <ProtectedRoute allowedRoles={['interviewer', 'client']}>
           <FetchInterviewDetails />
-        </ProtectedRoute>
       } />
     </Route>
   )

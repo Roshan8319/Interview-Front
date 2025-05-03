@@ -37,6 +37,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import CloseIcon from "@mui/icons-material/Close";
+import VisitorIndicator from "../Hooks/VisitorIndicator";
 
 const CustomSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-switchBase': {
@@ -685,6 +686,8 @@ function NavigationLayout() {
           </button>
         </DialogActions>
       </StatusDialog>
+
+      <VisitorIndicator />
     </Box>
   )
 }

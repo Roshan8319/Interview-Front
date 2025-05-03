@@ -5,6 +5,7 @@ import axios from "axios";
 import Profile from "../../assets/ProfileIcon.png";
 import { Toaster, toast } from 'react-hot-toast';
 import debounce from 'lodash/debounce';
+import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
 const debouncedValidations = {
   email: debounce((value, toast) => {
@@ -387,7 +388,6 @@ function Clients() {
     );
   }
 
-
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6">
       <Toaster
@@ -454,31 +454,33 @@ function Clients() {
               </div>
 
               {/* Add Client Button */}
-              <button
-                className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
-                onClick={() => navigate(`${location.pathname}/addclient`)}
-              >
-                <span className="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke-linejoin="round"
-                    stroke-linecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    class="stroke-white"
-                  >
-                    <line y2="19" y1="5" x2="12" x1="12"></line>
-                    <line y2="12" y1="12" x2="19" x1="5"></line>
-                  </svg>
-                </span>
-                <span className=" pl-2 absolute left-2 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
-                  Add Client
-                </span>
-              </button>
+              <VisitorDisableWrapper>
+                <button
+                  className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
+                  onClick={() => navigate(`${location.pathname}/addclient`)}
+                >
+                  <span className="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke="currentColor"
+                      fill="none"
+                      class="stroke-white"
+                    >
+                      <line y2="19" y1="5" x2="12" x1="12"></line>
+                      <line y2="12" y1="12" x2="19" x1="5"></line>
+                    </svg>
+                  </span>
+                  <span className=" pl-2 absolute left-2 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+                    Add Client
+                  </span>
+                </button>
+              </VisitorDisableWrapper>
             </div>
             {/* Domain and Status Filters */}
             <div className="space-y-2 mt-1">

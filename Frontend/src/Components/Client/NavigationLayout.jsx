@@ -21,6 +21,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Cookies from 'js-cookie';
 import Profile from "../../assets/ProfileIcon.png";
+import VisitorIndicator from "../Hooks/VisitorIndicator";
 
 const drawerWidth = 240;
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -750,6 +751,8 @@ export default function MiniDrawer() {
 
         />
       </Box>
+
+      <VisitorIndicator />
     </Box>
   );
 }

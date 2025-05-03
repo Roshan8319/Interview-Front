@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Clock, Building2, Briefcase, Users, Calendar, ArrowRight } from "lucide-react";
 import axios from "axios";
+import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
 function RecentsInterviews() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -40,7 +41,7 @@ function RecentsInterviews() {
       <p className="mt-4 text-lg font-medium text-gray-600">Loading recent interviews...</p>
     </div>
   );
-  
+
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center justify-center">
@@ -91,8 +92,8 @@ function RecentsInterviews() {
                       </div>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${interview.status === "Completed"
-                            ? "bg-green-100 text-green-600"
-                            : "bg-yellow-100 text-yellow-600"
+                          ? "bg-green-100 text-green-600"
+                          : "bg-yellow-100 text-yellow-600"
                           }`}
                       >
                         {interview.interviewStatus}
@@ -189,16 +190,17 @@ function RecentsInterviews() {
 
                       {/* Schedule Button */}
                       {schedule.fetchInterviewDetails && (
-                        <a
-                          href={schedule.fetchInterviewDetails}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#E65F2B] text-white rounded-lg hover:bg-[#d54d1a] transition-colors duration-300"
-                        >
-                          Schedule Interview
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-
+                        <VisitorDisableWrapper>
+                          <a
+                            href={schedule.fetchInterviewDetails}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#E65F2B] text-white rounded-lg hover:bg-[#d54d1a] transition-colors duration-300"
+                          >
+                            Schedule Interview
+                            <ArrowRight className="w-4 h-4" />
+                          </a>
+                        </VisitorDisableWrapper>
                       )}
 
                       {/* Time Indicator */}

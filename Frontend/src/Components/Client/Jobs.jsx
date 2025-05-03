@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
 const Jobs = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -48,7 +49,7 @@ const Jobs = () => {
     // Navigate to add candidate page
     navigate('/client/candidates/addcandidate', {
       state: { jobId: jobId }
-      
+
     });
   };
 
@@ -99,32 +100,34 @@ const Jobs = () => {
             </div>
 
             {/* Add Job Button */}
-            <button
-              type="button"
-              onClick={() => navigate(`${location.pathname}/addjob`)}
-              className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
-            >
-              <span className="pl-2 absolute left-5 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
-                Add Job
-              </span>
-              <span className="absolute right-0 h-full w-[39px] bg-[#E65F2B] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  stroke="currentColor"
-                  fill="none"
-                  className="stroke-white"
-                >
-                  <line y2="19" y1="5" x2="12" x1="12"></line>
-                  <line y2="12" y1="12" x2="19" x1="5"></line>
-                </svg>
-              </span>
-            </button>
+            <VisitorDisableWrapper>
+              <button
+                type="button"
+                onClick={() => navigate(`${location.pathname}/addjob`)}
+                className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
+              >
+                <span className="pl-2 absolute left-5 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+                  Add Job
+                </span>
+                <span className="absolute right-0 h-full w-[39px] bg-[#E65F2B] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    stroke="currentColor"
+                    fill="none"
+                    className="stroke-white"
+                  >
+                    <line y2="19" y1="5" x2="12" x1="12"></line>
+                    <line y2="12" y1="12" x2="19" x1="5"></line>
+                  </svg>
+                </span>
+              </button>
+            </VisitorDisableWrapper>
           </div>
         </div>
 
@@ -159,16 +162,17 @@ const Jobs = () => {
                         </div>
                       </button>
 
-                      <button onClick={() => handleAddCandidate(job.jobId)} >
-                        <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
-                          Add Candidate
-                          <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#E65F2B"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                            </svg>
-                          </span>
-                        </div>
-                      </button>
-
+                      <VisitorDisableWrapper>
+                        <button onClick={() => handleAddCandidate(job.jobId)} >
+                          <div className='bg-white text-[#E65F2B]  flex items-center justify-center px-5 py-1 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group ' >
+                            Add Candidate
+                            <span>
+                              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#E65F2B"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                              </svg>
+                            </span>
+                          </div>
+                        </button>
+                      </VisitorDisableWrapper>
                     </td>
                     <td className=" py-3 px-6 max-w-max text-center "></td>
                     <td className='right-0 py-3 px-6 max-w-max text-center ml-[50%]' >

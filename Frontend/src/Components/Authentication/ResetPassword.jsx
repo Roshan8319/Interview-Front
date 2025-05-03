@@ -341,7 +341,9 @@ function ResetPassword() {
               </Link>
               <p className="text-[#1E1E1E] mt-1">
                 Don't have an account?{" "}
-                <span className="text-[#E65F2B] hover:underline">Contact Sales</span>
+                <Link to="/contact" className="text-[#E65F2B] hover:underline">
+                  Contact Support
+                </Link>
               </p>
             </div>
           </div>

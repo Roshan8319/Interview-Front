@@ -9,6 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
+import VisitorGuard, { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
 // Add this styled component at the top of your file
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -474,35 +475,37 @@ const InternalUsers = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Recrumeta Users</h1>
 
-          <button
-            type="button"
-            onClick={() => setIsAddUserModalOpen(true)}
-            class="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
-          >
+          <VisitorDisableWrapper>
+            <button
+              type="button"
+              onClick={() => setIsAddUserModalOpen(true)}
+              class="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
+            >
 
-            <span class=" pl-2 absolute left-4 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
-              Add User
-            </span>
+              <span class=" pl-2 absolute left-4 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+                Add User
+              </span>
 
 
-            <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke="currentColor"
-                fill="none"
-                class="stroke-white"
-              >
-                <line y2="19" y1="5" x2="12" x1="12"></line>
-                <line y2="12" y1="12" x2="19" x1="5"></line>
-              </svg>
-            </span>
-          </button>
+              <span class="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  stroke="currentColor"
+                  fill="none"
+                  class="stroke-white"
+                >
+                  <line y2="19" y1="5" x2="12" x1="12"></line>
+                  <line y2="12" y1="12" x2="19" x1="5"></line>
+                </svg>
+              </span>
+            </button>
+          </VisitorDisableWrapper>
         </div>
 
         {data.length === 0 ? (
@@ -513,15 +516,18 @@ const InternalUsers = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {data.map((user) => (
               <div
-                key={user.id} // Changed from user._id to user.id
+                key={user.id}
                 className="bg-[#F2EAE5] rounded-xl shadow-md p-4 hover:shadow-lg transition relative"
               >
-                <button
-                  onClick={() => handleDeleteUser(user.id)} // Changed from user._id to user.id
-                  className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition"
-                >
-                  <Trash2 size={20} />
-                </button>
+
+                <VisitorGuard>
+                  <button
+                    onClick={() => handleDeleteUser(user.id)} // Changed from user._id to user.id
+                    className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </VisitorGuard>
 
                 <div className="flex flex-col items-center mb-3">
                   {user.profilePhoto ? (

@@ -28,6 +28,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Cookies from 'js-cookie';
 import Profile from "../../assets/ProfileIcon.png";
+import VisitorIndicator from "../Hooks/VisitorIndicator";
 
 const drawerWidth = 240;
 
@@ -737,6 +738,8 @@ function NavigationLayout() {
         <DrawerHeader />
         <Outlet />
       </Box>
+
+      <VisitorIndicator />
     </Box>
   )
 }
