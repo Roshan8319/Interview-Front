@@ -47,7 +47,7 @@ function Candidates() {
     "SDE-III",
     "SDET-I",
     "EM",
-    "DevOps-I"
+    "DevOps"
   ];
   const status = [
     "All",

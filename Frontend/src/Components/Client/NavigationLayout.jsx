@@ -494,7 +494,7 @@ export default function MiniDrawer() {
                 />
               </div>
               <div>
-                <p className="text-black text-xl">{username || "Guest"}</p>
+                <p className="text-black text-xl font-medium">{username || "Guest"}</p>
               </div>
               <div className="px-1">
                 <svg

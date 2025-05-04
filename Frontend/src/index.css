@@ -108,3 +108,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.perspective-effect {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  box-shadow: 0 10px 30px -15px rgba(0,0,0,0.3);
+}
