@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Bg from "../../assets/bg.jpg";
 import Recrumeta from "../../assets/Recrumeta.png";
-
+ 
 function ResetPassword() {
   return (
     <div
