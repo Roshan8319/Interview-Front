@@ -192,7 +192,7 @@ function SignInPage() {
 
   return (
     <div className="w-[100%] h-[100%]">
-      {/* Add Toaster component from react-hot-toast */}
+      {/* Toaster component from react-hot-toast */}
       <Toaster
         position="bottom-right"
         reverseOrder={true}
@@ -226,10 +226,8 @@ function SignInPage() {
           },
         }}
         gutter={-40}
-        containerStyle={{
-          bottom: '40px',
-          right: '50px',
-        }}
+        containerClassName="toast-container"
+        containerStyle={{}}
       />
 
       <style>
@@ -256,6 +254,14 @@ function SignInPage() {
             appearance: none;
             display: none;
           }
+
+          /* Media query for responsive styling */
+          @media (max-width: 640px) {
+            .mobile-toast {
+              bottom: 20px !important;
+              right: 20px !important;
+            }
+          }
         `}
       </style>
 
@@ -268,31 +274,29 @@ function SignInPage() {
           className="w-screen h-screen bg-cover bg-center"
           style={{ backgroundImage: `url(${Bg})` }}
         >
-          <div className="px-4 py-2 h-[60px] w-full bg-transparent">
+          <div className="px-4 py-3 h-[60px] w-full bg-transparent">
             <Link to="/">
               <img
                 src={Recrumeta}
                 alt="Logo"
-                style={{ width: "200px", height: "50px" }}
-                className="cursor-pointer"
+                className="w-[140px] h-[35px] sm:w-[200px] sm:h-[50px] cursor-pointer transition-all duration-200"
               />
             </Link>
           </div>
-          <div className="w-full min-h-[calc(100vh-120px)] flex items-center justify-center">
-            <div className="p-8 w-[500px] bg-white bg-opacity-45 rounded-2xl">
+          <div className="w-full min-h-[calc(100vh-120px)] flex items-center justify-center px-4">
+            <div className="p-4 sm:p-8 w-full max-w-[500px] bg-white bg-opacity-45 rounded-2xl">
               <div className="w-full">
                 <div>
-                  <p className="text-[38px] text-black leading-[1.2] font-semibold">
+                  <p className="text-[28px] sm:text-[38px] text-black leading-[1.2] font-semibold">
                     Upscale your hiring process with{" "}
                     <span className="text-[#E65F2B]">us</span>
                   </p>
-                  <p className="pt-3 text-[16px] text-[#666666]">
-                    Connect to one-on-one Virtual Interviews and Professional
-                    Hiring Services
+                  <p className="pt-3 text-[14px] sm:text-[16px] text-[#666666]">
+                    Connect to one-on-one Virtual Interviews and Professional Hiring Services
                   </p>
                 </div>
                 <div className="mt-5">
-                  <div className=" flex items-center justify-center">
+                  <div className="flex items-center justify-center">
                     <div className="w-full flex flex-col space-y-[16px] max-w-md items-center justify-center">
                       <div className="relative group w-full flex items-center justify-center">
                         <input
@@ -300,7 +304,7 @@ function SignInPage() {
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
+                          className="w-full sm:w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1"
                           placeholder="Enter Your Email"
                         />
                       </div>
@@ -320,16 +324,16 @@ function SignInPage() {
                               e.preventDefault();
                             }
                           }}
-                          className={`w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 ${isVisitorAccount ? 'cursor-not-allowed' : ''}`}
+                          className={`w-full sm:w-[90%] py-2 px-4 border-2 rounded-3xl outline-none transition-all duration-200 bg-[#F6F1EE] shadow-sm border-gray-300 focus:border-orange-200 focus:ring-1 ${isVisitorAccount ? 'cursor-not-allowed' : ''}`}
                           placeholder="Enter Your Password"
                           readOnly={isVisitorAccount}
-                          autoComplete="new-password" // This prevents browser from using its built-in password manager
+                          autoComplete="new-password"
                         />
                         {!isVisitorAccount && (
                           <button
                             type="button"
                             onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                            className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none z-10" // Added z-index
+                            className="absolute right-4 sm:right-10 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none z-10"
                           >
                             {isPasswordVisible ? (
                               <svg
@@ -371,9 +375,9 @@ function SignInPage() {
                         )}
                       </div>
 
-                      <div className="px-2 w-full flex item-center gap-x-5">
-                        <div className="relative group w-[60%] flex items-center justify-center">
-                          <div className="relative w-[90%]">
+                      <div className="w-full sm:w-[90%] flex flex-row justify-between">
+                        <div className="relative group w-[58%] sm:w-[60%] flex items-center justify-center">
+                          <div className="relative w-full">
                             <select
                               id="role"
                               value={signinas}
@@ -413,14 +417,22 @@ function SignInPage() {
                             </div>
                           </div>
                         </div>
-                        <div>
+                        <div className="w-auto flex justify-center">
                           <button
                             onClick={handleLoginViaEmail}
                             disabled={isSubmitting}
-                            className="bg-white text-[#E65F2B] text-lg flex items-center justify-center px-5 py-2 rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out relative overflow-hidden group w-[130px] whitespace-nowrap h-[47px]"
+                            className={`
+                              bg-white text-[#E65F2B] text-lg flex items-center justify-center px-4 sm:px-5 
+                              rounded-full gap-x-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 
+                              active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out
+                              relative overflow-hidden group whitespace-nowrap
+                              ${isSubmitting ? 'w-[127px] sm:w-[135px]' : 'w-auto'}
+                            `}
                           >
                             {isSubmitting ? (
-                              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#E65F2B]"></div>
+                              <div className="w-full flex justify-center items-center">
+                                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#E65F2B]"></div>
+                              </div>
                             ) : (
                               <>
                                 Sign in
@@ -457,49 +469,50 @@ function SignInPage() {
                 <div className="px-2 mt-4">
                   <div className="border-t border-gray-200 pt-3">
                     <p className="text-sm text-gray-600 mb-3 text-center">Quick access with visitor accounts</p>
-                    <div className="flex gap-4 justify-center">
+                    <div className="flex flex-wrap sm:px-3.5 justify-between">
                       <button
                         onClick={() => handleVisitorLogin('CLIENT')}
-                        className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-3xl text-md font-medium transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
+                        className="px-2.5 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-3xl text-sm sm:text-base font-medium transition-all duration-200 flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
                       >
-                        <svg className="w-5 h-5 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                         Client
                       </button>
                       <button
                         onClick={() => handleVisitorLogin('INTERNAL')}
-                        className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-3xl text-md font-medium transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
+                        className="px-2.5 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-3xl text-sm sm:text-base font-medium transition-all duration-200 flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
                       >
-                        <svg className="w-5 h-5 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         Internal
                       </button>
                       <button
                         onClick={() => handleVisitorLogin('INTERVIEWER')}
-                        className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-3xl text-md font-medium transition-all duration-200 flex items-center gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
+                        className="px-2.5 py-1.5 bg-white hover:bg-gray-50 text-gray-800 rounded-3xl text-sm sm:text-base font-medium transition-all duration-200 flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow active:scale-95 active:shadow-inner"
                       >
-                        <svg className="w-5 h-5 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E65F2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         Interviewer
                       </button>
                     </div>
                   </div>
+
                   <Link
                     to="/auth/reset-password"
-                    className="text-[#E65F2B] hover:underline block mt-4"
+                    className="text-[#E65F2B] hover:underline block mt-4 text-sm sm:text-base"
                   >
                     Reset Password?
                   </Link>
-                  <p className="text-[#1E1E1E] mt-1">
+                  <p className="text-[#1E1E1E] mt-1 text-sm sm:text-base">
                     Don't have an account?{" "}
                     <Link to="/contact" className="text-[#E65F2B] hover:underline">
                       Contact Support
                     </Link>
                   </p>
-                  <p className="text-[#1E1E1E] mt-1">
+                  <p className="text-[#1E1E1E] mt-1 text-sm sm:text-base">
                     By signing up, you agree to{" "}
                     <Link to="/terms" className="text-[#E65F2B] hover:underline">
                       Terms of use

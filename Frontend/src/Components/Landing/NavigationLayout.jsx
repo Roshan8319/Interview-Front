@@ -241,7 +241,7 @@ function NavigationLayout() {
                                     width="180"
                                     height="42"
                                     viewBox="0 0 1600 400"
-                                    className="w-[140px] h-[32px] md:w-[220px] md:h-[52px]"
+                                    className="w-[140px] h-[35px] md:w-[200px] md:h-[50px]"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path

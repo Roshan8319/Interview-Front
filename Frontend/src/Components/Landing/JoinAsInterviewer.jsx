@@ -181,10 +181,8 @@ const JoinAsInterviewer = () => {
                     },
                 }}
                 gutter={-40}
-                containerStyle={{
-                    bottom: '40px',
-                    right: '50px',
-                }}
+                containerClassName="toast-container"
+                containerStyle={{}}
             />
 
             {/* Form container with updated styling */}

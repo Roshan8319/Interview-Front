@@ -271,10 +271,8 @@ function Contact() {
                     },
                 }}
                 gutter={-60}
-                containerStyle={{
-                    bottom: '40px',
-                    right: '50px',
-                }}
+                containerClassName="toast-container"
+                containerStyle={{}}
             />
 
             <div className="max-w-7xl mx-auto px-6 py-12 sm:px-6 lg:px-8 font-montserrat">
