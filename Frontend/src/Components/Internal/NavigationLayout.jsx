@@ -28,6 +28,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Cookies from 'js-cookie';
 import Profile from "../../assets/ProfileIcon.png";
+import VisitorIndicator from "../Hooks/VisitorIndicator";
 
 const drawerWidth = 240;
 
@@ -469,7 +470,7 @@ function NavigationLayout() {
                 />
               </div>
               <div>
-                <p className="text-black text-xl">{username || "Guest"}</p>
+                <p className="text-black text-xl font-medium">{username || "Guest"}</p>
               </div>
               <div className="px-1">
                 <svg
@@ -737,6 +738,8 @@ function NavigationLayout() {
         <DrawerHeader />
         <Outlet />
       </Box>
+
+      <VisitorIndicator />
     </Box>
   )
 }

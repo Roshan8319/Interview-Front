@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Bg from "../../assets/bg.jpg";
 import Recrumeta from "../../assets/Recrumeta.png";
-
+ 
 function ResetPassword() {
   return (
     <div
@@ -341,7 +341,9 @@ function ResetPassword() {
               </Link>
               <p className="text-[#1E1E1E] mt-1">
                 Don't have an account?{" "}
-                <span className="text-[#E65F2B] hover:underline">Contact Sales</span>
+                <Link to="/contact" className="text-[#E65F2B] hover:underline">
+                  Contact Support
+                </Link>
               </p>
             </div>
           </div>

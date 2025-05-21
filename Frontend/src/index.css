@@ -90,3 +90,27 @@
   background-size: 200% auto;
   animation: gradient 3s ease infinite;
 }
+
+/* Visitor mode styles */
+.visitor-disabled {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.visitor-action-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0.05);
+  cursor: not-allowed;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perspective-effect {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  box-shadow: 0 10px 30px -15px rgba(0,0,0,0.3);
+}

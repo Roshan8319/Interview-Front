@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
 // Constants
 const DOMAINS = ["All", "Backend", "Frontend", "DevOps", "AI/ML", "Testing", "Designing"];
@@ -360,7 +361,9 @@ function Interviewer() {
         {/* Header Section */}
         <div className="flex justify-end items-center gap-5">
           <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
-          <AddInterviewerButton onClick={() => navigate('/internal/addinterviewer')} />
+          <VisitorDisableWrapper>
+            <AddInterviewerButton onClick={() => navigate('/internal/addinterviewer')} />
+          </VisitorDisableWrapper>
         </div>
 
         {/* Statistics Section */}
@@ -445,21 +448,23 @@ function Interviewer() {
                     </td>
                     <td className="py-4 px-6 text-gray-600">{user.experienceInYears + " Years"}</td>
                     <td className="py-4 px-6">
-                      <button
-                        onClick={() => handleEditUserOpen(
-                          user.firstName,
-                          user.email,
-                          user.phone,
-                          user.experienceInYears,
-                          user.technicalSkills,
-                          user.strength
-                        )}
-                        className="p-2 hover:bg-[#E65F2B]/10 rounded-full transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-[#E65F2B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </button>
+                      <VisitorDisableWrapper>
+                        <button
+                          onClick={() => handleEditUserOpen(
+                            user.firstName,
+                            user.email,
+                            user.phone,
+                            user.experienceInYears,
+                            user.technicalSkills,
+                            user.strength
+                          )}
+                          className="p-2 hover:bg-[#E65F2B]/10 rounded-full transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-[#E65F2B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          </svg>
+                        </button>
+                      </VisitorDisableWrapper>
                     </td>
                   </tr>
                 ))
