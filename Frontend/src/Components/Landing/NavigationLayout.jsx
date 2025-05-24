@@ -344,20 +344,35 @@ function NavigationLayout() {
                         {isMenuOpen && (
                             <div className="md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-2000 ease-in-out">
                                 <div className="flex flex-col items-center gap-y-4 py-4 border-b border-gray-200">
-                                    <Link to="#" onClick={scrollToProduct} className="hover:text-[#E65F2B]">
+                                    <Link to="#" onClick={(e) => {
+                                        scrollToProduct(e);
+                                        setIsMenuOpen(false);
+                                    }} className="hover:text-[#E65F2B]">
                                         Product
                                     </Link>
-                                    <Link to="#" onClick={scrollToContactUs} className="hover:text-[#E65F2B]">
+                                    <Link to="#" onClick={(e) => {
+                                        scrollToContactUs(e);
+                                        setIsMenuOpen(false);
+                                    }} className="hover:text-[#E65F2B]">
                                         Pricing
                                     </Link>
-                                    <Link to="#" onClick={scrollToAboutUs} className="hover:text-[#E65F2B]">
+                                    <Link to="#" onClick={(e) => {
+                                        scrollToAboutUs(e);
+                                        setIsMenuOpen(false);
+                                    }} className="hover:text-[#E65F2B]">
                                         About Us
                                     </Link>
-                                    <button onClick={naviToJoinAsInterviewer} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm">
+                                    <button onClick={() => {
+                                        naviToJoinAsInterviewer();
+                                        setIsMenuOpen(false);
+                                    }} className="text-[#E65F2B] font-medium whitespace-nowrap text-sm">
                                         Join as interviewer
                                     </button>
                                     <button
-                                        onClick={naviToSignIn}
+                                        onClick={() => {
+                                            naviToSignIn();
+                                            setIsMenuOpen(false);
+                                        }}
                                         className="w-[100px] h-[38px] flex justify-center items-center rounded-lg border-2 border-black text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition-all duration-300 ease-in-out"
                                     >
                                         Sign In

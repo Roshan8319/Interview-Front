@@ -12,7 +12,7 @@ function GrowYourTeam() {
   }
 
   return (
-    <div className="relative p-4 min-h-[427px] w-full bg-[#F0C274] font-[Montserrat] flex items-center justify-center overflow-hidden">
+    <div className="relative p-4 w-full bg-[#F0C274] font-[Montserrat] flex items-center justify-center overflow-hidden">
       {/* Desktop Overlay */}
       <div className="absolute inset-0 z-10 transform translate-x-10 translate-y-6 opacity-50 md:opacity-100 hidden md:block">
         <svg width="384" height="367" viewBox="0 0 384 367" fill="none" xmlns="http://www.w3.org/2000/svg">

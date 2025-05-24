@@ -17,7 +17,7 @@ export const showVisitorToast = (message = 'This action is not available in visi
   if (!toastContainer) {
     toastContainer = document.createElement('div');
     toastContainer.id = 'visitor-toast-container';
-    toastContainer.className = 'fixed bottom-6 right-10 z-50';
+    toastContainer.className = 'fixed bottom-[10%] sm:bottom-6 right-2 sm:right-10 z-50';
     document.body.appendChild(toastContainer);
   }
   
@@ -45,7 +45,7 @@ export const showVisitorToast = (message = 'This action is not available in visi
     if (toastContainer.childNodes.length === 0) {
       document.body.removeChild(toastContainer);
     }
-  }, 2000);
+  }, 1000);
 };
 
 export default showVisitorToast;

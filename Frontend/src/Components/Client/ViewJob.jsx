@@ -136,36 +136,32 @@ function ViewJob() {
   const currentData = people.slice(startIndex, endIndex);
 
   return (
-    <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7]  items-center' >
-      <div className='w-[95%] p-2 flex' >
-        <div className="w-[30%] p-5  ">
-
+    <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7] items-center' >
+      <div className='w-[95%] p-2 flex flex-col md:flex-row' >
+        <div className="w-full md:w-[30%] p-5">
           <div className="mb-4">
             <p className='text-sm text-[#797979]'>Job Role</p>
             <p className='font-lg font-semibold'>SDE-III</p>
-
           </div>
 
-          <div className="mb-4">
+          <div className="-mb-4 sm:mb-4">
             <p className='text-sm text-[#797979]'>Hiring Manager Email</p>
             <p className='font-lg font-semibold'>sumit@gmail.com</p>
-
           </div>
-
-
         </div>
-        <div className='w-[70%] p-5 rounded-lg' >
+
+        <div className='w-full md:w-[70%] p-5 rounded-lg' >
           <div className="mb-4">
             <label className="block text-sm text-[#797979]">Job Description</label>
-            <div className='w-[80%] ' >
+            <div className='w-full md:w-[80%]' >
               Design, develop, and maintain scalable software solutions. Collaborate with cross-functional teams, write clean code, and ensure high performance. Debug, test, and optimize applications while adhering to coding standards. Demonstrate problem-solving skills, passion for technology, and continuous learning.
             </div>
           </div>
         </div>
       </div>
 
-      {/* Table */}
-      <div className=" w-[95%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden text-sm">
+      {/* Desktop Table (hidden on mobile) */}
+      <div className=" w-[95%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md text-sm hidden md:block">
         <table className="w-[100%] h-[100%]">
           <thead>
             <tr className="border-b-2 border-[#E65F2B]/20 text-[16px]">
@@ -220,6 +216,48 @@ function ViewJob() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Cards (visible only on mobile) */}
+      <div className="w-[95%] md:hidden space-y-4 mb-4">
+        <span className="text-md font-bold mb-2 sm:mb-0 sm:mr-7 flex text-[#E65F2B]">
+          Candidate Details
+        </span>
+        {Array.isArray(currentData) && currentData.length > 0 ? (
+          currentData.map((person, index) => (
+            <div key={index} className="bg-[rgba(255,255,255,0.34)] p-4 rounded-xl shadow-md">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="font-semibold">{person.name}</h3>
+                <span
+                  className={`text-xs px-2 py-[2px] rounded-full text-center bg-[#F6F1EE] font-semibold ${person.status === "Recommended"
+                    ? "border-[1px] border-[#89E093] text-[#2EAC34]"
+                    : person.status === "Not Recommended"
+                      ? "border-[1px] border-[#E08989] text-[#AC2E2E]"
+                      : person.status === "Scheduled"
+                        ? "border-[1px] border-[#F1A028] text-[#D7870E]"
+                        : "border-[1px] border-[#A6A6A6] text-[#737373]"
+                    }`}
+                >
+                  {person.status}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-y-2 text-sm">
+                <p className="text-[#797979]">Role:</p>
+                <p>{person.role}</p>
+                <p className="text-[#797979]">Email:</p>
+                <p className="truncate">{person.email}</p>
+                <p className="text-[#797979]">Score:</p>
+                <p>{person.score}/500</p>
+                <p className="text-[#797979]">Date:</p>
+                <p>{person.date}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="bg-[rgba(255,255,255,0.34)] p-4 rounded-xl shadow-md text-center text-md text-[#797979]">
+            No Data Available
+          </div>
+        )}
       </div>
     </div>
   )

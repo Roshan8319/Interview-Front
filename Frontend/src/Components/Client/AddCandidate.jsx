@@ -98,9 +98,10 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
           right: '30px',
         }}
       />
+
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-[90%] flex items-center justify-center">
-          <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
+        <div className="w-[90%] md:w-[90%] flex items-center justify-center">
+          <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden mt-4 mb-4">
             <img
               src="https://images.sftcdn.net/images/t_app-icon-m/p/c34c15bf-054c-4287-8c2c-73cef14107c2/3273691428/boys-dp-boy-profile-pictures-logo"
               alt="DP"
@@ -109,45 +110,45 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
           </div>
         </div>
 
-        <div className="w-[90%] pl-8 grid grid-cols-2 gap-x-16 gap-y-7 justify-center items-center mx-auto">
-          <div className=" flex items-center justify-center">
+        <div className="w-full md:w-[90%] px-4 md:pl-8 grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-16 gap-y-5 md:gap-y-7 justify-center items-center mx-auto">
+          <div className="flex items-center justify-center w-full">
             <div className="w-full flex flex-col space-y-[1px] max-w-md">
               <label
                 htmlFor="firstName"
-                className=" ml-[2px] font-medium text-gray-700 text-sm"
+                className="ml-[2px] font-medium text-gray-700 text-sm"
               >
                 Enter First Name
               </label>
-              <div className="relative group">
+              <div className="relative group w-full">
                 <input
                   id="firstName"
                   type="text"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-[80%] py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
-                    bg-[#F6F1EE] shadow-sm border-gray-300
-                    focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
+                  className="w-full py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
+            bg-[#F6F1EE] shadow-sm border-gray-300
+            focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                   placeholder="Candidate first name"
                 />
               </div>
             </div>
           </div>
 
-          <div className=" flex items-center justify-center">
+          <div className="flex items-center justify-center w-full">
             <div className="w-full flex flex-col space-y-[1px] max-w-md">
               <label
                 htmlFor="lastName"
-                className=" ml-[2px] font-medium text-gray-700 text-sm"
+                className="ml-[2px] font-medium text-gray-700 text-sm"
               >
                 Enter Last Name
               </label>
-              <div className="relative group">
+              <div className="relative group w-full">
                 <input
                   id="lastName"
                   type="text"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-[80%] py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
+                  className="w-full py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
                     bg-[#F6F1EE] shadow-sm border-gray-300
                     focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                   placeholder="Candidate last name"
@@ -156,46 +157,46 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
             </div>
           </div>
 
-          <div className=" flex items-center justify-center">
+          <div className="flex items-center justify-center w-full">
             <div className="w-full flex flex-col space-y-[1px] max-w-md">
               <label
                 htmlFor="email"
-                className=" ml-[2px] font-medium text-gray-700 text-sm"
+                className="ml-[2px] font-medium text-gray-700 text-sm"
               >
                 Enter Email
               </label>
-              <div className="relative group">
+              <div className="relative group w-full">
                 <input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-[80%] py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
-                bg-[#F6F1EE] shadow-sm border-gray-300
-                focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
+                  className="w-full py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
+            bg-[#F6F1EE] shadow-sm border-gray-300
+            focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                   placeholder="Candidate Email"
                 />
               </div>
             </div>
           </div>
 
-          <div className=" flex items-center justify-center">
+          <div className="flex items-center justify-center w-full">
             <div className="w-full flex flex-col space-y-[1px] max-w-md">
               <label
                 htmlFor="phoneNumber"
-                className=" ml-[2px] font-medium text-gray-700 text-sm"
+                className="ml-[2px] font-medium text-gray-700 text-sm"
               >
                 Enter Phone Number
               </label>
-              <div className="relative group">
+              <div className="relative group w-full">
                 <input
                   id="phoneNumber"
                   type="text"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  className="w-[80%] py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
-                    bg-[#F6F1EE] shadow-sm border-gray-300
-                    focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
+                  className="w-full py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
+            bg-[#F6F1EE] shadow-sm border-gray-300
+            focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
                   placeholder="Candidate Phone Number"
                 />
               </div>
@@ -212,7 +213,7 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
         <div className="text-green-500 text-center mt-4">Candidate information saved successfully!</div>
       )}
 
-      <div className="flex justify-end mt-8 mr-14">
+      <div className="flex justify-center md:justify-end mt-8 px-4 md:mr-14">
         <button
           type="button"
           onClick={handleNextStep}
@@ -272,37 +273,39 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
 
   return (
     <div className="w-full flex flex-col items-center justify-between">
-      <div className="mt-8 w-full">
-        <div className=" text-center mb-4">
-          <h2 className="text-2xl font-medium text-gray-800">
+      <div className="mt-4 md:mt-8 w-full px-4 md:px-0">
+        <div className="text-center mb-4">
+          <h2 className="text-xl md:text-2xl font-medium text-gray-800">
             Upload Your Resume
           </h2>
-          <p className="text-gray-600">Supported formats: PDF, DOC, DOCX</p>
+          <p className="text-sm md:text-base text-gray-600">Supported formats: PDF, DOC, DOCX</p>
         </div>
         <div className="flex items-center justify-center">
-          <div className="border-2 w-[48%] py-2 border-dashed border-gray-300 rounded-xl p-10 text-center bg-gray-100">
+          <div className="border-2 w-full sm:w-[80%] md:w-[60%] lg:w-[48%] py-2 border-dashed border-gray-300 rounded-xl p-4 md:p-10 text-center bg-gray-100">
             {file ? (
               <div>
                 <div className="mb-4 text-green-600 font-medium">
                   File uploaded successfully!
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <div className="border-2 w-[48%] py-2 border-dashed border-gray-300 rounded-xl p-10 text-center bg-gray-100 flex flex-col items-center justify-center">
-                    <svg
-                      className="w-8 h-8 text-green-500 mr-2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span className="text-gray-700">{file.name}</span>
+                  <div className="border-2 w-full sm:w-[75%] md:w-[60%] lg:w-[55%] py-2 border-dashed border-gray-300 rounded-xl p-4 md:p-6 lg:p-8 text-center bg-gray-100 flex flex-col items-center justify-center">
+                    <div className="flex items-center justify-center mb-1 md:mb-2">
+                      <svg
+                        className="w-6 h-6 md:w-8 md:h-8 text-green-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-sm md:text-base lg:text-lg text-gray-700 break-words max-w-full px-2">{file.name}</span>
                   </div>
                   <button
                     onClick={() => {
@@ -312,23 +315,24 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
                         resume: null
                       }));
                     }}
-                    className="p-2 text-orange-500 underline"
+                    className="p-2 text-orange-500 underline mt-2"
                   >
                     Remove and upload another
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center gap-y-2 ">
+              <div className="flex flex-col items-center justify-center gap-y-2">
                 <img
                   src={UploadResume}
                   alt="Resume Upload"
-                  style={{ width: "147px", height: "121px" }}
+                  style={{ width: "100px", height: "82px" }}
+                  className="md:w-[147px] md:h-[121px]"
                 />
-                <p className="text-gray-600">
+                <p className="text-sm md:text-base text-gray-600">
                   Drag and drop your file here, or
                 </p>
-                <label className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
+                <label className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-medium py-1.5 md:py-2 px-4 md:px-6 rounded-lg transition-colors duration-200 text-sm md:text-base">
                   Browse Files
                   <input
                     type="file"
@@ -341,15 +345,15 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
             )}
           </div>
         </div>
-        <div className=" flex items-center justify-center">
-          <div className="w-[60%] flex justify-between mt-8">
+        <div className="flex items-center justify-center">
+          <div className="w-full sm:w-[80%] md:w-[70%] lg:w-[60%] flex justify-between flex-wrap md:flex-nowrap gap-2 mt-6 md:mt-8 px-4">
             <button
               type="button"
               onClick={prevStep}
-              className="flex items-center space-x-2 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-6 rounded-full border border-gray-200 transition-colors duration-200"
+              className="flex-1 flex items-center justify-center space-x-2 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 md:px-6 rounded-full border border-gray-200 transition-colors duration-200"
             >
               <svg
-                className="w-5 h-5 transform rotate-180"
+                className="w-4 h-4 md:w-5 md:h-5 transform rotate-180"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -368,13 +372,13 @@ function ResumeUploadForm({ formData, setFormData, prevStep, handleSubmit }) {
               type="button"
               onClick={onSubmit}
               disabled={!file || isSubmitting}
-              className={`flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-full transition-colors duration-200 
+              className={`flex-1 flex items-center justify-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 md:px-6 rounded-full transition-colors duration-200 
                 ${(!file || isSubmitting) ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
+              <span>{isSubmitting ? "Submitting..." : "Submit"}</span>
               {!isSubmitting && (
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -417,20 +421,20 @@ function AddCandidate() {
     try {
       setErrorMessage('');
       setIsSuccess(false);
-  
+
       if (!formData.jobId) {
         toast.error('Job ID is missing');
         return false;
       }
-  
+
       if (!formData.resume) {
         toast.error('Please upload a resume');
         return false;
       }
-  
+
       // Create FormData and append files
       const formDataToSend = new FormData();
-  
+
       // Append basic details
       formDataToSend.append('firstName', formData.firstName);
       formDataToSend.append('lastName', formData.lastName);
@@ -438,13 +442,13 @@ function AddCandidate() {
       formDataToSend.append('phoneNumber', formData.phoneNumber);
       formDataToSend.append('jobId', formData.jobId);
       formDataToSend.append('interviewerId', null); // Add this line to explicitly set interviewer as null
-  
+
       // Append resume with specific filename
       const resumeFile = formData.resume;
       const fileExtension = resumeFile.name.split('.').pop();
       const newFileName = `${formData.firstName}_${formData.lastName}_resume.${fileExtension}`;
       formDataToSend.append('resume', resumeFile, newFileName);
-  
+
       const baseUrl = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(
         `${baseUrl}/api/v1/client/add-candidate`,
@@ -460,9 +464,9 @@ function AddCandidate() {
           }
         }
       );
-  
+
       console.log("Response:", response);
-  
+
       if (response.data.success) {
         setIsSuccess(true);
         setShowSuccess(true);
@@ -471,7 +475,7 @@ function AddCandidate() {
       } else {
         throw new Error(response.data.message || 'Failed to submit application');
       }
-  
+
     } catch (error) {
       console.error("Error submitting form:", error);
       const errorMessage = error.response?.data?.message || error.message || "Failed to submit application";
@@ -496,19 +500,31 @@ function AddCandidate() {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] flex items-center justify-center">
-      <div className="w-full p-4 flex flex-col items-center justify-center">
-        <div className="p-4 w-[80%] bg-[#F2EAE5] flex flex-col items-center justify-center rounded-2xl">
-          <Box sx={{ width: "60%" }}>
+    <div className="w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] flex items-center justify-center py-4 md:py-0">
+      <div className="w-full p-2 md:p-4 flex flex-col items-center justify-center">
+        <div className="p-3 md:p-4 w-[95%] sm:w-[90%] md:w-[80%] bg-[#F2EAE5] flex flex-col items-center justify-center rounded-2xl">
+          <Box sx={{
+            width: '100%',
+            maxWidth: '100%',
+            px: { xs: 1, sm: 2, md: 4 },
+            mt: 2,
+            mb: 2
+          }}>
             <Stepper
               activeStep={activeStep}
               alternativeLabel
               sx={{
+                width: '100%',
                 "& .MuiStepConnector-line": {
                   borderColor: activeStep === 0 ? "#B0B0B0" : "#FFA500",
                 },
+                "& .MuiStepConnector-root": {
+                  left: { xs: 'calc(-50% + 24px)', sm: 'calc(-50% + 30px)' },
+                  right: { xs: 'calc(50% + 24px)', sm: 'calc(50% + 30px)' },
+                },
                 "& .MuiStepIcon-root": {
                   color: "#B0B0B0", // Default gray for inactive steps
+                  fontSize: "1.5rem",
                 },
                 "& .MuiStepIcon-root.Mui-active": {
                   color: "#FF8C00", // Active step color
@@ -516,6 +532,10 @@ function AddCandidate() {
                 "& .MuiStepIcon-root.Mui-completed": {
                   color: "#FFA500", // Completed steps color
                 },
+                "& .MuiStepLabel-label": {
+                  fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
+                  mt: { xs: 0.5, sm: 1 }
+                }
               }}
             >
               {steps.map((label) => (
@@ -553,23 +573,23 @@ function AddCandidate() {
 function SuccessScreen({ resetForm }) {
   return (
     <div className="w-full flex flex-col items-center justify-between">
-      <div className="mt-8 w-full">
+      <div className="mt-4 md:mt-8 w-full">
         <div className="flex items-center justify-center">
-          <div className="border-2 w-[48%] py-8 border-dashed border-gray-300 rounded-xl p-10 text-center bg-gray-100">
-            <div className="flex flex-col items-center justify-center gap-y-6">
-              <div className="w-32 h-32 flex items-center justify-center">
+          <div className="border-2 w-[90%] sm:w-[70%] md:w-[60%] lg:w-[48%] py-6 md:py-8 border-dashed border-gray-300 rounded-xl p-4 md:p-10 text-center bg-gray-100 mb-4">
+            <div className="flex flex-col items-center justify-center gap-y-4 md:gap-y-6">
+              <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
                 <iframe src="https://lottie.host/embed/753450eb-ca02-49c3-b805-5b844db25388/PLesBd5L2c.lottie"></iframe>
               </div>
-              <h2 className="text-xl font-medium text-gray-800">
+              <h2 className="text-lg md:text-xl font-medium text-gray-800">
                 Candidate Details Created Successfully
               </h2>
               <button
                 onClick={resetForm}
-                className="mt-4 flex items-center space-x-2 bg-[#E65F2B] hover:bg-orange-600 hover:shadow-md text-white font-medium py-2 px-6 rounded-full transition-all duration-200 group"
+                className="mt-2 md:mt-4 flex items-center space-x-2 bg-[#E65F2B] hover:bg-orange-600 hover:shadow-md text-white font-medium py-1.5 md:py-2 px-4 md:px-6 rounded-full transition-all duration-200 group"
               >
                 <span>Back to Dashboard</span>
                 <svg
-                  className="w-5 h-5 transition-transform duration-200 group-hover:rotate-[-45deg]"
+                  className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-200 group-hover:rotate-[-45deg]"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"

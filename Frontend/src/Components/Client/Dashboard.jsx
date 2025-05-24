@@ -112,40 +112,39 @@ function Dashboard() {
     return null;
   };
 
-
   return (
-    <div className='min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-4'>
+    <div className='min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-2 md:p-4'>
       {/* Metrics Cards Row */}
-      <div className='grid grid-cols-4 gap-6 p-4'>
+      <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 p-2 md:p-4 mt-2'>
         {metricsData.map((metric, index) => (
           <Card key={index} className="bg-[#F2EAE5] rounded-xl shadow-sm">
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-1 md:pb-2 px-2 md:px-4 pt-2 md:pt-4">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-gray-500 text-sm font-medium">
+                <CardTitle className="text-gray-500 text-[11px] xs:text-xs sm:text-sm font-medium">
                   {metric.title}
                 </CardTitle>
-                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${metric.trending === 'up' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
+                <span className={`inline-flex items-center px-1 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] xs:text-xs font-medium ${metric.trending === 'up' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
                   }`}>
                   {metric.trend}
                   {metric.trending === 'up' ?
-                    <TrendingUp className="h-3 w-3 ml-1" /> :
-                    <TrendingDown className="h-3 w-3 ml-1" />
+                    <TrendingUp className="h-2.5 w-2.5 ml-0.5 sm:h-3 sm:w-3 sm:ml-1" /> :
+                    <TrendingDown className="h-2.5 w-2.5 ml-0.5 sm:h-3 sm:w-3 sm:ml-1" />
                   }
                 </span>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold mb-1">
+            <CardContent className="px-2 md:px-4 py-1 md:py-2 pb-2 md:pb-4">
+              <div className="text-lg xs:text-xl sm:text-2xl font-bold mb-0.5 md:mb-1">
                 {metric.value}
               </div>
-              <div className="flex items-center text-sm font-medium">
+              <div className="flex items-center text-[10px] xs:text-xs sm:text-sm font-medium">
                 {metric.subtitle}
                 {metric.trending === 'up' ?
-                  <TrendingUp className="h-4 w-4 ml-1" /> :
-                  <TrendingDown className="h-4 w-4 ml-1" />
+                  <TrendingUp className="h-2.5 w-2.5 ml-0.5 sm:h-3 sm:w-3 sm:ml-1" /> :
+                  <TrendingDown className="h-2.5 w-2.5 ml-0.5 sm:h-3 sm:w-3 sm:ml-1" />
                 }
               </div>
-              <CardDescription className="text-sm text-gray-500 mt-1">
+              <CardDescription className="text-[10px] xs:text-xs sm:text-sm text-gray-500 mt-0.5 md:mt-1">
                 {metric.description}
               </CardDescription>
             </CardContent>
@@ -154,13 +153,13 @@ function Dashboard() {
       </div>
 
       {/* Chart */}
-      <div className="grid grid-cols-2 gap-6 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-2 md:p-4">
         {/* First Column - Area Chart */}
-        <Card className="bg-[#F2EAE5] rounded-xl shadow-sm">
-          <CardHeader className="">
+        <Card className="bg-[#F2EAE5] rounded-xl shadow-sm p-0 md:p-2">
+          <CardHeader className="px-3 py-2">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-xl font-semibold text-gray-800">
+                <CardTitle className="text-lg md:text-xl font-semibold text-gray-800">
                   Total Pending Tasks
                 </CardTitle>
                 <CardDescription className="text-gray-500">
@@ -169,12 +168,12 @@ function Dashboard() {
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="h-[200px] mt-4">
+          <CardContent className="px-2 pt-0 pb-2">
+            <div className="h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={chartData}
-                  margin={{ top: 0, right: 0, left: 0, bottom: 0 }} // Adjusted margins
+                  margin={{ top: 5, right: 0, left: 5, bottom: 0 }}
                 >
                   <defs>
                     <linearGradient id="colorVisitors1" x1="0" y1="0" x2="0" y2="1">
@@ -186,15 +185,15 @@ function Dashboard() {
                     dataKey="role"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#6B7280', fontSize: 12 }}
-                    padding={{ left: 10, right: 10 }} // Added padding
-                    interval={0} // Show all ticks
+                    tick={{ fill: '#6B7280', fontSize: 11 }}
+                    padding={{ left: 5, right: 5 }}
+                    interval={0}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#6B7280', fontSize: 12 }}
-                    width={30} // Added fixed width
+                    tick={{ fill: '#6B7280', fontSize: 11 }}
+                    width={25}
                   />
                   <Tooltip
                     content={<CustomTooltip />}
@@ -206,7 +205,7 @@ function Dashboard() {
                     stroke="#E65F2B"
                     fillOpacity={1}
                     fill="url(#colorVisitors1)"
-                    baseLine={8} // Added baseline
+                    baseLine={8}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -214,11 +213,11 @@ function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Second Column - Future Graph */}
-        <Card className="bg-[#F2EAE5] rounded-xl shadow-sm p-2">
-          <CardHeader className="">
+        {/* Second Column - Bar Chart */}
+        <Card className="bg-[#F2EAE5] rounded-xl shadow-sm p-0 md:p-2">
+          <CardHeader className="px-3 py-2">
             <div>
-              <CardTitle className="text-xl font-semibold text-gray-800">
+              <CardTitle className="text-lg md:text-xl font-semibold text-gray-800">
                 Analytics Overview
               </CardTitle>
               <CardDescription className="text-gray-500">
@@ -226,36 +225,39 @@ function Dashboard() {
               </CardDescription>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="h-[200px] mt-4">
+          <CardContent className="px-2 pt-0 pb-2">
+            <div className="h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={analyticsData}
-                  margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+                  margin={{ top: 5, right: 0, left: 15, bottom: 5 }}
                 >
                   <XAxis
                     dataKey="name"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#6B7280', fontSize: 12 }}
+                    tick={{ fill: '#6B7280', fontSize: 11 }}
+                    padding={{ left: 10, right: 10 }}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#6B7280', fontSize: 12 }}
-                    width={30}
+                    tick={{ fill: '#6B7280', fontSize: 11 }}
+                    width={25}
                   />
                   <Tooltip content={<BarChartTooltip />}
                     cursor={{
                       fill: '#F3F4F6',
                       opacity: 0.2,
                       strokeWidth: 0,
-                      width: 30  // This controls the width of the grey highlight
+                      width: 25
                     }}
                   />
                   <Legend
-                    wrapperStyle={{ fontSize: '12px' }}
+                    wrapperStyle={{ fontSize: '11px' }}
                     iconType="circle"
+                    iconSize={8}
+                    height={25}
                   />
                   <Bar
                     dataKey="interviews"
@@ -263,7 +265,7 @@ function Dashboard() {
                     fill="#E65F2B"
                     radius={[0, 0, 0, 0]}
                     name="Total Interviews"
-                    barSize={60}
+                    barSize={45}
                   />
                   <Bar
                     dataKey="selected"
@@ -271,7 +273,7 @@ function Dashboard() {
                     fill="#10B981"
                     radius={[0, 0, 0, 0]}
                     name="Selected"
-                    barSize={60}
+                    barSize={45}
                   />
                   <Bar
                     dataKey="rejected"
@@ -279,7 +281,7 @@ function Dashboard() {
                     fill="#EF4444"
                     radius={[4, 4, 0, 0]}
                     name="Rejected"
-                    barSize={60}
+                    barSize={45}
                   />
                 </BarChart>
               </ResponsiveContainer>

@@ -22,6 +22,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Cookies from 'js-cookie';
 import Profile from "../../assets/ProfileIcon.png";
 import VisitorIndicator from "../Hooks/VisitorIndicator";
+import Recrumeta from "../../assets/Recrumeta.png";
 
 const drawerWidth = 240;
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -407,10 +408,16 @@ export default function MiniDrawer() {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    width: open
-      ? `calc(100% - ${drawerWidth}px)`
-      : `calc(100% - ${theme.spacing(8)})`,
-    marginLeft: open ? drawerWidth : 0,
+    width: {
+      xs: '100%', // Full width on mobile
+      sm: '100%', // Full width on small tablets
+      md: open ? `calc(100% - ${drawerWidth}px)` : `calc(100% - ${theme.spacing(8)})` // Adjust for larger devices
+    },
+    marginLeft: {
+      xs: 0, // No margin on mobile
+      sm: 0, // No margin on small tablets
+      md: open ? drawerWidth : 0 // Adjust for larger devices
+    },
   };
 
   // Styles for the drawer
@@ -420,10 +427,12 @@ export default function MiniDrawer() {
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     backgroundColor: "#000000",
+    display: { xs: 'none', md: 'block' }, // This should match your logo breakpoints
     ...(open ? openedMixinStyle : closedMixinStyle),
     "& .MuiDrawer-paper": {
       ...(open ? openedMixinStyle : closedMixinStyle),
       backgroundColor: "#000000",
+      display: { xs: 'none', md: 'block' }, // This should match your logo breakpoints
     },
   };
 
@@ -469,8 +478,7 @@ export default function MiniDrawer() {
   }
 
   return (
-    <Box sx={{ display: "flex" }}
-    >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
       {/* AppBar - Top Navigation Bar */}
@@ -478,22 +486,75 @@ export default function MiniDrawer() {
         position="fixed"
         sx={{ ...appBarStyle, backgroundColor: "#EBDFD7", height: "64px" }}
       >
-        <div className="flex items-center justify-end h-full mt-[6px]">
-          <div className="flex h-full">
+        <div className="flex items-center justify-between h-full mt-[8px] px-3">
+          {/* Logo section - SVG for mobile, image for tablets */}
+          <div className="flex items-center">
+            {/* SVG Logo - Only visible on small screens up to 640px */}
+            <div className="flex items-center sm:hidden -mt-2">
+              <svg
+                width="36"
+                height="40"
+                viewBox="0 0 182 258"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0 114V186V258H30V186H30.0024C30.0024 180.485 31.0887 175.024 33.1993 169.928C35.3099 164.833 38.4034 160.203 42.3032 156.303C46.203 152.403 50.8328 149.31 55.9282 147.199C61.0236 145.089 66.4848 144.002 72 144.002V144H79V114H72C62.5448 114 53.1822 115.862 44.4468 119.481C39.3265 121.602 34.4805 124.301 30 127.519V114H0Z"
+                  fill="#000000"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M110 114L110 113.998C115.515 113.998 120.976 112.911 126.072 110.801C131.167 108.69 135.797 105.597 139.697 101.697C143.597 97.797 146.69 93.1672 148.801 88.0718C150.911 82.9764 151.998 77.5152 151.998 72C151.998 66.4848 150.911 61.0236 148.801 55.9282C146.69 50.8328 143.597 46.203 139.697 42.3032C135.797 38.4034 131.167 35.3099 126.072 33.1993C120.976 31.0887 115.515 30.0024 110 30.0024L110 0C119.455 0 128.818 1.86233 137.553 5.48067C146.289 9.09901 154.226 14.4025 160.912 21.0883C167.598 27.7741 172.901 35.7113 176.519 44.4468C180.138 53.1822 182 62.5448 182 72C182 81.4552 180.138 90.8178 176.519 99.5532C172.901 108.289 167.598 116.226 160.912 122.912C158.732 125.092 156.419 127.125 153.989 129C156.419 130.875 158.732 132.908 160.912 135.088C167.598 141.774 172.901 149.711 176.519 158.447C180.138 167.182 182 176.545 182 186V258H152V186H151.998C151.998 180.485 150.911 175.024 148.801 169.928C146.69 164.833 143.597 160.203 139.697 156.303C135.797 152.403 131.167 149.31 126.072 147.199C120.976 145.089 115.515 144.002 110 144.002L110 144H103V114H110Z"
+                  fill="#E65F2B"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0 30V72V90H30V72H30.0024C30.0024 66.4848 31.0887 61.0236 33.1993 55.9282C35.3099 50.8328 38.4034 46.203 42.3032 42.3032C46.203 38.4034 50.8328 35.3099 55.9282 33.1993C61.0236 31.0887 66.4848 30.0024 72 30.0024V30H110V0H72H30H0V30Z"
+                  fill="#E65F2B"
+                />
+              </svg>
+            </div>
+
+            {/* Photo Logo - Only visible from 640px to 900px */}
+            <div className="hidden sm:block md:block lg:hidden -mt-2">
+              <img
+                src={Recrumeta}
+                alt="Recrumeta Logo"
+                className="h-12 w-auto object-contain"
+                style={{ display: 'var(--display-logo, "block")' }}
+              />
+            </div>
+
+            {/* Add this script to hide the logo at 900px */}
+            <style jsx>{`
+              @media (min-width: 900px) {
+                :root {
+                  --display-logo: none;
+                }
+              }
+            `}</style>
+          </div>
+
+          {/* User Profile Section - Now aligned to right */}
+          <div className="flex h-full ml-auto">
             <div
-              className={`right-4 ml-6 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
+              className={`right-1 sm:right-4 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
                 } relative transition-all duration-100 ring-1 ring-black ring-opacity-5 z-10`}
               ref={dropdownRef}
               onClick={toggleDropdown}
             >
-              <div className="w-9 h-9 rounded-3xl bg-white overflow-hidden mr-2">
+              <div className="w-9 h-9 rounded-3xl bg-white overflow-hidden">
                 <img
                   src={Profile}
                   alt="User Logo"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
+              <div className="ml-2">
                 <p className="text-black text-xl font-medium">{username || "Guest"}</p>
               </div>
               <div className="px-1">
@@ -522,25 +583,38 @@ export default function MiniDrawer() {
                   transformOrigin: 'top',
                 }}
               >
+                {/* Dropdown Menu */}
                 <div
-                  className="py-1"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="user-menu"
+                  className={`absolute right-0 w-full bg-white rounded-b-2xl shadow-lg ring-1 ring-black ring-opacity-5 z-10 transition-all duration-300 origin-top ${isDropdownOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
+                    }`}
+                  style={{
+                    top: '100%',
+                    marginTop: '0px',
+                    borderTopLeftRadius: '0',
+                    borderTopRightRadius: '0',
+                    transformOrigin: 'top',
+                  }}
                 >
-                  <a
-                    href="#"
-                    onClick={handleLogOut}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 rounded-b-xl"
-                    role="menuitem"
+                  <div
+                    className="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu"
                   >
-                    <div className="flex items-center">
-                      <svg width="26" height="26" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span className="ml-3 text-[18px]">Logout</span>
-                    </div>
-                  </a>
+                    <a
+                      href="#"
+                      onClick={handleLogOut}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 rounded-b-xl"
+                      role="menuitem"
+                    >
+                      <div className="flex items-center">
+                        <svg width="26" height="26" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="ml-3 text-[18px]">Logout</span>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -557,7 +631,6 @@ export default function MiniDrawer() {
               variant="subtitle1"
               sx={{
                 fontWeight: "bold",
-                ml: 1,
               }}
             >
               <svg
@@ -711,6 +784,51 @@ export default function MiniDrawer() {
         {/* Second section of the menu items */}
       </Drawer>
 
+      {/* Mobile Bottom Navigation - Only visible on mobile/small tablets */}
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          bgcolor: '#000000',
+          display: { xs: 'flex', md: 'none' }, // Show on mobile and small tablets, hide on larger screens
+          zIndex: theme.zIndex.drawer + 1,
+          boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-around', py: 1 }}>
+          {navItems.map((item) => (
+            <Box
+              key={item.text}
+              onClick={() => navigate(item.link)}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px 0',
+                flex: 1,
+                color: location.pathname.startsWith(item.link) ? '#E65F2B' : 'white',
+                cursor: 'pointer',
+              }}
+            >
+              {location.pathname.startsWith(item.link) ? item.icon2 : item.icon}
+              <Typography
+                variant="caption"
+                sx={{
+                  mt: 0.5,
+                  fontSize: { xs: '10px', sm: '12px' }, // Slightly larger text on tablets
+                  fontWeight: location.pathname.startsWith(item.link) ? 600 : 400
+                }}
+              >
+                {item.text}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
       {/* Toggle Button Container - Positioned outside the drawer but visually connected to it */}
       <Box
         sx={{
@@ -722,6 +840,7 @@ export default function MiniDrawer() {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
+          display: { xs: 'none', md: 'block' } // Only show on desktop/larger tablets
         }}
       >
         <IconButton
@@ -741,15 +860,15 @@ export default function MiniDrawer() {
 
       {/* Main Content */}
       <Box component="main" sx={{
-        // flexGrow: 1, p: 3, 
-        // backgroundColor:"green"
+        width: '100%',
+        height: '100%',
+        pb: { xs: '70px', md: 0 }, // Add padding bottom on mobile/small tablets to account for the mobile nav
+        pl: { xs: 0, md: open ? 0 : 0 } // Adjust left padding based on drawer state
       }}
         className="w-full h-full"
       >
         <DrawerHeader />
-        <Outlet
-
-        />
+        <Outlet />
       </Box>
 
       <VisitorIndicator />
