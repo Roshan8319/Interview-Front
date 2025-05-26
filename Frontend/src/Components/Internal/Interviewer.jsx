@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
+import debounce from "lodash/debounce";
 import { Toaster, toast } from "react-hot-toast";
 import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
@@ -43,7 +44,7 @@ function Interviewer() {
   // State Management
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     domain: "All",
     status: "All",
@@ -57,6 +58,7 @@ function Interviewer() {
   });
   const [selectedOption, setSelectedOption] = useState("");
   const [items, setItems] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
 
   // Data Fetching
   useEffect(() => {
@@ -71,6 +73,7 @@ function Interviewer() {
         );
         if (mounted) {
           setData(response.data.data);
+          setOriginalData(response.data.data); // Store original data for filtering
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -88,11 +91,6 @@ function Interviewer() {
   // Memoized Filtered Data
   const filteredData = useMemo(() => {
     return data.filter((user) => {
-      const matchesSearch = !searchTerm.trim() ||
-        (user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.phone?.toString().includes(searchTerm));
-
       const matchesDomain = selectedFilters.domain === "All" ||
         user.strength === selectedFilters.domain;
 
@@ -109,13 +107,32 @@ function Interviewer() {
           }
         })());
 
-      return matchesSearch && matchesDomain && matchesExperience;
+      return matchesDomain && matchesExperience;
     });
-  }, [data, searchTerm, selectedFilters]);
+  }, [data, selectedFilters]);
 
-  // Event Handlers
+  // Create a debounced search function
+  const debouncedSearch = debounce((query) => {
+    if (!query.trim()) {
+      setData(originalData);
+      return;
+    }
+
+    const filteredResults = originalData.filter((user) => {
+      return user.firstName?.toLowerCase().includes(query.toLowerCase()) ||
+        user.email?.toLowerCase().includes(query.toLowerCase()) ||
+        user.phone?.toString().includes(query);
+    });
+
+    setData(filteredResults);
+  }, 300);
+
+  // Handle Search Input Change
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+    const query = e.target.value;
+    console.log("Search input:", query); // Keep debugging
+    setSearchQuery(query);
+    debouncedSearch(query);
   };
 
   // Filter Selection
@@ -282,24 +299,6 @@ function Interviewer() {
     }
   ];
 
-  {/* Searchbar Components */ }
-  const SearchBar = ({ searchTerm, handleSearch }) => (
-    <div className="w-[450px] h-[40px] flex justify-around items-center border-2 border-[#F4F4F4] bg-white rounded-[28px] pr-1 pl-1">
-      <input
-        className="w-[358px] h-[37px] ml-1 text-[#979DA3] border-none focus:outline-none"
-        type="text"
-        placeholder="Search by Name, Email & Mobile Number"
-        value={searchTerm}
-        onChange={(e) => handleSearch(e)}
-      />
-      <button>
-        <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-        </svg>
-      </button>
-    </div>
-  );
-
   {/* Add Interviewer Button */ }
   const AddInterviewerButton = ({ onClick }) => (
     <button
@@ -318,8 +317,8 @@ function Interviewer() {
   );
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-3 sm:p-4 md:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 -mt-4 sm:-mt-6">
         <Toaster
           position="bottom-right"
           reverseOrder={true}
@@ -359,15 +358,40 @@ function Interviewer() {
           }}
         />
         {/* Header Section */}
-        <div className="flex justify-end items-center gap-5">
-          <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
-          <VisitorDisableWrapper>
-            <AddInterviewerButton onClick={() => navigate('/internal/addinterviewer')} />
-          </VisitorDisableWrapper>
+        <div className="flex flex-col w-full sm:flex-row sm:items-center space-y-4 sm:space-y-0">
+          {/* Spacer that takes up available space and pushes elements to the right */}
+          <div className="hidden sm:block sm:flex-grow"></div>
+
+          {/* Search Input - positioned with specific margin */}
+          <div className="flex items-center rounded-full px-3 sm:px-4 py-2 mt-3 sm:mt-0 w-full sm:w-[450px] bg-[#fff] border-gray-300 border focus-within:border-orange-500 sm:mr-[20px]">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearch}
+              placeholder="Search by Name, Email & Mobile Number"
+              className="flex-1 bg-transparent text-gray-600 outline-none text-sm"
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#000000"
+            >
+              <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+            </svg>
+          </div>
+
+          {/* Add Interviewer Button */}
+          <div className="flex justify-end sm:justify-start">
+            <VisitorDisableWrapper>
+              <AddInterviewerButton onClick={() => navigate('/internal/addinterviewer')} />
+            </VisitorDisableWrapper>
+          </div>
         </div>
 
         {/* Statistics Section */}
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {statistics.map((stat, index) => (
             <div
               key={index}
@@ -382,14 +406,14 @@ function Interviewer() {
         {/* Filters Section */}
         <div className="bg-white/20 rounded-xl p-4 space-y-4">
           {/* Strength Filter */}
-          <div className="flex items-center space-x-4">
-            <span className="font-bold text-gray-700">Strength</span>
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            <span className="font-bold text-gray-700 min-w-[80px]">Strength</span>
+            <div className="flex flex-wrap gap-2">
               {DOMAINS.map((domain) => (
                 <button
                   key={domain}
                   onClick={() => handleSelect("domain", domain)}
-                  className={`px-4 py-1.5 rounded-full text-sm transition-all duration-200 ${selectedFilters.domain === domain
+                  className={`px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm transition-all duration-200 ${selectedFilters.domain === domain
                     ? "bg-[#E65F2B] text-white"
                     : "bg-[#F6F1EE] text-[#E65F2B] hover:bg-[#E65F2B]/10"
                     }`}
@@ -401,14 +425,14 @@ function Interviewer() {
           </div>
 
           {/* Experience Filter */}
-          <div className="flex items-center space-x-4">
-            <span className="font-bold text-gray-700">Experience</span>
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            <span className="font-bold text-gray-700 min-w-[80px]">Experience</span>
+            <div className="flex flex-wrap gap-2">
               {EXPERIENCE_RANGES.map((range) => (
                 <button
                   key={range.value}
                   onClick={() => handleSelect("status", range.value)}
-                  className={`px-4 py-1.5 rounded-full text-sm transition-all duration-200 ${selectedFilters.status === range.value
+                  className={`px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm transition-all duration-200 ${selectedFilters.status === range.value
                     ? "bg-[#E65F2B] text-white"
                     : "bg-[#F6F1EE] text-[#E65F2B] hover:bg-[#E65F2B]/10"
                     }`}
@@ -420,63 +444,128 @@ function Interviewer() {
           </div>
         </div>
 
-        {/* Table Section */}
-        <div className="bg-white/35 rounded-xl shadow-sm overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-[#E65F2B]/5">
-              <tr>
-                {["Users", "Email ID", "Phone No", "Strength", "Skills", "Experience", ""].map((header) => (
-                  <th key={header} className="py-4 px-6 text-[#E65F2B] font-semibold text-left">
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {filteredData.length > 0 ? (
-                filteredData.map((user, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-[#F6F1EE]/50 transition-colors duration-150"
-                  >
-                    <td className="py-4 px-6 font-medium">{user.firstName}</td>
-                    <td className="py-4 px-6 text-gray-600">{user.email}</td>
-                    <td className="py-4 px-6 text-gray-600">{user.phone}</td>
-                    <td className="py-4 px-6 text-gray-600">{user.strength}</td>
-                    <td className="py-4 px-6 text-gray-600">
-                      {user.technicalSkills ? user.technicalSkills.join(", ") : "-"}
-                    </td>
-                    <td className="py-4 px-6 text-gray-600">{user.experienceInYears + " Years"}</td>
-                    <td className="py-4 px-6">
-                      <VisitorDisableWrapper>
-                        <button
-                          onClick={() => handleEditUserOpen(
-                            user.firstName,
-                            user.email,
-                            user.phone,
-                            user.experienceInYears,
-                            user.technicalSkills,
-                            user.strength
-                          )}
-                          className="p-2 hover:bg-[#E65F2B]/10 rounded-full transition-colors"
-                        >
-                          <svg className="w-5 h-5 text-[#E65F2B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                          </svg>
-                        </button>
-                      </VisitorDisableWrapper>
+        {/* Table Section - Desktop */}
+        <div className="hidden sm:block bg-white/35 rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-[#E65F2B]/5">
+                <tr>
+                  {["Users", "Email ID", "Phone No", "Strength", "Skills", "Experience", ""].map((header) => (
+                    <th key={header} className="py-4 px-6 text-[#E65F2B] font-semibold text-left">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {filteredData.length > 0 ? (
+                  filteredData.map((user, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-[#F6F1EE]/50 transition-colors duration-150"
+                    >
+                      <td className="py-4 px-6 font-medium">{user.firstName}</td>
+                      <td className="py-4 px-6 text-gray-600">{user.email}</td>
+                      <td className="py-4 px-6 text-gray-600">{user.phone}</td>
+                      <td className="py-4 px-6 text-gray-600">{user.strength}</td>
+                      <td className="py-4 px-6 text-gray-600">
+                        {user.technicalSkills ? user.technicalSkills.join(", ") : "-"}
+                      </td>
+                      <td className="py-4 px-6 text-gray-600">{user.experienceInYears + " Years"}</td>
+                      <td className="py-4 px-6">
+                        <VisitorDisableWrapper>
+                          <button
+                            onClick={() => handleEditUserOpen(
+                              user.firstName,
+                              user.email,
+                              user.phone,
+                              user.experienceInYears,
+                              user.technicalSkills,
+                              user.strength
+                            )}
+                            className="p-2 hover:bg-[#E65F2B]/10 rounded-full transition-colors"
+                          >
+                            <svg className="w-5 h-5 text-[#E65F2B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                          </button>
+                        </VisitorDisableWrapper>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="py-8 text-center text-gray-500">
+                      No matching results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={7} className="py-8 text-center text-gray-500">
-                    No matching results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Card Layout for Mobile */}
+        <div className="sm:hidden space-y-4 pb-4">
+          {filteredData.length > 0 ? (
+            filteredData.map((user, index) => (
+              <div
+                key={index}
+                className="bg-white/35 rounded-xl p-4 space-y-2 hover:bg-[#F6F1EE]/50 transition-colors duration-150"
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium text-lg">{user.firstName}</h3>
+                  <VisitorDisableWrapper>
+                    <button
+                      onClick={() => handleEditUserOpen(
+                        user.firstName,
+                        user.email,
+                        user.phone,
+                        user.experienceInYears,
+                        user.technicalSkills,
+                        user.strength
+                      )}
+                      className="p-2 hover:bg-[#E65F2B]/10 rounded-full transition-colors"
+                    >
+                      <svg className="w-5 h-5 text-[#E65F2B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </button>
+                  </VisitorDisableWrapper>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <p className="font-medium text-gray-500">Email:</p>
+                    <p className="text-gray-600">{user.email}</p>
+                  </div>
+                  <div></div>
+                  <div>
+                    <p className="font-medium text-gray-500">Phone:</p>
+                    <p className="text-gray-600">{user.phone}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-500">Strength:</p>
+                    <p className="text-gray-600">{user.strength}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-500">Experience:</p>
+                    <p className="text-gray-600">{user.experienceInYears} Years</p>
+                  </div>
+                  <div className="text-sm">
+                    <p className="font-medium text-gray-500">Skills:</p>
+                    <p className="text-gray-600 line-clamp-2">
+                      {user.technicalSkills ? user.technicalSkills.join(", ") : "-"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-8 text-center text-gray-500 bg-white/35 rounded-xl">
+              No matching results found
+            </div>
+          )}
         </div>
 
         {/* Edit Dialog remains the same */}

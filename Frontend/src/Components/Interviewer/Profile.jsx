@@ -211,7 +211,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-4">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-2 sm:p-4">
       <Toaster
         position="bottom-right"
         reverseOrder={true}
@@ -250,17 +250,18 @@ const ProfilePage = () => {
           right: '40px',
         }}
       />
+
       {isSaving && <SavingOverlay />}
 
-      <div className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl mt-10 shadow-md">
+      <div className="m-2 p-3 sm:p-4 md:p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl mt-5 sm:mt-10 shadow-md">
         <div>
-          <p className="text-[24px] font-semibold">Profile</p>
+          <p className="text-[20px] sm:text-[24px] font-semibold">Profile</p>
         </div>
 
         {/* Profile Photo Section */}
-        <div className="relative ">
+        <div className="relative">
           <div className="flex items-center justify-center">
-            <div className="relative h-[130px] w-[130px] rounded-full overflow-hidden group border border-[#E65F2B]">
+            <div className="relative h-[100px] w-[100px] sm:h-[130px] sm:w-[130px] rounded-full overflow-hidden group border border-[#E65F2B]">
               <img
                 src={profilePhoto}
                 alt="Profile Photo"
@@ -292,7 +293,9 @@ const ProfilePage = () => {
                   >
                     <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
                   </svg>
-                  Change Photo
+                  <span >
+                    Change Photo
+                  </span>
                 </div>
               )}
             </div>
@@ -300,7 +303,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Personal Information Grid */}
-        <div className="p-2 w-full grid grid-cols-3 gap-x-12 gap-y-3 mt-4">
+        <div className="p-2 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-8 lg:gap-x-12 gap-y-3 mt-4">
           {[
             { id: "firstName", label: "Your Name", type: "text" },
             { id: "phone", label: "Phone", type: "tel" },
@@ -361,9 +364,9 @@ const ProfilePage = () => {
         {/* Bank Account Details Section */}
         <div className="mt-5">
           <div>
-            <p className="text-[20px] font-semibold">Bank Account Details</p>
+            <p className="text-[18px] sm:text-[20px] font-semibold">Bank Account Details</p>
           </div>
-          <div className="mt-3 grid grid-cols-3 gap-x-12">
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-8 lg:gap-x-12 gap-y-3">
             {[
               {
                 id: "bankAccountHolderName",
@@ -373,7 +376,7 @@ const ProfilePage = () => {
               { id: "bankAccountNumber", label: "Account Number", type: "text" },
               { id: "bankIfscCode", label: "IFSC Code", type: "text" },
             ].map(({ id, label, type }) => (
-              <div key={id} className="flex items-center justify-center">
+              <div key={id} className="flex items-center justify-center px-2">
                 <div className="w-full flex flex-col gap-y-[1px] max-w-md">
                   <label
                     htmlFor={id}
@@ -405,7 +408,7 @@ const ProfilePage = () => {
 
         {/* Edit/Discard Buttons */}
         <div>
-          <div className="mt-7 px-8 flex items-center justify-end ">
+          <div className="mt-7 px-8 flex items-center justify-end -mr-6 md:mr-0">
             {/* Edit Button */}
 
             {!isEditing && (

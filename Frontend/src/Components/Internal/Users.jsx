@@ -107,7 +107,7 @@ const AddUserModal = ({ isOpen, onClose, onSubmit, errors, isSubmitting }) => {
       <DialogContent dividers>
         <div className="w-full flex flex-wrap gap-4 md:flex-nowrap">
           {/* Left Column */}
-          <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <div className="w-full md:w-1/2 flex flex-col gap-1 md:gap-4">
             <div className="p-1 flex flex-col items-start gap-1 w-full">
               <label className=" text-sm font-medium text-gray-600">Name</label>
               <div className="relative w-full">
@@ -158,7 +158,7 @@ const AddUserModal = ({ isOpen, onClose, onSubmit, errors, isSubmitting }) => {
           </div>
 
           {/* Right Column */}
-          <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <div className="w-full md:w-1/2 flex flex-col gap-1 md:gap-4">
             <div className="p-1 flex flex-col items-start gap-1 w-full">
               <label className=" text-sm font-medium text-gray-600">Last Name</label>
               <div className="relative w-full">
@@ -432,7 +432,7 @@ const InternalUsers = () => {
   }
 
   return (
-    <div className="bg-[#EBDFD7] min-h-screen p-6">
+    <div className="bg-[#EBDFD7] min-h-[calc(100vh-64px)] p-4 md:p-6">
       <Toaster
         position="bottom-right"
         reverseOrder={true}
@@ -471,9 +471,9 @@ const InternalUsers = () => {
           right: '30px',
         }}
       />
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Recrumeta Users</h1>
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex flex- sm:flex-row justify-between items-center mb-4 sm:mb-6 mt-4 sm:mt-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Internal Users</h1>
 
           <VisitorDisableWrapper>
             <button
@@ -513,7 +513,7 @@ const InternalUsers = () => {
             <p className="text-lg">No users found. Add your first user!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 md:mb-0">
             {data.map((user) => (
               <div
                 key={user.id}

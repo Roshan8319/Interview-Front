@@ -509,20 +509,17 @@ const InterviewDashboard = () => {
     ),
   };
 
-
-
   const [interviewTab, setInterviewTab] = useState("interviewDetails");
 
   return (
-    <div className="p-4 px-6 min-h-[calc(100vh-64px)] bg-[#EBDFD7]">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-3 md:p-4 md:px-6 min-h-[calc(100vh-64px)] bg-[#EBDFD7]">
+      <div className="flex justify-between items-center mb-4 md:mb-8 mt-4 md:mt-0">
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 gap-x-5 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 gap-x-5 mb-6">
         {/* Total Candidates */}
-
-        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[220px] md:h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="text-gray-500 text-sm">Total Candidates</div>
@@ -562,18 +559,18 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-[-8%] ml-[-5%]">
+          <div className="mt-[-2%] md:mt-[-8%] ml-[-2%] w-full">
             <Chart
               options={lineData.options}
               series={lineData.series}
               type="line"
               height={150}
-              width={270}
+              width="100%"
             />
           </div>
         </div>
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[220px] md:h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start ">
             <div>
               <div className="text-gray-500 text-sm">Average Interview Per Month</div>
@@ -631,18 +628,18 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-[-15%] ml-[-5%]">
+          <div className="mt-[-6%] md:mt-[-16%] ml-[-1%] w-full">
             <Chart
               options={splineData1.options}
               series={splineData1.series}
               type="area"
               height={150}
-              width={270}
+              width="100%"
             />
           </div>
         </div>
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[220px] md:h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="text-gray-500 text-sm">Today's Income</div>
@@ -682,18 +679,18 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-[-10%] ml-[-5%]">
+          <div className="mt-[-8%] md:mt-[-10%] ml-[-1%] w-full">
             <Chart
               options={barData.options}
               series={barData.series}
               type="bar"
-              height={150}
-              width={280}
+              height={170}
+              width="100%"
             />
           </div>
         </div>
 
-        <div className="bg-[#F2EAE5] rounded-lg h-[200px] shadow-md p-4">
+        <div className="bg-[#F2EAE5] rounded-lg h-[220px] md:h-[200px] shadow-md p-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="text-gray-500 text-sm">Total Income</div>
@@ -733,21 +730,20 @@ const InterviewDashboard = () => {
             </div>
           </div>
 
-          <div className="mt-[-15%] ml-[-5%]">
+          <div className="mt-[-6%] md:mt-[-14%] ml-[-1%] w-full">
             <Chart
               options={splineData2.options}
               series={splineData2.series}
               type="area"
               height={150}
-              width={270}
+              width="100%"
             />
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-5 mb-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 gap-x-5 mb-5">
         {/* Candidate Details */}
-
         {Object.keys(nextAppointment).length === 0 && (
           <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-center justify-center text-center min-h-[calc(100vh-100rem)] h-full">
             <div className="bg-orange-50 rounded-full p-4 mb-4">
@@ -763,11 +759,11 @@ const InterviewDashboard = () => {
         )}
 
         {Object.keys(nextAppointment).length != 0 && (
-          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-6 flex flex-col items-start text-center min-h-[calc(100vh-100rem)] h-full">
+          <div className="bg-[#F2EAE5] rounded-lg shadow-md p-4 md:p-6 flex flex-col items-start text-center min-h-[calc(100vh-100rem)] h-full">
             <div className="w-full">
-              <div className="flex items-center justify-between w-full">
+              <div className="flex flex-row items-start sm:items-center justify-between w-full gap-4 sm:gap-0">
                 <div className="flex items-center justify-center gap-x-4">
-                  <div className="w-[80px] h-[80px] rounded-full overflow-hidden border border-red-400">
+                  <div className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] rounded-full overflow-hidden border border-red-400">
                     <img
                       src={
                         nextAppointment?.candidatePhoto ||
@@ -778,7 +774,7 @@ const InterviewDashboard = () => {
                     />
                   </div>
                   <div className="flex flex-col items-start justify-start mt-[-10px]">
-                    <p className="text-xl font-semibold">
+                    <p className="text-lg md:text-xl font-semibold">
                       {nextAppointment.candidateFirstName}{" "}
                       {nextAppointment.candidateLastName}
                     </p>
@@ -812,15 +808,15 @@ const InterviewDashboard = () => {
                     >
                       <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
                     </svg>
-                    
+
                   </div>
                 </div>
               </div>
-              <div className=" w-full ml-[8%] mt-6 flex items-center justify-around">
+              <div className="w-full mt-6 flex flex-col sm:flex-row items-center justify-center sm:justify-around gap-4 sm:gap-0">
                 <button
                   onClick={handleViewResume}
-                  className="flex items-center gap-x-1 justify-center px-2 py-[2px] bg-white border border-[#E65F2B] rounded-3xl 
-                relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
+                  className="w-[220px] sm:w-auto flex items-center gap-x-1 justify-center px-4 py-2 sm:px-2 sm:py-[2px] bg-white border border-[#E65F2B] rounded-3xl 
+                  relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
                 >
                   <span className="absolute inset-0 bg-[#E65F2B] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0 opacity-10"></span>
                   <svg
@@ -853,8 +849,8 @@ const InterviewDashboard = () => {
 
                 <button
                   onClick={() => handelJoinInterview()}
-                  className="flex items-center gap-x-1 justify-center px-2 py-[2px] border border-white bg-[#E65F2B] rounded-3xl 
-                   relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
+                  className="w-[220px] sm:w-auto flex items-center gap-x-1 justify-center px-4 py-2 sm:px-2 sm:py-[2px] border border-white bg-[#E65F2B] rounded-3xl 
+                  relative overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-lg hover:translate-y-[-4px] active:translate-y-[0px] active:shadow-md"
                 >
                   <span className="absolute inset-0 bg-[#E65F2B] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0 opacity-10"></span>
                   <svg
@@ -913,7 +909,7 @@ const InterviewDashboard = () => {
             {/* Content */}
             <div className="space-y-4 w-full">
               {activeTab === "interviewDetails" && (
-                <div className="w-full px-10 flex items-start justify-between">
+                <div className="w-full px-0 sm:px-10 flex items-start justify-between">
                   <div>
                     <div className="flex gap-x-2">
                       <svg
@@ -1051,7 +1047,7 @@ const InterviewDashboard = () => {
 
         {/* Receivables */}
         <div className="flex flex-col items-center justify-between">
-          <div className="p-6 bg-[#F2EAE5] w-full h-[47%] rounded-lg shadow-md">
+          <div className="p-4 md:p-6 bg-[#F2EAE5] w-full h-[47%] rounded-lg shadow-md">
             <div>
               <p className="text-lg font-semibold">Pending Receivables</p>
             </div>
@@ -1066,7 +1062,7 @@ const InterviewDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="p-6 bg-[#F2EAE5] w-full h-[47%] rounded-lg shadow-md">
+          <div className="p-4 md:p-6 bg-[#F2EAE5] w-full h-[47%] rounded-lg shadow-md">
             <div>
               <p className="text-lg font-semibold">Completed Receivables</p>
             </div>

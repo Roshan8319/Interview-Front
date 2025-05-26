@@ -29,6 +29,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Cookies from 'js-cookie';
 import Profile from "../../assets/ProfileIcon.png";
 import VisitorIndicator from "../Hooks/VisitorIndicator";
+import Recrumeta from "../../assets/Recrumeta.png";
 
 const drawerWidth = 240;
 
@@ -101,67 +102,6 @@ const ActiveUserIcon = () => (
     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.43835 20.1667C2.43835 16.1142 6.41405 13.0625 11 13.0625C15.586 13.0625 19.5617 16.1142 19.5617 20.1667C19.5617 20.5464 19.2539 20.8542 18.8742 20.8542C18.4945 20.8542 18.1867 20.5464 18.1867 20.1667C18.1867 17.1241 15.104 14.4375 11 14.4375C6.89599 14.4375 3.81335 17.1241 3.81335 20.1667C3.81335 20.5464 3.50555 20.8542 3.12585 20.8542C2.74616 20.8542 2.43835 20.5464 2.43835 20.1667Z" fill="#E65F2B" />
   </svg>
 );
-const AgreementsIcon = () => (
-  <svg
-    width="25"
-    height="24"
-    viewBox="0 0 25 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20.5303 11.3V7.04001C20.5303 3.01001 19.5903 2 15.8103 2H8.25027C4.47027 2 3.53027 3.01001 3.53027 7.04001V18.3C3.53027 20.96 4.99028 21.59 6.76028 19.69L6.77026 19.68C7.59026 18.81 8.84026 18.88 9.55026 19.83L10.5603 21.18"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M8.03027 7H16.0303"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M9.03027 11H15.0303"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M18.2413 14.7703L14.7013 18.3103C14.5613 18.4503 14.4313 18.7103 14.4013 18.9003L14.2113 20.2503C14.1413 20.7403 14.4813 21.0803 14.9713 21.0103L16.3213 20.8203C16.5113 20.7903 16.7813 20.6603 16.9113 20.5203L20.4513 16.9803C21.0613 16.3703 21.3513 15.6603 20.4513 14.7603C19.5613 13.8703 18.8513 14.1603 18.2413 14.7703Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M17.7295 15.2803C18.0295 16.3603 18.8695 17.2003 19.9495 17.5003"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-const ActiveAgreementsIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M15.78 2H8.22C4.44 2 3.5 3.01 3.5 7.04V18.3C3.5 20.96 4.96 21.59 6.73 19.69L6.74 19.68C7.56 18.81 8.81 18.88 9.52 19.83L10.53 21.18C11.34 22.25 12.65 22.25 13.46 21.18L14.47 19.83C15.19 18.87 16.44 18.8 17.26 19.68C19.04 21.58 20.49 20.95 20.49 18.29V7.04C20.5 3.01 19.56 2 15.78 2ZM14.84 9.99L14.34 10.5H14.33L11.3 13.53C11.17 13.66 10.9 13.8 10.71 13.82L9.36 14.02C8.87 14.09 8.53 13.74 8.6 13.26L8.79 11.9C8.82 11.71 8.95 11.45 9.08 11.31L12.12 8.28L12.62 7.77C12.95 7.44 13.32 7.2 13.72 7.2C14.06 7.2 14.43 7.36 14.84 7.77C15.74 8.67 15.45 9.38 14.84 9.99Z"
-      fill="#E65F2B"
-    />
-  </svg>
-);
 const FinanceIcon = () => (
   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M14.2211 11.6385C14.064 11.194 13.7728 10.8091 13.3878 10.5368C13.0028 10.2646 12.5429 10.1185 12.0714 10.1186V9.54865H10.9316V10.1186C10.327 10.1186 9.74713 10.3587 9.31961 10.7863C8.89209 11.2138 8.65192 11.7936 8.65192 12.3982C8.65192 13.0028 8.89209 13.5826 9.31961 14.0102C9.74713 14.4377 10.327 14.6779 10.9316 14.6779V16.9575C10.4357 16.9575 10.0134 16.6412 9.85614 16.1978C9.8328 16.1253 9.79515 16.0581 9.74542 16.0004C9.69569 15.9427 9.63489 15.8955 9.5666 15.8617C9.49832 15.8278 9.42395 15.808 9.34788 15.8035C9.27182 15.7989 9.1956 15.8096 9.12375 15.835C9.05191 15.8604 8.98588 15.8999 8.92957 15.9513C8.87327 16.0026 8.82784 16.0647 8.79596 16.1339C8.76408 16.2032 8.74641 16.2781 8.74399 16.3542C8.74157 16.4304 8.75444 16.5063 8.78186 16.5774C8.93899 17.0219 9.23011 17.4068 9.61511 17.6791C10.0001 17.9513 10.46 18.0974 10.9316 18.0973V18.6672H12.0714V18.0973C12.676 18.0973 13.2558 17.8571 13.6833 17.4296C14.1109 17.0021 14.351 16.4223 14.351 15.8177C14.351 15.2131 14.1109 14.6332 13.6833 14.2057C13.2558 13.7782 12.676 13.538 12.0714 13.538V11.2584C12.3071 11.2583 12.5371 11.3314 12.7295 11.4674C12.922 11.6035 13.0676 11.7959 13.1462 12.0181C13.1966 12.1606 13.3015 12.2773 13.4378 12.3425C13.5054 12.3748 13.5786 12.3935 13.6533 12.3974C13.7281 12.4014 13.8029 12.3906 13.8734 12.3657C13.944 12.3408 14.009 12.3022 14.0647 12.2522C14.1203 12.2022 14.1656 12.1416 14.1979 12.0741C14.2302 12.0066 14.2488 11.9334 14.2528 11.8586C14.2568 11.7839 14.246 11.7091 14.2211 11.6385ZM10.9316 11.2584C10.6293 11.2584 10.3393 11.3785 10.1256 11.5922C9.91183 11.806 9.79174 12.0959 9.79174 12.3982C9.79174 12.7005 9.91183 12.9904 10.1256 13.2042C10.3393 13.4179 10.6293 13.538 10.9316 13.538V11.2584ZM12.0714 16.9575C12.3737 16.9575 12.6636 16.8374 12.8774 16.6237C13.0911 16.4099 13.2112 16.12 13.2112 15.8177C13.2112 15.5154 13.0911 15.2255 12.8774 15.0117C12.6636 14.7979 12.3737 14.6779 12.0714 14.6779V16.9575Z" fill="white" />
@@ -185,92 +125,6 @@ const ActiveRecentIcon = () => (
   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M11 2.52083C6.31968 2.52083 2.52081 6.31969 2.52081 11C2.52081 15.6803 6.31968 19.4792 11 19.4792C15.6803 19.4792 19.4791 15.6803 19.4791 11C19.4791 6.31969 15.6803 2.52083 11 2.52083ZM1.14581 11C1.14581 5.5603 5.56028 1.14583 11 1.14583C16.4397 1.14583 20.8541 5.5603 20.8541 11C20.8541 16.4397 16.4397 20.8542 11 20.8542C5.56028 20.8542 1.14581 16.4397 1.14581 11Z" fill="#E65F2B" />
     <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6608 6.19666C11.0405 6.19666 11.3483 6.50446 11.3483 6.88416V10.6425C11.3483 10.7832 11.4021 10.9872 11.5216 11.1968C11.6411 11.4064 11.7892 11.5564 11.9096 11.6277L11.9115 11.6288L11.9115 11.6288L14.7531 13.3246C15.0792 13.5192 15.1858 13.9413 14.9912 14.2673C14.7966 14.5934 14.3746 14.6999 14.0485 14.5054L11.2087 12.8106C11.2084 12.8104 11.208 12.8102 11.2077 12.81C10.8336 12.588 10.5329 12.2387 10.3272 11.878C10.1212 11.5169 9.97333 11.0792 9.97333 10.6425V6.88416C9.97333 6.50446 10.2811 6.19666 10.6608 6.19666Z" fill="#E65F2B" />
-  </svg>
-);
-const EngagementIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M16.96 6.16992C18.96 7.55992 20.34 9.76992 20.62 12.3199"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M3.49023 12.3702C3.75023 9.83021 5.11023 7.62021 7.09023 6.22021"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M8.19043 20.9399C9.35043 21.5299 10.6704 21.8599 12.0604 21.8599C13.4004 21.8599 14.6604 21.5599 15.7904 21.0099"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M12.0603 7.70014C13.5956 7.70014 14.8403 6.45549 14.8403 4.92014C14.8403 3.38479 13.5956 2.14014 12.0603 2.14014C10.5249 2.14014 9.28027 3.38479 9.28027 4.92014C9.28027 6.45549 10.5249 7.70014 12.0603 7.70014Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M4.8298 19.9199C6.36516 19.9199 7.60981 18.6752 7.60981 17.1399C7.60981 15.6045 6.36516 14.3599 4.8298 14.3599C3.29445 14.3599 2.0498 15.6045 2.0498 17.1399C2.0498 18.6752 3.29445 19.9199 4.8298 19.9199Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M19.1696 19.9199C20.705 19.9199 21.9496 18.6752 21.9496 17.1399C21.9496 15.6045 20.705 14.3599 19.1696 14.3599C17.6343 14.3599 16.3896 15.6045 16.3896 17.1399C16.3896 18.6752 17.6343 19.9199 19.1696 19.9199Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-const ActiveEngagementIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20.3601 12.7301C19.9901 12.7301 19.6801 12.4501 19.6401 12.0801C19.4001 9.88007 18.2201 7.90007 16.4001 6.64007C16.0701 6.41007 15.9901 5.96007 16.2201 5.63007C16.4501 5.30007 16.9001 5.22007 17.2301 5.45007C19.4001 6.96007 20.8001 9.32007 21.0901 11.9301C21.1301 12.3301 20.8401 12.6901 20.4401 12.7301C20.4101 12.7301 20.3901 12.7301 20.3601 12.7301Z"
-      fill="#E65F2B"
-    />
-    <path
-      d="M3.74004 12.7802C3.72004 12.7802 3.69004 12.7802 3.67004 12.7802C3.27004 12.7402 2.98004 12.3802 3.02004 11.9802C3.29004 9.3702 4.67004 7.0102 6.82004 5.4902C7.14004 5.2602 7.60004 5.3402 7.83004 5.6602C8.06004 5.9902 7.98004 6.4402 7.66004 6.6702C5.86004 7.9502 4.69004 9.9302 4.47004 12.1202C4.43004 12.5002 4.11004 12.7802 3.74004 12.7802Z"
-      fill="#E65F2B"
-    />
-    <path
-      d="M15.9901 21.0998C14.7601 21.6898 13.4401 21.9898 12.0601 21.9898C10.6201 21.9898 9.2501 21.6698 7.9701 21.0198C7.6101 20.8498 7.4701 20.4098 7.6501 20.0498C7.8201 19.6898 8.2601 19.5498 8.6201 19.7198C9.2501 20.0398 9.9201 20.2598 10.6001 20.3898C11.5201 20.5698 12.4601 20.5798 13.3801 20.4198C14.0601 20.2998 14.7301 20.0898 15.3501 19.7898C15.7201 19.6198 16.1601 19.7598 16.3201 20.1298C16.5001 20.4898 16.3601 20.9298 15.9901 21.0998Z"
-      fill="#E65F2B"
-    />
-    <path
-      d="M12.05 2.00977C10.5 2.00977 9.22998 3.26977 9.22998 4.82977C9.22998 6.38977 10.49 7.64977 12.05 7.64977C13.61 7.64977 14.87 6.38977 14.87 4.82977C14.87 3.26977 13.61 2.00977 12.05 2.00977Z"
-      fill="#E65F2B"
-    />
-    <path
-      d="M5.04998 13.8701C3.49998 13.8701 2.22998 15.1301 2.22998 16.6901C2.22998 18.2501 3.48998 19.5101 5.04998 19.5101C6.60998 19.5101 7.86998 18.2501 7.86998 16.6901C7.86998 15.1301 6.59998 13.8701 5.04998 13.8701Z"
-      fill="#E65F2B"
-    />
-    <path
-      d="M18.9499 13.8701C17.3999 13.8701 16.1299 15.1301 16.1299 16.6901C16.1299 18.2501 17.3899 19.5101 18.9499 19.5101C20.5099 19.5101 21.7699 18.2501 21.7699 16.6901C21.7699 15.1301 20.5099 13.8701 18.9499 13.8701Z"
-      fill="#E65F2B"
-    />
   </svg>
 );
 
@@ -299,24 +153,12 @@ const navItems = [
     icon2: <ActiveUserIcon />,
     link: "/internal/users",
   },
-  // {
-  //   text: "Agreements",
-  //   icon: <AgreementsIcon />,
-  //   icon2: <ActiveAgreementsIcon />,
-  //   link: "/internal/agreements",
-  // },
   {
     text: "Finance",
     icon: <FinanceIcon />,
     icon2: <ActiveFinanceIcon />,
     link: "/internal/finance",
   },
-  // {
-  //   text: "Engagement",
-  //   icon: <EngagementIcon />,
-  //   icon2: <ActiveEngagementIcon />,
-  //   link: "/internal/engagement",
-  // },
   {
     text: "Recents",
     icon: <RecentIcon />,
@@ -326,12 +168,11 @@ const navItems = [
 ];
 
 
-
-
 function NavigationLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -376,10 +217,16 @@ function NavigationLayout() {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    width: open
-      ? `calc(100% - ${drawerWidth}px)`
-      : `calc(100% - ${theme.spacing(8)})`,
-    marginLeft: open ? drawerWidth : 0,
+    width: {
+      xs: '100%', // Full width on mobile
+      sm: '100%', // Full width on small tablets
+      md: open ? `calc(100% - ${drawerWidth}px)` : `calc(100% - ${theme.spacing(8)})`
+    },
+    marginLeft: {
+      xs: 0, // No margin on mobile
+      sm: 0, // No margin on small tablets
+      md: open ? drawerWidth : 0
+    },
   };
 
   const drawerStyle = {
@@ -388,10 +235,12 @@ function NavigationLayout() {
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     backgroundColor: "#000000",
+    display: { xs: 'none', md: 'block' }, // Hide on mobile/small tablets
     ...(open ? openedMixinStyle : closedMixinStyle),
     "& .MuiDrawer-paper": {
       ...(open ? openedMixinStyle : closedMixinStyle),
       backgroundColor: "#000000",
+      display: { xs: 'none', md: 'block' }, // Hide on mobile/small tablets
     },
   };
 
@@ -443,33 +292,84 @@ function NavigationLayout() {
     }
   };
 
-
-  const location = useLocation();
-  const isMessageRouteActive =
-    location.pathname === "/hiring-dog/client/message";
-
-
-
   return (
     <Box sx={{ display: "flex" }}>
-      {/* AppBar Top Nav Bar */}
-      <AppBar position="fixed" sx={{ ...appBarStyle, backgroundColor: "#EBDFD7", height: "64px" }} >
-        <div className="flex items-center justify-end h-full mt-[6px]">
-          <div className="flex h-full">
+      <CssBaseline />
+
+      {/* AppBar Top Nav Bar - Now responsive */}
+      <AppBar
+        position="fixed"
+        sx={{ ...appBarStyle, backgroundColor: "#EBDFD7", height: "64px" }}
+      >
+        <div className="flex items-center justify-between h-full mt-[8px] px-3">
+          {/* Logo section - SVG for mobile, image for tablets */}
+          <div className="flex items-center">
+            {/* SVG Logo - Only visible on small screens up to 640px */}
+            <div className="flex items-center sm:hidden -mt-2">
+              <svg
+                width="36"
+                height="40"
+                viewBox="0 0 182 258"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0 114V186V258H30V186H30.0024C30.0024 180.485 31.0887 175.024 33.1993 169.928C35.3099 164.833 38.4034 160.203 42.3032 156.303C46.203 152.403 50.8328 149.31 55.9282 147.199C61.0236 145.089 66.4848 144.002 72 144.002V144H79V114H72C62.5448 114 53.1822 115.862 44.4468 119.481C39.3265 121.602 34.4805 124.301 30 127.519V114H0Z"
+                  fill="#000000"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M110 114L110 113.998C115.515 113.998 120.976 112.911 126.072 110.801C131.167 108.69 135.797 105.597 139.697 101.697C143.597 97.797 146.69 93.1672 148.801 88.0718C150.911 82.9764 151.998 77.5152 151.998 72C151.998 66.4848 150.911 61.0236 148.801 55.9282C146.69 50.8328 143.597 46.203 139.697 42.3032C135.797 38.4034 131.167 35.3099 126.072 33.1993C120.976 31.0887 115.515 30.0024 110 30.0024L110 0C119.455 0 128.818 1.86233 137.553 5.48067C146.289 9.09901 154.226 14.4025 160.912 21.0883C167.598 27.7741 172.901 35.7113 176.519 44.4468C180.138 53.1822 182 62.5448 182 72C182 81.4552 180.138 90.8178 176.519 99.5532C172.901 108.289 167.598 116.226 160.912 122.912C158.732 125.092 156.419 127.125 153.989 129C156.419 130.875 158.732 132.908 160.912 135.088C167.598 141.774 172.901 149.711 176.519 158.447C180.138 167.182 182 176.545 182 186V258H152V186H151.998C151.998 180.485 150.911 175.024 148.801 169.928C146.69 164.833 143.597 160.203 139.697 156.303C135.797 152.403 131.167 149.31 126.072 147.199C120.976 145.089 115.515 144.002 110 144.002L110 144H103V114H110Z"
+                  fill="#E65F2B"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0 30V72V90H30V72H30.0024C30.0024 66.4848 31.0887 61.0236 33.1993 55.9282C35.3099 50.8328 38.4034 46.203 42.3032 42.3032C46.203 38.4034 50.8328 35.3099 55.9282 33.1993C61.0236 31.0887 66.4848 30.0024 72 30.0024V30H110V0H72H30H0V30Z"
+                  fill="#E65F2B"
+                />
+              </svg>
+            </div>
+
+            {/* Photo Logo - Only visible from 640px to 900px */}
+            <div className="hidden sm:block md:block lg:hidden -mt-2">
+              <img
+                src={Recrumeta}
+                alt="Recrumeta Logo"
+                className="h-12 w-auto object-contain"
+                style={{ display: 'var(--display-logo, "block")' }}
+              />
+            </div>
+
+            {/* Add this script to hide the logo at 900px */}
+            <style jsx>{`
+              @media (min-width: 900px) {
+                :root {
+                  --display-logo: none;
+                }
+              }
+            `}</style>
+          </div>
+
+          {/* User Profile Section - Now aligned to right */}
+          <div className="flex h-full ml-auto">
             <div
-              className={`right-4 ml-6 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
+              className={`right-1 sm:right-4 bg-white w-auto h-12 flex items-center justify-start p-2 cursor-pointer ${isDropdownOpen ? "rounded-t-2xl" : "rounded-full"
                 } relative transition-all duration-100 ring-1 ring-black ring-opacity-5 z-10`}
               ref={dropdownRef}
               onClick={toggleDropdown}
             >
-              <div className="w-9 h-9 rounded-3xl bg-white overflow-hidden mr-2">
+              <div className="w-9 h-9 rounded-3xl bg-white overflow-hidden">
                 <img
                   src={Profile}
                   alt="User Logo"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
+              <div className="ml-2">
                 <p className="text-black text-xl font-medium">{username || "Guest"}</p>
               </div>
               <div className="px-1">
@@ -498,31 +398,46 @@ function NavigationLayout() {
                   transformOrigin: 'top',
                 }}
               >
+                {/* Dropdown Menu */}
                 <div
-                  className="py-1"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="user-menu"
+                  className={`absolute right-0 w-full bg-white rounded-b-2xl shadow-lg ring-1 ring-black ring-opacity-5 z-10 transition-all duration-300 origin-top ${isDropdownOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
+                    }`}
+                  style={{
+                    top: '100%',
+                    marginTop: '0px',
+                    borderTopLeftRadius: '0',
+                    borderTopRightRadius: '0',
+                    transformOrigin: 'top',
+                  }}
                 >
-                  <a
-                    href="#"
-                    onClick={handleLogOut}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 rounded-b-xl"
-                    role="menuitem"
+                  <div
+                    className="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu"
                   >
-                    <div className="flex items-center">
-                      <svg width="26" height="26" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span className="ml-3 text-[18px]">Logout</span>
-                    </div>
-                  </a>
+                    <a
+                      href="#"
+                      onClick={handleLogOut}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 rounded-b-xl"
+                      role="menuitem"
+                    >
+                      <div className="flex items-center">
+                        <svg width="26" height="26" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12.75 12L15.75 9M15.75 9L12.75 6M15.75 9H5.25M9.75 12V12.75C9.75 13.3467 9.51295 13.919 9.09099 14.341C8.66903 14.7629 8.09674 15 7.5 15H4.5C3.90326 15 3.33097 14.7629 2.90901 14.341C2.48705 13.919 2.25 13.3467 2.25 12.75V5.25C2.25 4.65326 2.48705 4.08097 2.90901 3.65901C3.33097 3.23705 3.90326 3 4.5 3H7.5C8.09674 3 8.66903 3.23705 9.09099 3.65901C9.51295 4.08097 9.75 4.65326 9.75 5.25V6" stroke="#E65F2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="ml-3 text-[18px]">Logout</span>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </AppBar>
+
+      {/* Drawer - Hidden on mobile/small tablets */}
       <Drawer
         variant="permanent"
         open={open}
@@ -534,7 +449,6 @@ function NavigationLayout() {
               variant="subtitle1"
               sx={{
                 fontWeight: "bold",
-                ml: 1,
               }}
             >
               <svg
@@ -544,10 +458,12 @@ function NavigationLayout() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                {/* Your SVG path data remains unchanged */}
                 <path
                   d="M60 185.674V328H90V256.837H90.0024C90.0024 251.386 91.0887 245.988 93.1993 240.952C95.3099 235.916 98.4034 231.34 102.303 227.486C106.203 223.631 110.833 220.574 115.928 218.488C121.024 216.402 126.485 215.328 132 215.328V215.325H139V185.674H132C122.545 185.674 113.182 187.515 104.447 191.091C99.3265 193.187 94.4805 195.856 90 199.036V185.674H60Z"
                   fill="white"
                 />
+                {/* Rest of SVG paths remain as they were */}
                 <path
                   d="M220.912 194.482C218.732 196.637 216.419 198.646 213.989 200.5C216.419 202.354 218.732 204.363 220.912 206.518C227.598 213.126 232.901 220.971 236.519 229.604C240.138 238.238 242 247.492 242 256.837V328H212V256.837H211.998C211.998 251.386 210.911 245.988 208.801 240.952C206.69 235.916 203.597 231.34 199.697 227.486C195.797 223.631 191.167 220.574 186.072 218.488C180.976 216.402 175.515 215.328 170 215.328V215.326H163V185.674H170V185.672C175.515 185.672 180.976 184.598 186.072 182.512C191.167 180.426 195.797 177.369 199.697 173.514C203.597 169.66 206.69 165.084 208.801 160.048C210.911 155.012 211.998 149.614 211.998 144.163C211.998 138.712 210.911 133.314 208.801 128.278C206.69 123.242 203.597 118.666 199.697 114.811C195.797 110.957 191.167 107.899 186.072 105.813C180.976 103.727 175.515 102.654 170 102.654V73C179.455 73 188.818 74.8407 197.553 78.4169C206.289 81.9932 214.226 87.235 220.912 93.8431C227.598 100.451 232.901 108.296 236.519 116.93C240.138 125.564 242 134.818 242 144.163C242 153.508 240.138 162.762 236.519 171.396C232.901 180.029 227.598 187.874 220.912 194.482Z"
                   fill="#E65F2B"
@@ -627,23 +543,6 @@ function NavigationLayout() {
             </Typography>
           )}
         </Box>
-
-        {/* <DrawerHeader>
-          <div className="flex items-center justify-around h-full w-full">
-            <div>
-              <h1 className="text-2xl text-[white]">Hi, Ashok</h1>
-            </div>
-            <div>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "rtl" ? (
-                  <CustomChevronRightIcon />
-                ) : (
-                  <CustomChevronLeftIcon color="white000" text="white000" />
-                )}
-              </IconButton>
-            </div>
-          </div>
-        </DrawerHeader> */}
         <Divider />
 
         <List sx={{ border: "none", top: "40px" }}>
@@ -652,7 +551,6 @@ function NavigationLayout() {
               key={items.text}
               disablePadding
               sx={{
-
                 borderRadius: "25px",
                 overflow: "hidden",
                 display: "flex",
@@ -693,7 +591,7 @@ function NavigationLayout() {
                     "& .MuiTypography-root": {
                       fontWeight: location.pathname.startsWith(items.link)
                         ? 600
-                        : "normal", // Font weight for active route
+                        : "normal",
                     },
                   }}
                 />
@@ -703,24 +601,70 @@ function NavigationLayout() {
         </List>
       </Drawer>
 
+      {/* Mobile Bottom Navigation */}
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          bgcolor: '#000000',
+          display: { xs: 'flex', md: 'none' }, // Show on mobile and small tablets, hide on larger screens
+          zIndex: theme.zIndex.drawer + 1,
+          boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-around', py: 1 }}>
+          {navItems.map((item) => (
+            <Box
+              key={item.text}
+              onClick={() => navigate(item.link)}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px 0',
+                flex: 1,
+                color: location.pathname.startsWith(item.link) ? '#E65F2B' : 'white',
+                cursor: 'pointer',
+              }}
+            >
+              {location.pathname.startsWith(item.link) ? item.icon2 : item.icon}
+              <Typography
+                variant="caption"
+                sx={{
+                  mt: 0.5,
+                  fontSize: { xs: '10px', sm: '12px' }, // Slightly larger text on tablets
+                  fontWeight: location.pathname.startsWith(item.link) ? 600 : 400
+                }}
+              >
+                {item.text}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
 
+      {/* Toggle Button for Drawer - Only on desktop */}
       <Box
         sx={{
           position: "fixed",
           left: open ? drawerWidth - 12 : theme.spacing(6),
-          top: "55px", // Adjust as needed to position vertically
-          zIndex: theme.zIndex.drawer + 2, // Ensure it's above the drawer
+          top: "55px",
+          zIndex: theme.zIndex.drawer + 2,
           transition: theme.transitions.create(["left"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
+          display: { xs: 'none', md: 'block' } // Only show on desktop
         }}>
         <IconButton
           onClick={open ? handleDrawerClose : handleDrawerOpen}
           sx={{
             backgroundColor: "white",
             boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
-            padding: "4px",
+            padding: "3px",
             "&:hover": {
               backgroundColor: "#f5f5f5",
             },
@@ -729,9 +673,13 @@ function NavigationLayout() {
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
       </Box>
+
+      {/* Main Content Area */}
       <Box component="main" sx={{
-        // flexGrow: 1, p: 3, 
-        // backgroundColor:"green"
+        width: '100%',
+        height: '100%',
+        pb: { xs: '70px', md: 0 }, // Add padding for mobile bottom navigation
+        pl: { xs: 0, md: open ? 0 : 0 } // Adjust padding based on drawer state
       }}
         className="w-full h-full"
       >

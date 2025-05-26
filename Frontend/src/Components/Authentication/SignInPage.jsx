@@ -393,8 +393,8 @@ function SignInPage() {
                                 Select Your Role
                               </option>
                               <option value="CLIENT">Client</option>
-                              <option value="INTERVIEWER">Interviewer</option>
                               <option value="INTERNAL">Internal</option>
+                              <option value="INTERVIEWER">Interviewer</option>
                             </select>
 
                             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">

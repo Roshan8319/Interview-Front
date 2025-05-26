@@ -475,19 +475,19 @@ function AddInterviewer() {
           right: '40px',
         }}
       />
-      <form className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md">
+      <form className="m-2 p-6 sm:p-6 w-full sm:w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md overflow-y-auto">
         <div className="">
           <div>
-            <p className="text-[24px] font-semibold">Add Interviewer</p>
+            <p className="text-[20px] sm:text-[24px] font-semibold mb-2 -mt-2">Add Interviewer</p>
           </div>
 
           {/* Profile Pic */}
           <div className="pt-2">
             <ul className="grid">
-              <li className="flex items-center justify-center gap-x-4 ">
+              <li className="flex items-center justify-center gap-x-4">
                 <div className="w-full max-w-md mx-auto">
                   <div
-                    className="relative w-[150px] h-[150px] mx-auto rounded-full border-2 border-dashed border-[#E65F2B] hover:border-[#E65F2B] transition-all duration-300 group"
+                    className="relative w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] mx-auto rounded-full border-2 border-dashed border-[#E65F2B] hover:border-[#E65F2B] transition-all duration-300 group"
                     onClick={triggerFileInput}
                   >
                     {/* Preview or Placeholder */}
@@ -499,14 +499,14 @@ function AddInterviewer() {
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full text-gray-500 group-hover:text-[#E65F2B] transition-colors">
-                        <Camera className="w-[40px] h-[40px] mb-2" />
-                        <span className="text-sm text-center">Upload Profile <br />Photo</span>
+                        <Camera className="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] mb-1 sm:mb-2" />
+                        <span className="text-xs sm:text-sm text-center">Upload Profile <br />Photo</span>
                       </div>
                     )}
 
                     {/* Overlay for hover and file actions */}
                     <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Upload className="w-8 h-8 text-white" />
+                      <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                     </div>
 
                     {/* Remove Button - Only show when image is selected */}
@@ -518,14 +518,14 @@ function AddInterviewer() {
                         }}
                         className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     )}
 
                     {/* Success Indicator */}
                     {selectedFile && (
                       <div className="absolute bottom-0 right-0 bg-green-500 text-white rounded-full p-1">
-                        <CheckCircle className="w-5 h-5" />
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
                     )}
                   </div>
@@ -554,11 +554,11 @@ function AddInterviewer() {
           </div>
 
           {/* Data 1 */}
-          <div className="pt-4">
-            <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+          <div className="pt-4 p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-10 gap-y-2">
               {/* First Row */}
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">First Name</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">First Name</label>
                 <input
                   type="text"
                   name="firstName"
@@ -571,7 +571,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Last Name</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Last Name</label>
                 <input
                   type="text"
                   name="lastName"
@@ -584,7 +584,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Email</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Email</label>
                 <input
                   type="email"
                   name="email"
@@ -598,7 +598,7 @@ function AddInterviewer() {
 
               {/* Second Row */}
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Phone</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Phone</label>
                 <input
                   type="number"
                   name="phone"
@@ -617,7 +617,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Password</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Password</label>
                 <input
                   type="password"
                   name="password"
@@ -630,7 +630,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Confirm Password</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Confirm Password</label>
                 <input
                   type="password"
                   name="confirmPassword"
@@ -645,11 +645,11 @@ function AddInterviewer() {
           </div>
 
           {/* Data 2 */}
-          <div className="pt-6">
-            <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+          <div className="pt-4 p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-10 gap-y-2">
               {/* First Row */}
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Current Comapny</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Current Comapny</label>
                 <input
                   type="text"
                   name="currentCompany"
@@ -662,7 +662,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Current Designation</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Current Designation</label>
                 <input
                   type="text"
                   name="currentDesignation"
@@ -675,7 +675,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Job Title</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Job Title</label>
                 <input
                   type="text"
                   name="jobTitle"
@@ -689,7 +689,7 @@ function AddInterviewer() {
 
               {/* Second Row */}
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">LinkedIn URL</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">LinkedIn URL</label>
                 <input
                   type="url"
                   name="linkedInUrl"
@@ -702,7 +702,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Work Experience</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Work Experience</label>
                 <input
                   type="number"
                   name="experienceInYears"
@@ -722,7 +722,7 @@ function AddInterviewer() {
               </div>
 
               <div className="flex flex-col">
-                <label className="mb-2 text-gray-700">Interview Experience</label>
+                <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Interview Experience</label>
                 <input
                   type="number"
                   name="interviewExperience"
@@ -744,15 +744,16 @@ function AddInterviewer() {
           </div>
 
           {/* Data 3 */}
-          <div className="grid grid-cols-3 gap-x-10 gap-y-2 pt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-10 gap-y-4 pt-4 sm:pt-6 p-4">
             {/* Strength Dropdown */}
             <div className="flex flex-col">
-              <label className="mb-2 text-gray-700">Strength</label>
-              <div className="w-52 relative">
+              <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Strength</label>
+              <div className="relative w-full sm:w-52">
                 <select
+                  id="strengthDropdown"
                   value={selectedStrength}
                   onChange={handleStrengthSelection}
-                  className="w-52 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] appearance-none cursor-pointer"
+                  className="w-full sm:w-52 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[14px] sm:text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] appearance-none cursor-pointer"
                 >
                   <option value="" disabled>Select Strength</option>
                   <option value="Backend">Backend</option>
@@ -762,7 +763,10 @@ function AddInterviewer() {
                   <option value="AI/ML">AI/ML</option>
                   <option value="Data Engineering">Data Engineering</option>
                 </select>
-                <div className='absolute right-[8%] bottom-[38%]'>
+                <div
+                  className='absolute right-[8%] bottom-[38%] cursor-pointer'
+                  onClick={() => document.getElementById('strengthDropdown').focus()}
+                >
                   <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
                   </svg>
@@ -772,12 +776,13 @@ function AddInterviewer() {
 
             {/* Skills Dropdown */}
             <div className="flex flex-col">
-              <label className="mb-2 text-gray-700">Skills</label>
-              <div className="w-52 relative">
+              <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Skills</label>
+              <div className="relative w-full sm:w-52">
                 <select
+                  id="skillsDropdown"
                   value={selectedSkill}
                   onChange={handleSkillSelection}
-                  className="w-52 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] appearance-none cursor-pointer"
+                  className="w-full sm:w-52 h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[14px] sm:text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B] appearance-none cursor-pointer"
                 >
                   <option value="" disabled>Select Skills</option>
                   <option value="Python">Python</option>
@@ -786,7 +791,10 @@ function AddInterviewer() {
                   <option value="DSA">DSA</option>
                   <option value="OOPS">OOPS</option>
                 </select>
-                <div className='absolute right-[8%] bottom-[38%]'>
+                <div
+                  className='absolute right-[8%] bottom-[38%] cursor-pointer'
+                  onClick={() => document.getElementById('skillsDropdown').focus()}
+                >
                   <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.822754 0.999939L6.85146 6.99994L12.8802 0.999939" stroke="#797979" stroke-width="1.5" />
                   </svg>
@@ -798,12 +806,12 @@ function AddInterviewer() {
                 {itemsSkills.map((skill, index) => (
                   <div
                     key={index}
-                    className="flex items-center px-3 py-1 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
+                    className="flex items-center px-3 py-1 border-2 rounded-xl outline-none transition-all duration-200 text-[14px] sm:text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                   >
                     {skill}
                     <button
                       onClick={() => removeSkill(skill)}
-                      className="ml-3 text-red-500"
+                      className="ml-2 sm:ml-3 text-red-500"
                     >
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.8 11.25L0.75 10.2L4.95 6L0.75 1.8L1.8 0.75L6 4.95L10.2 0.75L11.25 1.8L7.05 6L11.25 10.2L10.2 11.25L6 7.05L1.8 11.25Z" fill="currentColor" />
@@ -817,7 +825,7 @@ function AddInterviewer() {
 
 
           {/* Data 4 */}
-          <div className="flex justify-end">
+          <div className="flex justify-end mr-4">
             <button
               onClick={handleSubmit}
               disabled={isLoading}

@@ -52,39 +52,39 @@ function Dashboard() {
 
 
   return (
-    <div className='min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6'>
-      <div className="flex flex-col w-full gap-6">
-        {/* First Row - Two Columns */}
-        <div className="grid grid-cols-2 gap-6">
+    <div className='min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-2 sm:p-4 md:p-6'>
+      <div className="flex flex-col w-full gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-0 mb-4 sm:mb-0">
+        {/* First Row - Two Columns (one column on mobile) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
           {/* Interviewers Section */}
-          <div className="bg-[#ffffff57] rounded-xl p-4 shadow-sm">
+          <div className="bg-[#ffffff57] rounded-xl p-3 sm:p-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <div className="space-y-2">
+              <div className="space-y-1 sm:space-y-2">
                 <div className="flex items-center justify-between w-full">
-                  <CardTitle className="text-xl font-semibold text-gray-800">
+                  <CardTitle className="text-base sm:text-lg md:text-xl font-semibold text-gray-800">
                     Interviewers
-                    <span className="text-white text-sm font-normal bg-[#E65F2B] ml-2 px-2 py-1 rounded-full">
+                    <span className="text-white text-xs sm:text-sm font-normal bg-[#E65F2B] ml-1 sm:ml-2 px-1 sm:px-2 py-0.5 sm:py-1 rounded-full">
                       {interviewerData.reduce((acc, curr) => acc + curr.value, 0)}
                     </span>
                   </CardTitle>
                 </div>
-                <CardDescription className="text-gray-500 flex items-center">
+                <CardDescription className="text-xs sm:text-sm text-gray-500 flex items-center">
                   More than last month
-                  <TrendingUp className="h-3 w-3 ml-1 text-green-600" />
+                  <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3 ml-1 text-green-600" />
                 </CardDescription>
               </div>
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-green-600 bg-green-50">
+              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium text-green-600 bg-green-50">
                 +12.5%
-                <TrendingUp className="h-3 w-3 ml-1" />
+                <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3 ml-1" />
               </span>
             </div>
-            <div className="h-[250px] mt-4">
+            <div className="h-[200px] sm:h-[220px] md:h-[250px] mt-2 sm:mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={interviewerData}
-                    innerRadius={80}
-                    outerRadius={120}
+                    innerRadius={50}
+                    outerRadius={80}
                     paddingAngle={2}
                     dataKey="value"
                   >
@@ -112,27 +112,27 @@ function Dashboard() {
           </div>
 
           {/* Clients Section */}
-          <div className="bg-[#ffffff57] rounded-xl p-4 shadow-sm">
+          <div className="bg-[#ffffff57] rounded-xl p-3 sm:p-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <div className="space-y-2">
+              <div className="space-y-1 sm:space-y-2">
                 <div className="flex items-center justify-between w-full">
-                  <CardTitle className="text-xl font-semibold text-gray-800">Clients</CardTitle>
+                  <CardTitle className="text-base sm:text-lg md:text-xl font-semibold text-gray-800">Clients</CardTitle>
                 </div>
-                <CardDescription className="text-gray-500 flex items-center">
+                <CardDescription className="text-xs sm:text-sm text-gray-500 flex items-center">
                   New clients onboarded last quarter
-                  <TrendingUp className="h-3 w-3 ml-1 text-green-600" />
+                  <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3 ml-1 text-green-600" />
                 </CardDescription>
               </div>
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-green-600 bg-green-50">
+              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium text-green-600 bg-green-50">
                 +6.5%
-                <TrendingUp className="h-3 w-3 ml-1" />
+                <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3 ml-1" />
               </span>
             </div>
-            <div className="h-[250px] mt-4">
+            <div className="h-[200px] sm:h-[220px] md:h-[250px] mt-2 sm:mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={clientData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} width={40} />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} fontSize={10} sm:fontSize={12} />
+                  <YAxis axisLine={false} tickLine={false} width={30} sm:width={40} fontSize={10} sm:fontSize={12} />
                   <Tooltip
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
@@ -149,10 +149,10 @@ function Dashboard() {
                       fill: '#F3F4F6',
                       opacity: 0.2,
                       strokeWidth: 0,
-                      width: 30  // This controls the width of the grey highlight
+                      width: 30
                     }}
                   />
-                  <Bar dataKey="value" fill="#E65F2B" radius={[4, 4, 0, 0]} barSize={60} />
+                  <Bar dataKey="value" fill="#E65F2B" radius={[4, 4, 0, 0]} barSize={40} sm:barSize={50} md:barSize={60} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -160,23 +160,23 @@ function Dashboard() {
         </div>
 
         {/* Second Row - Full Width */}
-        <div className="bg-[#ffffff57] rounded-xl p-4 shadow-sm">
+        <div className="bg-[#ffffff57] rounded-xl p-3 sm:p-4 shadow-sm">
           <div className="flex items-center justify-between">
-            <div className="space-y-2">
+            <div className="space-y-1 sm:space-y-2">
               <div className="flex items-center justify-between w-full">
-                <CardTitle className="text-xl font-semibold text-gray-800">Details Overview</CardTitle>
+                <CardTitle className="text-base sm:text-lg md:text-xl font-semibold text-gray-800">Details Overview</CardTitle>
               </div>
-              <CardDescription className="text-gray-500 flex items-center">
+              <CardDescription className="text-xs sm:text-sm text-gray-500 flex items-center">
                 Snapshot of platform activity
-                <TrendingDown className="h-3 w-3 ml-1 text-red-600" />
+                <TrendingDown className="h-2 w-2 sm:h-3 sm:w-3 ml-1 text-red-600" />
               </CardDescription>
             </div>
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-red-600 bg-red-50">
+            <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium text-red-600 bg-red-50">
               +9.3%
-              <TrendingDown className="h-3 w-3 ml-1" />
+              <TrendingDown className="h-2 w-2 sm:h-3 sm:w-3 ml-1" />
             </span>
           </div>
-          <div className="h-[250px] mt-4">
+          <div className="h-[200px] sm:h-[220px] md:h-[250px] mt-2 sm:mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={areaChartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                 <defs>

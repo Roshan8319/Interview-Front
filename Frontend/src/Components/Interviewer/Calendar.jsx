@@ -1,10 +1,40 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { gapi } from 'gapi-script';
 import toast, { Toaster } from 'react-hot-toast';
+import { Calendar as CalendarComponent } from "@/Components/Ui/Calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/Components/Ui/Popover";
+import { Button } from "@/Components/Ui/Button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/Components/Ui/Select";
+import { Input } from "@/Components/Ui/Input";
+import { Textarea } from "@/Components/Ui/Textarea";
+import { Label } from "@/Components/Ui/Label";
+import { CalendarIcon, Clock, X, HelpCircle, Info, ChevronLeft, ChevronRight } from "lucide-react";
+import { format, parse, isValid, addDays } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/Components/Ui/Tooltip";
+import { ScrollArea } from "@/Components/Ui/ScrollArea";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/Ui/Dialog";
+
+const animationCSS = `
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.event-animation {
+  animation: fadeIn 0.3s ease-in-out;
+}
+`;
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
-    const [view, setView] = useState('week'); // 'week' or 'month'
+    const [view, setView] = useState('month'); // 'week' or 'month'
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,6 +49,12 @@ const Calendar = () => {
     const [showEventModal, setShowEventModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showEventDetails, setShowEventDetails] = useState(false);
+    // Add state for tracking window width for responsive design
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    // Get responsive styles based on current window width
+    const isMobile = windowWidth < 768;
+    const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
     // Google Calendar API credentials - replace with your own
     const API_KEY = 'AIzaSyBFyi8vbQyzOMDJcVSC6hMAy0ZY1Fl90m8';
@@ -26,13 +62,87 @@ const Calendar = () => {
     const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
     const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
+    // Inject custom CSS animations
+    useEffect(() => {
+        const style = document.createElement('style');
+        style.innerHTML = animationCSS + `
+        html, body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #root {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .calendar-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            height: 100vh;
+            overflow: hidden;
+        }
+    `;
+        document.head.appendChild(style);
+
+        return () => {
+            document.head.removeChild(style);
+        };
+    }, []);
+
+    // Add event listener for window resize
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const showToast = useCallback((message, type = 'info') => {
+        const options = {
+            duration: 3000,
+            position: 'bottom-right',
+            className: 'shadow-md',
+            style: {
+                background: '#FFFFFF',
+                color: '#374151',
+                border: '2px solid #e5e7eb',
+                borderRadius: '0.5rem'
+            }
+        };
+
         if (type === 'success') {
-            toast.success(message);
+            toast.success(message, {
+                ...options,
+                style: {
+                    ...options.style,
+                    border: '2px solid #E65F2B',
+                },
+                iconTheme: {
+                    primary: '#E65F2B',
+                    secondary: 'white',
+                },
+            });
         } else if (type === 'error') {
-            toast.error(message);
+            toast.error(message, {
+                ...options,
+                style: {
+                    ...options.style,
+                    border: '2px solid #EF4444',
+                },
+                iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                },
+            });
         } else {
-            toast(message);
+            toast(message, options);
         }
     }, []);
 
@@ -76,6 +186,7 @@ const Calendar = () => {
     }, [currentDate, view, isAuthenticated, showToast]);
 
     const updateSigninStatus = useCallback((isSignedIn) => {
+        console.log("Auth status update:", isSignedIn, "Previous auth status:", isAuthenticated);
         if (isSignedIn !== isAuthenticated) {
             setIsAuthenticated(isSignedIn);
             if (isSignedIn) {
@@ -87,6 +198,7 @@ const Calendar = () => {
                 showToast('Signed out successfully', 'info');
             }
         } else {
+            console.log("Auth status unchanged, but function still running");
             setIsAuthenticated(isSignedIn);
             if (isSignedIn) {
                 loadEvents();
@@ -175,6 +287,9 @@ const Calendar = () => {
             return;
         }
 
+        // Show loading toast
+        const loadingToastId = toast.loading('Creating event...');
+
         const event = {
             summary: newEvent.title,
             description: newEvent.description,
@@ -185,13 +300,24 @@ const Calendar = () => {
             end: {
                 dateTime: endDateTime,
                 timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            }
+            },
+            // Add reminder notifications
+            reminders: {
+                useDefault: false,
+                overrides: [
+                    { method: 'email', minutes: 24 * 60 }, // 1 day before
+                    { method: 'popup', minutes: 30 }, // 30 minutes before
+                ],
+            },
         };
 
         gapi.client.calendar.events.insert({
             calendarId: 'primary',
             resource: event
-        }).then(() => {
+        }).then((response) => {
+            // Dismiss loading toast
+            toast.dismiss(loadingToastId);
+
             setShowEventModal(false);
             setNewEvent({
                 title: '',
@@ -201,9 +327,40 @@ const Calendar = () => {
                 endDate: '',
                 endTime: '',
             });
+
+            // Get the created event details
+            const createdEvent = response.result;
+            const eventDate = new Date(createdEvent.start.dateTime || createdEvent.start.date);
+
+            // Update the calendar view to show the date of the new event
+            setCurrentDate(eventDate);
+
+            // Switch to appropriate view based on event duration
+            const startDate = new Date(createdEvent.start.dateTime || createdEvent.start.date);
+            const endDate = new Date(createdEvent.end.dateTime || createdEvent.end.date);
+            const durationInDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+            if (durationInDays > 1) {
+                setView('month');
+            } else {
+                setView('week');
+            }
+
+            // Then reload events to show the new event
             loadEvents();
-            showToast('Event created successfully', 'success');
+
+            // Show success toast with event details
+            showToast(
+                <div className="flex flex-col">
+                    <span className="font-medium">Event created successfully</span>
+                    <span className="text-xs mt-1">{createdEvent.summary}</span>
+                </div>,
+                'success'
+            );
         }).catch(error => {
+            // Dismiss loading toast
+            toast.dismiss(loadingToastId);
+
             console.error("Error creating event", error);
             showToast(`Failed to create event: ${error.message || 'Unknown error'}`, 'error');
         });
@@ -318,54 +475,392 @@ const Calendar = () => {
         return hours;
     };
 
+    const handleInputFocus = (e) => {
+        e.target.style.borderColor = '#E65F2B'; // Orange color when focused
+        e.target.style.boxShadow = '0 0 0 2px rgba(230, 95, 43, 0.2)'; // Light orange glow
+    };
+
+    const handleInputBlur = (e) => {
+        e.target.style.borderColor = '#e6e0da'; // Return to original color
+        e.target.style.boxShadow = 'none';
+    };
+
+    // Helper function to generate time options from 7:00 AM to 9:30 PM
+    const generateTimeOptions = () => {
+        const options = [];
+        for (let hour = 7; hour <= 21; hour++) {
+            options.push(`${hour < 10 ? '0' + hour : hour}:00`);
+            options.push(`${hour < 10 ? '0' + hour : hour}:30`);
+        }
+        return options;
+    };
+
+    const DatePickerWithPresets = ({ id, selectedDate, onDateChange, disabled, label }) => {
+        const [date, setDate] = useState(selectedDate ? new Date(selectedDate) : undefined);
+
+        // Function to handle date selection
+        const handleSelect = (newDate) => {
+            setDate(newDate);
+            // Format date as YYYY-MM-DD for the form
+            const formattedDate = format(newDate, 'yyyy-MM-dd');
+            onDateChange(formattedDate);
+        };
+
+        // Set initial date if provided
+        useEffect(() => {
+            if (selectedDate && isValid(new Date(selectedDate))) {
+                setDate(new Date(selectedDate));
+            }
+        }, [selectedDate]);
+
+        return (
+            <div className="space-y-2">
+                <Label htmlFor={id}>{label}</Label>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            id={id}
+                            variant={"outline"}
+                            className={cn(
+                                "w-full justify-start text-left font-normal bg-[#F6F1EE] border-[#e5e7eb] hover:bg-[#F2EAE5]",
+                                !date && "text-muted-foreground"
+                            )}
+                            onFocus={handleInputFocus}
+                            onBlur={handleInputBlur}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4 text-[#E65F2B]" />
+                            {date ? format(date, "PPP") : <span>Select a date</span>}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                        className="w-auto p-0"
+                        style={{ zIndex: 10000 }}
+                    >
+                        <div className="p-3 space-y-3">
+                            <div className="grid grid-cols-2 gap-2">
+                                <Button
+                                    variant="outline"
+                                    className="text-xs"
+                                    onClick={() => {
+                                        const today = new Date();
+                                        handleSelect(today);
+                                    }}
+                                >
+                                    Today
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="text-xs"
+                                    onClick={() => {
+                                        const tomorrow = addDays(new Date(), 1);
+                                        handleSelect(tomorrow);
+                                    }}
+                                >
+                                    Tomorrow
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="text-xs"
+                                    onClick={() => {
+                                        const nextWeek = addDays(new Date(), 7);
+                                        handleSelect(nextWeek);
+                                    }}
+                                >
+                                    In a week
+                                </Button>
+                            </div>
+                        </div>
+                        <CalendarComponent
+                            mode="single"
+                            selected={date}
+                            onSelect={handleSelect}
+                            disabled={disabled || ((date) => date < new Date(new Date().setHours(0, 0, 0, 0)))}
+                            initialFocus
+                            classNames={{
+                                day_selected: "bg-[#E65F2B] text-white hover:bg-[#d2542b] hover:text-white focus:bg-[#E65F2B] focus:text-white",
+                                day_today: "bg-[#FEEAE3] text-[#E65F2B]",
+                                day_range_middle: "bg-[#FEEAE3] text-[#E65F2B]",
+                                day_range_end: "bg-[#E65F2B] text-white",
+                                day_range_start: "bg-[#E65F2B] text-white",
+                            }}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    };
+
+    const TimePickerSelect = ({ id, selectedTime, onTimeChange, label }) => {
+        // Generate time options by hour category for better organization
+        const generateGroupedTimeOptions = () => {
+            const morningTimes = [];
+            const afternoonTimes = [];
+            const eveningTimes = [];
+
+            // Morning: 7:00 AM - 11:30 AM
+            for (let hour = 7; hour < 12; hour++) {
+                morningTimes.push(`${hour < 10 ? '0' + hour : hour}:00`);
+                morningTimes.push(`${hour < 10 ? '0' + hour : hour}:30`);
+            }
+
+            // Afternoon: 12:00 PM - 4:30 PM
+            for (let hour = 12; hour < 17; hour++) {
+                afternoonTimes.push(`${hour < 10 ? '0' + hour : hour}:00`);
+                afternoonTimes.push(`${hour < 10 ? '0' + hour : hour}:30`);
+            }
+
+            // Evening: 5:00 PM - 9:30 PM
+            for (let hour = 17; hour <= 21; hour++) {
+                eveningTimes.push(`${hour < 10 ? '0' + hour : hour}:00`);
+                eveningTimes.push(`${hour < 10 ? '0' + hour : hour}:30`);
+            }
+
+            return { morningTimes, afternoonTimes, eveningTimes };
+        };
+
+        const { morningTimes, afternoonTimes, eveningTimes } = generateGroupedTimeOptions();
+
+        // Format time for display (converts 24h to 12h format with AM/PM)
+        const formatTimeDisplay = (time) => {
+            const [hours, minutes] = time.split(':');
+            const hour = parseInt(hours, 10);
+            const isPM = hour >= 12;
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:${minutes} ${isPM ? 'PM' : 'AM'}`;
+        };
+
+        return (
+            <div className="space-y-2">
+                <Label htmlFor={id}>{label}</Label>
+                <Select
+                    value={selectedTime || ''}
+                    onValueChange={onTimeChange}
+                >
+                    <SelectTrigger
+                        id={id}
+                        className="bg-[#F6F1EE] border-[#e5e7eb]"
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
+                    >
+                        <SelectValue placeholder="Select time">
+                            {selectedTime ? formatTimeDisplay(selectedTime) : "Select time"}
+                        </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent style={{ zIndex: 10000 }}>
+                        <SelectGroup>
+                            <div className="px-2 py-1.5">
+                                <h4 className="text-sm font-medium text-[#E65F2B]">Quick select</h4>
+                                <div className="grid grid-cols-2 gap-1 mt-1">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-7 text-xs justify-center hover:bg-[#FEEAE3] hover:text-[#E65F2B] hover:border-[#E65F2B]"
+                                        onClick={() => onTimeChange('09:00')}
+                                    >
+                                        9:00 AM
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-7 text-xs justify-center hover:bg-[#FEEAE3] hover:text-[#E65F2B] hover:border-[#E65F2B]"
+                                        onClick={() => onTimeChange('12:00')}
+                                    >
+                                        12:00 PM
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-7 text-xs justify-center hover:bg-[#FEEAE3] hover:text-[#E65F2B] hover:border-[#E65F2B]"
+                                        onClick={() => onTimeChange('13:30')}
+                                    >
+                                        1:30 PM
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-7 text-xs justify-center hover:bg-[#FEEAE3] hover:text-[#E65F2B] hover:border-[#E65F2B]"
+                                        onClick={() => onTimeChange('17:00')}
+                                    >
+                                        5:00 PM
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <div className="py-1.5 px-2">
+                                <h4 className="text-xs font-medium text-gray-500 mb-1">Morning</h4>
+                                {morningTimes.map((time) => (
+                                    <SelectItem
+                                        key={time}
+                                        value={time}
+                                        className="hover:bg-[#FEEAE3] hover:text-[#E65F2B] focus:bg-[#FEEAE3] focus:text-[#E65F2B] data-[selected]:bg-[#FEEAE3] data-[selected]:text-[#E65F2B]"
+                                    >
+                                        {formatTimeDisplay(time)}
+                                    </SelectItem>
+                                ))}
+                            </div>
+
+                            <div className="py-1.5 px-2">
+                                <h4 className="text-xs font-medium text-gray-500 mb-1">Afternoon</h4>
+                                {afternoonTimes.map((time) => (
+                                    <SelectItem
+                                        key={time}
+                                        value={time}
+                                        className="hover:bg-[#FEEAE3] hover:text-[#E65F2B] focus:bg-[#FEEAE3] focus:text-[#E65F2B] data-[selected]:bg-[#FEEAE3] data-[selected]:text-[#E65F2B]"
+                                    >
+                                        {formatTimeDisplay(time)}
+                                    </SelectItem>
+                                ))}
+                            </div>
+
+                            <div className="py-1.5 px-2">
+                                <h4 className="text-xs font-medium text-gray-500 mb-1">Evening</h4>
+                                {eveningTimes.map((time) => (
+                                    <SelectItem
+                                        key={time}
+                                        value={time}
+                                        className="hover:bg-[#FEEAE3] hover:text-[#E65F2B] focus:bg-[#FEEAE3] focus:text-[#E65F2B] data-[selected]:bg-[#FEEAE3] data-[selected]:text-[#E65F2B]"
+                                    >
+                                        {formatTimeDisplay(time)}
+                                    </SelectItem>
+                                ))}
+                            </div>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div>
+        );
+    };
+
     const renderWeekView = () => {
         const weekDays = getWeekDays();
         const hours = Array.from({ length: 24 }, (_, i) => i);
 
         return (
-            <div style={styles.weekView}>
-                <div style={styles.weekHeader}>
-                    <div style={styles.timeColumn}></div>
-                    {weekDays.map((date, index) => (
-                        <div key={index} style={styles.dayColumn}>
-                            <div style={styles.dayName}>{date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                            <div style={styles.dayDate}>{date.getDate()}</div>
-                        </div>
-                    ))}
-                </div>
-
-                <div style={styles.weekGrid}>
-                    <div style={styles.timeLabels}>
-                        {hours.map(hour => (
-                            <div key={hour} style={styles.timeLabel}>
-                                <span style={styles.timeText}>
-                                    {hour === 0 ? '12 AM' : hour < 12 ? `${hour} AM` : hour === 12 ? '12 PM' : `${hour - 12} PM`}
-                                </span>
+            <div style={styles.weekView} className="bg-white rounded-lg shadow-sm">
+                <div style={styles.weekHeader} className="sticky top-0 z-10 border-b">
+                    <div style={styles.timeColumn} className="bg-[#f8f5f2]"></div>
+                    {weekDays.map((date, index) => {
+                        const isToday = new Date().toDateString() === date.toDateString();
+                        return (
+                            <div
+                                key={index}
+                                style={styles.dayColumn}
+                                className={cn(
+                                    "transition-colors",
+                                    isToday ? "bg-[#FEEAE3]" : "bg-[#f8f5f2]"
+                                )}
+                            >
+                                <div style={styles.dayName} className="text-xs font-semibold text-gray-600">
+                                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                                </div>
+                                <div
+                                    style={styles.dayDate}
+                                    className={cn(
+                                        "text-lg font-medium mt-1",
+                                        isToday ? "text-[#E65F2B]" : "text-gray-700"
+                                    )}
+                                >
+                                    {date.getDate()}
+                                </div>
                             </div>
-                        ))}
-                    </div>
-
-                    {weekDays.map((date, dayIndex) => (
-                        <div key={dayIndex} style={styles.dayTimeline}>
-                            {hours.map(hour => {
-                                const hourEvents = getHourlyEvents(date)[hour] || [];
-                                return (
-                                    <div key={hour} style={styles.hourSlot}>
-                                        {hourEvents.map((event, eventIndex) => (
-                                            <div
-                                                key={eventIndex}
-                                                style={styles.event}
-                                                onClick={() => handleEventClick(event)}
-                                            >
-                                                {event.summary} ({formatTime(event.start.dateTime)} - {formatTime(event.end.dateTime)})
-                                            </div>
-                                        ))}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
+
+                <ScrollArea className="flex-1 h-full"> {/* Update to flex-1 and h-full */}
+                    <div style={styles.weekGrid} className="overflow-auto pb-20 md:pb-16">
+                        <div style={styles.timeLabels} className="bg-[#f8f5f2] sticky left-0 z-10">
+                            {hours.map(hour => (
+                                <div key={hour} style={styles.timeLabel} className="flex items-start justify-end pr-2">
+                                    <span style={styles.timeText} className="relative -top-2 text-gray-500 text-xs">
+                                        {hour === 0 ? '12 AM' : hour < 12 ? `${hour} AM` : hour === 12 ? '12 PM' : `${hour - 12} PM`}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {weekDays.map((date, dayIndex) => {
+                            const isToday = new Date().toDateString() === date.toDateString();
+                            return (
+                                <div
+                                    key={dayIndex}
+                                    style={styles.dayTimeline}
+                                    className={isToday ? "bg-[#FEEAE3]/30" : ""}
+                                >
+                                    {hours.map(hour => {
+                                        const hourEvents = getHourlyEvents(date)[hour] || [];
+                                        return (
+                                            <div
+                                                key={hour}
+                                                style={styles.hourSlot}
+                                                className="hover:bg-gray-50 transition-colors"
+                                                onClick={() => {
+                                                    if (isAuthenticated) {
+                                                        // Create a new event on that specific time slot
+                                                        const eventDate = new Date(date);
+                                                        eventDate.setHours(hour);
+
+                                                        // Format the date strings for the form
+                                                        const formattedDate = format(eventDate, 'yyyy-MM-dd');
+                                                        const formattedTime = format(eventDate, 'HH:00');
+                                                        const endTime = format(new Date(eventDate.getTime() + 60 * 60 * 1000), 'HH:00');
+
+                                                        setNewEvent({
+                                                            title: '',
+                                                            description: '',
+                                                            startDate: formattedDate,
+                                                            startTime: formattedTime,
+                                                            endDate: formattedDate,
+                                                            endTime: endTime,
+                                                        });
+                                                        setShowEventModal(true);
+                                                    }
+                                                }}
+                                            >
+                                                {hourEvents.map((event, eventIndex) => (
+                                                    <TooltipProvider key={eventIndex}>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <div
+                                                                    className="bg-[#E65F2B] text-white text-xs rounded-full px-2 py-1 mb-1 cursor-pointer hover:bg-[#d2542b] transition-colors shadow-sm truncate event-animation"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleEventClick(event);
+                                                                    }}
+                                                                >
+                                                                    {event.summary} ({formatTime(event.start.dateTime)} - {formatTime(event.end.dateTime)})
+                                                                </div>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent className="bg-white p-3 shadow-lg rounded-lg border border-[#e6e0da] max-w-xs">
+                                                                <div className="space-y-2">
+                                                                    <h4 className="font-medium text-[#E65F2B]">{event.summary}</h4>
+                                                                    <div className="flex items-center text-xs text-gray-600">
+                                                                        <CalendarIcon className="w-3 h-3 mr-1" />
+                                                                        <span>
+                                                                            {format(new Date(event.start.dateTime), 'MMM d, h:mm a')} -
+                                                                            {format(new Date(event.end.dateTime), ' h:mm a')}
+                                                                        </span>
+                                                                    </div>
+                                                                    {event.description && (
+                                                                        <p className="text-xs text-gray-700 truncate max-w-[200px]">
+                                                                            {event.description.length > 100
+                                                                                ? `${event.description.substring(0, 100)}...`
+                                                                                : event.description}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                ))}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </ScrollArea>
             </div>
         );
     };
@@ -375,868 +870,870 @@ const Calendar = () => {
         const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         return (
-            <div style={styles.monthView}>
-                <div style={styles.weekdayHeader}>
+            <div style={styles.monthView} className="bg-white rounded-lg shadow-sm flex flex-col">
+                <div style={styles.weekdayHeader} className="grid grid-cols-7 border-b bg-[#f8f5f2] flex-shrink-0">
                     {weekdays.map((day, index) => (
-                        <div key={index} style={styles.weekdayName}>
+                        <div
+                            key={index}
+                            className="text-center py-3 text-xs font-semibold text-gray-600 border-r last:border-r-0"
+                        >
                             {day}
                         </div>
                     ))}
                 </div>
 
-                <div style={styles.monthGrid}>
-                    {monthGrid.map((week, weekIndex) => (
-                        <div key={weekIndex} style={styles.weekRow}>
-                            {week.map((day, dayIndex) => {
-                                if (day === null) {
-                                    return <div key={dayIndex} style={styles.emptyDay}></div>;
-                                }
+                <ScrollArea className="flex-1"> {/* Add ScrollArea with flex-1 */}
+                    <div style={styles.monthGrid} className="flex-1 flex flex-col pb-0 md:pb-20">
+                        {monthGrid.map((week, weekIndex) => (
+                            <div
+                                key={weekIndex}
+                                style={styles.weekRow}
+                                className="grid grid-cols-7 border-b last:border-b-0"
+                            >
+                                {week.map((day, dayIndex) => {
+                                    if (day === null) {
+                                        return (
+                                            <div
+                                                key={dayIndex}
+                                                style={styles.emptyDay}
+                                                className="bg-[#f8f5f2] border border-[#e6e0da]"
+                                            />
+                                        );
+                                    }
 
-                                const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-                                const isToday = new Date().toDateString() === date.toDateString();
-                                const dayEvents = getEventsForDate(date);
+                                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                                    const isToday = new Date().toDateString() === date.toDateString();
+                                    const dayEvents = getEventsForDate(date);
 
-                                return (
-                                    <div
-                                        key={dayIndex}
-                                        style={{
-                                            ...styles.monthDay,
-                                            ...(isToday ? styles.today : {})
-                                        }}
-                                    >
-                                        <div style={styles.dayNumber}>{day}</div>
-                                        <div style={styles.dayEventList}>
-                                            {dayEvents.slice(0, 3).map((event, eventIndex) => (
-                                                <div
-                                                    key={eventIndex}
-                                                    style={styles.monthEvent}
-                                                    onClick={() => handleEventClick(event)}
-                                                >
-                                                    {event.summary}
-                                                </div>
-                                            ))}
-                                            {dayEvents.length > 3 && (
-                                                <div style={styles.moreEvents}>+{dayEvents.length - 3} more</div>
-                                            )}
+                                    return (
+                                        <div
+                                            key={dayIndex}
+                                            style={isToday ? { ...styles.monthDay, ...styles.today } : styles.monthDay}
+                                            className={`cursor-pointer hover:bg-[#f8f5f2] transition-colors ${isToday ? 'bg-[#FEEAE3] border-[#E65F2B]' : ''}`}
+                                            onClick={() => {
+                                                if (isAuthenticated) {
+                                                    const formattedDate = format(date, 'yyyy-MM-dd');
+                                                    const now = new Date();
+                                                    // Default to current time for new events
+                                                    const formattedTime = format(now, 'HH:00');
+                                                    const endTime = format(new Date(now.getTime() + 60 * 60 * 1000), 'HH:00');
+
+                                                    setNewEvent({
+                                                        title: '',
+                                                        description: '',
+                                                        startDate: formattedDate,
+                                                        startTime: formattedTime,
+                                                        endDate: formattedDate,
+                                                        endTime: endTime,
+                                                    });
+                                                    setShowEventModal(true);
+                                                }
+                                            }}
+                                        >
+                                            <div style={styles.dayNumber} className="font-medium">
+                                                {day}
+                                            </div>
+                                            <div style={styles.dayEventList} className="space-y-1 overflow-y-auto">
+                                                {dayEvents.slice(0, 3).map((event, eventIndex) => (
+                                                    <TooltipProvider key={eventIndex}>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <div
+                                                                    className="bg-[#E65F2B] text-white text-[10px] rounded px-1.5 py-0.5 truncate cursor-pointer hover:bg-[#d2542b] transition-colors shadow-sm event-animation"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleEventClick(event);
+                                                                    }}
+                                                                >
+                                                                    {event.summary}
+                                                                </div>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent className="bg-white p-3 shadow-lg rounded-lg border border-[#e6e0da] max-w-xs">
+                                                                <div className="space-y-2">
+                                                                    <h4 className="font-medium text-[#E65F2B]">{event.summary}</h4>
+                                                                    <div className="flex items-center text-xs text-gray-600">
+                                                                        <Clock className="w-3 h-3 mr-1" />
+                                                                        <span>
+                                                                            {format(new Date(event.start.dateTime || event.start.date), 'h:mm a')} -
+                                                                            {format(new Date(event.end.dateTime || event.end.date), ' h:mm a')}
+                                                                        </span>
+                                                                    </div>
+                                                                    {event.description && (
+                                                                        <p className="text-xs text-gray-700 truncate max-w-[200px]">
+                                                                            {event.description.length > 100
+                                                                                ? `${event.description.substring(0, 100)}...`
+                                                                                : event.description}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                ))}
+                                                {dayEvents.length > 3 && (
+                                                    <div className="text-[10px] text-gray-500 pl-1">
+                                                        +{dayEvents.length - 3} more
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
-                </div>
+                                    );
+                                })}
+                            </div>
+                        ))}
+                    </div>
+                </ScrollArea>
             </div>
         );
     };
 
+    // Define styles for the calendar component
+    const styles = {
+        container: {
+            fontFamily: "'Montserrat', sans-serif",
+            height: '100vh', // Use viewport height
+            display: 'flex',
+            flexDirection: 'column',
+            color: '#333333',
+            backgroundColor: '#EBDFD7',
+            overflow: 'hidden',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            width: '100%',
+            maxWidth: '100%',
+            margin: 0,
+            padding: 0,
+            position: 'relative',
+            flex: 1, // Add this to make the container flex and fill available space
+        },
+        header: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: isMobile ? '10px 5px' : isTablet ? '12px 16px' : '16px 24px',
+            borderBottom: '1px solid #e6e0da',
+            backgroundColor: '#EBDFD7', // White header like dashboard cards
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: isMobile ? '8px' : '0',
+            width: '100%',
+            marginTop: isMobile ? '1rem' : '0',
+        },
+        headerLeft: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: isMobile ? '0 6px' : '0',
+            justifyContent: isMobile ? 'space-between' : 'flex-start',
+            width: isMobile ? '100%' : 'auto',
+            marginBottom: isMobile ? '5px' : '0',
+            gap: isMobile ? '5px' : '20px',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+        },
+        dateNavigationContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: isMobile ? '4px' : '8px',
+            margin: '0',
+            width: 'auto',
+        },
+        currentDate: {
+            fontSize: isMobile ? '12px' : '18px',
+            fontWeight: '500',
+            color: '#333333',
+            textAlign: 'center',
+            minWidth: isMobile ? '80px' : '100px',
+            padding: '0',
+        },
+        headerRight: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '10px' : '12px',
+            width: isMobile ? '100%' : 'auto',
+            justifyContent: isMobile ? 'space-between' : 'flex-end',
+            flexWrap: isMobile ? 'nowrap' : 'nowrap',
+            padding: isMobile ? '0 5px' : '0',
+        },
+        viewButtons: {
+            display: 'flex',
+            border: '1px solid #e6e0da',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            color: '#E65F2B',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            marginBottom: isMobile ? '0' : '0',
+            width: isMobile ? 'auto' : 'auto',
+            maxWidth: '100%',
+            margin: isMobile ? '0' : '0',
+        },
+        calendarContent: {
+            flex: 1,
+            position: 'relative',
+            backgroundColor: '#EBDFD7',
+            width: '100%',
+            margin: 0,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0, // Important for flex children to prevent overflow
+        },
+        loading: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            fontSize: isMobile ? '14px' : '16px',
+            color: '#707070',
+            backgroundColor: '#EBDFD7',
+        },
+        signInPrompt: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            flex: 1,
+            backgroundColor: '#EBDFD7',
+            width: '100%',
+        },
+        weekView: {
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#ffffff',
+            position: 'relative',
+            overflow: 'hidden',
+            width: '100%',
+            margin: 0,
+            padding: 0,
+            flex: 1,
+        },
+        weekHeader: {
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '50px repeat(7, 1fr)' : isTablet ? '60px repeat(7, 1fr)' : '60px repeat(7, 1fr)',
+            borderBottom: '1px solid #e6e0da',
+            backgroundColor: '#f8f5f2',
+            position: 'sticky',
+            top: 0,
+            zIndex: 10,
+            width: '100%',
+            margin: 0,
+            padding: 0,
+            fontSize: isMobile ? '11px' : 'inherit',
+        },
+        timeColumn: {
+            width: isMobile ? '50px' : '60px',
+            borderRight: '1px solid #e6e0da',
+            backgroundColor: '#f8f5f2',
+            fontSize: isMobile ? '10px' : isTablet ? '11px' : 'inherit',
+        },
+        dayColumn: {
+            padding: isMobile ? '5px 0' : '10px 0',
+            textAlign: 'center',
+            borderRight: '1px solid #e6e0da',
+            minWidth: 'auto', // Remove fixed minimum width
+            overflow: 'hidden', // Add this to prevent content overflow
+            whiteSpace: 'nowrap', // Optional: prevents text wrapping
+            textOverflow: 'ellipsis', // Optional: adds ellipsis for overflowing text
+        },
+        dayName: {
+            fontWeight: '600',
+            fontSize: isMobile ? '10px' : '12px',
+            color: '#666666',
+        },
+        dayDate: {
+            fontSize: isMobile ? '18px' : '20px',
+            marginTop: '6px',
+            fontWeight: '500',
+            color: '#E65F2B',
+        },
+        weekGrid: {
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '50px repeat(7, 1fr)' : isTablet ? '60px repeat(7, 1fr)' : '60px repeat(7, 1fr)',
+            flex: 1,
+            position: 'relative',
+            width: '100%',
+            margin: 0,
+            padding: 0,
+            minHeight: 0, // Add this to prevent grid from expanding past container
+            paddingBottom: isMobile ? '8rem' : '4rem', // Add extra padding at the bottom
+        },
+        timeLabels: {
+            borderRight: '1px solid #e6e0da',
+            backgroundColor: '#f8f5f2',
+            position: 'sticky',
+            left: 0,
+            zIndex: 5,
+            width: isMobile ? '50px' : '60px',
+        },
+        timeLabel: {
+            height: isMobile ? '40px' : '50px',
+            padding: isMobile ? '0 5px' : '0 10px',
+            borderBottom: '1px solid #e6e0da',
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end',
+        },
+        timeText: {
+            fontSize: isMobile ? '10px' : '12px',
+            color: '#666666',
+            marginTop: '-10px',
+        },
+        dayTimeline: {
+            display: 'flex',
+            flexDirection: 'column',
+            borderRight: '1px solid #e6e0da',
+            minWidth: 'auto', // Remove fixed minimum width
+            overflow: 'hidden', // Prevent overflow
+        },
+        hourSlot: {
+            height: isMobile ? '40px' : '50px',
+            borderBottom: '1px solid #f0ece8',
+            padding: '2px',
+            position: 'relative',
+        },
+        monthView: {
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            backgroundColor: '#EBDFD7',
+            width: '100%',
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden', // Control overflow
+            flex: 1,
+        },
+        weekdayHeader: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            borderBottom: '1px solid #e6e0da',
+            backgroundColor: '#f8f5f2',
+            width: '100%',
+            margin: 0,
+            padding: 0,
+        },
+        weekdayName: {
+            textAlign: 'center',
+            padding: isMobile ? '8px 0' : '12px 0',
+            fontWeight: '600',
+            color: '#666666',
+            fontSize: isMobile ? '9px' : '12px',
+            borderRight: '1px solid #e6e0da',
+        },
+        monthGrid: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            minHeight: 0, // Add this to prevent grid from expanding past container
+            overflow: 'none',
+        },
+        weekRow: {
+            flex: 'none',
+            height: isMobile ? 'auto' : isTablet ? '110px' : '130px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            borderBottom: '1px solid #e6e0da',
+        },
+        monthDay: {
+            border: '1px solid #e6e0da',
+            padding: isMobile ? '4px' : '6px',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#ffffff',
+            minHeight: isMobile ? '60px' : isTablet ? '80px' : '100px',
+            height: 'auto',
+            position: 'relative',
+        },
+        emptyDay: {
+            backgroundColor: '#f8f5f2',
+            border: '1px solid #e6e0da',
+            minHeight: isMobile ? '60px' : isTablet ? '80px' : '100px',
+        },
+        today: {
+            backgroundColor: '#FEEAE3', // Light orange highlight
+            border: '1px solid #E65F2B', // Orange from dashboard charts/icons
+        },
+        dayNumber: {
+            fontSize: isMobile ? '10px' : '14px',
+            marginBottom: isMobile ? '2px' : '6px',
+            fontWeight: '500',
+            color: '#333',
+        },
+        dayEventList: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflow: 'hidden',
+            gap: isMobile ? '1px' : '2px',
+        },
+
+        // Modal styles
+        modal: {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9000, // Set a base z-index for the modal
+            backdropFilter: 'blur(3px)',
+            margin: 0,
+            padding: 0,
+            transform: 'translateZ(0)',
+            isolation: 'isolate',
+        },
+        modalContent: {
+            backgroundColor: '#EBDFD7',
+            borderRadius: '20px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            width: '500px',
+            maxWidth: '90%',
+            maxHeight: '90%',
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            margin: isMobile ? '0 10px' : '0',
+            position: 'relative', // Add this
+            zIndex: 9500, // And this to establish stacking context
+        },
+        modalHeader: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            color: '#E65F2B',
+            fontWeight: '500',
+            fontSize: isMobile ? '18px' : '20px',
+            padding: '20px 24px',
+            borderBottom: '1px solid #e6e0da',
+            backgroundColor: '#F2EAE5', // Light beige background from dashboard
+        },
+        modalBody: {
+            padding: isMobile ? '16px' : '24px',
+            flex: 1,
+            overflow: 'hidden',
+            backgroundColor: '#F2EAE5',
+        },
+        modalFooter: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+            padding: '16px 24px',
+            borderTop: '1px solid #e6e0da',
+            backgroundColor: '#F2EAE5', // Light beige background from dashboard
+        }
+    };
+
     return (
-        <div style={styles.container}>
-            <div style={styles.header}>
-                <div style={styles.headerLeft}>
-                    <button
-                        style={styles.todayButton}
-                        onClick={() => setCurrentDate(new Date())}
-                    >
-                        Today
-                    </button>
-                    <div style={styles.navButtons}>
-                        <button style={styles.navButton} onClick={() => changeDate(-1)}>
-                            &lt;
-                        </button>
-                        <button style={styles.navButton} onClick={() => changeDate(1)}>
-                            &gt;
-                        </button>
+        <div className="calendar-wrapper">
+            <div style={styles.container} className="focus:outline-none" tabIndex="0" role="application" aria-label="Calendar">
+                <div style={styles.header}>
+                    <div style={styles.headerLeft}>
+                        <Button
+                            className="bg-[#E65F2B] text-white hover:bg-[#d2542b] rounded-full px-4"
+                            onClick={() => setCurrentDate(new Date())}
+                        >
+                            Today
+                        </Button>
+                        <div style={styles.dateNavigationContainer}>
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="bg-white rounded-full h-8 w-8 border-[#e6e0da] text-[#E65F2B]"
+                                onClick={() => changeDate(-1)}
+                                aria-label="Previous"
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <div style={styles.currentDate} role="heading" aria-level="1">
+                                {currentDate.toLocaleDateString('en-US', {
+                                    month: 'long',
+                                    year: 'numeric',
+                                    ...(view === 'week' ? { day: 'numeric' } : {})
+                                })}
+                            </div>
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="bg-white rounded-full h-8 w-8 border-[#e6e0da] text-[#E65F2B]"
+                                onClick={() => changeDate(1)}
+                                aria-label="Next"
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
-                    <div style={styles.currentDate}>
-                        {currentDate.toLocaleDateString('en-US', {
-                            month: 'long',
-                            year: 'numeric',
-                            ...(view === 'week' ? { day: 'numeric' } : {})
-                        })}
+
+                    <div style={styles.headerRight}>
+                        <div style={styles.viewButtons} className="bg-white rounded-full overflow-hidden">
+                            <Button
+                                variant={view === 'week' ? 'default' : 'ghost'}
+                                className={cn(
+                                    "rounded-none border-none px-4 py-2", // Adding consistent padding
+                                    view === 'week'
+                                        ? "bg-[#E65F2B] text-white hover:bg-[#E65F2B]"
+                                        : "bg-white text-[#E65F2B] hover:bg-gray-50"
+                                )}
+                                onClick={() => setView('week')}
+                                aria-label="Week view"
+                                aria-pressed={view === 'week'}
+                            >
+                                Week
+                            </Button>
+                            <Button
+                                variant={view === 'month' ? 'default' : 'ghost'}
+                                className={cn(
+                                    "rounded-none border-none px-4 py-2", // Adding consistent padding
+                                    view === 'month'
+                                        ? "bg-[#E65F2B] text-white hover:bg-[#E65F2B]"
+                                        : "bg-white text-[#E65F2B] hover:bg-gray-500"
+                                )}
+                                onClick={() => setView('month')}
+                                aria-label="Month view"
+                                aria-pressed={view === 'month'}
+                            >
+                                Month
+                            </Button>
+                        </div>
+                        {isAuthenticated && (
+                            <Button
+                                variant="outline"
+                                className="bg-white text-[#E65F2B] hover:bg-[#F2EAE5] rounded-full"
+                                onClick={() => setShowEventModal(true)}
+                            >
+                                + Create
+                            </Button>
+                        )}
+                        <Button
+                            className="bg-[#E65F2B] text-white hover:bg-[#d2542b] rounded-full"
+                            onClick={handleAuthClick}
+                        >
+                            {isAuthenticated ? 'Sign Out' : 'Sign In with Google'}
+                        </Button>
                     </div>
                 </div>
 
-                <div style={styles.headerRight}>
-                    <div style={styles.viewButtons}>
-                        <button
-                            style={{
-                                ...styles.viewButton,
-                                ...(view === 'week' ? styles.activeViewButton : {})
-                            }}
-                            onClick={() => setView('week')}
-                        >
-                            Week
-                        </button>
-                        <button
-                            style={{
-                                ...styles.viewButton,
-                                ...(view === 'month' ? styles.activeViewButton : {})
-                            }}
-                            onClick={() => setView('month')}
-                        >
-                            Month
-                        </button>
-                    </div>
-                    <button
-                        style={styles.authButton}
-                        onClick={handleAuthClick}
-                    >
-                        {isAuthenticated ? 'Sign Out' : 'Sign In with Google'}
-                    </button>
-                    {isAuthenticated && (
-                        <button
-                            style={styles.addEventButton}
-                            onClick={() => setShowEventModal(true)}
-                        >
-                            + Create
-                        </button>
+                <div style={styles.calendarContent} className="rounded-lg overflow-hidden">
+                    {isLoading ? (
+                        <div className="flex justify-center items-center h-full bg-white/50 backdrop-blur-sm">
+                            <div className="flex flex-col items-center gap-4 p-6 rounded-lg">
+                                <div className="h-8 w-8 border-2 border-[#E65F2B] border-t-transparent rounded-full animate-spin"></div>
+                                <p className="text-gray-600">Loading your calendar...</p>
+                            </div>
+                        </div>
+                    ) : (
+                        isAuthenticated ? (
+                            view === 'week' ? renderWeekView() : renderMonthView()
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full bg-white/50 rounded-lg p-8 text-center">
+                                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center -mt-40">
+                                    <CalendarIcon className="h-16 w-16 text-[#E65F2B] mb-4" />
+                                    <p className="text-xl text-gray-700 mb-6">Please sign in to view your calendar</p>
+                                    <Button
+                                        className="bg-[#E65F2B] text-white hover:bg-[#d2542b] rounded-full px-8 py-6 text-base"
+                                        onClick={handleAuthClick}
+                                    >
+                                        Sign In with Google
+                                    </Button>
+                                </div>
+                            </div>
+                        )
                     )}
                 </div>
-            </div>
 
-            <div style={styles.calendarContent}>
-                {isLoading ? (
-                    <div style={styles.loading}>Loading calendar...</div>
-                ) : (
-                    isAuthenticated ? (
-                        view === 'week' ? renderWeekView() : renderMonthView()
-                    ) : (
-                        <div style={styles.signInPrompt}>
-                            <p>Please sign in to view your calendar</p>
-                            <button
-                                style={styles.signInButton}
-                                onClick={handleAuthClick}
-                            >
-                                Sign In with Google
-                            </button>
+                {showEventModal && (
+                    <div style={styles.modal}>
+                        <div style={styles.modalContent}>
+                            <div style={styles.modalHeader}>
+                                <h2 className="text-[#E65F2B] text-xl font-medium">Create Event</h2>
+                                <Button
+                                    variant="ghost"
+                                    className="rounded-full h-8 w-8 p-0 hover:bg-[#FEEAE3]"
+                                    onClick={() => setShowEventModal(false)}
+                                    aria-label="Close modal"
+                                >
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <ScrollArea className="max-h-[70vh]">
+                                <div style={styles.modalBody}>
+                                    <div className="space-y-5">
+                                        <div className="space-y-3">
+                                            <Label htmlFor="event-title" className="text-sm font-medium text-gray-700">
+                                                Event Title <span className="text-red-500">*</span>
+                                            </Label>
+                                            <Input
+                                                id="event-title"
+                                                className="w-full bg-[#F6F1EE] border-[#e5e7eb] focus-visible:ring-[#E65F2B] focus-visible:ring-offset-0"
+                                                value={newEvent.title}
+                                                placeholder='Enter the event title'
+                                                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                                                onFocus={handleInputFocus}
+                                                onBlur={handleInputBlur}
+                                                required
+                                                aria-required="true"
+                                            />
+                                            {!newEvent.title && (
+                                                <p className="text-xs text-[#E65F2B] mt-1">Title is required</p>
+                                            )}
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <Label htmlFor="event-description" className="text-sm font-medium text-gray-700">Description</Label>
+                                            <Textarea
+                                                id="event-description"
+                                                className="resize-vertical min-h-[100px] bg-[#F6F1EE] border-[#e5e7eb] focus-visible:ring-[#E65F2B] focus-visible:ring-offset-0"
+                                                value={newEvent.description}
+                                                placeholder='Enter the event description'
+                                                onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                                                onFocus={handleInputFocus}
+                                                onBlur={handleInputBlur}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <DatePickerWithPresets
+                                                id="start-date"
+                                                selectedDate={newEvent.startDate}
+                                                onDateChange={(formattedDate) => setNewEvent(prev => ({
+                                                    ...prev,
+                                                    startDate: formattedDate,
+                                                    // If endDate is before startDate, update it
+                                                    endDate: prev.endDate && new Date(formattedDate) > new Date(prev.endDate)
+                                                        ? formattedDate
+                                                        : prev.endDate
+                                                }))}
+                                                disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                                label={
+                                                    <div className="flex items-center">
+                                                        Start Date <span className="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                }
+                                            />
+
+                                            <TimePickerSelect
+                                                id="start-time"
+                                                selectedTime={newEvent.startTime}
+                                                onTimeChange={(value) => setNewEvent(prev => {
+                                                    // Handle auto-adjusting end time
+                                                    let newEndTime = prev.endTime;
+                                                    if (prev.startDate === prev.endDate && prev.endTime) {
+                                                        // If same day and end time exists, make sure end time is after start time
+                                                        const [startHour, startMinute] = value.split(':').map(Number);
+                                                        const [endHour, endMinute] = prev.endTime.split(':').map(Number);
+
+                                                        if (startHour > endHour || (startHour === endHour && startMinute >= endMinute)) {
+                                                            // Set end time to be 1 hour after start time
+                                                            let newEndHour = startHour + 1;
+                                                            if (newEndHour >= 24) newEndHour = 23;
+                                                            newEndTime = `${newEndHour < 10 ? '0' + newEndHour : newEndHour}:${startMinute < 10 ? '0' + startMinute : startMinute}`;
+                                                        }
+                                                    }
+
+                                                    return {
+                                                        ...prev,
+                                                        startTime: value,
+                                                        endTime: newEndTime
+                                                    };
+                                                })}
+                                                label={
+                                                    <div className="flex items-center">
+                                                        Start Time <span className="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <DatePickerWithPresets
+                                                id="end-date"
+                                                selectedDate={newEvent.endDate}
+                                                onDateChange={(formattedDate) => setNewEvent(prev => ({ ...prev, endDate: formattedDate }))}
+                                                disabled={(date) =>
+                                                    date < new Date(new Date().setHours(0, 0, 0, 0)) ||
+                                                    (newEvent.startDate && date < new Date(newEvent.startDate))
+                                                }
+                                                label={
+                                                    <div className="flex items-center">
+                                                        End Date <span className="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                }
+                                            />
+
+                                            <TimePickerSelect
+                                                id="end-time"
+                                                selectedTime={newEvent.endTime}
+                                                onTimeChange={(value) => setNewEvent(prev => ({ ...prev, endTime: value }))}
+                                                label={
+                                                    <div className="flex items-center">
+                                                        End Time <span className="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                }
+                                            />
+                                        </div>
+
+                                        {/* Form validation feedback */}
+                                        {newEvent.startDate && newEvent.startTime && newEvent.endDate && newEvent.endTime && (
+                                            (() => {
+                                                const startDateTime = `${newEvent.startDate}T${newEvent.startTime}:00`;
+                                                const endDateTime = `${newEvent.endDate}T${newEvent.endTime}:00`;
+
+                                                if (new Date(endDateTime) <= new Date(startDateTime)) {
+                                                    return (
+                                                        <div className="bg-red-50 border border-red-200 text-red-600 rounded-md p-3 text-sm">
+                                                            End time must be after start time
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            })()
+                                        )}
+                                    </div>
+                                </div>
+                            </ScrollArea>
+
+                            <div style={styles.modalFooter}>
+                                <div className="flex justify-end gap-2">
+                                    <Button
+                                        variant="outline"
+                                        className="bg-[#f1f3f4] text-[#5f6368] hover:bg-[#e5e7eb] hover:text-[#3c4043] border-none rounded-full"
+                                        onClick={() => setShowEventModal(false)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        className="bg-[#E65F2B] text-white hover:bg-[#d2542b] rounded-full"
+                                        onClick={handleCreateEvent}
+                                        disabled={
+                                            !newEvent.title ||
+                                            !newEvent.startDate ||
+                                            !newEvent.startTime ||
+                                            !newEvent.endDate ||
+                                            !newEvent.endTime ||
+                                            new Date(`${newEvent.endDate}T${newEvent.endTime}:00`) <= new Date(`${newEvent.startDate}T${newEvent.startTime}:00`)
+                                        }
+                                    >
+                                        Save
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
-                    )
+                    </div>
                 )}
+
+                {showEventDetails && selectedEvent && (
+                    <div style={styles.modal}>
+                        <div style={styles.modalContent} className="max-w-md">
+                            <div style={styles.modalHeader} className="flex justify-between items-center">
+                                <h2 className="text-[#E65F2B] text-xl font-medium">Event Details</h2>
+                                <Button
+                                    variant="ghost"
+                                    className="rounded-full h-8 w-8 p-0 hover:bg-[#FEEAE3]"
+                                    onClick={() => setShowEventDetails(false)}
+                                >
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <ScrollArea>
+                                <div style={styles.modalBody} className="space-y-5">
+                                    <h3 className="text-2xl font-semibold text-[#E65F2B] leading-tight">{selectedEvent.summary}</h3>
+
+                                    <div className="space-y-4">
+                                        {/* Time details */}
+                                        <div className="flex flex-col space-y-1.5 bg-[#FEEAE3] rounded-lg p-3">
+                                            <div className="flex items-center gap-2 text-[#5f6368] text-sm">
+                                                <CalendarIcon className="h-4 w-4 text-[#E65F2B]" />
+                                                <div className="font-medium">
+                                                    {format(new Date(selectedEvent.start.dateTime || selectedEvent.start.date), 'EEE, MMM d, yyyy')}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-2 text-[#5f6368] text-sm">
+                                                <Clock className="h-4 w-4 text-[#E65F2B]" />
+                                                <div>
+                                                    {format(new Date(selectedEvent.start.dateTime || selectedEvent.start.date), 'h:mm a')} -
+                                                    {format(new Date(selectedEvent.end.dateTime || selectedEvent.end.date), ' h:mm a')}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Event description */}
+                                        {selectedEvent.description && (
+                                            <div className="bg-white rounded-lg p-4 shadow-sm border border-[#e6e0da]">
+                                                <h4 className="text-sm font-medium text-gray-700 mb-2">Description</h4>
+                                                <div className="prose prose-sm max-w-none text-[#3c4043] whitespace-pre-wrap text-sm">
+                                                    {selectedEvent.description}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </ScrollArea>
+                            <div style={styles.modalFooter} className="flex justify-between items-center gap-x-4">
+                                <Button
+                                    variant="destructive"
+                                    className="bg-[#ea4335] hover:bg-[#d73528] rounded-full px-4"
+                                    onClick={handleDeleteEvent}
+                                >
+                                    Delete
+                                </Button>
+                                <Button
+                                    className="bg-[#E65F2B] text-white hover:bg-[#d2542b] rounded-full px-5"
+                                    onClick={() => setShowEventDetails(false)}
+                                >
+                                    Close
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Toaster */}
+                <Toaster
+                    position="bottom-right"
+                    reverseOrder={true}
+                    toastOptions={{
+                        className: '',
+                        duration: 3000,
+                        style: {
+                            background: '#FFFFFF',
+                            color: '#374151',
+                            border: '2px solid #e5e7eb',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        success: {
+                            style: {
+                                border: '2px solid #E65F2B',
+                            },
+                            iconTheme: {
+                                primary: '#E65F2B',
+                                secondary: 'white',
+                            },
+                        },
+                        error: {
+                            style: {
+                                border: '2px solid #EF4444',
+                            },
+                            iconTheme: {
+                                primary: '#EF4444',
+                                secondary: 'white',
+                            },
+                        },
+                    }}
+                    gutter={-55}
+                    containerStyle={{
+                        bottom: '40px',
+                        right: '30px',
+                    }}
+                />
             </div>
-
-            {showEventModal && (
-                <div style={styles.modal}>
-                    <div style={styles.modalContent}>
-                        <div style={styles.modalHeader}>
-                            <h2>Create Event</h2>
-                            <button
-                                style={styles.closeButton}
-                                onClick={() => setShowEventModal(false)}
-                            >
-                                ×
-                            </button>
-                        </div>
-                        <div style={styles.modalBody}>
-                            <div style={styles.formGroup}>
-                                <label style={styles.formLabel}>Title</label>
-                                <input
-                                    type="text"
-                                    style={styles.formInput}
-                                    value={newEvent.title}
-                                    onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                                />
-                            </div>
-                            <div style={styles.formGroup}>
-                                <label style={styles.formLabel}>Description</label>
-                                <textarea
-                                    style={styles.formTextarea}
-                                    value={newEvent.description}
-                                    onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                                ></textarea>
-                            </div>
-                            <div style={styles.formRow}>
-                                <div style={styles.formGroup}>
-                                    <label style={styles.formLabel}>Start Date</label>
-                                    <input
-                                        type="date"
-                                        style={styles.formInput}
-                                        value={newEvent.startDate}
-                                        onChange={(e) => setNewEvent({ ...newEvent, startDate: e.target.value })}
-                                    />
-                                </div>
-                                <div style={styles.formGroup}>
-                                    <label style={styles.formLabel}>Start Time</label>
-                                    <input
-                                        type="time"
-                                        style={styles.formInput}
-                                        value={newEvent.startTime}
-                                        onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-                            <div style={styles.formRow}>
-                                <div style={styles.formGroup}>
-                                    <label style={styles.formLabel}>End Date</label>
-                                    <input
-                                        type="date"
-                                        style={styles.formInput}
-                                        value={newEvent.endDate}
-                                        onChange={(e) => setNewEvent({ ...newEvent, endDate: e.target.value })}
-                                    />
-                                </div>
-                                <div style={styles.formGroup}>
-                                    <label style={styles.formLabel}>End Time</label>
-                                    <input
-                                        type="time"
-                                        style={styles.formInput}
-                                        value={newEvent.endTime}
-                                        onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div style={styles.modalFooter}>
-                            <button
-                                style={styles.cancelButton}
-                                onClick={() => setShowEventModal(false)}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                style={styles.saveButton}
-                                onClick={handleCreateEvent}
-                            >
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {showEventDetails && selectedEvent && (
-                <div style={styles.modal}>
-                    <div style={styles.modalContent}>
-                        <div style={styles.modalHeader}>
-                            <h2>Event Details</h2>
-                            <button
-                                style={styles.closeButton}
-                                onClick={() => setShowEventDetails(false)}
-                            >
-                                ×
-                            </button>
-                        </div>
-                        <div style={styles.modalBody}>
-                            <h3 style={styles.eventTitle}>{selectedEvent.summary}</h3>
-                            <p style={styles.eventTime}>
-                                {new Date(selectedEvent.start.dateTime || selectedEvent.start.date).toLocaleString()} -
-                                {new Date(selectedEvent.end.dateTime || selectedEvent.end.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </p>
-                            {selectedEvent.description && (
-                                <p style={styles.eventDescription}>{selectedEvent.description}</p>
-                            )}
-                        </div>
-                        <div style={styles.modalFooter}>
-                            <button
-                                style={styles.deleteButton}
-                                onClick={handleDeleteEvent}
-                            >
-                                Delete
-                            </button>
-                            <button
-                                style={styles.closeEventButton}
-                                onClick={() => setShowEventDetails(false)}
-                            >
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Toaster */}
-            <Toaster
-                position="bottom-right"
-                reverseOrder={true}
-                toastOptions={{
-                    className: '',
-                    duration: 3000,
-                    style: {
-                        background: '#FFFFFF',
-                        color: '#374151',
-                        border: '2px solid #e5e7eb',
-                        display: 'flex',
-                        alignItems: 'center',
-                    },
-                    success: {
-                        style: {
-                            border: '2px solid #E65F2B',
-                        },
-                        iconTheme: {
-                            primary: '#E65F2B',
-                            secondary: 'white',
-                        },
-                    },
-                    error: {
-                        style: {
-                            border: '2px solid #EF4444',
-                        },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
-                    },
-                }}
-                gutter={-55}
-                containerStyle={{
-                    bottom: '40px',
-                    right: '30px',
-                }}
-            />
         </div>
     );
-};
-
-const styles = {
-    container: {
-        fontFamily: "'Montserrat', sans-serif",
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        color: '#333333',
-        backgroundColor: '#EBDFD7', // Beige background from dashboard
-        overflow: 'hidden',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-        borderRadius: '8px',
-    },
-    header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '16px 24px',
-        borderBottom: '1px solid #e6e0da',
-        backgroundColor: '#EBDFD7', // White header like dashboard cards
-    },
-    headerLeft: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-    todayButton: {
-        padding: '8px 16px',
-        backgroundColor: '#E65F2B',
-        border: '1px solid #e6e0da',
-        borderRadius: '20px',
-        marginRight: '12px',
-        cursor: 'pointer',
-        fontWeight: '500',
-        fontSize: '14px',
-        color: '#ffffff',
-        transition: 'all 0.2s ease',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-    },
-    navButtons: {
-        display: 'flex',
-        gap: '8px',
-    },
-    navButton: {
-        backgroundColor: '#ffffff',
-        border: '1px solid #e6e0da',
-        borderRadius: '50%',
-        width: '32px',
-        height: '32px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#E65F2B',
-        cursor: 'pointer',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-    },
-    currentDate: {
-        marginLeft: '16px',
-        fontSize: '22px',
-        fontWeight: '500',
-        color: '#333333',
-    },
-    headerRight: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-    },
-    viewButtons: {
-        display: 'flex',
-        border: '1px solid #e6e0da',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        color: '#E65F2B',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-    },
-    viewButton: {
-        padding: '8px 16px',
-        backgroundColor: '#fff',
-        border: 'none',
-        cursor: 'pointer',
-        fontSize: '14px',
-        fontWeight: '500',
-    },
-    activeViewButton: {
-        backgroundColor: '#E65F2B',
-        color: 'white',
-        fontWeight: '600',
-    },
-    authButton: {
-        padding: '10px 16px',
-        backgroundColor: '#E65F2B',
-        color: 'white',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontWeight: '500',
-        fontSize: '14px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    },
-    addEventButton: {
-        padding: '8px 16px',
-        backgroundColor: '#FFFFFF',
-        color: '#E65F2B',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontWeight: '500',
-        fontSize: '14px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4px',
-    },
-    calendarContent: {
-        flex: 1,
-        overflow: 'auto',
-        position: 'relative',
-        backgroundColor: '#ffffff',
-    },
-    loading: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        fontSize: '16px',
-        color: '#707070',
-        backgroundColor: '#EBDFD7',
-    },
-    signInPrompt: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        padding: '30px',
-        backgroundColor: '#EBDFD7',
-    },
-    signInButton: {
-        padding: '12px 24px',
-        backgroundColor: '#E65F2B', // Blue from dashboard charts/icons
-        color: 'white',
-        border: 'none',
-        borderRadius: '80px',
-        cursor: 'pointer',
-        fontSize: '16px',
-        marginTop: '20px',
-        boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
-        fontWeight: '500',
-    },
-    errorMessage: {
-        backgroundColor: '#fdeded',
-        color: '#5f2120',
-        padding: '12px 16px',
-        borderRadius: '20px',
-        marginBottom: '16px',
-        fontSize: '14px',
-        maxWidth: '80%',
-        textAlign: 'center',
-        border: '1px solid #f5c2c7',
-    },
-
-    // Week view styles
-    weekView: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
-        position: 'relative',
-    },
-    weekHeader: {
-        display: 'grid',
-        gridTemplateColumns: '60px repeat(7, 1fr)', // Fixed width for time column and equal for days
-        borderBottom: '1px solid #e6e0da',
-        backgroundColor: '#f8f5f2',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-    },
-    timeColumn: {
-        width: '60px',
-        borderRight: '1px solid #e6e0da',
-        backgroundColor: '#f8f5f2',
-    },
-    dayColumn: {
-        padding: '10px 0',
-        textAlign: 'center',
-        borderRight: '1px solid #e6e0da',
-    },
-    dayName: {
-        fontWeight: '600',
-        fontSize: '12px',
-        color: '#666666',
-    },
-    dayDate: {
-        fontSize: '20px',
-        marginTop: '6px',
-        fontWeight: '500',
-        color: '#E65F2B',
-    },
-    weekGrid: {
-        display: 'grid',
-        gridTemplateColumns: '60px repeat(7, 1fr)', // Match header grid
-        flex: 1,
-        overflow: 'auto',
-        position: 'relative',
-    },
-    timeLabels: {
-        borderRight: '1px solid #e6e0da',
-        backgroundColor: '#f8f5f2',
-        position: 'sticky',
-        left: 0,
-        zIndex: 5,
-    },
-    timeLabel: {
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center', // Changed from flex-start to center
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        fontSize: '11px',
-        color: '#70757a',
-        borderBottom: '1px solid #f0ece8',
-        position: 'relative',
-        fontWeight: '500',
-    },
-    dayTimeline: {
-        display: 'grid',
-        gridTemplateRows: 'repeat(24, 60px)', // Fixed height for each hour
-        borderRight: '1px solid #e6e0da',
-    },
-    dayEvents: {
-        borderRight: '1px solid #e6e0da',
-    },
-    hourSlot: {
-        height: '60px',
-        borderBottom: '1px solid #f0ece8',
-        padding: '2px',
-        position: 'relative',
-    },
-    event: {
-        backgroundColor: '#4685fa', // Blue from dashboard charts/icons
-        color: 'white',
-        padding: '4px 8px',
-        borderRadius: '20px',
-        fontSize: '12px',
-        cursor: 'pointer',
-        marginBottom: '2px',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        border: '1px solid rgba(0,0,0,0.05)',
-    },
-
-    // Month view styles
-    monthView: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        backgroundColor: '#ffffff',
-        width: '100%',
-    },
-    weekdayHeader: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(7, 1fr)', // Equal columns for 7 days
-        borderBottom: '1px solid #e6e0da',
-        backgroundColor: '#f8f5f2',
-        width: '100%',
-    },
-    weekdayName: {
-        textAlign: 'center',
-        padding: '12px 0',
-        fontWeight: '600',
-        color: '#666666',
-        fontSize: '12px',
-        borderRight: '1px solid #e6e0da',
-    },
-    monthGrid: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-    },
-    weekRow: {
-        flex: 1,
-        display: 'grid',
-        gridTemplateColumns: 'repeat(7, 1fr)', // Equal columns for 7 days
-        borderBottom: '1px solid #e6e0da',
-    },
-    monthDay: {
-        border: '1px solid #e6e0da',
-        padding: '6px',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
-        minHeight: '100px', // Ensure minimum height for days
-        position: 'relative', // For event positioning
-    },
-    emptyDay: {
-        backgroundColor: '#f8f5f2',
-        border: '1px solid #e6e0da',
-        minHeight: '100px', // Match height with regular days
-    },
-    today: {
-        backgroundColor: '#e8f0fe', // Light blue highlight
-        borderLeft: '3px solid #4685fa', // Blue from dashboard charts/icons
-    },
-    dayNumber: {
-        fontSize: '14px',
-        marginBottom: '6px',
-        fontWeight: '500',
-        color: '#333',
-    },
-    dayEventList: {
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-        overflow: 'hidden',
-        gap: '2px',
-    },
-    monthEvent: {
-        backgroundColor: '#4685fa', // Blue from dashboard charts/icons
-        color: 'white',
-        padding: '3px 6px',
-        borderRadius: '20px',
-        fontSize: '11px',
-        marginBottom: '2px',
-        cursor: 'pointer',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
-    },
-    moreEvents: {
-        fontSize: '11px',
-        color: '#4685fa', // Blue from dashboard charts/icons
-        textAlign: 'center',
-        padding: '2px',
-        fontWeight: '500',
-        cursor: 'pointer',
-    },
-
-    // Continuous month view styles
-    continuousMonthView: {
-        height: '100%',
-        overflow: 'auto',
-        padding: '20px',
-        scrollBehavior: 'smooth',
-        backgroundColor: '#EBDFD7', // Beige background from dashboard
-    },
-    monthContainer: {
-        marginBottom: '40px',
-        borderRadius: '20px',
-        boxShadow: '0 1px 8px rgba(0,0,0,0.08)',
-        overflow: 'hidden',
-        backgroundColor: '#ffffff',
-    },
-    monthHeader: {
-        backgroundColor: '#f8f5f2', // Light beige background from dashboard
-        padding: '15px 20px',
-        fontSize: '18px',
-        fontWeight: '500',
-        color: '#333333',
-        borderBottom: '1px solid #e6e0da',
-    },
-    monthViewContent: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-
-    // Modal styles
-    modal: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw', // Full viewport width
-        height: '100vh', // Full viewport height
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 9999, // Higher z-index to appear above everything
-        backdropFilter: 'blur(3px)',
-        margin: 0, // Remove any margin
-        padding: 0, // Remove any padding
-        transform: 'translateZ(0)', // Force GPU acceleration for smoother backdrop filter
-        isolation: 'isolate', // Create a new stacking context
-    },
-    modalContent: {
-        backgroundColor: 'white',
-        borderRadius: '20px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-        width: '500px',
-        maxWidth: '90%',
-        maxHeight: '90%',
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    modalHeader: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '20px 24px',
-        borderBottom: '1px solid #e6e0da',
-        backgroundColor: '#f8f5f2', // Light beige background from dashboard
-    },
-    closeButton: {
-        background: 'none',
-        border: 'none',
-        fontSize: '24px',
-        cursor: 'pointer',
-        color: '#5f6368',
-    },
-    modalBody: {
-        padding: '24px',
-        flex: 1,
-        overflow: 'auto',
-        backgroundColor: '#ffffff',
-    },
-    modalFooter: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        padding: '16px 24px',
-        borderTop: '1px solid #e6e0da',
-        backgroundColor: '#f8f5f2', // Light beige background from dashboard
-    },
-
-    // Form styles
-    formGroup: {
-        marginBottom: '20px',
-        width: '100%',
-    },
-    formLabel: {
-        display: 'block',
-        marginBottom: '8px',
-        fontSize: '14px',
-        color: '#5f6368',
-        fontWeight: '500',
-    },
-    formInput: {
-        width: '100%',
-        padding: '10px 12px',
-        border: '1px solid #e6e0da',
-        borderRadius: '20px',
-        fontSize: '14px',
-    },
-    formTextarea: {
-        width: '100%',
-        padding: '10px 12px',
-        border: '1px solid #e6e0da',
-        borderRadius: '20px',
-        fontSize: '14px',
-        minHeight: '100px',
-        resize: 'vertical',
-    },
-    formRow: {
-        display: 'flex',
-        gap: '16px',
-    },
-
-    // Button styles
-    cancelButton: {
-        padding: '10px 16px',
-        backgroundColor: '#f1f3f4',
-        color: '#5f6368',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        marginRight: '8px',
-        fontSize: '14px',
-        fontWeight: '500',
-    },
-    saveButton: {
-        padding: '10px 20px',
-        backgroundColor: '#E65F2B',
-        color: 'white',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontSize: '14px',
-        fontWeight: '500',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    },
-    deleteButton: {
-        padding: '10px 16px',
-        backgroundColor: '#ea4335', // Red color
-        color: 'white',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        marginRight: 'auto',
-        fontSize: '14px',
-        fontWeight: '500',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    },
-    closeEventButton: {
-        padding: '10px 16px',
-        backgroundColor: '#4685fa', // Blue from dashboard charts/icons
-        color: 'white',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontSize: '14px',
-        fontWeight: '500',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    },
-
-    // Event detail styles
-    eventTitle: {
-        fontSize: '20px',
-        fontWeight: '500',
-        marginBottom: '10px',
-        color: '#4685fa', // Blue from dashboard charts/icons
-    },
-    eventTime: {
-        fontSize: '14px',
-        color: '#5f6368',
-        marginBottom: '16px',
-        padding: '5px 0',
-        borderBottom: '1px solid #e6e0da',
-    },
-    eventDescription: {
-        fontSize: '14px',
-        whiteSpace: 'pre-wrap',
-        lineHeight: '1.6',
-        color: '#3c4043',
-    },
-
-    // Additional scrollable calendar styles 
-    // for the continuous scrolling feature
-    visibleMonthsContainer: {
-        padding: '0 10px',
-        backgroundColor: '#EBDFD7', // Beige background from dashboard
-    },
-    nextMonthButton: {
-        backgroundColor: '#4685fa', // Blue from dashboard charts/icons
-        color: 'white',
-        border: 'none',
-        borderRadius: '20px',
-        padding: '8px 16px',
-        margin: '20px auto',
-        display: 'block',
-        cursor: 'pointer',
-        fontSize: '14px',
-        fontWeight: '500',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    }
 };
 
 export default Calendar;

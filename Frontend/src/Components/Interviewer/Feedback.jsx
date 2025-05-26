@@ -1,78 +1,133 @@
 import React from 'react'
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 
-const styles = {
-  container: {
-    minHeight: '100vh',
-    backgroundColor: '#EBDFD7',
-    padding: '2rem',
-  },
-  header: {
-    fontSize: '2.5rem',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'black',
-    marginBottom: '2rem'
-  },
-  sectionTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    marginBottom: '1rem',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'black',
-  },
-  formContainer: {
-    backgroundColor: '#F2EAE5',
-    borderRadius: '1rem',
-    padding: '2rem',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  },
-  inputGroup: {
-    marginBottom: '1.5rem',
-  },
-  label: {
-    display: 'block',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    marginBottom: '0.5rem',
-    color: '#374151',
-  },
-  input: {
-    width: '100%',
-    padding: '0.75rem',
-    borderRadius: '1.0rem',
-    border: '2px solid #e5e7eb',
-    outline: 'none',
-    backgroundColor: '#F6F1EE',
-    transition: 'all 0.2s',
-  },
-  button: {
-    padding: '0.75rem 1.5rem',
-    borderRadius: '3rem',
-    fontWeight: '600',
-    transition: 'transform 0.2s',
-  },
-  primaryButton: {
-    backgroundColor: 'white',
-    color: '#E65F2B',
-    borderRadius: '3rem',
-  },
-  secondaryButton: {
-    backgroundColor: '#DA3030',
-    color: 'white',
-    borderRadius: '3rem',
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '1.5rem',
-  },
+// Function to get responsive styles based on window width
+const getResponsiveStyles = () => {
+  const width = window.innerWidth;
+  const isMobile = width < 768; // Mobile breakpoint
+  const isTablet = width >= 768 && width < 1024; // Tablet breakpoint
+
+  return {
+    container: {
+      minHeight: '100vh',
+      backgroundColor: '#EBDFD7',
+      padding: isMobile ? '1rem' : '2rem',
+    },
+    header: {
+      fontSize: isMobile ? '1.75rem' : isTablet ? '2rem' : '2.5rem',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'black',
+      marginBottom: isMobile ? '1.5rem' : '2rem'
+    },
+    sectionTitle: {
+      fontSize: isMobile ? '1.25rem' : '1.5rem',
+      fontWeight: 'bold',
+      marginBottom: '1rem',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'black',
+    },
+    formContainer: {
+      backgroundColor: '#F2EAE5',
+      borderRadius: '1rem',
+      padding: isMobile ? '1rem' : '2rem',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      marginTop: isMobile ? '1rem' : '0',
+      marginBottom: isMobile ? '1rem' : '0',
+    },
+    inputGroup: {
+      marginBottom: '1.5rem',
+    },
+    label: {
+      display: 'block',
+      fontSize: '0.875rem',
+      fontWeight: '500',
+      marginBottom: '0.5rem',
+      color: '#374151',
+    },
+    input: {
+      width: '100%',
+      padding: '0.75rem',
+      borderRadius: '1.0rem',
+      border: '2px solid #e5e7eb',
+      outline: 'none',
+      backgroundColor: '#F6F1EE',
+      transition: 'all 0.2s',
+    },
+    button: {
+      padding: '0.75rem 1.5rem',
+      borderRadius: '3rem',
+      fontWeight: '600',
+      transition: 'transform 0.2s',
+    },
+    primaryButton: {
+      backgroundColor: 'white',
+      color: '#E65F2B',
+      borderRadius: '3rem',
+    },
+    secondaryButton: {
+      backgroundColor: '#DA3030',
+      color: 'white',
+      borderRadius: '3rem',
+    },
+    grid: {
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+      gap: isMobile ? '1rem' : '1.5rem',
+    },
+    responsiveGrid: {
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+      gap: isMobile ? '1rem' : '1.5rem',
+    },
+    buttonContainer: {
+      display: 'flex',
+      gap: isMobile ? '0.5rem' : '1rem', 
+      justifyContent: 'flex-end',
+      flexDirection: isMobile ? 'column' : 'row',
+      marginTop: isMobile ? '1rem' : '0',
+    },
+    actionButton: {
+      width: isMobile ? '100%' : 'auto',
+    }
+  };
 };
 
+// Initialize styles with responsive values
+const styles = getResponsiveStyles();
+
 function Feedback() {
+  // Add state to track window resize for responsive styles
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  
+  // Update window dimensions when resized
+  React.useEffect(() => {
+    // Function to update window dimensions
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+      // Update the styles object with new responsive values
+      Object.assign(styles, getResponsiveStyles());
+    }
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Call handler right away to update styles based on initial window size
+    handleResize();
+    
+    // Remove event listener on cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const formatDate = () => {
     const now = new Date();
 
@@ -163,7 +218,6 @@ function Feedback() {
   const navigate = useNavigate();
 
   // Update your handleSubmit function
-  // Update your handleSubmit function
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -252,6 +306,8 @@ function Feedback() {
             border: '2px solid #e5e7eb',
             display: 'flex',
             alignItems: 'center',
+            fontSize: windowSize.width < 768 ? '0.875rem' : '1rem',
+            maxWidth: windowSize.width < 768 ? '90%' : 'auto',
           },
           success: {
             style: {
@@ -272,10 +328,10 @@ function Feedback() {
             },
           },
         }}
-        gutter={-55}
+        gutter={windowSize.width < 768 ? -30 : -55}
         containerStyle={{
-          bottom: '40px',
-          right: '30px',
+          bottom: windowSize.width < 768 ? '20px' : '40px',
+          right: windowSize.width < 768 ? '10px' : '30px',
         }}
       />
       <form onSubmit={handleSubmit} style={styles.formContainer}>
@@ -424,14 +480,14 @@ function Feedback() {
         {/* Technical Evaluation Section */}
         <section style={styles.inputGroup}>
           <h2 style={styles.sectionTitle}>Technical Evaluation</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '1.5rem',
-          }}>
+          <div style={styles.responsiveGrid}>
             {skills.map((skill, index) => (
               <div key={index} style={{ marginBottom: '1rem', position: 'relative' }}>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '1rem',
+                  flexDirection: windowSize.width < 500 ? 'column' : 'row'
+                }}>
                   <div style={{ flex: 1 }}>
                     <label style={styles.label}>Skill</label>
                     <input
@@ -492,14 +548,9 @@ function Feedback() {
         </section>
 
         {/* Questions Section */}
-        {/* Questions Section */}
         <section style={styles.inputGroup}>
           <h2 style={styles.sectionTitle}>Interview Questions</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '1.5rem'
-          }}>
+          <div style={styles.responsiveGrid}>
             {questions.map((qa, index) => (
               <div key={index} style={{ marginBottom: '1rem', position: 'relative' }}>
                 <div>
@@ -545,11 +596,7 @@ function Feedback() {
         {/* Overall Evaluation Section */}
         <section style={styles.inputGroup}>
           <h2 style={styles.sectionTitle}>Overall Evaluation</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '1.5rem'
-          }}>
+          <div style={styles.responsiveGrid}>
             <div>
               <label style={styles.label}>Communication Skills</label>
               <textarea
@@ -608,17 +655,17 @@ function Feedback() {
           </div>
         </section>
 
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+        <div style={styles.buttonContainer}>
           <button
             type="button"
             onClick={handleCancel}
-            style={{ ...styles.button, ...styles.secondaryButton }}
+            style={{ ...styles.button, ...styles.secondaryButton, ...styles.actionButton }}
           >
             Cancel
           </button>
           <button
             type="submit"
-            style={{ ...styles.button }}
+            style={{ ...styles.button, ...styles.actionButton }}
             className='bg-[#E65F2B] text-white hover:bg-[#D05425] transition-colors duration-200'
           >
             Submit Feedback

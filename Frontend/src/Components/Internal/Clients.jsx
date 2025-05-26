@@ -432,13 +432,16 @@ function Clients() {
         {location.pathname === "/internal/clients" && (
           <div>
             {/* Search and Add Client Section */}
-            <div className="flex flex-col justify-end sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0 ml-auto">
-              {/* Search Input */}
-              <div className="flex items-center bg-white rounded-full px-4 py-2 w-full sm:w-80">
+            <div className="flex flex-col w-full sm:flex-row sm:items-center space-y-4 sm:space-y-0">
+              {/* Spacer that takes up available space and pushes elements to the right */}
+              <div className="hidden sm:block sm:flex-grow"></div>
+
+              {/* Search Input - positioned with specific margin */}
+              <div className="flex items-center rounded-full px-3 sm:px-4 py-2 mt-3 sm:mt-0 w-full sm:w-[350px] bg-[#fff] border-gray-300 border focus-within:border-orange-500 sm:mr-[20px]">
                 <input
                   type="text"
-                  value={searchQuery}  // Add this
-                  onChange={handleSearch}  // Add this
+                  value={searchQuery}
+                  onChange={handleSearch}
                   placeholder="Search Client by name"
                   className="flex-1 bg-transparent text-gray-600 outline-none text-sm"
                 />
@@ -455,38 +458,41 @@ function Clients() {
 
               {/* Add Client Button */}
               <VisitorDisableWrapper>
-                <button
-                  className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
-                  onClick={() => navigate(`${location.pathname}/addclient`)}
-                >
-                  <span className="absolute right-0 h-full w-[39px] bg-[#cd4b18] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                      stroke="currentColor"
-                      fill="none"
-                      class="stroke-white"
-                    >
-                      <line y2="19" y1="5" x2="12" x1="12"></line>
-                      <line y2="12" y1="12" x2="19" x1="5"></line>
-                    </svg>
-                  </span>
-                  <span className=" pl-2 absolute left-2 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
-                    Add Client
-                  </span>
-                </button>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => navigate(`${location.pathname}/addclient`)}
+                    className="relative w-[160px] h-10 flex items-center rounded-full border-[1px] border-[#E65F2B] overflow-hidden bg-[#ffffff] cursor-pointer transition-all duration-300 hover:bg-[#E65F2B] active:border-[#E65F2B] group"
+                  >
+                    <span className="absolute left-5 text-[#E65F2B] font-semibold transition-all duration-300 group-hover:text-transparent">
+                      Add Client
+                    </span>
+                    <span className="absolute right-0 h-full w-[39px] bg-[#E65F2B] flex items-center justify-center transition-all duration-300 group-hover:w-full group-hover:translate-x-0 active:bg-green-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        stroke="currentColor"
+                        fill="none"
+                        className="stroke-white"
+                      >
+                        <line y2="19" y1="5" x2="12" x1="12"></line>
+                        <line y2="12" y1="12" x2="19" x1="5"></line>
+                      </svg>
+                    </span>
+                  </button>
+                </div>
               </VisitorDisableWrapper>
             </div>
             {/* Domain and Status Filters */}
-            <div className="space-y-2 mt-1">
+            <div className="space-y-2 mt-4">
               {/* Status Filter */}
-              <div className="flex items-center space-x-1">
-                <span className="text-sm font-bold mr-4">Status</span>
+              <div className="flex flex-wrap items-center gap-2 mt-3">
+                <span className="text-sm font-bold mr-2">Status</span>
                 {statuses.map((status) => (
                   <button
                     key={status}
@@ -497,7 +503,6 @@ function Clients() {
                       }`}
                   >
                     {/* Tick container */}
-
                     {selectedFilters.status === status && (
                       <span className="w-4 h-4 flex justify-center items-center">
                         <svg
@@ -523,68 +528,100 @@ function Clients() {
               </div>
             </div>
 
-            {/* Table Section */}
-            <div className="w-[100%] bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-hidden mt-6">
-              <table className="w-[100%] h-[100%]">
-                <thead className="border-b-2 border-[#E65F2B]/20">
-                  <tr>
-                    <th scope="col" className="py-4 px-20 text-left font-bold text-[#E65F2B]">
-                      Client
-                    </th>
-                    <th
-                      scope="col"
-                      className="py-4 px-6 font-bold text-[#E65F2B]"
-                    >
-                      Active Jobs
-                    </th>
-                    {/* <th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
-                      Passive Jobs
-                    </th> */}
-                    <th
-                      scope="col"
-                      className="py-4 px-6 font-bold text-[#E65F2B]"
-                    >
-                      Total Candidates
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.isArray(data) ? (
-                    data.map((client, index) => (
-                      <tr key={client.id} className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors">
-                        <td className="py-3 px-6 text-center">
-                          <div className="flex items-center gap-4">
-                            <img
-                              src={Profile}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = Profile;
-                              }}
-                              alt="Company Logo"
-                              className="w-10 h-10 rounded-full"
-                            />
-                            <span>{client.companyName}</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-6 max-w-max text-center">
-                          {client.totalJobs}
-                        </td>
-                        {/* Uncomment below if needed */}
-                        {/* <td className="px-6 py-4 text-center">{client.passiveJobs}</td> */}
-                        <td className="py-3 px-6 max-w-max text-center">
-                          {client.totalCandidates}
+            {/* Table Section with responsive design */}
+            <div className="w-full mt-6">
+              {/* Desktop and Tablet Table View */}
+              <div className="hidden sm:block w-full bg-[rgba(255,255,255,0.34)] rounded-xl shadow-md overflow-x-auto">
+                <table className="w-full">
+                  <thead className="border-b-2 border-[#E65F2B]/20">
+                    <tr>
+                      <th scope="col" className="py-4 px-6 text-left font-bold text-[#E65F2B]">
+                        Client
+                      </th>
+                      <th scope="col" className="py-4 px-6 text-center font-bold text-[#E65F2B]">
+                        Active Jobs
+                      </th>
+                      <th scope="col" className="py-4 px-6 text-center font-bold text-[#E65F2B]">
+                        Total Candidates
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(data) && data.length > 0 ? (
+                      data.map((client) => (
+                        <tr key={client.id} className="border-b border-gray-200 hover:bg-[#F6F1EE]/50 transition-colors">
+                          <td className="py-3 px-6">
+                            <div className="flex items-center gap-4">
+                              <img
+                                src={Profile}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                                alt="Company Logo"
+                                className="w-10 h-10 rounded-full"
+                              />
+                              <span className="text-base">{client.companyName}</span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-6 text-center">
+                            {client.totalJobs}
+                          </td>
+                          <td className="py-3 px-6 text-center">
+                            {client.totalCandidates}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" className="py-3 px-6 text-center">
+                          No Data Available
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="4" className="py-3 px-6 max-w-max text-center">
-                        No Data Available
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="sm:hidden space-y-4">
+                {Array.isArray(data) && data.length > 0 ? (
+                  data.map((client) => (
+                    <div key={client.id} className="bg-[rgba(255,255,255,0.34)] rounded-xl p-4 shadow-md">
+                      <div className="flex items-center gap-3 mb-3 border-b border-gray-200 pb-3">
+                        <img
+                          src={Profile}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = Profile;
+                          }}
+                          alt="Company Logo"
+                          className="w-12 h-12 rounded-full"
+                        />
+                        <span className="text-base font-medium">{client.companyName}</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-[rgba(255,255,255,0.34)] p-3 rounded-lg">
+                          <p className="text-xs text-gray-500 mb-1">Active Jobs</p>
+                          <p className="text-xl font-semibold text-[#E65F2B]">{client.totalJobs}</p>
+                        </div>
+                        <div className="bg-[rgba(255,255,255,0.34)] p-3 rounded-lg">
+                          <p className="text-xs text-gray-500 mb-1">Total Candidates</p>
+                          <p className="text-xl font-semibold text-[#E65F2B]">{client.totalCandidates}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="bg-[rgba(255,255,255,0.34)] rounded-xl p-6 text-center shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    <p className="text-gray-500">No Data Available</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -593,7 +630,7 @@ function Clients() {
       {/* Add Client Section */}
       <div className="flex flex-col items-center justify-center">
         {location.pathname === "/internal/clients/addclient" && (
-          <form action="" className="m-2 p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md">
+          <form action="" className="m-2 p-4 sm:p-6 w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md overflow-x-hidden">
             <div>
               <div>
                 <p className="text-[24px] font-semibold">Add Client</p>
@@ -662,7 +699,7 @@ function Clients() {
 
               {/* Data 1 */}
               <div className="pt-4">
-                <div className="grid grid-cols-3 gap-x-10 gap-y-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 lg:gap-x-10 gap-y-2">
                   {/* First Row */}
                   <div className="flex flex-col">
                     <label className="mb-2 text-gray-700">Client Name</label>
@@ -794,8 +831,8 @@ function Clients() {
 
               {/* Data 2 */}
               <div className="pt-6">
-                <div className="grid grid-cols-3 gap-x-10 gap-y-2">
-                  <h2 className="text-[20px] font-semibold col-span-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 lg:gap-x-10 gap-y-2">
+                  <h2 className="text-[20px] font-semibold col-span-1 sm:col-span-2 lg:col-span-3">
                     Point of Contact
                   </h2>
                   {/* First Row */}
@@ -844,14 +881,14 @@ function Clients() {
               </div>
 
               {/* Submit Button */}
-              <div className="flex justify-end mt-6">
+              <div className="flex justify-center sm:justify-end mt-6">
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   onClick={handleSubmit}
                   className={`h-[40px] flex items-center gap-2 
-                    ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                    } text-[#E65F2B] bg-white px-6 py-3 rounded-full text-[18px] font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px] active:shadow-md group`}
+                    ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}
+                    text-[#E65F2B] bg-white px-6 py-3 rounded-full text-[16px] sm:text-[18px] font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px] active:shadow-md group`}
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit'}
                   {!isSubmitting &&
