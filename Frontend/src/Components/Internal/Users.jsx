@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, User, Mail, Phone, Calendar, Lock } from 'lucide-react';
 import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'sonner';
+import { Toaster } from '@/Components/Ui/Sonner';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -345,35 +346,41 @@ const InternalUsers = () => {
     }
 
     setIsSubmitting(true);
-    const loadingToast = toast.loading('Adding new user...');
 
-    try {
-      const userData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        contactNumber: formData.contactNumber,
-        password: formData.password,
-        confirmPassword: formData.confirmPassword
-      };
+    const userData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      contactNumber: formData.contactNumber,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword
+    };
 
-      const response = await api.post('api/v1/internal/signUp', userData);
-
-      if (response.data.success) {
-        toast.success('User added successfully!', { id: loadingToast });
-        setRefreshUsers(prev => !prev);
-        setIsAddUserModalOpen(false);
+    toast.promise(
+      api.post('api/v1/internal/signUp', userData),
+      {
+        loading: 'Adding new user...',
+        success: (response) => {
+          if (response.data.success) {
+            setRefreshUsers(prev => !prev);
+            setIsAddUserModalOpen(false);
+            return 'User added successfully!';
+          } else {
+            throw new Error(response.data.message || 'Failed to add user');
+          }
+        },
+        error: (error) => {
+          const errorMessage = error.response?.data?.message || 'Failed to add user. Please try again.';
+          setErrors({
+            submit: errorMessage
+          });
+          return errorMessage;
+        },
+        finally: () => {
+          setIsSubmitting(false);
+        }
       }
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to add user. Please try again.';
-      toast.error(errorMessage, { id: loadingToast });
-      setErrors({
-        submit: errorMessage
-      });
-      console.error('Error adding user:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    );
   };
 
   const handleDeleteUser = (id) => {
@@ -382,21 +389,22 @@ const InternalUsers = () => {
 
   const confirmDelete = async () => {
     const id = deleteConfirmation.userId;
-    const loadingToast = toast.loading('Deleting user...');
 
-    try {
-      // Update the frontend state directly
-      setData(prevData => prevData.filter(user => user.id !== id));
-      setDeleteConfirmation({ isOpen: false, userId: null });
-
-      // Show success message
-      toast.success('User deleted successfully!', { id: loadingToast });
-      // Remove this line since we don't want to trigger a refresh
-      // setRefreshUsers(prev => !prev);
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      toast.error('Failed to delete user. Please try again.', { id: loadingToast });
-    }
+    toast.promise(
+      // Since there's no actual API call for deletion in the provided code,
+      // we'll use a Promise that resolves immediately
+      new Promise((resolve) => {
+        // Update the frontend state directly
+        setData(prevData => prevData.filter(user => user.id !== id));
+        setDeleteConfirmation({ isOpen: false, userId: null });
+        resolve();
+      }),
+      {
+        loading: 'Deleting user...',
+        success: 'User deleted successfully!',
+        error: 'Failed to delete user. Please try again.'
+      }
+    );
   };
 
   const [data, setData] = useState([]);
@@ -433,18 +441,17 @@ const InternalUsers = () => {
 
   return (
     <div className="bg-[#EBDFD7] min-h-[calc(100vh-64px)] p-4 md:p-6">
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
@@ -464,11 +471,6 @@ const InternalUsers = () => {
               secondary: 'white',
             },
           },
-        }}
-        gutter={-60}
-        containerStyle={{
-          bottom: '40px',
-          right: '30px',
         }}
       />
       <div className="container mx-auto px-2 sm:px-4">

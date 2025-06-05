@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { gapi } from 'gapi-script';
-import toast, { Toaster } from 'react-hot-toast';
+import { toast } from 'sonner';
+import { Toaster } from '@/Components/Ui/Sonner';
 import { Calendar as CalendarComponent } from "@/Components/Ui/Calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/Ui/Popover";
 import { Button } from "@/Components/Ui/Button";
@@ -107,7 +108,6 @@ const Calendar = () => {
     const showToast = useCallback((message, type = 'info') => {
         const options = {
             duration: 3000,
-            position: 'bottom-right',
             className: 'shadow-md',
             style: {
                 background: '#FFFFFF',
@@ -124,6 +124,7 @@ const Calendar = () => {
                     ...options.style,
                     border: '2px solid #E65F2B',
                 },
+                icon: '✓',
                 iconTheme: {
                     primary: '#E65F2B',
                     secondary: 'white',
@@ -287,9 +288,6 @@ const Calendar = () => {
             return;
         }
 
-        // Show loading toast
-        const loadingToastId = toast.loading('Creating event...');
-
         const event = {
             summary: newEvent.title,
             description: newEvent.description,
@@ -311,76 +309,83 @@ const Calendar = () => {
             },
         };
 
-        gapi.client.calendar.events.insert({
-            calendarId: 'primary',
-            resource: event
-        }).then((response) => {
-            // Dismiss loading toast
-            toast.dismiss(loadingToastId);
+        toast.promise(
+            gapi.client.calendar.events.insert({
+                calendarId: 'primary',
+                resource: event
+            }),
+            {
+                loading: 'Creating event...',
+                success: (response) => {
+                    setShowEventModal(false);
+                    setNewEvent({
+                        title: '',
+                        description: '',
+                        startDate: '',
+                        startTime: '',
+                        endDate: '',
+                        endTime: '',
+                    });
 
-            setShowEventModal(false);
-            setNewEvent({
-                title: '',
-                description: '',
-                startDate: '',
-                startTime: '',
-                endDate: '',
-                endTime: '',
-            });
+                    // Get the created event details
+                    const createdEvent = response.result;
+                    const eventDate = new Date(createdEvent.start.dateTime || createdEvent.start.date);
 
-            // Get the created event details
-            const createdEvent = response.result;
-            const eventDate = new Date(createdEvent.start.dateTime || createdEvent.start.date);
+                    // Update the calendar view to show the date of the new event
+                    setCurrentDate(eventDate);
 
-            // Update the calendar view to show the date of the new event
-            setCurrentDate(eventDate);
+                    // Switch to appropriate view based on event duration
+                    const startDate = new Date(createdEvent.start.dateTime || createdEvent.start.date);
+                    const endDate = new Date(createdEvent.end.dateTime || createdEvent.end.date);
+                    const durationInDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
 
-            // Switch to appropriate view based on event duration
-            const startDate = new Date(createdEvent.start.dateTime || createdEvent.start.date);
-            const endDate = new Date(createdEvent.end.dateTime || createdEvent.end.date);
-            const durationInDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                    if (durationInDays > 1) {
+                        setView('month');
+                    } else {
+                        setView('week');
+                    }
 
-            if (durationInDays > 1) {
-                setView('month');
-            } else {
-                setView('week');
+                    // Then reload events to show the new event
+                    loadEvents();
+
+                    // Return success message
+                    return (
+                        <div className="flex flex-col">
+                            <span className="font-medium">Event created successfully</span>
+                            <span className="text-xs mt-1">{createdEvent.summary}</span>
+                        </div>
+                    );
+                },
+                error: (error) => {
+                    console.error("Error creating event", error);
+                    return `Failed to create event: ${error.message || 'Unknown error'}`;
+                }
             }
-
-            // Then reload events to show the new event
-            loadEvents();
-
-            // Show success toast with event details
-            showToast(
-                <div className="flex flex-col">
-                    <span className="font-medium">Event created successfully</span>
-                    <span className="text-xs mt-1">{createdEvent.summary}</span>
-                </div>,
-                'success'
-            );
-        }).catch(error => {
-            // Dismiss loading toast
-            toast.dismiss(loadingToastId);
-
-            console.error("Error creating event", error);
-            showToast(`Failed to create event: ${error.message || 'Unknown error'}`, 'error');
-        });
+        );
     };
 
     const handleDeleteEvent = () => {
         if (!selectedEvent) return;
 
-        gapi.client.calendar.events.delete({
-            calendarId: 'primary',
-            eventId: selectedEvent.id
-        }).then(() => {
-            setShowEventDetails(false);
-            setSelectedEvent(null);
-            loadEvents();
-            showToast('Event deleted successfully', 'success');
-        }).catch(error => {
-            console.error("Error deleting event", error);
-            showToast(`Failed to delete event: ${error.message || 'Unknown error'}`, 'error');
-        });
+        toast.promise(
+            gapi.client.calendar.events.delete({
+                calendarId: 'primary',
+                eventId: selectedEvent.id
+            }),
+            {
+                loading: 'Deleting event...',
+                success: () => {
+                    setShowEventDetails(false);
+                    setSelectedEvent(null);
+                    loadEvents();
+                    return 'Event deleted successfully';
+                },
+                error: (error) => {
+                    console.error("Error deleting event", error);
+                    return `Failed to delete event: ${error.message || 'Unknown error'}`;
+                }
+            }
+        );
     };
 
     const changeDate = (amount) => {
@@ -1693,18 +1698,17 @@ const Calendar = () => {
                 )}
 
                 {/* Toaster */}
-                <Toaster
-                    position="bottom-right"
-                    reverseOrder={true}
+                <Toaster 
+                    position="bottom-right" 
+                    closeButton
+                    theme="light"
+                    duration={3000}
+                    className="toast-container"
                     toastOptions={{
-                        className: '',
-                        duration: 3000,
                         style: {
                             background: '#FFFFFF',
                             color: '#374151',
                             border: '2px solid #e5e7eb',
-                            display: 'flex',
-                            alignItems: 'center',
                         },
                         success: {
                             style: {
@@ -1724,11 +1728,6 @@ const Calendar = () => {
                                 secondary: 'white',
                             },
                         },
-                    }}
-                    gutter={-55}
-                    containerStyle={{
-                        bottom: '40px',
-                        right: '30px',
                     }}
                 />
             </div>

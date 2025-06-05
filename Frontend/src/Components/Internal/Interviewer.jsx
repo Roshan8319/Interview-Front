@@ -9,7 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import debounce from "lodash/debounce";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
 // Constants
@@ -60,31 +61,31 @@ function Interviewer() {
   const [items, setItems] = useState([]);
   const [originalData, setOriginalData] = useState([]);
 
-  // Data Fetching
+  // Data Fetching Function
+  const fetchData = async (isMounted = true) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${baseUrl}/api/v1/internal/getAllInterviewers`,
+        { withCredentials: true }
+      );
+      if (isMounted) {
+        setData(response.data.data);
+        setOriginalData(response.data.data); // Store original data for filtering
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      if (isMounted) {
+        setLoading(false);
+      }
+    }
+  };
+
+  // Initial Data Fetching
   useEffect(() => {
     let mounted = true;
-
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `${baseUrl}/api/v1/internal/getAllInterviewers`,
-          { withCredentials: true }
-        );
-        if (mounted) {
-          setData(response.data.data);
-          setOriginalData(response.data.data); // Store original data for filtering
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
+    fetchData(mounted);
     return () => { mounted = false; };
   }, [baseUrl]);
 
@@ -232,37 +233,39 @@ function Interviewer() {
         strength: editUser.strength
       };
 
-      // Show loading toast
-      const loadingToast = toast.loading('Updating interviewer...');
-
-      const response = await axios.put(
-        `${baseUrl}/api/v1/internal/updateInterviewer/${editUser.email}`,
-        updatedUser,
+      toast.promise(
+        axios.put(
+          `${baseUrl}/api/v1/internal/updateInterviewer/${editUser.email}`,
+          updatedUser,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        ),
         {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
+          loading: 'Updating interviewer...',
+          success: (response) => {
+            if (response.data.success) {
+              handleEditUserClose();
+              // Refresh the data
+              fetchData();
+              return 'Interviewer updated successfully!';
+            } else {
+              throw new Error(response.data.message || 'Failed to update interviewer');
+            }
+          },
+          error: (error) => {
+            console.error('Error updating interviewer:', error);
+            return error.response?.data?.message ||
+              'An error occurred while updating. Please try again.';
           }
         }
       );
-
-      // Dismiss loading toast
-      toast.dismiss(loadingToast);
-
-      if (response.data.success) {
-        toast.success('Interviewer updated successfully!');
-        handleEditUserClose();
-        // Refresh the data
-        fetchData();
-      } else {
-        toast.error(response.data.message || 'Failed to update interviewer');
-      }
     } catch (error) {
-      console.error('Error updating interviewer:', error);
-      toast.error(
-        error.response?.data?.message ||
-        'An error occurred while updating. Please try again.'
-      );
+      console.error('Error in submission handler:', error);
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -321,40 +324,27 @@ function Interviewer() {
       <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 -mt-4 sm:-mt-6">
         <Toaster
           position="bottom-right"
-          reverseOrder={true}
+          closeButton
+          richColors
+          theme="light"
+          duration={3000}
+          className="toast-container"
           toastOptions={{
-            className: '',
-            duration: 3000,
             style: {
               background: '#FFFFFF',
               color: '#374151',
               border: '2px solid #e5e7eb',
-              display: 'flex',
-              alignItems: 'center',
             },
             success: {
               style: {
                 border: '2px solid #359E45',
-              },
-              iconTheme: {
-                primary: '#359E45',
-                secondary: 'white',
               },
             },
             error: {
               style: {
                 border: '2px solid #EF4444',
               },
-              iconTheme: {
-                primary: '#EF4444',
-                secondary: 'white',
-              },
             },
-          }}
-          gutter={-40}
-          containerStyle={{
-            bottom: '40px',
-            right: '30px',
           }}
         />
         {/* Header Section */}

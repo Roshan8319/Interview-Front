@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-// Replace react-toastify with react-hot-toast
-import toast, { Toaster } from 'react-hot-toast';
+// Import sonner toast
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 
 const VISITOR_ACCOUNTS = {
   CLIENT: { email: 'visitor@zomato.com', password: 'Client@2025' },
@@ -192,42 +193,31 @@ function SignInPage() {
 
   return (
     <div className="w-[100%] h-[100%]">
-      {/* Toaster component from react-hot-toast */}
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      {/* Sonner Toaster component */}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
         }}
-        gutter={-40}
-        containerClassName="toast-container"
-        containerStyle={{}}
       />
 
       <style>

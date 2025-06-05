@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { Camera, Upload, X, CheckCircle, Loader2 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 
 function AddInterviewer() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -214,23 +215,21 @@ function AddInterviewer() {
       return;
     }
 
-    const loadingToast = toast.loading('Saving interviewer details...');
+    setIsLoading(true);
+    const formDataToSend = new FormData();
 
-    try {
-      setIsLoading(true);
-      const formDataToSend = new FormData();
-
-      Object.keys(formData).forEach((key) => {
-        if (key !== 'profilePhoto') {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
-
-      if (selectedFile) {
-        formDataToSend.append('profilePhoto', selectedFile);
+    Object.keys(formData).forEach((key) => {
+      if (key !== 'profilePhoto') {
+        formDataToSend.append(key, formData[key]);
       }
+    });
 
-      await axios.post(
+    if (selectedFile) {
+      formDataToSend.append('profilePhoto', selectedFile);
+    }
+
+    toast.promise(
+      axios.post(
         `${baseUrl}/api/v1/internal/add-interviewer`,
         formDataToSend,
         {
@@ -238,31 +237,32 @@ function AddInterviewer() {
             'Content-Type': 'multipart/form-data',
           },
         }
-      );
-
-      toast.dismiss(loadingToast);
-      toast.success('Interviewer added successfully!');
-      setTimeout(() => {
-        navigate("/internal/interviewer", { replace: true });
-      }, 1000);
-
-    } catch (error) {
-      toast.dismiss(loadingToast);
-
-      // If the error is 500 but data was saved (check response data)
-      if (error.response?.status === 500 && error.response?.data) {
-        toast.success('Interviewer added successfully!');
-        setTimeout(() => {
-          navigate("/internal/interviewer", { replace: true });
-        }, 1000);
-      } else {
-        // Show error only for non-500 errors or when there's no response data
-        const errorMessage = error.response?.data?.errorMessage || "Something went wrong!";
-        toast.error(errorMessage);
+      ),
+      {
+        loading: 'Saving interviewer details...',
+        success: (response) => {
+          setTimeout(() => {
+            navigate("/internal/interviewer", { replace: true });
+          }, 1000);
+          return 'Interviewer added successfully!';
+        },
+        error: (error) => {
+          // If the error is 500 but data was saved (check response data)
+          if (error.response?.status === 500 && error.response?.data) {
+            setTimeout(() => {
+              navigate("/internal/interviewer", { replace: true });
+            }, 1000);
+            return 'Interviewer added successfully!';
+          } else {
+            // Show error only for non-500 errors or when there's no response data
+            return error.response?.data?.errorMessage || "Something went wrong!";
+          }
+        },
+        finally: () => {
+          setIsLoading(false);
+        }
       }
-    } finally {
-      setIsLoading(false);
-    }
+    );
   };
 
   // Add handleBlur function after handleChange
@@ -437,42 +437,29 @@ function AddInterviewer() {
 
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-4">
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
-        }}
-        gutter={-40}
-        containerStyle={{
-          bottom: '40px',
-          right: '40px',
         }}
       />
       <form className="m-2 p-6 sm:p-6 w-full sm:w-[95%] h-[95%] bg-[#F2EAE5] rounded-2xl shadow-md overflow-y-auto">
@@ -600,18 +587,18 @@ function AddInterviewer() {
               <div className="flex flex-col">
                 <label className="mb-1 sm:mb-2 text-gray-700 text-sm sm:text-base">Phone</label>
                 <input
-                  type="number"
+                  type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={(e) => {
-                    const value = e.target.value;
-                    // Allow only positive numbers or empty input
-                    if (value === "" || Number(value) >= 0) {
-                      setFormData({ ...formData, phone: value });
-                    }
+                    // Only allow digits and limit to 10 characters
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    setFormData({ ...formData, phone: value });
                   }}
                   onBlur={handleBlur}
-                  placeholder="Enter Phone Number"
+                  placeholder="10-digit phone number"
+                  maxLength="10"
+                  pattern="[0-9]{10}"
                   className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                 />
               </div>

@@ -3,7 +3,8 @@ import { ImagePlus, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Profile from "../../assets/ProfileIcon.png";
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import debounce from 'lodash/debounce';
 import { VisitorDisableWrapper } from '../Hooks/VisitorGuard';
 
@@ -23,7 +24,7 @@ const debouncedValidations = {
 
   phone: debounce((value, toast) => {
     if (value && (value.length !== 10 || !/^\d+$/.test(value))) {
-      toast.error('Phone number must be 10 digits');
+      toast.error('Phone number must be exactly 10 digits');
     }
   }, 500)
 };
@@ -264,25 +265,24 @@ function Clients() {
       return;
     }
 
-    const loadingToast = toast.loading('Adding client...');
-    setIsSubmitting(true);
+        setIsSubmitting(true);
 
-    try {
-      const clientData = new FormData();
+    const clientData = new FormData();
 
-      // Append all form fields except logo
-      Object.keys(trimmedFormData).forEach((key) => {
-        if (key !== 'companyLogo') {
-          clientData.append(key, trimmedFormData[key]);
-        }
-      });
-
-      // Append logo if exists
-      if (logofile) {
-        clientData.append("companyLogo", logofile);
+    // Append all form fields except logo
+    Object.keys(trimmedFormData).forEach((key) => {
+      if (key !== 'companyLogo') {
+        clientData.append(key, trimmedFormData[key]);
       }
+    });
 
-      const response = await axios.post(
+    // Append logo if exists
+    if (logofile) {
+      clientData.append("companyLogo", logofile);
+    }
+
+    toast.promise(
+      axios.post(
         `${baseUrl}/api/v1/internal/add-client`,
         clientData,
         {
@@ -291,23 +291,26 @@ function Clients() {
             "Content-Type": "multipart/form-data",
           },
         }
-      );
-
-      toast.dismiss(loadingToast);
-
-      if (response.data.success) {
-        toast.success('Client added successfully');
-        navigate('/internal/clients');
-      } else {
-        toast.error(response.data.message || 'Failed to add client');
+      ),
+      {
+        loading: 'Adding client...',
+        success: (response) => {
+          if (response.data.success) {
+            navigate('/internal/clients');
+            return 'Client added successfully';
+          } else {
+            throw new Error(response.data.message || 'Failed to add client');
+          }
+        },
+        error: (error) => {
+          console.error("Error during form submission:", error);
+          return error.response?.data?.message || 'Error adding client';
+        },
+        finally: () => {
+          setIsSubmitting(false);
+        }
       }
-    } catch (error) {
-      toast.dismiss(loadingToast);
-      toast.error(error.response?.data?.message || 'Error adding client');
-      console.error("Error during form submission:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    );
   };
 
   // Fetch Clients Data
@@ -390,42 +393,29 @@ function Clients() {
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-6">
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
-        }}
-        gutter={-40}
-        containerStyle={{
-          bottom: '40px',
-          right: '50px',
         }}
       />
       <div>
@@ -863,17 +853,17 @@ function Clients() {
                   <div className="flex flex-col">
                     <label className="mb-2 text-gray-700">Phone</label>
                     <input
-                      type="number"
+                      type="tel"
                       name="pocContactNumber"
                       value={formData.pocContactNumber}
                       onChange={(e) => {
-                        const value = e.target.value;
-                        // Allow only positive numbers or empty input
-                        if (value === "" || Number(value) >= 0) {
-                          setFormData({ ...formData, pocContactNumber: value });
-                        }
+                        // Only allow digits and limit to 10 characters
+                        const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setFormData({ ...formData, pocContactNumber: value });
                       }}
-                      placeholder="Enter Phone Number"
+                      placeholder="10-digit phone number"
+                      maxLength="10"
+                      pattern="[0-9]{10}"
                       className="h-[37px] px-4 border-2 rounded-xl outline-none transition-all duration-200 text-[15px] bg-[#F6F1EE] shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E65F2B]"
                     />
                   </div>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import ProfileIcon from "../../assets/ProfileIcon.png";
 import { VisitorDisableWrapper } from "../Hooks/VisitorGuard";
 
@@ -36,8 +37,8 @@ const ProfilePage = () => {
   // Fetch interviewer data
   useEffect(() => {
     const fetchData = async () => {
-      const loadingToast = toast.loading("Fetching profile data...");
-      try {
+      // Define the function to fetch profile data
+      const getProfileData = async () => {
         const response = await axios.get(`${baseUrl}/api/v1/interviewer/getInterviewer`, {
           withCredentials: true,
         });
@@ -50,13 +51,16 @@ const ProfilePage = () => {
         } else {
           setProfilePhoto(ProfileIcon); // Ensure default icon if no photo fetched
         }
-        toast.success("Profile loaded successfully!", { id: loadingToast });
-      } catch (error) {
-        console.error("Fetch error:", error); // Log the error for debugging
-        toast.error(error.response?.data?.message || "Failed to load profile data", { id: loadingToast });
-      } finally {
-        setLoading(false);
-      }
+        return response;
+      };
+
+      // Use toast.promise to handle the async operation
+      toast.promise(getProfileData(), {
+        loading: "Fetching profile data...",
+        success: "Profile loaded successfully!",
+        error: (error) => error.response?.data?.message || "Failed to load profile data",
+        finally: () => setLoading(false)
+      });
     };
     fetchData();
   }, [baseUrl]); // Add baseUrl as dependency if it could change, though unlikely with env vars
@@ -75,25 +79,16 @@ const ProfilePage = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        toast.error("Image size should be less than 5MB", {
-          style: { border: '2px solid #EF4444' },
-          iconTheme: { primary: '#EF4444', secondary: 'white' },
-        });
+        toast.error("Image size should be less than 5MB");
         return;
       }
 
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePhoto(reader.result); // Update state with the preview URL (Data URL)
-        toast.success("Photo updated successfully", {
-          style: { border: '2px solid #359E45' },
-          iconTheme: { primary: '#359E45', secondary: 'white' },
-        });
+        toast.success("Photo updated successfully");
       };
-      reader.onerror = () => toast.error("Failed to read image file", {
-        style: { border: '2px solid #EF4444' },
-        iconTheme: { primary: '#EF4444', secondary: 'white' },
-      });
+      reader.onerror = () => toast.error("Failed to read image file");
       reader.readAsDataURL(file); // Read the file for preview
     }
   };
@@ -112,25 +107,34 @@ const ProfilePage = () => {
 
   // Discard changes
   const handleDiscardChanges = () => {
-    const discardToast = toast.loading("Discarding changes...");
-    try {
-      // Reset to current server data instead of initial empty values
-      setProfileData(data);
-      // Also reset profile photo to current server data
-      setProfilePhoto(data.profilePhoto || initialProfilePhoto);
-      setIsEditing(false);
-      toast.success("Changes discarded successfully!", { id: discardToast });
-    } catch (error) {
-      toast.error("Failed to discard changes", { id: discardToast });
-    }
+    toast.promise(
+      // Promise to discard changes
+      new Promise((resolve, reject) => {
+        try {
+          // Reset to current server data instead of initial empty values
+          setProfileData(data);
+          // Also reset profile photo to current server data
+          setProfilePhoto(data.profilePhoto || ProfileIcon);
+          setIsEditing(false);
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      }),
+      {
+        loading: "Discarding changes...",
+        success: "Changes discarded successfully!",
+        error: "Failed to discard changes"
+      }
+    );
   };
 
   // Save changes - Using axios consistently like the get request
   const handleSaveChanges = async () => {
     setIsSaving(true);
-    const saveToast = toast.loading("Saving changes...");
 
-    try {
+    // Define the function to handle the profile update logic
+    const updateProfile = async () => {
       if (profilePhoto !== data.profilePhoto) {
         const formData = new FormData();
 
@@ -155,7 +159,7 @@ const ProfilePage = () => {
         );
 
         setData(profileData);
-        toast.success("Profile updated successfully!", { id: saveToast });
+        return response;
       } else {
         const response = await axios.patch(
           `${baseUrl}/api/v1/interviewer/update-interviewer`,
@@ -167,17 +171,24 @@ const ProfilePage = () => {
         );
 
         setData(profileData);
-        toast.success("Profile updated successfully!", { id: saveToast });
+        return response;
       }
-      setIsEditing(false);
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Failed to update profile",
-        { id: saveToast }
-      );
-    } finally {
-      setIsSaving(false);
-    }
+    };
+
+    // Use toast.promise to handle the async operation with loading/success/error states
+    toast.promise(updateProfile(), {
+      loading: "Saving changes...",
+      success: () => {
+        setIsEditing(false);
+        return "Profile updated successfully!";
+      },
+      error: (error) => {
+        return error.response?.data?.message || "Failed to update profile";
+      },
+      finally: () => {
+        setIsSaving(false);
+      }
+    });
   };
 
   // Define fields that should always be disabled
@@ -213,41 +224,28 @@ const ProfilePage = () => {
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[#EBDFD7] items-center p-2 sm:p-4">
       <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
-        }}
-        gutter={-40}
-        containerStyle={{
-          bottom: '40px',
-          right: '40px',
         }}
       />
 

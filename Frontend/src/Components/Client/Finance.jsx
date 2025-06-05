@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IndianRupee, ArrowUpRight, ArrowDownRight, Calendar } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 
 function Finance() {
   const data = [
@@ -92,13 +93,8 @@ function Finance() {
     setFilteredData(filtered);
 
     if (filtered.length === 0) {
-      toast('No records found for ' + months[selectedMonth - 1] + ' ' + selectedYear, {
+      toast.info('No records found for ' + months[selectedMonth - 1] + ' ' + selectedYear, {
         icon: '📋',
-        style: {
-          borderRadius: '10px',
-          background: '#333',
-          color: '#fff',
-        },
       });
     } else {
       toast.success(`Showing ${filtered.length} records for ${months[selectedMonth - 1]} ${selectedYear}`);
@@ -119,6 +115,31 @@ function Finance() {
 
   return (
     <div className='w-full min-h-[calc(100vh-64px)] bg-[#EBDFD7] p-3 sm:p-4 md:p-6 text-[14px]'>
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
+        toastOptions={{
+          style: {
+            background: '#FFFFFF',
+            color: '#374151',
+            border: '2px solid #e5e7eb',
+          },
+          success: {
+            style: {
+              border: '2px solid #359E45',
+            },
+          },
+          error: {
+            style: {
+              border: '2px solid #EF4444',
+            },
+          },
+        }}
+      />
       {/* Stats Cards - Always 2 columns */}
       <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 mb-6 sm:mb-8 mt-4 sm:mt-0">
         <div className="p-3 sm:p-4 flex items-start justify-between bg-[rgba(255,255,255,0.34)] shadow-md rounded-lg hover:shadow-lg transition-all duration-300 group border border-transparent hover:border-[#E65F2B]/20">

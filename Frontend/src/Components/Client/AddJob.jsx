@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import { useNavigate } from 'react-router-dom';
 
 const AddJob = () => {
@@ -165,42 +166,29 @@ const AddJob = () => {
 
   return (
     <div className='min-h-[calc(100vh-64px)] flex flex-col p-4 bg-[#EBDFD7] items-center'>
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
-        }}
-        gutter={-40}
-        containerStyle={{
-          bottom: '40px',
-          right: '30px',
         }}
       />
       <form className='w-full sm:w-[90%] md:w-[85%] lg:w-[75%] flex items-center mt-4 sm:mt-10 mb-4' action="">

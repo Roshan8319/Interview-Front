@@ -5,7 +5,8 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import axios from "axios";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import UploadResume from "../../assets/UploadResume.png";
 
 const steps = ["Basic Details", "Upload Resume"];
@@ -47,10 +48,10 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
       return;
     }
 
-    // Phone validation (basic)
-    const phoneRegex = /^\d{10,15}$/;
+    // Phone validation (exactly 10 digits)
+    const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(formData.phoneNumber.replace(/\D/g, ''))) {
-      toast.error('Please enter a valid phone number');
+      toast.error('Please enter a valid 10-digit phone number');
       return;
     }
 
@@ -60,42 +61,29 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
 
   return (
     <div className="w-full">
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
-        }}
-        gutter={-80}
-        containerStyle={{
-          bottom: '40px',
-          right: '30px',
         }}
       />
 
@@ -191,13 +179,22 @@ function BasicDetailsForm({ formData, setFormData, nextStep, errorMessage, isSuc
               <div className="relative group w-full">
                 <input
                   id="phoneNumber"
-                  type="text"
+                  type="tel"
                   value={formData.phoneNumber}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    // Only allow digits and limit to 10 characters
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    setFormData(prev => ({
+                      ...prev,
+                      phoneNumber: value
+                    }));
+                  }}
                   className="w-full py-2 px-4 border-2 rounded-xl outline-none transition-all duration-200
             bg-[#F6F1EE] shadow-sm border-gray-300
             focus:border-orange-200 focus:ring-1 focus:ring-orange-200"
-                  placeholder="Candidate Phone Number"
+                  placeholder="10-digit phone number"
+                  maxLength="10"
+                  pattern="[0-9]{10}"
                 />
               </div>
             </div>

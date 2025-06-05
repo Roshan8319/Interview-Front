@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock, FaUserTie, FaVideo } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import { Calendar } from "@/Components/Ui/Calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/Ui/Popover";
 import { Button } from "@/Components/Ui/Button";
@@ -295,47 +296,17 @@ function FetchInterviewDetails() {
 
     // Comprehensive field validation
     if (!formData.interviewDate) {
-      toast.error('Please select an interview date', {
-        style: {
-          border: '2px solid #EF4444',
-          padding: '16px',
-          color: '#1F2937',
-        },
-        iconTheme: {
-          primary: '#EF4444',
-          secondary: '#FFFFFF',
-        },
-      });
+      toast.error('Please select an interview date');
       return;
     }
 
     if (!formData.interviewTime) {
-      toast.error('Please select an interview time', {
-        style: {
-          border: '2px solid #EF4444',
-          padding: '16px',
-          color: '#1F2937',
-        },
-        iconTheme: {
-          primary: '#EF4444',
-          secondary: '#FFFFFF',
-        },
-      });
+      toast.error('Please select an interview time');
       return;
     }
 
     if (!formData.duration) {
-      toast.error('Please select interview duration', {
-        style: {
-          border: '2px solid #EF4444',
-          padding: '16px',
-          color: '#1F2937',
-        },
-        iconTheme: {
-          primary: '#EF4444',
-          secondary: '#FFFFFF',
-        },
-      });
+      toast.error('Please select interview duration');
       return;
     }
 
@@ -370,17 +341,7 @@ function FetchInterviewDetails() {
       );
 
       if (response.status === 200) {
-        toast.success('Interview scheduled successfully!', {
-          style: {
-            border: '2px solid #359E45',
-            padding: '16px',
-            color: '#1F2937',
-          },
-          iconTheme: {
-            primary: '#359E45',
-            secondary: '#FFFFFF',
-          },
-        });
+        toast.success('Interview scheduled successfully!');
 
         // Reset form
         setFormData({
@@ -406,17 +367,7 @@ function FetchInterviewDetails() {
         errorMessage = error.response.data.errorMessage;
       }
 
-      toast.error(errorMessage, {
-        style: {
-          border: '2px solid #EF4444',
-          padding: '16px',
-          color: '#1F2937',
-        },
-        iconTheme: {
-          primary: '#EF4444',
-          secondary: '#FFFFFF',
-        },
-      });
+      toast.error(errorMessage);
       console.error('Error:', error);
     } finally {
       setLoading(false);
@@ -433,45 +384,28 @@ function FetchInterviewDetails() {
   return (
     <div className="bg-[#EBDFD7] p-3 sm:p-4 md:p-6 lg:p-8 min-h-screen">
       <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
-        }}
-        gutter={8}
-        containerStyle={{
-          bottom: '20px',
-          right: '20px',
-          '@media (min-width: 640px)': {
-            bottom: '40px',
-            right: '40px',
-          }
         }}
       />
       <div className="mx-auto max-w-7xl"> {/* Added max width for large screens */}

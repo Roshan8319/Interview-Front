@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import ProfileIcon from "../../assets/ProfileIcon.png"; // Default profile icon
 import axios from 'axios';
 
@@ -31,6 +32,17 @@ const JoinAsInterviewer = () => {
     // Handle changes in text input fields
     const handleInputChange = (e) => {
         const { name, value } = e.target; // Use name attribute for state update
+        
+        // Validate phone input - only allow numbers and limit to 10 digits
+        if (name === "phone") {
+            if (!/^\d*$/.test(value)) {
+                return; // Don't update state if non-numeric characters are entered
+            }
+            if (value.length > 10) {
+                return; // Don't update if more than 10 digits
+            }
+        }
+        
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -42,10 +54,7 @@ const JoinAsInterviewer = () => {
         const file = e.target.files[0];
         if (file) {
             if (file.size > 5 * 1024 * 1024) { // 5MB size limit
-                toast.error("Image size should be less than 5MB", {
-                    style: { border: '2px solid #EF4444' },
-                    iconTheme: { primary: '#EF4444', secondary: 'white' },
-                });
+                toast.error("Image size should be less than 5MB");
                 return;
             }
 
@@ -53,15 +62,9 @@ const JoinAsInterviewer = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setProfilePhoto(reader.result); // Set the preview image
-                toast.success("Photo updated successfully", {
-                    style: { border: '2px solid #359E45' },
-                    iconTheme: { primary: '#359E45', secondary: 'white' },
-                });
+                toast.success("Photo updated successfully");
             };
-            reader.onerror = () => toast.error("Failed to read image file", {
-                style: { border: '2px solid #EF4444' },
-                iconTheme: { primary: '#EF4444', secondary: 'white' },
-            });
+            reader.onerror = () => toast.error("Failed to read image file");
             reader.readAsDataURL(file);
         }
     };
@@ -79,20 +82,23 @@ const JoinAsInterviewer = () => {
         ];
         for (const field of requiredFields) {
             if (!formData[field]?.trim()) {
-                toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`, {
-                    style: { border: '2px solid #EF4444' },
-                    iconTheme: { primary: '#EF4444', secondary: 'white' },
-                });
+                toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`);
                 return false;
             }
         }
-        if (!formData.email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
-            toast.error('Please enter a valid email address', {
-                style: { border: '2px solid #EF4444' },
-                iconTheme: { primary: '#EF4444', secondary: 'white' },
-            });
+        
+        // Validate phone number (exactly 10 digits)
+        if (!/^\d{10}$/.test(formData.phone)) {
+            toast.error('Phone number should be exactly 10 digits');
             return false;
         }
+        
+        // Validate email format
+        if (!formData.email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+            toast.error('Please enter a valid email address');
+            return false;
+        }
+        
         // Add more specific validations if needed
         return true;
     };
@@ -105,84 +111,57 @@ const JoinAsInterviewer = () => {
         if (!validateForm()) return; // Stop submission if validation fails
 
         setIsSubmitting(true);
-        const loadingToast = toast.loading("Submitting application...", {
-            style: { border: '2px solid #e5e7eb' },
-        });
-
-        try {
-            // Send data to our backend endpoint
-            const response = await axios.post(
-                `${baseUrl}/api/v1/join`,
-                formData
-            );
-
-            toast.dismiss(loadingToast); // Dismiss loading toast
-
-            if (response.data.success) {
-                toast.success("Application submitted successfully!", {
-                    id: loadingToast, // Replace the loading toast
-                    style: { border: '2px solid #359E45' },
-                    iconTheme: { primary: '#359E45', secondary: 'white' },
-                });
-                setFormData(initialFormData); // Reset form fields
-                setProfilePhoto(ProfileIcon); // Reset profile photo preview
-            } else {
-                // Handle API errors
-                throw new Error(response.data.message || "Submission failed");
-            }
-        } catch (error) {
-            toast.error(
-                error.response?.data?.message || "Failed to submit application. Please try again.",
-                {
-                    id: loadingToast, // Replace the loading toast
-                    style: { border: '2px solid #EF4444' },
-                    iconTheme: { primary: '#EF4444', secondary: 'white' },
+        toast.promise(
+            axios.post(`${baseUrl}/api/v1/join`, formData),
+            {
+                loading: "Submitting application...",
+                success: (response) => {
+                    if (response.data.success) {
+                        setFormData(initialFormData); // Reset form fields
+                        setProfilePhoto(ProfileIcon); // Reset profile photo preview
+                        return "Application submitted successfully!";
+                    } else {
+                        throw new Error(response.data.message || "Submission failed");
+                    }
+                },
+                error: (error) => {
+                    return error.response?.data?.message || "Failed to submit application. Please try again.";
+                },
+                finally: () => {
+                    setIsSubmitting(false); // Re-enable submit button
                 }
-            );
-        } finally {
-            setIsSubmitting(false); // Re-enable submit button
-        }
+            }
+        );
     };
 
     return (
         // Use background color similar to Contact page
         <div className="min-h-screen flex flex-col bg-[#F1F5F9] items-center p-4">
-            {/* Toaster configuration similar to Contact page */}
-            <Toaster
-                position="bottom-right"
-                reverseOrder={true}
+            {/* Toaster configuration */}
+            <Toaster 
+                position="bottom-right" 
+                closeButton
+                richColors
+                theme="light"
+                duration={3000}
+                className="toast-container"
                 toastOptions={{
-                    className: '',
-                    duration: 3000,
                     style: {
                         background: '#FFFFFF',
                         color: '#374151',
                         border: '2px solid #e5e7eb',
-                        display: 'flex',
-                        alignItems: 'center',
                     },
                     success: {
                         style: {
                             border: '2px solid #359E45',
-                        },
-                        iconTheme: {
-                            primary: '#359E45',
-                            secondary: 'white',
                         },
                     },
                     error: {
                         style: {
                             border: '2px solid #EF4444',
                         },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
                     },
                 }}
-                gutter={-40}
-                containerClassName="toast-container"
-                containerStyle={{}}
             />
 
             {/* Form container with updated styling */}
@@ -235,7 +214,7 @@ const JoinAsInterviewer = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {[
                             { id: "firstName", name: "firstName", label: "Full Name", type: "text" },
-                            { id: "phone", name: "phone", label: "Phone Number", type: "tel" },
+                            { id: "phone", name: "phone", label: "Phone Number", type: "tel", pattern: "[0-9]{10}", inputMode: "numeric" },
                             { id: "email", name: "email", label: "Email Address", type: "email" },
                             { id: "linkedInUrl", name: "linkedInUrl", label: "LinkedIn Profile URL", type: "url" },
                             { id: "currentCompany", name: "currentCompany", label: "Current Company", type: "text" },
@@ -268,9 +247,11 @@ const JoinAsInterviewer = () => {
                                         onChange={handleInputChange}
                                         // Style similar to Contact page inputs
                                         className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all duration-200"
-                                        placeholder={`Enter your ${label.toLowerCase()}`}
+                                        placeholder={name === 'phone' ? 'Enter your 10-digit phone number' : `Enter your ${label.toLowerCase()}`}
                                         required={type !== 'number'} // Make number not strictly required by browser if 0 is valid
                                         min={type === 'number' ? 0 : undefined} // Set min for number input
+                                        pattern={name === 'phone' ? '[0-9]{10}' : undefined} // Add pattern for exact 10 digits validation
+                                        inputMode={name === 'phone' ? 'numeric' : undefined} // Show numeric keyboard on mobile for phone
                                     />
                                 )}
                             </div>

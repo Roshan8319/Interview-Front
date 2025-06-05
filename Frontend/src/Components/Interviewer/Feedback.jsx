@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'sonner';
+import { Toaster } from "@/Components/Ui/Sonner";
 
 // Function to get responsive styles based on window width
 const getResponsiveStyles = () => {
@@ -201,6 +202,13 @@ function Feedback() {
       }));
       return;
     }
+    // Validate phone input to ensure only numbers and max 10 digits
+    if (name === 'candidatePhone') {
+      // Allow only digits and limit to 10 characters
+      if (!/^\d*$/.test(value) || value.length > 10) {
+        return; // Don't update the state if invalid
+      }
+    }
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -215,18 +223,50 @@ function Feedback() {
     setQuestions([...questions, { question: '' }]);
   };
 
-  const navigate = useNavigate();
-
+  const navigate = useNavigate();    // Track submission state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   // Update your handleSubmit function
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate required fields
-    for (const key in formData) {
-      if (!formData[key] && key !== 'interviewDate') { // interviewDate is auto-filled
-        toast.error(`Please fill in all required fields`);
-        return;
-      }
+    // Validate candidate details fields
+    if (!formData.candidateName.trim()) {
+      toast.error('Please enter the candidate name');
+      return;
+    }
+    if (!formData.candidateEmail.trim()) {
+      toast.error('Please enter the candidate email');
+      return;
+    }
+    if (!formData.candidatePhone.trim()) {
+      toast.error('Please enter the candidate phone number');
+      return;
+    } else if (!/^\d{10}$/.test(formData.candidatePhone)) {
+      toast.error('Phone number must be exactly 10 digits');
+      return;
+    }
+    if (!formData.candidateExperience) {
+      toast.error('Please enter the candidate experience');
+      return;
+    }
+    if (!formData.candidateRole.trim()) {
+      toast.error('Please enter the candidate current role');
+      return;
+    }
+    if (!formData.candidateCompany.trim()) {
+      toast.error('Please enter the candidate company');
+      return;
+    }
+    
+    // Validate interviewer details
+    if (!formData.interviewerExperience) {
+      toast.error('Please enter your experience');
+      return;
+    }
+    if (!formData.interviewerCompany.trim()) {
+      toast.error('Please enter your company');
+      return;
     }
 
     // Validate at least one skill has a name
@@ -246,10 +286,20 @@ function Feedback() {
     // Validate evaluation fields
     for (const key in evaluation) {
       if (!evaluation[key]) {
-        toast.error('Please complete all evaluation sections');
+        const fieldMap = {
+          communication: 'Communication Skills',
+          attitude: 'Attitude & Personality',
+          strength: 'Key Strengths',
+          improvementPoints: 'Areas for Improvement',
+          overallRemark: 'Overall Remarks'
+        };
+        toast.error(`Please complete the ${fieldMap[key]} section`);
         return;
       }
     }
+
+    // Set submitting state to show loading
+    setIsSubmitting(true);
 
     try {
       // Prepare data for submission
@@ -274,15 +324,23 @@ function Feedback() {
 
       // Log data to console for debugging (remove in production)
       console.log('Submitting feedback:', submissionData);
-
+      
+      // Show submitting toast
+      toast.loading('Submitting feedback...');
+      
       // Here you would typically make an API call to save the data
       // await api.post('/feedback', submissionData);
 
-      toast.success('Feedback submitted successfully!');
-      navigate("/interviewer/dashboard");
+      // Simulate API delay and then navigate
+      setTimeout(() => {
+        toast.success('Feedback submitted successfully!');
+        setIsSubmitting(false);
+        navigate("/interviewer/dashboard");
+      }, 2000); // 2-second delay to show the loading state
     } catch (error) {
       console.error('Error submitting feedback:', error);
       toast.error('Failed to submit feedback. Please try again.');
+      setIsSubmitting(false);
     }
   };
 
@@ -294,18 +352,18 @@ function Feedback() {
 
   return (
     <div style={styles.container}>
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
             fontSize: windowSize.width < 768 ? '0.875rem' : '1rem',
             maxWidth: windowSize.width < 768 ? '90%' : 'auto',
           },
@@ -313,28 +371,15 @@ function Feedback() {
             style: {
               border: '2px solid #E65F2B',
             },
-            iconTheme: {
-              primary: '#E65F2B',
-              secondary: 'white',
-            },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
         }}
-        gutter={windowSize.width < 768 ? -30 : -55}
-        containerStyle={{
-          bottom: windowSize.width < 768 ? '20px' : '40px',
-          right: windowSize.width < 768 ? '10px' : '30px',
-        }}
       />
-      <form onSubmit={handleSubmit} style={styles.formContainer}>
+      <form onSubmit={handleSubmit} style={styles.formContainer} noValidate>
         <h1 style={styles.header}>Interview Feedback Form</h1>
         {/* Candidate Details Section */}
         <section style={styles.inputGroup}>
@@ -350,7 +395,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter candidate's name"
-                required
               />
             </div>
             <div>
@@ -363,7 +407,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter candidate's email"
-                required
               />
             </div>
             <div>
@@ -375,8 +418,10 @@ function Feedback() {
                 onChange={handleInputChange}
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
-                placeholder="Enter candidate's phone number"
-                required
+                placeholder="Enter 10-digit phone number"
+                inputMode="numeric"
+                pattern="[0-9]{10}"
+                maxLength={10}
               />
             </div>
             <div>
@@ -395,7 +440,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter candidate's experience in years"
-                required
               />
             </div>
             <div>
@@ -408,7 +452,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter candidate's current role"
-                required
               />
             </div>
             <div>
@@ -421,7 +464,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter candidate's current company"
-                required
               />
             </div>
           </div>
@@ -447,7 +489,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter your experience in years"
-                required
               />
             </div>
             <div>
@@ -460,7 +501,6 @@ function Feedback() {
                 style={styles.input}
                 className="transition-all duration-200  text-gray-700 focus:border-[#E65F2B] focus:ring-1 focus:ring-[#E65F2B]"
                 placeholder="Enter your current company"
-                required
               />
             </div>
             <div>
@@ -659,16 +699,34 @@ function Feedback() {
           <button
             type="button"
             onClick={handleCancel}
-            style={{ ...styles.button, ...styles.secondaryButton, ...styles.actionButton }}
+            disabled={isSubmitting}
+            style={{ 
+              ...styles.button, 
+              ...styles.secondaryButton, 
+              ...styles.actionButton,
+              opacity: isSubmitting ? '0.7' : '1',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer'
+            }}
           >
             Cancel
           </button>
           <button
             type="submit"
+            disabled={isSubmitting}
             style={{ ...styles.button, ...styles.actionButton }}
-            className='bg-[#E65F2B] text-white hover:bg-[#D05425] transition-colors duration-200'
+            className={`bg-[#E65F2B] text-white transition-colors duration-200 flex items-center justify-center ${isSubmitting ? 'opacity-80 cursor-not-allowed' : 'hover:bg-[#D05425]'}`}
           >
-            Submit Feedback
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </>
+            ) : (
+              'Submit Feedback'
+            )}
           </button>
         </div>
       </form>

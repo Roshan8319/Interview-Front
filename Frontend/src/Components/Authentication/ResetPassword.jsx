@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import Bg from "../../assets/bg.jpg";
 import Recrumeta from "../../assets/Recrumeta.png";
 
@@ -118,30 +119,29 @@ function ResetPassword() {
         }, 2000);
       });
 
-      await toast.promise(
-        resetPromise,
-        {
-          loading: 'Resetting your password...',
-          success: () => {
-            // Reset form
-            setEmail("");
-            setOldPassword("");
-            setNewPassword("");
-            setConfirmPassword("");
-            setRole("");
+      toast.promise(resetPromise, {
+        loading: 'Resetting your password...',
+        success: () => {
+          // Reset form
+          setEmail("");
+          setOldPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+          setRole("");
 
-            return 'Password reset successful! You can now sign in with your new password.';
-          },
-          error: (err) => {
-            // Display the specific error message
-            return err.message || 'Failed to reset password. Please try again.';
-          },
+          return 'Password reset successful! You can now sign in with your new password.';
+        },
+        error: (err) => {
+          // Display the specific error message
+          return err.message || 'Failed to reset password. Please try again.';
+        },
+        finally: () => {
+          setIsSubmitting(false);
         }
-      );
+      });
     } catch (error) {
       // This will catch any errors not handled by the toast.promise
       toast.error(error.message || "An unexpected error occurred");
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -152,41 +152,30 @@ function ResetPassword() {
       style={{ backgroundImage: `url(${Bg})` }}
     >
       {/* Toast container */}
-      <Toaster
-        position="bottom-right"
-        reverseOrder={true}
+      <Toaster 
+        position="bottom-right" 
+        closeButton
+        richColors
+        theme="light"
+        duration={3000}
+        className="toast-container"
         toastOptions={{
-          className: '',
-          duration: 3000,
           style: {
             background: '#FFFFFF',
             color: '#374151',
             border: '2px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
           },
           success: {
             style: {
               border: '2px solid #359E45',
-            },
-            iconTheme: {
-              primary: '#359E45',
-              secondary: 'white',
             },
           },
           error: {
             style: {
               border: '2px solid #EF4444',
             },
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: 'white',
-            },
           },
         }}
-        gutter={-40}
-        containerClassName="toast-container"
-        containerStyle={{}}
       />
 
       <style>

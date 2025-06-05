@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import video1 from '../../assets/Video1.mp4';
-import toast, { Toaster } from 'react-hot-toast';
+import { toast } from "sonner";
+import { Toaster } from "@/Components/Ui/Sonner";
 import axios from 'axios';
 
 function Contact() {
@@ -15,62 +16,22 @@ function Contact() {
 
     const validateForm = () => {
         if (!formData.name.trim() || formData.name.length < 2) {
-            toast.error('Please enter a valid name (minimum 2 characters)', {
-                style: {
-                    background: '#FFFFFF',
-                    color: '#374151',
-                    border: '2px solid #EF4444',
-                },
-                iconTheme: {
-                    primary: '#EF4444',
-                    secondary: 'white',
-                },
-            });
+            toast.error('Please enter a valid name (minimum 2 characters)');
             return false;
         }
 
         if (!formData.email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
-            toast.error('Please enter a valid email address', {
-                style: {
-                    background: '#FFFFFF',
-                    color: '#374151',
-                    border: '2px solid #EF4444',
-                },
-                iconTheme: {
-                    primary: '#EF4444',
-                    secondary: 'white',
-                },
-            });
+            toast.error('Please enter a valid email address');
             return false;
         }
 
-        if (!formData.phone.replace(/\D/g, '').match(/^\d{10}$/)) {
-            toast.error('Please enter a valid 10-digit phone number', {
-                style: {
-                    background: '#FFFFFF',
-                    color: '#374151',
-                    border: '2px solid #EF4444',
-                },
-                iconTheme: {
-                    primary: '#EF4444',
-                    secondary: 'white',
-                },
-            });
+        if (!formData.phone.match(/^\d{10}$/)) {
+            toast.error('Please enter a valid 10-digit phone number');
             return false;
         }
 
         if (!formData.message.trim() || formData.message.length < 10) {
-            toast.error('Please enter a message (minimum 10 characters)', {
-                style: {
-                    background: '#FFFFFF',
-                    color: '#374151',
-                    border: '2px solid #EF4444',
-                },
-                iconTheme: {
-                    primary: '#EF4444',
-                    secondary: 'white',
-                },
-            });
+            toast.error('Please enter a message (minimum 10 characters)');
             return false;
         }
 
@@ -84,62 +45,32 @@ function Contact() {
         if (!validateForm()) return;
 
         setIsSubmitting(true);
-        const loadingToast = toast.loading('Sending your message...', {
-            style: {
-                background: '#FFFFFF',
-                color: '#374151',
-                border: '2px solid #e5e7eb',
-            },
-        });
-
-        try {
-            // Use the existing contact endpoint
-            const response = await axios.post(
-                `${baseUrl}/api/v1/contact`,
-                formData
-            );
-
-            toast.dismiss(loadingToast);
-
-            if (response.data.success) {
-                setFormData({
-                    name: '',
-                    email: '',
-                    phone: '',
-                    message: ''
-                });
-
-                toast.success(response.data.message || 'Message sent successfully!', {
-                    style: {
-                        background: '#FFFFFF',
-                        color: '#374151',
-                        border: '2px solid #359E45',
-                    },
-                    iconTheme: {
-                        primary: '#359E45',
-                        secondary: 'white',
-                    },
-                });
-            } else {
-                throw new Error(response.data.message || 'Failed to send message');
+        
+        toast.promise(
+            axios.post(`${baseUrl}/api/v1/contact`, formData),
+            {
+                loading: 'Sending your message...',
+                success: (response) => {
+                    if (response.data.success) {
+                        setFormData({
+                            name: '',
+                            email: '',
+                            phone: '',
+                            message: ''
+                        });
+                        return response.data.message || 'Message sent successfully!';
+                    } else {
+                        throw new Error(response.data.message || 'Failed to send message');
+                    }
+                },
+                error: (error) => {
+                    return error.response?.data?.message || 'Failed to send message. Please try again.';
+                },
+                finally: () => {
+                    setIsSubmitting(false);
+                }
             }
-
-        } catch (error) {
-            toast.dismiss(loadingToast);
-            toast.error(error.response?.data?.message || 'Failed to send message. Please try again.', {
-                style: {
-                    background: '#FFFFFF',
-                    color: '#374151',
-                    border: '2px solid #EF4444',
-                },
-                iconTheme: {
-                    primary: '#EF4444',
-                    secondary: 'white',
-                },
-            });
-        } finally {
-            setIsSubmitting(false);
-        }
+        );
     };
 
     // Rest of your component remains the same...
@@ -147,12 +78,13 @@ function Contact() {
         const { name, value } = e.target;
 
         if (name === 'phone') {
-            // Format phone number as user types
-            const formatted = value.replace(/\D/g, '')
-                .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+            // Remove non-digits and limit to exactly 10 digits
+            const digits = value.replace(/\D/g, '').substring(0, 10);
+            
+            // No formatting - just keep the digits
             setFormData(prev => ({
                 ...prev,
-                phone: formatted
+                phone: digits
             }));
         } else {
             setFormData(prev => ({
@@ -168,65 +100,25 @@ function Contact() {
         switch (name) {
             case 'name':
                 if (!value.trim() || value.length < 2) {
-                    toast.error('Name should be at least 2 characters long', {
-                        style: {
-                            background: '#FFFFFF',
-                            color: '#374151',
-                            border: '2px solid #EF4444',
-                        },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
-                    });
+                    toast.error('Name should be at least 2 characters long');
                 }
                 break;
 
             case 'email':
                 if (!value.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
-                    toast.error('Please enter a valid email address', {
-                        style: {
-                            background: '#FFFFFF',
-                            color: '#374151',
-                            border: '2px solid #EF4444',
-                        },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
-                    });
+                    toast.error('Please enter a valid email address');
                 }
                 break;
 
             case 'phone':
-                if (!value.replace(/\D/g, '').match(/^\d{10}$/)) {
-                    toast.error('Please enter a valid 10-digit phone number', {
-                        style: {
-                            background: '#FFFFFF',
-                            color: '#374151',
-                            border: '2px solid #EF4444',
-                        },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
-                    });
+                if (!value.match(/^\d{10}$/)) {
+                    toast.error('Please enter a valid 10-digit phone number');
                 }
                 break;
 
             case 'message':
                 if (!value.trim() || value.length < 10) {
-                    toast.error('Message should be at least 10 characters long', {
-                        style: {
-                            background: '#FFFFFF',
-                            color: '#374151',
-                            border: '2px solid #EF4444',
-                        },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
-                    });
+                    toast.error('Message should be at least 10 characters long');
                 }
                 break;
 
@@ -238,41 +130,30 @@ function Contact() {
     // The rest of the component remains the same
     return (
         <div className="min-h-screen bg-[#F1F5F9]">
-            <Toaster
-                position="bottom-right"
-                reverseOrder={true}
+            <Toaster 
+                position="bottom-right" 
+                closeButton
+                richColors
+                theme="light"
+                duration={3000}
+                className="toast-container"
                 toastOptions={{
-                    className: '',
-                    duration: 3000,
                     style: {
                         background: '#FFFFFF',
                         color: '#374151',
                         border: '2px solid #e5e7eb',
-                        display: 'flex',
-                        alignItems: 'center',
                     },
                     success: {
                         style: {
                             border: '2px solid #359E45',
-                        },
-                        iconTheme: {
-                            primary: '#359E45',
-                            secondary: 'white',
                         },
                     },
                     error: {
                         style: {
                             border: '2px solid #EF4444',
                         },
-                        iconTheme: {
-                            primary: '#EF4444',
-                            secondary: 'white',
-                        },
                     },
                 }}
-                gutter={-60}
-                containerClassName="toast-container"
-                containerStyle={{}}
             />
 
             <div className="max-w-7xl mx-auto px-6 py-12 sm:px-6 lg:px-8 font-montserrat">
@@ -316,12 +197,15 @@ function Contact() {
                                 <input
                                     type="tel"
                                     name="phone"
-                                    placeholder="Phone Number"
+                                    placeholder="10-digit Phone Number"
                                     value={formData.phone}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    pattern="[0-9]{10}" 
+                                    inputMode="numeric"
                                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-200"
                                     required
+                                    title="Please enter exactly 10 digits for your phone number"
                                 />
                                 <textarea
                                     name="message"
