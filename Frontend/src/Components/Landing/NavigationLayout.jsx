@@ -569,7 +569,7 @@ function NavigationLayout() {
                             {/* Copyright Section */}
                             <div className='w-full flex flex-col md:flex-row justify-between items-start text-left gap-y-4 md:gap-y-0 py-6 text-sm md:text-base' >
                                 <div className="text-center md:text-left">
-                                    © 2025 Recrumeta. All rights reserved.
+                                    © {new Date().getFullYear()} Recrumeta. All rights reserved.
                                 </div>
                                 <div className='flex gap-x-4 md:gap-x-8' >
                                     <span onClick={naviToTerms} className='hover:text-[#E65F2B] cursor-pointer'>Terms & Conditions</span>
