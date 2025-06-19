@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Navigate, useLocation } from 'react-router-dom'
+import { initBotpressChat } from './utils/botpressChat'
 
 import {
   // Authentication
@@ -156,6 +157,9 @@ const router = createBrowserRouter(
   )
 )
 
+
+// Initialize Botpress chat
+initBotpressChat();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />
